@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				JavaEE的经典三层架构 &amp; 工厂类实现Dao层的切换
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<h5><font style="font-weight: bold">一、三层结构</font></h5>  <p><strong>1.简介</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/3ceng1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="3ceng" border="0" alt="3ceng" src="http://localhost:8080/wp-content/uploads/2013/08/3ceng_thumb1.jpg" width="644" height="180" /></a></p>  <p>用户发请求到Servlet</p>  <p>把提交过来的数据封装到JavaBean里 层与层之间的数据传递都是用JavaBean的</p>  <p>然后根据不同请求调用对应的Service</p>  <p>如果需要持久化 就调用Dao层</p>  <p>然后调用JSP进行展示</p>  <p>&#160;</p>  <p>三层架构之间不能随便乱传对象 否则会导致代码很难维护 增加耦合性</p>  <p>&#160;</p>  <p>它符合<strong>MVC设计思想</strong></p>  <p>Model：JavaBean + Service +Dao</p>  <p>View：JSP</p>  <p>Control：Servlet</p>  <p>&#160;</p>  <p><strong>2.好处</strong></p>  <p>（1）程序结构清晰 易于维护</p>  <p>（2）替换其中的一个层 别的层都不用改</p>  <p>这一点是怎么做到的？</p>  <p>见下面 层与层之间的解耦</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、程序包结构</font></h5>  <p>web</p>  <p>service</p>  <p>-&#160; UserService(interface)</p>  <p>-&#160; UserServiceImpl</p>  <p>dao</p>  <p>-&#160; UserDaoImpl</p>  <p>-&#160; UserDao(interface)</p>  <p>domain</p>  <p>-&#160; (JavaBean)</p>  <p>exception</p>  <p>factory</p>  <p>-&#160; BasicFactory</p>  <p>util</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、利用工厂类 层与层之间的解耦</font></h5>  <p><strong>0.什么叫做耦合 解耦合的思想是什么？</strong></p>  <p>在分层结构中 我们希望将各个功能约束在各自的层当中</p>  <p>而当只属于某一层的对象 传到其它层 就发生了入侵 就导致各层之间过于紧密</p>  <p>导致改了一个层 另一个层还需要改</p>  <p>（比如说原来使用JSP做界面 把request传递到Service层 但是以后变成了用GUI做界面 就没有request了 就得改Service）</p>  <p>这种过于复杂 过于紧密的关系 就是耦合</p>  <p>这些耦合性 就可以通过配置文件和工厂类进行解耦</p>  <p><strong>1.问题</strong></p>  <p>为了降低层与层之间的耦合性</p>  <p>比如说 UserService层里 到底是调用Dao层里 XmlUserDao和MySqlUserDao 的哪个类</p>  <p>不应该让切换Dao的时候 还得改Service层里的代码</p>  <blockquote>   <p>//XmlUserDao dao = new XmlUserDao();</p>    <p>XmlUserDao dao = new XmlUserDao();</p> </blockquote>  <p>就把这个提取到配置文件中就可以了 配置成哪个Dao 就调用哪个</p>  <p><strong>2.用工厂类解耦</strong></p>  <p>使用工厂类 生产配置文件里对应的Dao就行了</p>  <blockquote>   <p>public class DaoFactory {      <br />&#160;&#160;&#160; private static DaoFactory factory = new DaoFactory();       <br />&#160;&#160;&#160; private static Properties prop = null;       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; private DaoFactory() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public static DaoFactory getFactory() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return factory;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; static {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; try {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; prop = new Properties();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; prop.load(new FileReader(DaoFactory.class.getClassLoader().getResource(&quot;config.properties&quot;).getPath()));       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; } catch (Exception e) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; e.printStackTrace();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public UserDao getDao() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; String daoClazz = prop.getProperty(&quot;userDao&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Class clazz = Class.forName(daoClazz);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return (UserDao) clazz.newInstance();       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>这样就可以解决Dao层和Service层时间的解耦了 但是Web层和Service层之间的解耦还需要工厂类 但这些工厂类看起来都差不多 所以可以写一个通用的</p>  <p><strong>BasicFactory </strong></p>  <blockquote>   <p>public class BasicFactory {      <br />&#160; private static BasicFactory factory = new BasicFactory ();       <br />&#160; private static Properties prop = null;       <br />      <br />&#160; private BasicFactory () {       <br />      <br />&#160; }       <br />      <br />&#160; public static BasicFactory getFactory() {       <br />&#160;&#160;&#160; return factory;       <br />&#160; }       <br />      <br />&#160; static {       <br />&#160;&#160;&#160; try {       <br />&#160;&#160;&#160;&#160;&#160; prop = new Properties();       <br />&#160;&#160;&#160;&#160;&#160; prop.load(new FileReader(DaoFactory.class.getClassLoader().getResource(&quot;config.properties&quot;).getPath()));       <br />&#160;&#160;&#160; } catch (Exception e) {       <br />&#160;&#160;&#160;&#160;&#160; e.printStackTrace();       <br />&#160;&#160;&#160; }       <br />      <br />&#160; }       <br /></p>    <p>     <br />&#160; public &lt;T&gt; T getInstance(Class&lt;T&gt; clazz) { </p>    <p>&#160;&#160;&#160; try{     <br />&#160;&#160;&#160;&#160;&#160; String className = clazz.getSimpleName();      <br />&#160;&#160;&#160;&#160;&#160; String value = prop.getProperties(className);</p>    <p>&#160;&#160;&#160;&#160;&#160; //生成这个实例 强转为泛型返回 其中传入的是什么接口的字节码 这个泛型就代表什么接口 返回值就可以是这个接口类型的</p>    <p>&#160;&#160;&#160;&#160;&#160; return (T) Class.forName(value).newInstance();      <br />&#160;&#160;&#160; } catch (Exception e) {</p>    <p>&#160;&#160;&#160;&#160;&#160; e.printStackTrace(); </p>    <p>&#160;&#160;&#160; }     <br />&#160; }</p>    <p>}</p> </blockquote>  <p>在配置文件中配置使用的UserService的具体实现类</p>  <blockquote>   <p>UserService=cc.vicp.yutouxiuxiu.family.service.UserServiceImpl</p> </blockquote>  <p>web层需要service的时候 这么获取</p>  <blockquote>   <p>UserService service = BasicFactory.getFactory().getInstance(UserService.class);</p> </blockquote>  <h5><font style="font-weight: bold">四、编写过程</font></h5>  <p>导入第三方jar包</p>  <p>创建数据表</p>  <p>创建包结构</p>  <p>准备JavaBean</p>  <p>用工厂类进行软件分层</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					JavaEE的经典三层架构 &amp; 工厂类实现Dao层的切换
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、三层结构</font></h5>  <p><strong>1.简介</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/3ceng1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="3ceng" border="0" alt="3ceng" src="http://localhost:8080/wp-content/uploads/2013/08/3ceng_thumb1.jpg" width="644" height="180" /></a></p>  <p>用户发请求到Servlet</p>  <p>把提交过来的数据封装到JavaBean里 层与层之间的数据传递都是用JavaBean的</p>  <p>然后根据不同请求调用对应的Service</p>  <p>如果需要持久化 就调用Dao层</p>  <p>然后调用JSP进行展示</p>  <p>&#160;</p>  <p>三层架构之间不能随便乱传对象 否则会导致代码很难维护 增加耦合性</p>  <p>&#160;</p>  <p>它符合<strong>MVC设计思想</strong></p>  <p>Model：JavaBean + Service +Dao</p>  <p>View：JSP</p>  <p>Control：Servlet</p>  <p>&#160;</p>  <p><strong>2.好处</strong></p>  <p>（1）程序结构清晰 易于维护</p>  <p>（2）替换其中的一个层 别的层都不用改</p>  <p>这一点是怎么做到的？</p>  <p>见下面 层与层之间的解耦</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、程序包结构</font></h5>  <p>web</p>  <p>service</p>  <p>-&#160; UserService(interface)</p>  <p>-&#160; UserServiceImpl</p>  <p>dao</p>  <p>-&#160; UserDaoImpl</p>  <p>-&#160; UserDao(interface)</p>  <p>domain</p>  <p>-&#160; (JavaBean)</p>  <p>exception</p>  <p>factory</p>  <p>-&#160; BasicFactory</p>  <p>util</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、利用工厂类 层与层之间的解耦</font></h5>  <p><strong>0.什么叫做耦合 解耦合的思想是什么？</strong></p>  <p>在分层结构中 我们希望将各个功能约束在各自的层当中</p>  <p>而当只属于某一层的对象 传到其它层 就发生了入侵 就导致各层之间过于紧密</p>  <p>导致改了一个层 另一个层还需要改</p>  <p>（比如说原来使用JSP做界面 把request传递到Service层 但是以后变成了用GUI做界面 就没有request了 就得改Service）</p>  <p>这种过于复杂 过于紧密的关系 就是耦合</p>  <p>这些耦合性 就可以通过配置文件和工厂类进行解耦</p>  <p><strong>1.问题</strong></p>  <p>为了降低层与层之间的耦合性</p>  <p>比如说 UserService层里 到底是调用Dao层里 XmlUserDao和MySqlUserDao 的哪个类</p>  <p>不应该让切换Dao的时候 还得改Service层里的代码</p>  <blockquote>   <p>//XmlUserDao dao = new XmlUserDao();</p>    <p>XmlUserDao dao = new XmlUserDao();</p> </blockquote>  <p>就把这个提取到配置文件中就可以了 配置成哪个Dao 就调用哪个</p>  <p><strong>2.用工厂类解耦</strong></p>  <p>使用工厂类 生产配置文件里对应的Dao就行了</p>  <blockquote>   <p>public class DaoFactory {      <br />&#160;&#160;&#160; private static DaoFactory factory = new DaoFactory();       <br />&#160;&#160;&#160; private static Properties prop = null;       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; private DaoFactory() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public static DaoFactory getFactory() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return factory;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; static {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; try {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; prop = new Properties();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; prop.load(new FileReader(DaoFactory.class.getClassLoader().getResource(&quot;config.properties&quot;).getPath()));       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; } catch (Exception e) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; e.printStackTrace();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public UserDao getDao() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; String daoClazz = prop.getProperty(&quot;userDao&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Class clazz = Class.forName(daoClazz);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return (UserDao) clazz.newInstance();       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>这样就可以解决Dao层和Service层时间的解耦了 但是Web层和Service层之间的解耦还需要工厂类 但这些工厂类看起来都差不多 所以可以写一个通用的</p>  <p><strong>BasicFactory </strong></p>  <blockquote>   <p>public class BasicFactory {      <br />&#160; private static BasicFactory factory = new BasicFactory ();       <br />&#160; private static Properties prop = null;       <br />      <br />&#160; private BasicFactory () {       <br />      <br />&#160; }       <br />      <br />&#160; public static BasicFactory getFactory() {       <br />&#160;&#160;&#160; return factory;       <br />&#160; }       <br />      <br />&#160; static {       <br />&#160;&#160;&#160; try {       <br />&#160;&#160;&#160;&#160;&#160; prop = new Properties();       <br />&#160;&#160;&#160;&#160;&#160; prop.load(new FileReader(DaoFactory.class.getClassLoader().getResource(&quot;config.properties&quot;).getPath()));       <br />&#160;&#160;&#160; } catch (Exception e) {       <br />&#160;&#160;&#160;&#160;&#160; e.printStackTrace();       <br />&#160;&#160;&#160; }       <br />      <br />&#160; }       <br /></p>    <p>     <br />&#160; public &lt;T&gt; T getInstance(Class&lt;T&gt; clazz) { </p>    <p>&#160;&#160;&#160; try{     <br />&#160;&#160;&#160;&#160;&#160; String className = clazz.getSimpleName();      <br />&#160;&#160;&#160;&#160;&#160; String value = prop.getProperties(className);</p>    <p>&#160;&#160;&#160;&#160;&#160; //生成这个实例 强转为泛型返回 其中传入的是什么接口的字节码 这个泛型就代表什么接口 返回值就可以是这个接口类型的</p>    <p>&#160;&#160;&#160;&#160;&#160; return (T) Class.forName(value).newInstance();      <br />&#160;&#160;&#160; } catch (Exception e) {</p>    <p>&#160;&#160;&#160;&#160;&#160; e.printStackTrace(); </p>    <p>&#160;&#160;&#160; }     <br />&#160; }</p>    <p>}</p> </blockquote>  <p>在配置文件中配置使用的UserService的具体实现类</p>  <blockquote>   <p>UserService=cc.vicp.yutouxiuxiu.family.service.UserServiceImpl</p> </blockquote>  <p>web层需要service的时候 这么获取</p>  <blockquote>   <p>UserService service = BasicFactory.getFactory().getInstance(UserService.class);</p> </blockquote>  <h5><font style="font-weight: bold">四、编写过程</font></h5>  <p>导入第三方jar包</p>  <p>创建数据表</p>  <p>创建包结构</p>  <p>准备JavaBean</p>  <p>用工厂类进行软件分层</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

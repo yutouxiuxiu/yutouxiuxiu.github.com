@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				泛型
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<h5><font style="font-weight: bold">零、泛型的引入</font></h5>  <blockquote>   <p>ArrayList al = new ArrayList();      <br />al.add(&quot;yutou&quot;);       <br />al.add(&quot;xiuxiu&quot;);       <br />al.add(1);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />Iterator it = al.iterator();       <br />while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160; String s = (String)it.next();       <br />&#160;&#160;&#160;&#160; System.out.println(s);       <br />}       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />//发生运行时异常 java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String</p> </blockquote>  <p>由于这个1 造成了运行时异常 出现了很大的安全隐患</p>  <p>要是在集合定义的时候指定类型 就不会发生这个问题了</p>  <blockquote>   <p>ArrayList<font color="#ff0000">&lt;String&gt;</font> al = new ArrayList<font color="#ff0000">&lt;String&gt;</font>();       <br />al.add(&quot;yutou&quot;);       <br />al.add(&quot;xiuxiu&quot;);       <br />al.add(1);       <br />      <br />Iterator&lt;String&gt; it = al.iterator&lt;String&gt;();&#160;&#160;&#160; //迭代器也要指定类型 告诉迭代器里装的是什么       <br />while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160; String s = it.next();&#160;&#160;&#160; //这里就不用强转了 因为定义的就是String 不需要强转       <br />&#160;&#160;&#160;&#160;&#160; System.out.println(s);       <br />}</p> </blockquote>  <p>把运行时期出现的问题 转移到了编译时期 会编译失败 程序猿就得解决</p>  <h5><font style="font-weight: bold">一、泛型</font></h5>  <p><strong>什么是泛型？</strong></p>  <p>泛型是一个类型安全机制 解决程序的安全问题 在JDK1.5之后出现</p>  <p>通过&lt;&gt;来定义操作的引用数据类型</p>  <p><strong>什么时候使用？</strong></p>  <p>在集合中很常见 只要见到&lt;&gt;就要定义泛型</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、泛型类</font></h5>  <ul>   <li><strong>什么时候用泛型类？</strong> </li> </ul>  <p>当类中要操作的引用数据类型不确定的时候</p>  <ul>   <li><strong>怎么定义泛型类？</strong> </li> </ul>  <blockquote>   <p>class 类名&lt;T&gt;</p>    <p>在类中就可以使用这个T作为数据类型</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>举个栗子：</strong> </li> </ul>  <p><strong>泛型前</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Tool t = new Tool();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; t.setObject(new Student());       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Worker w = (Worker)t.getObject();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这样就会造成类型转换异常 因为Tool没有限定类型 不安全       <br />&#160;&#160;&#160; }       <br />}</p>    <p>class Tool {      <br />&#160;&#160;&#160; private Object object;</p>    <p>&#160;&#160;&#160; public Object getObject() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return object;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void setObject(Object object) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.object = object;       <br />&#160;&#160;&#160; }       <br />}</p>    <p>class Worker {      <br />&#160;&#160;&#160; <br />}</p>    <p>class Student {      <br />&#160;&#160;&#160; <br />}</p> </blockquote>  <p><strong>泛型后</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Tool&lt;Student&gt; t = new Tool&lt;Student&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; t.setObject(new Student());       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Worker w = (Worker)t.getObject();&#160;&#160;&#160; //这样 因为限定了类型 这里就会报错       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 泛型类 */      <br />/* 定义工具类的时候 要定义操作什么类 但是要操作的类型还不确定       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 就定义一个参数 让对方来定义 要操作什么样的对象 */       <br />class Tool&lt;T&gt; {       <br />&#160;&#160;&#160; private T object;</p>    <p>&#160;&#160;&#160; public T getObject() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return object;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void setObject(T object) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.object = object;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、泛型方法</font></h5>  <ul>   <li><strong>如何定义泛型方法？</strong> </li> </ul>  <p>泛型定义在方法上 要放在返回值类型的紧前面 然后在参数列表上 可以使用这个泛型</p>  <ul>   <li><strong>为什么要有泛型方法？</strong> </li> </ul>  <p>因为泛型方法有不足</p>  <p>泛型类定义的泛型 在整个类有效 如果被方法使用    <br />那么泛型类的对象明确要操作的具体类型后 所有要操作的类型就已经固定了</p> 为了让不同方法可以操作不同类型 而且类型还不确定   <br />那么可以将泛型定义在方法上   <br />往里传什么类型的数据 它就能操作什么类型的   <p><strong></strong></p>  <p><strong>1.泛型类的不足</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;String&gt; d1 = new Demo&lt;String&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //d1.show(6); //这样是不行的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;Integer&gt; d2 = new Demo&lt;Integer&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d2.show(6);       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 泛型类定义的泛型 在整个类有效 如果被方法使用      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 那么泛型类的对象明确要操作的具体类型后 所有要操作的类型就已经固定了       <br />*/       <br />class Demo&lt;T&gt; {       <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>2.把泛型定义在方法上</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo d1 = new Demo();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(6);&#160;&#160;&#160; //这样行       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.print(6);&#160;&#160;&#160; //这样也行       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 为了让不同方法可以操作不同类型 而且类型还不确定      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 那么可以将泛型定义在方法上       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 往里传什么类型的数据 它就能操作什么类型的       <br />*/       <br />class Demo {       <br />&#160;&#160;&#160; public &lt;T&gt; void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }&#160;&#160;&#160; //这不同方法上定义的T是不互相影响的 作用域只在那个方法中有效       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public &lt;T&gt; void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <ul>   <li><strong>同时定义泛型方法和泛型类</strong> </li> </ul>  <p>定义泛型类之后 没有定义泛型方法的方法 可以使用泛型类定义的泛型</p>  <p>定义泛型的方法 使用自己的泛型</p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;String&gt; d1 = new Demo&lt;String&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //d1.show(6);&#160;&#160;&#160; //这样不行 因为show方法的类型是随着对象走的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.print(6);&#160;&#160;&#160; //这样行 因为print方法的类型是定义在方法上的 和类上的不同 它的作用域是当前的方法       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/*      <br />*/       <br />class Demo&lt;T&gt; {       <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public &lt;T&gt; void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <h5><font style="font-weight: bold"></font></h5>  <ul>   <li><strong>静态方法中的泛型</strong> </li> </ul>  <p>静态方法不可以访问类上定义的泛型</p>  <blockquote>   <p>class Demo&lt;T&gt; {      <br />&#160;&#160;&#160; public static void method(T t) {&#160;&#160; //这样写是有问题的 因为T是在创建对象的时候才被明确的 静态的方法是在创建对象之前就存在的 无法获取到T       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>如果静态方法操作的引用数据类型不确定 可以将泛型定义在方法上</p>  <blockquote>   <p>public static &lt;T&gt; void method(T t) {&#160;&#160; //注意泛型的位置      <br />&#160;&#160;&#160; System.out.println(t);       <br />}       <br /></p> </blockquote>  <p>这样 在调用方法的时候 确定类型 就没问题了</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、泛型接口</font></h5>  <p>定义一个泛型接口</p>  <blockquote>   <p>interface Inter&lt;T&gt; {      <br />&#160;&#160;&#160; void show(T t);       <br />}</p> </blockquote>  <ul>   <li><strong>指定类型实现</strong> </li> </ul>  <p>实现的时候 知道要操作什么类型了 实现了之后只能操作对应的类型</p>  <blockquote>   <p>class InterImpl implements Inter&lt;String&gt; {      <br />&#160;&#160;&#160; public void show(String t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <blockquote>   <p>InterImpl i = new InterImpl();      <br />i.show(&quot;芋头&quot;);       <br /></p> </blockquote>  <ul>   <li><strong>不指定类型实现</strong> </li> </ul>  <p>实现的时候也不知道要操作什么类型 操作的时候 可以由调用者指定操作的类型</p>  <blockquote>   <p>class InterImpl2&lt;T&gt; implements Inter&lt;T&gt; {      <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <blockquote>   <p>InterImpl2&lt;Integer&gt; i = new InterImpl2&lt;Integer&gt;();      <br />i.show(1);</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、泛型限定</font></h5>  <ul>   <li><strong>字母和问号的区别</strong></li> </ul>  <p><strong>1.写成字母</strong></p>  <p>代表了具体类型 可以在下面使用这个类型 但是必须在前边定义</p>  <blockquote>   <p>public &lt;T&gt; void printList(ArrayList&lt;T&gt; al) {      <br />&#160;&#160;&#160; Iterator&lt;T&gt; it = al.iterator();       <br />&#160;&#160;&#160; while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; T t = it.next();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.err.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>2.写成问号</strong></p>  <p>就是个占位符 不明确 就无法用它定义数据类型了</p>  <blockquote>   <p>public void printList(ArrayList&lt;?&gt; al) {      <br />&#160;&#160;&#160; Iterator&lt;?&gt; it = al.iterator();       <br />&#160;&#160;&#160; while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //? t = it.next();&#160;&#160;&#160; //这样是不行的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.err.println(it.next());       <br />&#160;&#160;&#160; }       <br />}       <br /></p> </blockquote>  <ul>   <li><strong>上限</strong></li> </ul>  <p>可以传入类型和其子类</p>  <blockquote>   <p>&lt;? extends 类型&gt;</p> </blockquote>  <p>把泛型写成这样 就可以限定是该类型/其子类</p>  <ul>   <li><strong>下限</strong></li> </ul>  <blockquote>   <p>&lt;? super 类型&gt;</p> </blockquote>  <p>可以接收类型/其父类</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					泛型
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、泛型的引入</font></h5>  <blockquote>   <p>ArrayList al = new ArrayList();      <br />al.add(&quot;yutou&quot;);       <br />al.add(&quot;xiuxiu&quot;);       <br />al.add(1);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />Iterator it = al.iterator();       <br />while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160; String s = (String)it.next();       <br />&#160;&#160;&#160;&#160; System.out.println(s);       <br />}       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />//发生运行时异常 java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String</p> </blockquote>  <p>由于这个1 造成了运行时异常 出现了很大的安全隐患</p>  <p>要是在集合定义的时候指定类型 就不会发生这个问题了</p>  <blockquote>   <p>ArrayList<font color="#ff0000">&lt;String&gt;</font> al = new ArrayList<font color="#ff0000">&lt;String&gt;</font>();       <br />al.add(&quot;yutou&quot;);       <br />al.add(&quot;xiuxiu&quot;);       <br />al.add(1);       <br />      <br />Iterator&lt;String&gt; it = al.iterator&lt;String&gt;();&#160;&#160;&#160; //迭代器也要指定类型 告诉迭代器里装的是什么       <br />while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160; String s = it.next();&#160;&#160;&#160; //这里就不用强转了 因为定义的就是String 不需要强转       <br />&#160;&#160;&#160;&#160;&#160; System.out.println(s);       <br />}</p> </blockquote>  <p>把运行时期出现的问题 转移到了编译时期 会编译失败 程序猿就得解决</p>  <h5><font style="font-weight: bold">一、泛型</font></h5>  <p><strong>什么是泛型？</strong></p>  <p>泛型是一个类型安全机制 解决程序的安全问题 在JDK1.5之后出现</p>  <p>通过&lt;&gt;来定义操作的引用数据类型</p>  <p><strong>什么时候使用？</strong></p>  <p>在集合中很常见 只要见到&lt;&gt;就要定义泛型</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、泛型类</font></h5>  <ul>   <li><strong>什么时候用泛型类？</strong> </li> </ul>  <p>当类中要操作的引用数据类型不确定的时候</p>  <ul>   <li><strong>怎么定义泛型类？</strong> </li> </ul>  <blockquote>   <p>class 类名&lt;T&gt;</p>    <p>在类中就可以使用这个T作为数据类型</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>举个栗子：</strong> </li> </ul>  <p><strong>泛型前</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Tool t = new Tool();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; t.setObject(new Student());       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Worker w = (Worker)t.getObject();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这样就会造成类型转换异常 因为Tool没有限定类型 不安全       <br />&#160;&#160;&#160; }       <br />}</p>    <p>class Tool {      <br />&#160;&#160;&#160; private Object object;</p>    <p>&#160;&#160;&#160; public Object getObject() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return object;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void setObject(Object object) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.object = object;       <br />&#160;&#160;&#160; }       <br />}</p>    <p>class Worker {      <br />&#160;&#160;&#160; <br />}</p>    <p>class Student {      <br />&#160;&#160;&#160; <br />}</p> </blockquote>  <p><strong>泛型后</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Tool&lt;Student&gt; t = new Tool&lt;Student&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; t.setObject(new Student());       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Worker w = (Worker)t.getObject();&#160;&#160;&#160; //这样 因为限定了类型 这里就会报错       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 泛型类 */      <br />/* 定义工具类的时候 要定义操作什么类 但是要操作的类型还不确定       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 就定义一个参数 让对方来定义 要操作什么样的对象 */       <br />class Tool&lt;T&gt; {       <br />&#160;&#160;&#160; private T object;</p>    <p>&#160;&#160;&#160; public T getObject() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return object;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void setObject(T object) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.object = object;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、泛型方法</font></h5>  <ul>   <li><strong>如何定义泛型方法？</strong> </li> </ul>  <p>泛型定义在方法上 要放在返回值类型的紧前面 然后在参数列表上 可以使用这个泛型</p>  <ul>   <li><strong>为什么要有泛型方法？</strong> </li> </ul>  <p>因为泛型方法有不足</p>  <p>泛型类定义的泛型 在整个类有效 如果被方法使用    <br />那么泛型类的对象明确要操作的具体类型后 所有要操作的类型就已经固定了</p> 为了让不同方法可以操作不同类型 而且类型还不确定   <br />那么可以将泛型定义在方法上   <br />往里传什么类型的数据 它就能操作什么类型的   <p><strong></strong></p>  <p><strong>1.泛型类的不足</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;String&gt; d1 = new Demo&lt;String&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //d1.show(6); //这样是不行的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;Integer&gt; d2 = new Demo&lt;Integer&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d2.show(6);       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 泛型类定义的泛型 在整个类有效 如果被方法使用      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 那么泛型类的对象明确要操作的具体类型后 所有要操作的类型就已经固定了       <br />*/       <br />class Demo&lt;T&gt; {       <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>2.把泛型定义在方法上</strong></p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo d1 = new Demo();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(6);&#160;&#160;&#160; //这样行       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.print(6);&#160;&#160;&#160; //这样也行       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/* 为了让不同方法可以操作不同类型 而且类型还不确定      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 那么可以将泛型定义在方法上       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 往里传什么类型的数据 它就能操作什么类型的       <br />*/       <br />class Demo {       <br />&#160;&#160;&#160; public &lt;T&gt; void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }&#160;&#160;&#160; //这不同方法上定义的T是不互相影响的 作用域只在那个方法中有效       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public &lt;T&gt; void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <ul>   <li><strong>同时定义泛型方法和泛型类</strong> </li> </ul>  <p>定义泛型类之后 没有定义泛型方法的方法 可以使用泛型类定义的泛型</p>  <p>定义泛型的方法 使用自己的泛型</p>  <blockquote>   <p>public class GenericTest {      <br />&#160;&#160;&#160; public static void main(String[] args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Demo&lt;String&gt; d1 = new Demo&lt;String&gt;();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.show(&quot;芋头&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //d1.show(6);&#160;&#160;&#160; //这样不行 因为show方法的类型是随着对象走的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; d1.print(6);&#160;&#160;&#160; //这样行 因为print方法的类型是定义在方法上的 和类上的不同 它的作用域是当前的方法       <br />&#160;&#160;&#160; }       <br />}</p>    <p>/*      <br />*/       <br />class Demo&lt;T&gt; {       <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public &lt;T&gt; void print(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <h5><font style="font-weight: bold"></font></h5>  <ul>   <li><strong>静态方法中的泛型</strong> </li> </ul>  <p>静态方法不可以访问类上定义的泛型</p>  <blockquote>   <p>class Demo&lt;T&gt; {      <br />&#160;&#160;&#160; public static void method(T t) {&#160;&#160; //这样写是有问题的 因为T是在创建对象的时候才被明确的 静态的方法是在创建对象之前就存在的 无法获取到T       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p>如果静态方法操作的引用数据类型不确定 可以将泛型定义在方法上</p>  <blockquote>   <p>public static &lt;T&gt; void method(T t) {&#160;&#160; //注意泛型的位置      <br />&#160;&#160;&#160; System.out.println(t);       <br />}       <br /></p> </blockquote>  <p>这样 在调用方法的时候 确定类型 就没问题了</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、泛型接口</font></h5>  <p>定义一个泛型接口</p>  <blockquote>   <p>interface Inter&lt;T&gt; {      <br />&#160;&#160;&#160; void show(T t);       <br />}</p> </blockquote>  <ul>   <li><strong>指定类型实现</strong> </li> </ul>  <p>实现的时候 知道要操作什么类型了 实现了之后只能操作对应的类型</p>  <blockquote>   <p>class InterImpl implements Inter&lt;String&gt; {      <br />&#160;&#160;&#160; public void show(String t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <blockquote>   <p>InterImpl i = new InterImpl();      <br />i.show(&quot;芋头&quot;);       <br /></p> </blockquote>  <ul>   <li><strong>不指定类型实现</strong> </li> </ul>  <p>实现的时候也不知道要操作什么类型 操作的时候 可以由调用者指定操作的类型</p>  <blockquote>   <p>class InterImpl2&lt;T&gt; implements Inter&lt;T&gt; {      <br />&#160;&#160;&#160; public void show(T t) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <blockquote>   <p>InterImpl2&lt;Integer&gt; i = new InterImpl2&lt;Integer&gt;();      <br />i.show(1);</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、泛型限定</font></h5>  <ul>   <li><strong>字母和问号的区别</strong></li> </ul>  <p><strong>1.写成字母</strong></p>  <p>代表了具体类型 可以在下面使用这个类型 但是必须在前边定义</p>  <blockquote>   <p>public &lt;T&gt; void printList(ArrayList&lt;T&gt; al) {      <br />&#160;&#160;&#160; Iterator&lt;T&gt; it = al.iterator();       <br />&#160;&#160;&#160; while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; T t = it.next();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.err.println(t);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>2.写成问号</strong></p>  <p>就是个占位符 不明确 就无法用它定义数据类型了</p>  <blockquote>   <p>public void printList(ArrayList&lt;?&gt; al) {      <br />&#160;&#160;&#160; Iterator&lt;?&gt; it = al.iterator();       <br />&#160;&#160;&#160; while (it.hasNext()) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //? t = it.next();&#160;&#160;&#160; //这样是不行的       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.err.println(it.next());       <br />&#160;&#160;&#160; }       <br />}       <br /></p> </blockquote>  <ul>   <li><strong>上限</strong></li> </ul>  <p>可以传入类型和其子类</p>  <blockquote>   <p>&lt;? extends 类型&gt;</p> </blockquote>  <p>把泛型写成这样 就可以限定是该类型/其子类</p>  <ul>   <li><strong>下限</strong></li> </ul>  <blockquote>   <p>&lt;? super 类型&gt;</p> </blockquote>  <p>可以接收类型/其父类</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

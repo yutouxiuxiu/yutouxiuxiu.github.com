@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				防止SQL注入
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<h5><font style="font-weight: bold">零、引例</font></h5>  <p>在用户登录的时候 会执行这样的语句 如果查找到了记录 就说明用户名密码正确</p>  <blockquote>   <p>select * from user where username=’张三丰’ and password=’123’</p> </blockquote>  <p><strong>注入手段</strong></p>  <p>1.传入 <u>张三丰’#</u></p>  <blockquote>   <p>select * from user where username=’张三丰’#’ and password=’’</p> </blockquote>  <p>由于#是sql的注释 后面会被当做没用的内容</p>  <blockquote>   <p>select * from user where username=’张三丰’</p> </blockquote>  <p><font style="background-color: #f6f6f6" color="#545454">3.传入 <u>张三丰’ or ‘1=1</u></font></p>  <blockquote>   <p>select * from user where username=’张三丰’ or ‘1=1’ and password=’’</p> </blockquote>  <p>1=1永远成立 所以可以查找到记录</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、用PreparedStatement 防止注入漏洞</font></h5>  <p>用PreparedStatement 预编译传输对象</p>  <p>是Statement的子类</p>  <p>它会先把sql语句编译成机器码 而不是直接把sql语句传过去</p>  <blockquote>   <p>//…</p>    <p>//不用之前的Statement了</p>    <p>PreparedStatement ps = conn.preparedStatement(“select * from user where username=? and password=?”);&#160;&#160;&#160; //这个是sql语句的骨干 传进来的参数用?替代</p>    <p>//传入参数</p>    <p>ps.setString(1, user.getUsername());</p>    <p>ps.setString(2, user.getPassword());</p>    <p>//执行</p>    <p>ResultSet rs = ps.executeQuery();</p>    <p>//…</p> </blockquote>  <p><strong>好处1：</strong></p>  <p>这样 它就先把sql语句的主干编译好了 后面传入的参数只按照参数处理</p>  <p>而不能被当做sql语句的主干处理 就不会发生注入的问题了</p>  <p><strong>好处2：</strong></p>  <p>预编译过的 效率高</p>  <p><strong>好处3：</strong></p>  <p>写sql语句的时候不用拼凑字符串</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					防止SQL注入
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、引例</font></h5>  <p>在用户登录的时候 会执行这样的语句 如果查找到了记录 就说明用户名密码正确</p>  <blockquote>   <p>select * from user where username=’张三丰’ and password=’123’</p> </blockquote>  <p><strong>注入手段</strong></p>  <p>1.传入 <u>张三丰’#</u></p>  <blockquote>   <p>select * from user where username=’张三丰’#’ and password=’’</p> </blockquote>  <p>由于#是sql的注释 后面会被当做没用的内容</p>  <blockquote>   <p>select * from user where username=’张三丰’</p> </blockquote>  <p><font style="background-color: #f6f6f6" color="#545454">3.传入 <u>张三丰’ or ‘1=1</u></font></p>  <blockquote>   <p>select * from user where username=’张三丰’ or ‘1=1’ and password=’’</p> </blockquote>  <p>1=1永远成立 所以可以查找到记录</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、用PreparedStatement 防止注入漏洞</font></h5>  <p>用PreparedStatement 预编译传输对象</p>  <p>是Statement的子类</p>  <p>它会先把sql语句编译成机器码 而不是直接把sql语句传过去</p>  <blockquote>   <p>//…</p>    <p>//不用之前的Statement了</p>    <p>PreparedStatement ps = conn.preparedStatement(“select * from user where username=? and password=?”);&#160;&#160;&#160; //这个是sql语句的骨干 传进来的参数用?替代</p>    <p>//传入参数</p>    <p>ps.setString(1, user.getUsername());</p>    <p>ps.setString(2, user.getPassword());</p>    <p>//执行</p>    <p>ResultSet rs = ps.executeQuery();</p>    <p>//…</p> </blockquote>  <p><strong>好处1：</strong></p>  <p>这样 它就先把sql语句的主干编译好了 后面传入的参数只按照参数处理</p>  <p>而不能被当做sql语句的主干处理 就不会发生注入的问题了</p>  <p><strong>好处2：</strong></p>  <p>预编译过的 效率高</p>  <p><strong>好处3：</strong></p>  <p>写sql语句的时候不用拼凑字符串</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

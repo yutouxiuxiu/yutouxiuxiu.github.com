@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				MySQL
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<h5><font style="font-weight: bold">一、卸载MySQL</font></h5>  <p>1.在控制面板里先卸载</p>  <p>2.MySQL5.5版本之后 数据文件和安装目录不在一起 也删掉 在Document and Files/All Users/Application Data里</p>  <h5><font style="font-weight: bold">二、安装MySQL</font></h5>  <p>默认端口号：3306</p>  <p>默认字符集：latin1（就是iso8859-1）</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="mysql1" border="0" alt="mysql1" src="http://localhost:8080/wp-content/uploads/2013/08/mysql1_thumb.jpg" width="244" height="190" /></a></p>  <p>选择字符集 utf8</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql" border="0" alt="mysql" src="http://localhost:8080/wp-content/uploads/2013/08/mysql_thumb.jpg" width="244" height="191" /></a></p>  <p>要勾选上Windows PATH 好让在命令提示符中识别MySQL的命令</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql4.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql3" border="0" alt="mysql3" src="http://localhost:8080/wp-content/uploads/2013/08/mysql3_thumb.jpg" width="244" height="188" /></a></p>  <p>不要勾选让远程登录root用户</p>  <p><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql4" border="0" alt="mysql4" src="http://localhost:8080/wp-content/uploads/2013/08/mysql4_thumb.jpg" width="244" height="96" /></p>  <p>这样就说明安装成功</p>  <p><strong>登录mysql命令</strong></p>  <blockquote>   <p>mysql (默认：–h localhost –P 3306) –u root –p</p>    <p>-h 主机</p>    <p>-P 端口</p>    <p>-u 用户</p>    <p>-p 密码（回车之后可提示输入密码）</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、MySQL重置root密码</font></h5>  <p><strong>1.修改方式</strong></p>  <p>通过非服务方式加skip-grant-tables运行mysql来修改mysql密码   <br />（1）停止mysql服务    <br />（2）跳过管理员启动mysql</p>  <p>&#160;&#160;&#160; 打开命令行窗口，在bin目录下使用mysqld-nt.exe（5.5为mysqld.exe）启动，即在命令行窗口执行: </p>  <blockquote>   <p>mysqld-nt --skip-grant-tables（5.0的命令）</p> </blockquote>  <blockquote>   <p>mysqld –skip-grant-tables（5.5的命令）     <br /></p> </blockquote>  <p>（3）登录mysql</p>  <p>&#160;&#160;&#160; 另外打开一个命令行窗口<font color="#ff0000">（不要关闭刚才的！）</font></p>  <blockquote>   <p>mysql –u root –p</p> </blockquote>  <p>&#160;&#160;&#160; 登录mysql，此时无需输入mysql密码即可进入。</p>  <p>&#160;&#160;&#160; 然后使用mysql数据库</p>  <blockquote>   <p>use mysql     <br /></p> </blockquote>  <p>（4）改密码</p>  <blockquote>   <p>update user set password=password(‘新密码’) where user=’root’;</p> </blockquote>  <p>（5）启动MySQL服务</p>  <p><strong>2.如何停止/启动MySQL服务</strong>    <br />运行 –&gt; services.msc</p>  <p>（或者我的电脑右键 –&gt; 管理 –&gt;服务和应用程序 –&gt;服务）</p>  <p>停止/启动MySQL服务</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、将以前的MySQL数据文件迁移到新的MySQL数据库中</font></h5>  <p>先要在新的MySQL数据库中创建和原来数据库名称相同的数据库</p>  <blockquote>   <p>mysql&gt; create database 数据库名</p> </blockquote>  <p>然后将原来数据库data目录下这个数据库的文件（注意不是文件夹整个拷贝 新的MySQL创建数据库时 可能会产生一个db.opt文件）拷贝到新的数据的对应目录下</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、MySQL的存储结构</font></h5>  <p>1.MySQL中可以创建多个数据库</p>  <p>&#160;&#160;&#160; 一般情况下 每个软件创建一个单独的数据库</p>      <p>2.每个数据库中可以创建多个数据表</p>  <p>3.数据表就相当于二维表格 相当于java的类</p>  <p>3.数据表中的每条记录 相当于对应的java对象</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、卸载MySQL</font></h5>  <p>1.在控制面板里先卸载</p>  <p>2.MySQL5.5版本之后 数据文件和安装目录不在一起 也删掉 在Document and Files/All Users/Application Data里</p>  <h5><font style="font-weight: bold">二、安装MySQL</font></h5>  <p>默认端口号：3306</p>  <p>默认字符集：latin1（就是iso8859-1）</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="mysql1" border="0" alt="mysql1" src="http://localhost:8080/wp-content/uploads/2013/08/mysql1_thumb.jpg" width="244" height="190" /></a></p>  <p>选择字符集 utf8</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql" border="0" alt="mysql" src="http://localhost:8080/wp-content/uploads/2013/08/mysql_thumb.jpg" width="244" height="191" /></a></p>  <p>要勾选上Windows PATH 好让在命令提示符中识别MySQL的命令</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/mysql4.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql3" border="0" alt="mysql3" src="http://localhost:8080/wp-content/uploads/2013/08/mysql3_thumb.jpg" width="244" height="188" /></a></p>  <p>不要勾选让远程登录root用户</p>  <p><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mysql4" border="0" alt="mysql4" src="http://localhost:8080/wp-content/uploads/2013/08/mysql4_thumb.jpg" width="244" height="96" /></p>  <p>这样就说明安装成功</p>  <p><strong>登录mysql命令</strong></p>  <blockquote>   <p>mysql (默认：–h localhost –P 3306) –u root –p</p>    <p>-h 主机</p>    <p>-P 端口</p>    <p>-u 用户</p>    <p>-p 密码（回车之后可提示输入密码）</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、MySQL重置root密码</font></h5>  <p><strong>1.修改方式</strong></p>  <p>通过非服务方式加skip-grant-tables运行mysql来修改mysql密码   <br />（1）停止mysql服务    <br />（2）跳过管理员启动mysql</p>  <p>&#160;&#160;&#160; 打开命令行窗口，在bin目录下使用mysqld-nt.exe（5.5为mysqld.exe）启动，即在命令行窗口执行: </p>  <blockquote>   <p>mysqld-nt --skip-grant-tables（5.0的命令）</p> </blockquote>  <blockquote>   <p>mysqld –skip-grant-tables（5.5的命令）     <br /></p> </blockquote>  <p>（3）登录mysql</p>  <p>&#160;&#160;&#160; 另外打开一个命令行窗口<font color="#ff0000">（不要关闭刚才的！）</font></p>  <blockquote>   <p>mysql –u root –p</p> </blockquote>  <p>&#160;&#160;&#160; 登录mysql，此时无需输入mysql密码即可进入。</p>  <p>&#160;&#160;&#160; 然后使用mysql数据库</p>  <blockquote>   <p>use mysql     <br /></p> </blockquote>  <p>（4）改密码</p>  <blockquote>   <p>update user set password=password(‘新密码’) where user=’root’;</p> </blockquote>  <p>（5）启动MySQL服务</p>  <p><strong>2.如何停止/启动MySQL服务</strong>    <br />运行 –&gt; services.msc</p>  <p>（或者我的电脑右键 –&gt; 管理 –&gt;服务和应用程序 –&gt;服务）</p>  <p>停止/启动MySQL服务</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、将以前的MySQL数据文件迁移到新的MySQL数据库中</font></h5>  <p>先要在新的MySQL数据库中创建和原来数据库名称相同的数据库</p>  <blockquote>   <p>mysql&gt; create database 数据库名</p> </blockquote>  <p>然后将原来数据库data目录下这个数据库的文件（注意不是文件夹整个拷贝 新的MySQL创建数据库时 可能会产生一个db.opt文件）拷贝到新的数据的对应目录下</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、MySQL的存储结构</font></h5>  <p>1.MySQL中可以创建多个数据库</p>  <p>&#160;&#160;&#160; 一般情况下 每个软件创建一个单独的数据库</p>      <p>2.每个数据库中可以创建多个数据表</p>  <p>3.数据表就相当于二维表格 相当于java的类</p>  <p>3.数据表中的每条记录 相当于对应的java对象</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

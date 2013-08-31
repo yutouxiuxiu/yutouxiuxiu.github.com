@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				Properties的读取 &amp; 类加载器ClassLoader
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<p><strong>定义</strong></p>  <p>新建一个 config.properties</p>  <blockquote>   <p>username=yutou</p>    <p>password=root</p>    <p>不用加分号 也不用加引号</p> </blockquote>  <p><strong>读取</strong></p>  <blockquote>   <p>Properties prop = new Properties();</p>    <p>prop.load(new FileReader(此类的类名.class.getClassLoader().getResource(“config.properties”).getPath()));</p>    <p>prop.getProperty(“参数名”);</p> </blockquote>  <p><strong>配置文件不用总读</strong></p>  <p>读取配置文件很占资源和实际 配置文件只需要读一次就行了 用静态代码块就好了</p>  <blockquote>   <p>static {</p>    <p>&#160;</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <p><strong>+ 类加载器</strong></p>  <p>ClassLoader</p>  <p>.class 文件是在第一次使用的时候 类加载器来加载的</p>  <p>它在加载类的同时 它有一个getResource方法 可以加载资源</p>  <p>在web项目里它从classes目录下加载类 就麻烦它顺便帮忙加载一下那个目录下的文件吧</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Properties的读取 &amp; 类加载器ClassLoader
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>定义</strong></p>  <p>新建一个 config.properties</p>  <blockquote>   <p>username=yutou</p>    <p>password=root</p>    <p>不用加分号 也不用加引号</p> </blockquote>  <p><strong>读取</strong></p>  <blockquote>   <p>Properties prop = new Properties();</p>    <p>prop.load(new FileReader(此类的类名.class.getClassLoader().getResource(“config.properties”).getPath()));</p>    <p>prop.getProperty(“参数名”);</p> </blockquote>  <p><strong>配置文件不用总读</strong></p>  <p>读取配置文件很占资源和实际 配置文件只需要读一次就行了 用静态代码块就好了</p>  <blockquote>   <p>static {</p>    <p>&#160;</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <p><strong>+ 类加载器</strong></p>  <p>ClassLoader</p>  <p>.class 文件是在第一次使用的时候 类加载器来加载的</p>  <p>它在加载类的同时 它有一个getResource方法 可以加载资源</p>  <p>在web项目里它从classes目录下加载类 就麻烦它顺便帮忙加载一下那个目录下的文件吧</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

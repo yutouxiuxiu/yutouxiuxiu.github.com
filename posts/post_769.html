@@ -24,83 +24,84 @@
 	<div class="center">
 		<div class="main">
 		<div id="" class="post-home">
-	<div class="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				Servlet事件监听器Listener
-			</a>
-		</h2>
-		<span class="post-time">
-			{ post:time }
-		</span>
-	</div>
-	<div class="post-content">
-		<h5><font style="font-weight: bold">零、什么是事件监听器</font></h5>  <p>实现特定接口的普通Java程序</p>  <p>专门用于监听另一个Java对象的方法调用或属性改变 来做一些事情</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/jianting.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="jianting" border="0" alt="jianting" src="http://localhost:8080/wp-content/uploads/2013/08/jianting_thumb.jpg" width="549" height="127" /></a></p>  <p>Servlet规范当中 同时定义了 Servlet、Filter、Listener技术</p>  <p>监听器就是Listener</p>  <h5><font style="font-weight: bold">一、八种监听器（接口）</font></h5>  <ul>   <li><strong>第一类 监听三个域对象的创建和销毁</strong></li> </ul>  <p>不包含Page域</p>  <p><strong>1.ServletContextListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听ServletContext对象的创建和销毁</p>  <p>ServletContext对象<font color="#ff0000"><u>代表整个Web应用</u></font></p>  <p><strong>ServletContext生命周期</strong></p>  <blockquote>   <p><strong>创建：</strong>当服务器启动时 服务器逐一加载web应用 当web应用被加载如内存的时候 立即创建代表当前web应用的ServletContext对象</p>    <p><strong>销毁：</strong>当服务器关闭/web应用被移除出容器时 随着web应用的销毁 ServletContext对象也销毁</p> </blockquote>  <p><strong>ServletContext作用范围</strong></p>  <blockquote>   <p>整个web应用</p> </blockquote>  <p><strong>（2）写一个类 实现接口</strong></p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; /* 当ServletContext被销毁时 web容器会调用此方法      <br />&#160;&#160;&#160;&#160; * 当ServletContext被销毁时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被销毁了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当ServletContext被创建出来时 web容器会调用此方法     <br />&#160;&#160;&#160;&#160; * 当ServletContext被创建时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //ServletContextEvent 事件对象      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这里封装了事件源和动作      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被创建了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>（3）在应用的web.xml文件中配置监听器</strong></p>  <p><font color="#ff0000">（注意！！！）</font>只能监听自己应用 不能监听其他应用 要配置在本应用的web.xml中</p>  <blockquote>   <p>&lt;listener&gt;     <br />&#160;&#160;&#160; &lt;listener-class&gt;cc.vicp.yutouxiuxiu.MySCListener&lt;/listener-class&gt;      <br />&lt;/listener&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.HttpSessionListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听Session对象的创建和销毁</p>  <p><strong>Seesion生命周期</strong></p>  <p><strong>创建：</strong>第一次调用request.getSession()时创建session对象</p>  <p><strong>销毁：</strong></p>  <p>①session超过一定的时间（默认30min 可以在web.xml中配置）没有使用</p>  <blockquote>   <p>&lt;session-config&gt;     <br />&#160;&#160;&#160; &lt;session-timeout&gt;单位分钟&lt;/session-timeout&gt;      <br />&lt;/session-config&gt;</p> </blockquote>  <p>②调用session.invilidate方法时 session自杀</p>  <p>③服务器非正常关闭（关于session的钝化活化 请见<a href="?p=340">会话管理文章</a>）</p>  <p><strong>Session作用范围</strong></p>  <p>一次会话范围内</p>  <p>&#160;</p>  <p>其余的和ServletContextListener差不多</p>  <p><strong>3.ServletRequestListener</strong></p>  <p>监听Request对象的创建和销毁</p>  <p><strong>Request生命周期</strong></p>  <p><strong>创建：</strong>当一次请求发生时 服务器创建代表这次请求的Request对象</p>  <p><strong>销毁：</strong>当请求结束时 Request被销毁</p>  <p><strong>Request作用范围</strong></p>  <p>一次请求链中</p>  <p>&#160;</p>  <ul>   <li><strong>第二类 监听三个域对象属性的变化</strong></li> </ul>  <p><strong>4.ServletContextAttributeListener</strong></p>  <p>监听ServletContext域中</p>  <blockquote>   <p>public class MySCALitener implements ServletContextAttributeListener {</p>    <p>&#160;&#160;&#160; /* 属性被添加 */     <br />&#160;&#160;&#160; public void attributeAdded(ServletContextAttributeEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getName();&#160;&#160;&#160; //属性名      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue();&#160;&#160;&#160; //属性值      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被移除 */     <br />&#160;&#160;&#160; public void attributeRemoved(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被替换 */     <br />&#160;&#160;&#160; public void attributeReplaced(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue(); //属性值（注意<u>这里获取到的是之前的值</u>）</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getServletContext().getAttribute(arg0.getName());&#160; //这里获取到的是<u>更改之后的值</u></p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>然后别忘了注册到web.xml中</p>  <p>这样就可以监听Servlet中的ServletContext域对象中的属性的加入变化和移除了</p>  <blockquote>   <p>this.getServletContext().setAttribute(“name”,”yutou”);</p>    <p>this.getServletContext().setAttribute(“name”,”xiuxiu”);</p>    <p>this.getServletContext().removeAttribute(“name”);</p> </blockquote>  <p>&#160;</p>  <p><strong>5.HttpSessionAttributeListener</strong></p>  <p>都差不多啦</p>  <p><strong>6.ServletRequestAttributeListener</strong></p>  <p>都差不多啦</p>  <p>&#160;</p>  <p><strong>第二类 感知Session绑定的事件的监听器</strong></p>  <p><strong>0.Session对象四种状态</strong></p>  <p>一个属性被存入Session</p>  <p>一个属性被移除出Session</p>  <p>一个属性随着Session被钝化</p>  <p>一个属性随着Session被活化</p>  <p><strong>作用</strong></p>  <p>可以使JavaBean实现这两个特殊的监听器</p>  <p>由此JavaBean就可以自己感知到自己在Session域中状态的变化</p>  <p>这两个监听器 不需要在web.xml中进行注册</p>  <p>&#160;</p>  <p><strong>7.HttpSessionBindingListener</strong></p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被存入Session域中 自己感知到自己被绑定到Session中触发的方法 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被从Session域中移除时 自己感知到自己被从session中解绑触发的方法 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>8.HttpSessionActivationListener</strong> </p>  <p>JavaBean感知自己随着自己所在的session被活化或者钝化</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionActivationListener {     <br />&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被活化时调用      <br />&#160;&#160;&#160; public void sessionDidActivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被钝化时调用     <br />&#160;&#160;&#160; public void sessionWillPassivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、应用</font></h5>  <p><strong>1.希望一个域当中一上来就有某个东西</strong></p>  <p>比如说要简化链接</p>  <p>之前这么写</p>  <blockquote>   <p>&lt;a href=”${ pageContext.request.contextPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>现在可以这样用</p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; sce.getServletContext().setAttribute(&quot;appPath&quot;, sce.getServletContext().getContextPath());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>直接这么写就好了</p>  <blockquote>   <p>&lt;a href=”${ appPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.在线用户列表 踢人功能</strong></p>  <p><strong>（1）登录</strong></p>  <p>在session中保存登录状态</p>  <p><strong>（2）在线列表</strong></p>  <p>从哪能获取所有的登录用户？</p>  <p>登录的时候 <font color="#ff0000"><u>存到ServletContext里的一个列表中</u></font></p>  <p>这个列表 一上来就应该有</p>  <p><strong>在哪里存用户登录信息</strong></p>  <p>对ServletContext进行监听 ServletContextListener</p>  <p>当web应用被加载时 创建一个容器 储存已经登录的用户</p>  <p><strong>怎么知道用户登录和注销</strong></p>  <p>用户注销/超时未操作</p>  <p>让session中的JavaBean实现HttpSessionBindingListener接口</p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class User implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 说明用户登录了 把用户信息存到ServletContext中 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; HttpSession session = event.getSession();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ServletContext sc = session.getServletContext();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 说明用户注销了 把用户信息从ServletContext中移除 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;</p>    <p>&#160;&#160;&#160; //……</p>    <p>}</p> </blockquote>  <p><strong>怎样获取登录列表</strong></p>  <p>遍历ServletContext中存储用户登录信息的容器即可</p>  <blockquote>   <p>&lt;c:if test=”${ !empty usermap }”&gt;</p>    <p>&#160;&#160;&#160; &lt;c:forEach items=”${usermap}” var=”entry”&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ${entry.key}&lt;br/&gt;</p>    <p>&#160;&#160;&#160; &lt;/c:forEach&gt;</p>    <p>&lt;/c:if&gt;</p> </blockquote>  <p><strong>怎么踢人</strong></p>  <p>把容器中的对应session拿到</p>  <p>把其session手动失效session.invalidate()即可</p>
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Servlet事件监听器Listener
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是事件监听器</font></h5>  <p>实现特定接口的普通Java程序</p>  <p>专门用于监听另一个Java对象的方法调用或属性改变 来做一些事情</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/jianting.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="jianting" border="0" alt="jianting" src="http://localhost:8080/wp-content/uploads/2013/08/jianting_thumb.jpg" width="549" height="127" /></a></p>  <p>Servlet规范当中 同时定义了 Servlet、Filter、Listener技术</p>  <p>监听器就是Listener</p>  <h5><font style="font-weight: bold">一、八种监听器（接口）</font></h5>  <ul>   <li><strong>第一类 监听三个域对象的创建和销毁</strong></li> </ul>  <p>不包含Page域</p>  <p><strong>1.ServletContextListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听ServletContext对象的创建和销毁</p>  <p>ServletContext对象<font color="#ff0000"><u>代表整个Web应用</u></font></p>  <p><strong>ServletContext生命周期</strong></p>  <blockquote>   <p><strong>创建：</strong>当服务器启动时 服务器逐一加载web应用 当web应用被加载如内存的时候 立即创建代表当前web应用的ServletContext对象</p>    <p><strong>销毁：</strong>当服务器关闭/web应用被移除出容器时 随着web应用的销毁 ServletContext对象也销毁</p> </blockquote>  <p><strong>ServletContext作用范围</strong></p>  <blockquote>   <p>整个web应用</p> </blockquote>  <p><strong>（2）写一个类 实现接口</strong></p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; /* 当ServletContext被销毁时 web容器会调用此方法      <br />&#160;&#160;&#160;&#160; * 当ServletContext被销毁时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被销毁了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当ServletContext被创建出来时 web容器会调用此方法     <br />&#160;&#160;&#160;&#160; * 当ServletContext被创建时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //ServletContextEvent 事件对象      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这里封装了事件源和动作      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被创建了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>（3）在应用的web.xml文件中配置监听器</strong></p>  <p><font color="#ff0000">（注意！！！）</font>只能监听自己应用 不能监听其他应用 要配置在本应用的web.xml中</p>  <blockquote>   <p>&lt;listener&gt;     <br />&#160;&#160;&#160; &lt;listener-class&gt;cc.vicp.yutouxiuxiu.MySCListener&lt;/listener-class&gt;      <br />&lt;/listener&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.HttpSessionListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听Session对象的创建和销毁</p>  <p><strong>Seesion生命周期</strong></p>  <p><strong>创建：</strong>第一次调用request.getSession()时创建session对象</p>  <p><strong>销毁：</strong></p>  <p>①session超过一定的时间（默认30min 可以在web.xml中配置）没有使用</p>  <blockquote>   <p>&lt;session-config&gt;     <br />&#160;&#160;&#160; &lt;session-timeout&gt;单位分钟&lt;/session-timeout&gt;      <br />&lt;/session-config&gt;</p> </blockquote>  <p>②调用session.invilidate方法时 session自杀</p>  <p>③服务器非正常关闭（关于session的钝化活化 请见<a href="?p=340">会话管理文章</a>）</p>  <p><strong>Session作用范围</strong></p>  <p>一次会话范围内</p>  <p>&#160;</p>  <p>其余的和ServletContextListener差不多</p>  <p><strong>3.ServletRequestListener</strong></p>  <p>监听Request对象的创建和销毁</p>  <p><strong>Request生命周期</strong></p>  <p><strong>创建：</strong>当一次请求发生时 服务器创建代表这次请求的Request对象</p>  <p><strong>销毁：</strong>当请求结束时 Request被销毁</p>  <p><strong>Request作用范围</strong></p>  <p>一次请求链中</p>  <p>&#160;</p>  <ul>   <li><strong>第二类 监听三个域对象属性的变化</strong></li> </ul>  <p><strong>4.ServletContextAttributeListener</strong></p>  <p>监听ServletContext域中</p>  <blockquote>   <p>public class MySCALitener implements ServletContextAttributeListener {</p>    <p>&#160;&#160;&#160; /* 属性被添加 */     <br />&#160;&#160;&#160; public void attributeAdded(ServletContextAttributeEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getName();&#160;&#160;&#160; //属性名      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue();&#160;&#160;&#160; //属性值      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被移除 */     <br />&#160;&#160;&#160; public void attributeRemoved(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被替换 */     <br />&#160;&#160;&#160; public void attributeReplaced(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue(); //属性值（注意<u>这里获取到的是之前的值</u>）</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getServletContext().getAttribute(arg0.getName());&#160; //这里获取到的是<u>更改之后的值</u></p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>然后别忘了注册到web.xml中</p>  <p>这样就可以监听Servlet中的ServletContext域对象中的属性的加入变化和移除了</p>  <blockquote>   <p>this.getServletContext().setAttribute(“name”,”yutou”);</p>    <p>this.getServletContext().setAttribute(“name”,”xiuxiu”);</p>    <p>this.getServletContext().removeAttribute(“name”);</p> </blockquote>  <p>&#160;</p>  <p><strong>5.HttpSessionAttributeListener</strong></p>  <p>都差不多啦</p>  <p><strong>6.ServletRequestAttributeListener</strong></p>  <p>都差不多啦</p>  <p>&#160;</p>  <p><strong>第二类 感知Session绑定的事件的监听器</strong></p>  <p><strong>0.Session对象四种状态</strong></p>  <p>一个属性被存入Session</p>  <p>一个属性被移除出Session</p>  <p>一个属性随着Session被钝化</p>  <p>一个属性随着Session被活化</p>  <p><strong>作用</strong></p>  <p>可以使JavaBean实现这两个特殊的监听器</p>  <p>由此JavaBean就可以自己感知到自己在Session域中状态的变化</p>  <p>这两个监听器 不需要在web.xml中进行注册</p>  <p>&#160;</p>  <p><strong>7.HttpSessionBindingListener</strong></p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被存入Session域中 自己感知到自己被绑定到Session中触发的方法 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被从Session域中移除时 自己感知到自己被从session中解绑触发的方法 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>8.HttpSessionActivationListener</strong> </p>  <p>JavaBean感知自己随着自己所在的session被活化或者钝化</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionActivationListener {     <br />&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被活化时调用      <br />&#160;&#160;&#160; public void sessionDidActivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被钝化时调用     <br />&#160;&#160;&#160; public void sessionWillPassivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、应用</font></h5>  <p><strong>1.希望一个域当中一上来就有某个东西</strong></p>  <p>比如说要简化链接</p>  <p>之前这么写</p>  <blockquote>   <p>&lt;a href=”${ pageContext.request.contextPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>现在可以这样用</p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; sce.getServletContext().setAttribute(&quot;appPath&quot;, sce.getServletContext().getContextPath());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>直接这么写就好了</p>  <blockquote>   <p>&lt;a href=”${ appPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.在线用户列表 踢人功能</strong></p>  <p><strong>（1）登录</strong></p>  <p>在session中保存登录状态</p>  <p><strong>（2）在线列表</strong></p>  <p>从哪能获取所有的登录用户？</p>  <p>登录的时候 <font color="#ff0000"><u>存到ServletContext里的一个列表中</u></font></p>  <p>这个列表 一上来就应该有</p>  <p><strong>在哪里存用户登录信息</strong></p>  <p>对ServletContext进行监听 ServletContextListener</p>  <p>当web应用被加载时 创建一个容器 储存已经登录的用户</p>  <p><strong>怎么知道用户登录和注销</strong></p>  <p>用户注销/超时未操作</p>  <p>让session中的JavaBean实现HttpSessionBindingListener接口</p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class User implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 说明用户登录了 把用户信息存到ServletContext中 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; HttpSession session = event.getSession();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ServletContext sc = session.getServletContext();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 说明用户注销了 把用户信息从ServletContext中移除 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;</p>    <p>&#160;&#160;&#160; //……</p>    <p>}</p> </blockquote>  <p><strong>怎样获取登录列表</strong></p>  <p>遍历ServletContext中存储用户登录信息的容器即可</p>  <blockquote>   <p>&lt;c:if test=”${ !empty usermap }”&gt;</p>    <p>&#160;&#160;&#160; &lt;c:forEach items=”${usermap}” var=”entry”&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ${entry.key}&lt;br/&gt;</p>    <p>&#160;&#160;&#160; &lt;/c:forEach&gt;</p>    <p>&lt;/c:if&gt;</p> </blockquote>  <p><strong>怎么踢人</strong></p>  <p>把容器中的对应session拿到</p>  <p>把其session手动失效session.invalidate()即可</p>
+		</div>
 	</div>
 </div>
 
 		</div>
 		<div class="sidebar">
-		<div id="" class="sidebar">
-	<div id="csidebar">
-		<ul>
-			<li class="widget widget_recent_entries">
-				<h3>分类目录</h3>
-				<ul>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
-					
-						<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
-					
-				</ul>
-			</li>
-		</ul>
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
 </div>
 
 		</div>

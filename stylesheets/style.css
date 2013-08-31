@@ -309,6 +309,24 @@ pre {
 	padding-bottom: 2px;
 }
 
+div.post-title h2 {
+	padding: 10px 0px 0px 10px;
+	border-bottom: 1px solid #DDDDDD;
+	background: rgb(250,250,250);
+	font-size: 25px;
+}
+
+div.a-post {
+	border-bottom: 2px solid #DDDDDD;
+}
+
+div.post-title .post-time {
+	float: right;
+	position: relative;
+	top: -44px;
+	padding-right: 10px;
+}
+
 #postlist .post-title h2 a {
 	color: #222;
 }
@@ -344,13 +362,6 @@ pre {
 #postlist .post-messages .indexpost-meta {
 	float: left;
 	width: 585px;
-}
-
-.post-time {
-	font-size: 9px;
-	position: absolute;
-	top: 8px;
-	right: 0px;
 }
 
 .more-link {
@@ -414,13 +425,12 @@ pre {
 	font-size: 120%;
 	font-weight: 400;
 	overflow: hidden;
-	width: 210px;
+	width: 220px;
 	padding: 5px 0;
 }
 
 #csidebar h3 span {
 	color: #B5B5B5;
-	padding-left: 15px;
 }
 
 #csidebar select,#rsidebar select {
@@ -429,6 +439,7 @@ pre {
 }
 
 #csidebar li {
+	width: 220px;
 	overflow: hidden;
 	_zoom: 1;
 }

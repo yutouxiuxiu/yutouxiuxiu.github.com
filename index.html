@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>主页</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					复习课
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>Servlet规范？</strong></p>  <p>SUN公司提供的 动态web资源开发的解决方案</p>  <p>Servlet规范包括 Servlet、Filter、Listener</p>  <p><strong>Servlet容器？</strong></p>  <p>Servlet的运行环境 自己可以按照Servlet规范开发容器</p>  <p><strong>web容器？</strong></p>  <p>所有能够运行web应用的容器</p>  <p>Servlet容器，.net的容器，apache</p>  <p><strong>web应用可以没有WEB-INF目录？</strong></p>  <p>如果没有WEB-INF 它也有配置信息 所有web应用的web.xml都继承自tomcat中的conf/web.xml</p>  <p><strong>Servlet的生命周期？</strong></p>  <p>第一次访问到时创建Servlet对象 并驻留在内存中 为后续请求服务</p>  <p>应用移除出容器时 跟着web应用的销毁而销毁</p>  <p>在存活时 访问Servlet 会调用service方法</p>  <p><strong>tomcat怎么知道要访问的资源？</strong></p>  <p>HTTP协议中有Host参数 比如说是Host: <a href="http://www.yutouxiuxiu.cn">www.yutouxiuxiu.cn</a></p>  <p>它就到虚拟主机中找Host的name=<a href="http://www.yutouxiuxiu.cn">www.yutouxiuxiu.cn</a>的虚拟主机</p>  <p>然后按照请求头中的资源名称</p>  <p>先获取web应用</p>  <p>然后到web.xml中寻找对应的servlet</p>  <p>如果找不到 会到conf/web.xml中找里面的default的Servlet</p>  <p>default的Servlet路径是/</p>  <p>无论访问的是静态资源还是动态资源 其实都是Servlet的response对象输出的</p>  <p>（request也是tomcat根据HTTP请求创建的）</p>  <p>然后服务器给response对象组织成HTTP协议返回到浏览器中</p>  <p><strong>域对象？</strong></p>  <p>具有一个可见范围 并且可以在它能够被看见的范围内进行共享数据 的对象</p>  <blockquote>   <p><strong>Servlet中&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; -&#160; JSP中&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; （作用范围）</strong></p>    <p>ServletContext&#160;&#160; -&#160; application&#160;&#160;&#160; （整个应用）</p>    <p>Session&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; - session&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; （一次会话）</p>    <p>Request&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; -&#160; request&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; （一次请求链 转发也好使）</p>    <p>pageContext&#160;&#160;&#160;&#160;&#160; -&#160; pageContext&#160; （一个JSP页面 转发不好使）</p> </blockquote>  <p><strong>主要用途：</strong></p>  <p>如果一个数据只是当前jsp页面使用 放在pageContext域中</p>  <p>如果一个数据要在一次请求中使用 则放在request中（Servlet带到jsp中）</p>  <p>如果一个数据除了本次请求要用 一会儿自己还要用 就放在Session中</p>  <p>如果一个数据除了本次要使用 其他人还要用 就放在ServletContext中</p>  <p><strong>域？</strong></p>  <p>域对象用来共享数据的内存空间</p>  <p>比如说ServletContext中的Map集合的内存空间</p>  <p><strong>attribute、parameter、initParameter？</strong></p>  <p>attribute 获取域属性</p>  <p>parameter 获取请求参数 </p>  <p>initParameter 获取初始化参数</p>  <blockquote>   <p>ServletConfig.getInitParameter()（在web.xml中的Servlet标签中配初始化信息）</p>    <p>ServletContext.getInitParameter()（在web.xml根标签中配置初始化信息）</p> </blockquote>  <p><strong>response？</strong></p>  <p>响应 代表服务器要发给浏览器的响应</p>  <p><strong>可以设置响应头</strong></p>  <p>setHeader</p>  <p>addHeader</p>  <p><strong>可以设置响应体</strong></p>  <p>（其实是写在response的缓冲区中 直到service方法结束 response返回到服务器后 服务器再从response缓冲区中取出内容 组织成HTTP协议响应到浏览器）</p>  <p>getOutputStream</p>  <p>getWriter</p>  <p><strong>Cookie</strong></p>  <p>Cookie是通过HTTP协议中的Set-Cookie头传给浏览器的</p>  <p><strong>setMaxAge</strong></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果不设置 不存在浏览器内存中 关闭浏览器 cookie丢失</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 设置的话 会在浏览器的缓存文件夹中以文件的形式保存指定的时间</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 设置为0 为通知浏览器删除cookie信息（刚覆盖完 就到期了 就被删了）</p>  <p><strong>setPath</strong></p>  <p><strong>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </strong>告诉浏览器访问哪个路径极其子路径的时候带着这个cookie信息</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 不明确指定 浏览器默认使用发送这个cookie的Servlet所在的路径作为path使用</p>  <blockquote>   <p>eg&#160; /Day2/servlet/Demo3Servlet&#160;&#160; 会按照&#160;&#160; /Day2/servlet/&#160; 设置</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 浏览器根据domain path name三个属性共同判断cookie 所以不同网站中的相同name的cookie不会覆盖</p>  <p><strong>setDomain（不能使用 使用了 就白设置cookie了 浏览器拒绝接收设置了这个的cookie）</strong></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 设置cookie的域名信息</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 只要设置过这个 <font color="#ff0000">浏览器就会拒绝接收该cookie</font></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果把这个设置成别的域名 就成为了第三方cookie 非常危险 会把这个cookie带到其他的网站 可能假冒它网站的cookie 欺骗服务器</p>  <p>&#160;</p>  <p><strong>重定向和转发</strong></p>  <p>应该尽量用重定向 减轻服务器和客户端的压力</p>  <p>但是有的时候一定不能用重定向</p>  <p>比如他购物 进入付款页面 点击付款 执行了付款Servlet 然后转发到了 展示付款成功页面 假如这时用户刷新了 就重复付款了 所以这时 付款的Servlet到展示付款成功的页面 要用重定向</p>  <p>&#160;</p>  <p><strong>静态包含</strong></p>  <p>多个翻译成一个Servlet</p>  <p><strong>动态包含</strong></p>  <p>翻译成多个Servlet 把输出结果放在一起</p>  <p>&#160;</p>  <p><strong>路径？</strong></p>  <p><strong>JavaEE</strong></p>  <p>①给服务器用 不用应用名</p>  <p>②给浏览器用 用应用名</p>  <p><strong>JavaSE</strong></p>  <p>FileInputStream</p>  <p>①直接写 会在启动目录下找（bin）</p>  <p>②可以写硬盘路径 可以保证绝对能找到资源 但是换发布环境 就不行了</p>  <p>③路径前可以拼上ServletContext.getPath()</p>  <p>④可以用类加载器 是相对于类加载的目录的</p>  <p>&#160;</p>  <p><strong>相对路径（尽量不要使用）</strong></p>  <p>基于当前路径计算的路径（不以/开头）</p>  <p><strong>绝对路径</strong></p>  <p>基于一个固定的路径计算的路径（以/开头）</p>  <p>&#160;</p>  <p><strong>JSP</strong></p>  <p>在第一次被访问的时候被翻译成Servlet</p>  <p>&#160;</p>  <p><strong><font color="#ff0000">JSP中九大隐式对象</font></strong></p>  <blockquote>   <p>page</p>    <p>application</p>    <p>config</p>    <p>response</p>    <p>request</p>    <p>session</p>    <p>out</p>    <p>exception</p>    <p>pageContext 代表整个JSP页面的运行环境 可以获取到其他八大对象</p> </blockquote>  <p>&#160;</p>  <p><strong>useBean标签</strong></p>  <p>底层原理 到指定的域中获取JavaBean对象 如果找不到 会创建一个</p>  <p>&#160;</p>  <p><strong>EL的十一个内置对象</strong></p>  <p>${ pageContext.request.contextPath }</p>  <p>&#160;&#160;&#160; 行</p>  <p>&#160;&#160;&#160; 这个pageContext.request 获取到的是request对象</p>  <p><strike>${ request.contextPath }</strike></p>  <p>&#160;&#160;&#160; 没有request对象</p>  <p><strike>${ requestScope.contextPath }</strike>&#160;</p>  <p>&#160;&#160;&#160; <font color="#ff0000">requestScope不代表request对象 没有getContextPath方法 而代表的是域 是你自己存进去的数据</font></p>  <p>&#160;</p>  <p>注意cookie内置对象</p>  <p>是所有Cookie的Map&lt;String, Cookie&gt; 而不是 Map&lt;String, String&gt;</p>  <p>所以获取的时候</p>  <p>${ cookie.username.value }</p>  <p>&#160;</p>  <p><strong>JSTL标签库</strong></p>  <p>javaee5以下的版本 需要导入jstl包 5+的版本 不用导 它自带了</p>
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Servlet事件监听器Listener
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是事件监听器</font></h5>  <p>实现特定接口的普通Java程序</p>  <p>专门用于监听另一个Java对象的方法调用或属性改变 来做一些事情</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/08/jianting.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="jianting" border="0" alt="jianting" src="http://localhost:8080/wp-content/uploads/2013/08/jianting_thumb.jpg" width="549" height="127" /></a></p>  <p>Servlet规范当中 同时定义了 Servlet、Filter、Listener技术</p>  <p>监听器就是Listener</p>  <h5><font style="font-weight: bold">一、八种监听器（接口）</font></h5>  <ul>   <li><strong>第一类 监听三个域对象的创建和销毁</strong></li> </ul>  <p>不包含Page域</p>  <p><strong>1.ServletContextListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听ServletContext对象的创建和销毁</p>  <p>ServletContext对象<font color="#ff0000"><u>代表整个Web应用</u></font></p>  <p><strong>ServletContext生命周期</strong></p>  <blockquote>   <p><strong>创建：</strong>当服务器启动时 服务器逐一加载web应用 当web应用被加载如内存的时候 立即创建代表当前web应用的ServletContext对象</p>    <p><strong>销毁：</strong>当服务器关闭/web应用被移除出容器时 随着web应用的销毁 ServletContext对象也销毁</p> </blockquote>  <p><strong>ServletContext作用范围</strong></p>  <blockquote>   <p>整个web应用</p> </blockquote>  <p><strong>（2）写一个类 实现接口</strong></p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; /* 当ServletContext被销毁时 web容器会调用此方法      <br />&#160;&#160;&#160;&#160; * 当ServletContext被销毁时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被销毁了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当ServletContext被创建出来时 web容器会调用此方法     <br />&#160;&#160;&#160;&#160; * 当ServletContext被创建时想要做的事情 就写在这里面 */      <br />&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //ServletContextEvent 事件对象      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这里封装了事件源和动作      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;ServletContext被创建了&quot; + sce.getServletContext());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>（3）在应用的web.xml文件中配置监听器</strong></p>  <p><font color="#ff0000">（注意！！！）</font>只能监听自己应用 不能监听其他应用 要配置在本应用的web.xml中</p>  <blockquote>   <p>&lt;listener&gt;     <br />&#160;&#160;&#160; &lt;listener-class&gt;cc.vicp.yutouxiuxiu.MySCListener&lt;/listener-class&gt;      <br />&lt;/listener&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.HttpSessionListener</strong></p>  <p><strong>（1）作用</strong></p>  <p>监听Session对象的创建和销毁</p>  <p><strong>Seesion生命周期</strong></p>  <p><strong>创建：</strong>第一次调用request.getSession()时创建session对象</p>  <p><strong>销毁：</strong></p>  <p>①session超过一定的时间（默认30min 可以在web.xml中配置）没有使用</p>  <blockquote>   <p>&lt;session-config&gt;     <br />&#160;&#160;&#160; &lt;session-timeout&gt;单位分钟&lt;/session-timeout&gt;      <br />&lt;/session-config&gt;</p> </blockquote>  <p>②调用session.invilidate方法时 session自杀</p>  <p>③服务器非正常关闭（关于session的钝化活化 请见<a href="?p=340">会话管理文章</a>）</p>  <p><strong>Session作用范围</strong></p>  <p>一次会话范围内</p>  <p>&#160;</p>  <p>其余的和ServletContextListener差不多</p>  <p><strong>3.ServletRequestListener</strong></p>  <p>监听Request对象的创建和销毁</p>  <p><strong>Request生命周期</strong></p>  <p><strong>创建：</strong>当一次请求发生时 服务器创建代表这次请求的Request对象</p>  <p><strong>销毁：</strong>当请求结束时 Request被销毁</p>  <p><strong>Request作用范围</strong></p>  <p>一次请求链中</p>  <p>&#160;</p>  <ul>   <li><strong>第二类 监听三个域对象属性的变化</strong></li> </ul>  <p><strong>4.ServletContextAttributeListener</strong></p>  <p>监听ServletContext域中</p>  <blockquote>   <p>public class MySCALitener implements ServletContextAttributeListener {</p>    <p>&#160;&#160;&#160; /* 属性被添加 */     <br />&#160;&#160;&#160; public void attributeAdded(ServletContextAttributeEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getName();&#160;&#160;&#160; //属性名      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue();&#160;&#160;&#160; //属性值      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被移除 */     <br />&#160;&#160;&#160; public void attributeRemoved(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 属性被替换 */     <br />&#160;&#160;&#160; public void attributeReplaced(ServletContextAttributeEvent arg0) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getValue(); //属性值（注意<u>这里获取到的是之前的值</u>）</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; arg0.getServletContext().getAttribute(arg0.getName());&#160; //这里获取到的是<u>更改之后的值</u></p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>然后别忘了注册到web.xml中</p>  <p>这样就可以监听Servlet中的ServletContext域对象中的属性的加入变化和移除了</p>  <blockquote>   <p>this.getServletContext().setAttribute(“name”,”yutou”);</p>    <p>this.getServletContext().setAttribute(“name”,”xiuxiu”);</p>    <p>this.getServletContext().removeAttribute(“name”);</p> </blockquote>  <p>&#160;</p>  <p><strong>5.HttpSessionAttributeListener</strong></p>  <p>都差不多啦</p>  <p><strong>6.ServletRequestAttributeListener</strong></p>  <p>都差不多啦</p>  <p>&#160;</p>  <p><strong>第二类 感知Session绑定的事件的监听器</strong></p>  <p><strong>0.Session对象四种状态</strong></p>  <p>一个属性被存入Session</p>  <p>一个属性被移除出Session</p>  <p>一个属性随着Session被钝化</p>  <p>一个属性随着Session被活化</p>  <p><strong>作用</strong></p>  <p>可以使JavaBean实现这两个特殊的监听器</p>  <p>由此JavaBean就可以自己感知到自己在Session域中状态的变化</p>  <p>这两个监听器 不需要在web.xml中进行注册</p>  <p>&#160;</p>  <p><strong>7.HttpSessionBindingListener</strong></p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被存入Session域中 自己感知到自己被绑定到Session中触发的方法 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 当此JavaBean对象被从Session域中移除时 自己感知到自己被从session中解绑触发的方法 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent arg0) {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>8.HttpSessionActivationListener</strong> </p>  <p>JavaBean感知自己随着自己所在的session被活化或者钝化</p>  <blockquote>   <p>public class TestJavaBean implements HttpSessionActivationListener {     <br />&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被活化时调用      <br />&#160;&#160;&#160; public void sessionDidActivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; //JavaBean感知自己随着自己所在的session被钝化时调用     <br />&#160;&#160;&#160; public void sessionWillPassivate(HttpSessionEvent arg0) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、应用</font></h5>  <p><strong>1.希望一个域当中一上来就有某个东西</strong></p>  <p>比如说要简化链接</p>  <p>之前这么写</p>  <blockquote>   <p>&lt;a href=”${ pageContext.request.contextPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>现在可以这样用</p>  <blockquote>   <p>public class MySCListener implements ServletContextListener {     <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public void contextDestroyed(ServletContextEvent sce) {      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void contextInitialized(ServletContextEvent sce) {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; sce.getServletContext().setAttribute(&quot;appPath&quot;, sce.getServletContext().getContextPath());      <br />&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>直接这么写就好了</p>  <blockquote>   <p>&lt;a href=”${ appPath }/index.jsp”&gt;主页&lt;/a&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>2.在线用户列表 踢人功能</strong></p>  <p><strong>（1）登录</strong></p>  <p>在session中保存登录状态</p>  <p><strong>（2）在线列表</strong></p>  <p>从哪能获取所有的登录用户？</p>  <p>登录的时候 <font color="#ff0000"><u>存到ServletContext里的一个列表中</u></font></p>  <p>这个列表 一上来就应该有</p>  <p><strong>在哪里存用户登录信息</strong></p>  <p>对ServletContext进行监听 ServletContextListener</p>  <p>当web应用被加载时 创建一个容器 储存已经登录的用户</p>  <p><strong>怎么知道用户登录和注销</strong></p>  <p>用户注销/超时未操作</p>  <p>让session中的JavaBean实现HttpSessionBindingListener接口</p>  <p>JavaBean自己感知自己被绑定到session中 或者从session中解绑</p>  <blockquote>   <p>public class User implements HttpSessionBindingListener {</p>    <p>&#160;&#160;&#160; /* 说明用户登录了 把用户信息存到ServletContext中 */     <br />&#160;&#160;&#160; public void valueBound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; HttpSession session = event.getSession();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ServletContext sc = session.getServletContext();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 说明用户注销了 把用户信息从ServletContext中移除 */     <br />&#160;&#160;&#160; public void valueUnbound(HttpSessionBindingEvent event) {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;</p>    <p>&#160;&#160;&#160; //……</p>    <p>}</p> </blockquote>  <p><strong>怎样获取登录列表</strong></p>  <p>遍历ServletContext中存储用户登录信息的容器即可</p>  <blockquote>   <p>&lt;c:if test=”${ !empty usermap }”&gt;</p>    <p>&#160;&#160;&#160; &lt;c:forEach items=”${usermap}” var=”entry”&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ${entry.key}&lt;br/&gt;</p>    <p>&#160;&#160;&#160; &lt;/c:forEach&gt;</p>    <p>&lt;/c:if&gt;</p> </blockquote>  <p><strong>怎么踢人</strong></p>  <p>把容器中的对应session拿到</p>  <p>把其session手动失效session.invalidate()即可</p>
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					HTML注入、JS注入
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>示例</strong></p>  <blockquote>   <p>&lt;script&gt;</p>    <p>while(true) {</p>    <p>&#160;&#160;&#160; alert(“杭州人民需要你”);</p>    <p>}</p>    <p>&lt;/script&gt;</p> </blockquote>  <blockquote>   <p>&lt;meta http-equiv=”refresh” content=”0:url=http://www.baidu.com”/&gt;</p> </blockquote>  <p><strong>防止</strong></p>  <p>防止用户输入特殊的html或者js，css内容</p>  <p><strong>1.特殊符号转义后储存</strong></p>  <p>&#160;</p>  <p><strong>2.在页面输出的时候转义</strong></p>  <blockquote>   <p>&lt;c: out value=”带有特殊字符的文本”/&gt;</p> </blockquote>  <p>会被转义 当做文本显示</p>
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					JavaWeb国际化
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是国际化？</font></h5>  <p>internationalization</p>  <p>i18n（i和n之间有18个字母）</p>  <h5><font style="font-weight: bold">一、需要进行国际化的东西</font></h5>  <ul>   <li><strong>固定的文本国际化</strong> </li>    <li><strong>程序动态产生的数据</strong> </li> </ul>  <p>日期和货币按照当地的文化和习惯</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、Java工程中的国际化</font></h5>  <p>如何进行：</p>  <p><strong>1.创建语言的资源包</strong></p>  <p>在src下写一组properties按照固定的样子组织在一起</p>  <p>具有相同的基名 具备不同的国家语言代号（zh,en…）</p>  <blockquote>   <p>基名_国家语言代号.properties</p> </blockquote>  <p>缺省资源文件</p>  <blockquote>   <p>基名.properties</p> </blockquote>  <p><strong>2.编写properties</strong></p>  <p>resource_en.properties</p>  <blockquote>   <p>username=username</p>    <p>password=password</p> </blockquote>  <p>resource_zh.properties</p>  <blockquote>   <p>username=用户名（properties不直接支持中文 在某些eclips中它会自动变成编码）</p>    <p>password=密码</p> </blockquote>  <p>…</p>  <p><strong>3.加载资源包</strong></p>  <blockquote>   <p>ResourceBundle bundle = ResourceBundle.getBundle(“基名”);</p> </blockquote>  <p>它会在类的加载目录下 自动寻找基名一致的properties文件 打成资源包</p>  <blockquote>   <p>bundle.getString(“username”);</p> </blockquote>  <p>这句话 会智能判断用户的语言环境 搜寻所需的资源</p>  <p>在windows7中 控制面板\时钟、语言和区域\更改日期、时间或数字格式 可以更改语言环境</p>  <blockquote>   <p>ResourceBundle bundle = ResourceBundle.getBundle(“基名”, Locale.US);</p>    <p>bundle.getString(“username”);</p> </blockquote>  <p>这样的话 手动指定它的国家和地区 它就会按照这个来</p>  <p>但是要注意</p>  <p><strong>ResourceBundle 的运行过程</strong></p>  <blockquote>   <p>如果有明确指定的语言环境 则使用明确指定的 </p>    <p>如果找不到明确指定的 则使用操作系统设置的语言环境找资源包 </p>    <p>如果还找不到 再用默认资源包</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、Web工程中的国际化</font></h5>  <p>没有国际化的是这样的</p>  <blockquote>   <p>用户名&lt;input type=”text” name=”username”/&gt;</p> </blockquote>  <p>向国际化怎么做？</p>  <ul>   <li><strong>Java方式实现（不这么用）</strong> </li> </ul>  <p><strong>1.还是像之前那样创建资源包</strong></p>  <p><strong>2.根据浏览器生成ResourceBundle</strong></p>  <p>如果按照之前Java项目那样 直接获取 就获取成服务器的语言环境的了</p>  <p>需要按照浏览器的获取</p>  <p>那么怎么获取浏览器的语言环境呢？</p>  <p>HTTP请求中有</p>  <blockquote>   <p>Accept-Language</p> </blockquote>  <p>按照这个构建Local对象</p>  <p>ServletRequest中有一个方法 getLocale</p>  <blockquote>   <p>request.getLocale();</p> </blockquote>  <p>所以：</p>  <blockquote>   <p>ResourceBundle bundle = ResourceBundle.getBundle(“基名”, request.getLocale());</p> </blockquote>  <p><strong>2.固定文本国际化</strong></p>  <blockquote>   <p>&lt;%=bundle.getString(“username”) %&gt;&lt;input type=”text” name=”username”/&gt;</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>用国际化标签库实现</strong> </li> </ul>  <p><strong>1.先导入标签库</strong></p>  <blockquote>   <p>&lt;%@ taglib uri=”http://java.sun.com/jsp/jstl/fmt” =”fmt”%&gt;</p> </blockquote>  <p><strong>2.获取语言资源</strong></p>  <blockquote>   <p>&lt;fmt: setBundle basename=”resource” scope=”page” var=”bundle”/&gt;</p> </blockquote>  <p><strong>3.固定文本国际化</strong></p>  <blockquote>   <p>&lt;fmt:message bundle=”${ bundle }” key=”username”/&gt;</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、程序动态产生的数据国际化</font></h5>  <ul>   <li><strong>时间和日期</strong> </li> </ul>  <p>&#160;</p>  <p><strong>1.DateFormat（不怎么用）</strong></p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateInstance%28%29">getDateInstance</a></b>()</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期格式器，该格式器具有默认语言环境的默认格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateInstance%28int%29">getDateInstance</a></b>(int style)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期格式器，该格式器具有默认语言环境的给定格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateInstance%28int,%20java.util.Locale%29">getDateInstance</a></b>(int style, <a href="http://localhost:8080/javaapi/java/util/Locale.html">Locale</a> aLocale)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期格式器，该格式器具有给定语言环境的给定格式化风格。</p>  <p>&#160;</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getTimeInstance%28%29">getTimeInstance</a></b>()</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取时间格式器，该格式器具有默认语言环境的默认格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getTimeInstance%28int%29">getTimeInstance</a></b>(int style)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取时间格式器，该格式器具有默认语言环境的给定格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getTimeInstance%28int,%20java.util.Locale%29">getTimeInstance</a></b>(int style, <a href="http://localhost:8080/javaapi/java/util/Locale.html">Locale</a> aLocale)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取时间格式器，该格式器具有给定语言环境的给定格式化风格。</p>  <p>&#160;</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateTimeInstance%28%29">getDateTimeInstance</a></b>()</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期/时间格式器，该格式器具有默认语言环境的默认格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateTimeInstance%28int,%20int%29">getDateTimeInstance</a></b>(int dateStyle, int timeStyle)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期/时间格式器，该格式器具有默认语言环境的给定日期和时间格式化风格。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/DateFormat.html">DateFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/DateFormat.html#getDateTimeInstance%28int,%20int,%20java.util.Locale%29">getDateTimeInstance</a></b>(int dateStyle, int timeStyle, <a href="http://localhost:8080/javaapi/java/util/Locale.html">Locale</a> aLocale)</code>     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 获取日期/时间格式器，该格式器具有给定语言环境的给定格式化风格。</p>  <p>&#160;</p>  <p><strong>（1）Date转成字符串</strong></p>  <p>将Date对象转成指定语言环境指定样式的字符串形式</p>  <blockquote>   <p>Date date = new Date();</p>    <p>DateFormat format = DateFormat.getDateInstance(DateFormat.FULL, Locale.CHINA);</p>    <p>String dateString = format.format(date);</p> </blockquote>  <p>结果：</p>  <blockquote>   <p>FULL样式：2013年8月29日 星期四&#160; 美国的：Thursday, August 29, 2013</p>    <p>SHORT样式：13-8-29</p>    <p>MEDIUM样式：2013-8-29</p>    <p>LONG样式：2013年8月29日</p> </blockquote>  <p><strong>（2）字符串转成Date</strong></p>  <blockquote>   <p>String dateString = “2013年8月29日 星期四 下午04时57分36秒 CST”;</p>    <p>DateFormat format = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.CHINA);</p>    <p>Date date = format.parse(dateString);</p> </blockquote>  <p>可是它只能转这几个固定样式的</p>  <p>所以看它的子类：</p>  <p><strong>2.SimpleDateFormat</strong></p>  <table border="0" cellspacing="3" summary="Chart shows pattern letters, date/time component, presentation, and examples." cellpadding="0"><tbody>     <tr bgcolor="#ccccff">       <th align="left">字母 </th>        <th align="left">日期或时间元素 </th>        <th align="left">表示 </th>        <th align="left">示例 </th>     </tr>      <tr>       <td><code>G</code> </td>        <td>Era 标志符 </td>        <td><a href="#text">Text</a> </td>        <td><code>AD</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>y</code> </td>        <td>年 </td>        <td><a href="#year">Year</a> </td>        <td><code>yyyy：1996</code>; yy：<code>96</code> </td>     </tr>      <tr>       <td><code>M</code> </td>        <td>年中的月份 </td>        <td><a href="#month">Month</a> </td>        <td><code>July</code>; <code>Jul</code>; <code>07</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>w</code> </td>        <td>年中的周数 </td>        <td><a href="#number">Number</a> </td>        <td><code>27</code> </td>     </tr>      <tr>       <td><code>W</code> </td>        <td>月份中的周数 </td>        <td><a href="#number">Number</a> </td>        <td><code>2</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>D</code> </td>        <td>年中的天数 </td>        <td><a href="#number">Number</a> </td>        <td><code>189</code> </td>     </tr>      <tr>       <td><code>d</code> </td>        <td>月份中的天数 </td>        <td><a href="#number">Number</a> </td>        <td><code>dd：02；d:2</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>F</code> </td>        <td>月份中的星期 </td>        <td><a href="#number">Number</a> </td>        <td><code>2</code> </td>     </tr>      <tr>       <td><code>E</code> </td>        <td>星期中的天数 </td>        <td><a href="#text">Text</a> </td>        <td><code>Tuesday</code>; <code>Tue</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>a</code> </td>        <td>Am/pm 标记 </td>        <td><a href="#text">Text</a> </td>        <td><code>PM</code> </td>     </tr>      <tr>       <td><code>H</code> </td>        <td>一天中的小时数（0-23） </td>        <td><a href="#number">Number</a> </td>        <td><code>0</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>k</code> </td>        <td>一天中的小时数（1-24） </td>        <td><a href="#number">Number</a> </td>        <td><code>24</code> </td>     </tr>      <tr>       <td><code>K</code> </td>        <td>am/pm 中的小时数（0-11） </td>        <td><a href="#number">Number</a> </td>        <td><code>0</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>h</code> </td>        <td>am/pm 中的小时数（1-12） </td>        <td><a href="#number">Number</a> </td>        <td><code>12</code> </td>     </tr>      <tr>       <td><code>m</code> </td>        <td>小时中的分钟数 </td>        <td><a href="#number">Number</a> </td>        <td><code>30</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>s</code> </td>        <td>分钟中的秒数 </td>        <td><a href="#number">Number</a> </td>        <td><code>ss：55</code> </td>     </tr>      <tr>       <td><code>S</code> </td>        <td>毫秒数 </td>        <td><a href="#number">Number</a> </td>        <td><code>SSS：978</code> </td>     </tr>      <tr bgcolor="#eeeeff">       <td><code>z</code> </td>        <td>时区 </td>        <td><a href="#timezone">General time zone</a> </td>        <td><code>Pacific Standard Time</code>; <code>PST</code>; <code>GMT-08:00</code> </td>     </tr>      <tr>       <td><code>Z</code> </td>        <td>时区 </td>        <td><a href="#rfc822timezone">RFC 822 time zone</a> </td>        <td><code>-0800</code> </td>     </tr>   </tbody></table>  <p>&#160;</p>  <p><strong>（1）Date转字符串</strong></p>  <blockquote>   <p>SimpleDateFormt format = new SimpleDateFormat(“给定样式字符串”);</p>    <p>String dateString = format.format(date);</p> </blockquote>  <p><strong>（2）字符串转Date</strong></p>  <blockquote>   <p>SimpleDateFormt format = new SimpleDateFormat(“给定样式字符串”);</p>    <p>Date date = format.parse(dateString);</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>货币格式化</strong></li> </ul>  <p><strong>NumberFormat</strong></p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/NumberFormat.html">NumberFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/NumberFormat.html#getCurrencyInstance%28%29">getCurrencyInstance</a></b>()</code>    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 返回当前默认语言环境的货币格式。</p>  <p><code>static <a href="http://localhost:8080/javaapi/java/text/NumberFormat.html">NumberFormat</a></code><code><b>&#160;&#160; <a href="http://localhost:8080/javaapi/java/text/NumberFormat.html#getCurrencyInstance%28java.util.Locale%29">getCurrencyInstance</a></b>(<a href="http://localhost:8080/javaapi/java/util/Locale.html">Locale</a> inLocale)</code>    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 返回指定语言环境的货币格式。</p>  <p>&#160;</p>  <p><strong>（1）将数字转换成代表货币的字符串</strong></p>  <blockquote>   <p>double money = 9999999.00;</p>    <p>NumberFormat format = NumberFormat.getCurrencyInstance(Locale.CHINA);</p>    <p>String moneyString = format.format(money);</p> </blockquote>  <p>结果：</p>  <blockquote>   <p>￥9,999,999.00</p> </blockquote>  <p><strong>（2）将字符串转换为数字</strong></p>  <blockquote>   <p>String moneyString = “￥9,999,999.00”;</p>    <p>NumberFormat format = NumberFormat.getCurrencyInstance(Locale.CHINA);</p>    <p>Number moneyNumber = format.parse(moneyString);</p>    <p>double money = moneyNumber.doubleValue();</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>动态文本格式化</strong></li> </ul>  <p><strong>MessageFormat</strong></p>  <p>例如有这样一则新闻</p>  <blockquote>   <p>At 12:30pm on jul 3,1998, a hurricance destoryed 99 houses and cause $1000000 of damage.</p> </blockquote>  <p>当一个语句中 有多个跟国际化相关的信息 可以使用该方法 方便的进行国际化操作</p>  <blockquote>   <p>String msg = “At {0, time, full} on {1, date, full}, a hurricance destoryed {2} houses and cause {3, number, currency} of damage.”//使用占位符替代语句中的国际化信息</p>    <p>//number date time choice</p>    <p>//short medium full long currency</p>    <p>MessageFormat format = new MessageFormat(msg, Locale.CHINA);</p>    <p>Calendar cal = Calendar.getInstance();</p>    <p>cal.set(1998, 6, 3, 12, 30, 0);&#160;&#160; //<font color="#ff0000"><strong>（注意！！！）月份减一</strong></font></p>    <p>Date date = cal.getTime();</p>    <p>String str = format.format(new Object[]{date, date, 99, 1000000});&#160; //调用方法将信息传入 自动拼接字符串</p></blockquote>
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					分页查询
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、两种分页方式</font></h5>  <p><strong>1.逻辑分页（很少用）</strong></p>  <p>把所有的信息都查出来 然后放在List中 通过逻辑语句获取分页信息</p>  <p>但是如果数据库记录太多了 可能导致内存溢出问题</p>  <p>而且和真实数据还可能有延迟 如果数据库记录被改掉了 它无法及时体现</p>  <p><strong>2.物理分页</strong></p>  <p>在SQL查询时 只检索需要的数据</p>  <p>M月SQL中 用limit关键字进行查询</p>  <blockquote>   <p>limit 从第几条开始（<font color="#ff0000">0</font><font color="#ff0000">代表第1条</font>） 取几条</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、物理分页实现思路</font></h5>
+		</div>
+	</div>
+	
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

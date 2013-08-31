@@ -88,10 +88,9 @@ div.main {
 }
 
 div.sidebar {
-	width: 230px;
+	width: 240px;
 	float: left;
-	background-color: #FFFFFF;
-	padding: 5px;
+	background-color: rgb(255, 255, 255);
 	overflow: hidden;
 }
 
