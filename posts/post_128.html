@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Tomcat的配置</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Tomcat的配置
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>tomcat的目录结构</strong></li>
+</ul>
+<blockquote> tomcat
+<p style="padding-left: 30px;">|-- bin  -  tomcat程序目录</p>
+<p style="padding-left: 60px;">|-- startup.bat  -  启动tomcat的bat文件</p>
+<p style="padding-left: 30px;">|-- conf  -  配置文件</p>
+<p style="padding-left: 60px;">|-- {引擎名}  -  引擎名（默认的是catalina 可以在server.xml里配置）虚拟路径配置目录</p>
+<p style="padding-left: 90px;">|-- {主机名}  -  在此设置主机名（默认是localhost 如果设置虚拟主机 这里写域名 www.yutouxiuxiu.cn）</p>
+<p style="padding-left: 120px;">|-- family#xiuxiu.xml  -  在此设置虚拟路径 # 表示下一级路径 family/xiuxiu虚拟路径配置文件</p>
+<p style="padding-left: 60px;">|-- server.xml  -  服务器配置文件 包括端口号 虚拟路径（但不推荐在此配置虚拟路径）</p>
+<p style="padding-left: 60px;">|-- tomcat-user.xml  -  用户配置文件 可以配置管理员的账号</p>
+<p style="padding-left: 30px;">|-- lib  -  tomcat支持jar包</p>
+<p style="padding-left: 30px;">|-- logs  -  日志文件</p>
+<p style="padding-left: 30px;">|-- temp  -  临时文件夹</p>
+<p style="padding-left: 30px;">|-- webapps  -  web应用程序路径</p>
+<p style="padding-left: 60px;">|-- {应用名}  -  应用所在路径 可以放置 .html .css .xml .js .jsp .jpg ...等资源</p>
+<p style="padding-left: 90px;">|-- WEB-INF  -  动态资源所在路径 放置java类（外界不能直接访问）</p>
+<p style="padding-left: 120px;">|-- classes  -  放置应用所需的编译后的java类 .class文件</p>
+<p style="padding-left: 120px;">|-- lib  -  放置应用所需的支持jar包</p>
+<p style="padding-left: 120px;">|-- web.xml  -  web配置文件（如果存在WEB-INF路径 此文件必须存在 且具有标准的根标签）</p>
+<p style="padding-left: 30px;">|-- work  -  tomcat的工作路径</p>
+</blockquote>
+<ul>
+	<li>配置端口</li>
+</ul>
+在conf/server.cml第50行附近
+<blockquote>&lt;Connector port="8080" protocol="HTTP/1.1"
+connectionTimeout="20000"
+redirectPort="8443" /&gt;</blockquote>
+可以将8080改成其他 注意不要发生冲突 可以在命令提示符中输入 net -nao查看端口占用情况 Win7的PID为进程的编号 在任务管理器里按“查看 - 选择列" 勾选PID便可看到
+<ul>
+	<li><strong><span style="line-height: 13px;">发布站点的几种方式</span></strong></li>
+</ul>
+<strong>1.直接放置到webapps目录</strong>
+<p style="padding-left: 30px;">webapps/目录名  这样可以在"http://localhost:8080/目录名" 访问到此应用</p>
+<strong>2.配置虚拟路径</strong>
+<p style="padding-left: 30px;">虚拟路径 可以让服务器虚拟将访问路径映射到webapps外的其他路径上 例如可以将"http://localhost:8080/yutou/"映射到 D:\web-app-yutou</p>
+<p style="padding-left: 30px;">配置虚拟路径的方法：</p>
+<p style="padding-left: 60px;">(1)在server.xml文件中配置（官方不推荐这种做法 一旦配置信息有无 服务器将无法启动）</p>
+<p style="padding-left: 60px;">(2)通过建立"conf/catalina/主机名/一级虚拟路径#二级虚拟路径....xml"来配置</p>
+<p style="padding-left: 90px;">xml文件名 就是虚拟的路径 映射的真是路径在xml文件中配置</p>
+
+<blockquote>&lt;Context docBase="真实路径（例如 D:\web-app-yutou）" /&gt;</blockquote>
+<strong>3.通过war包发布（把项目代码打成war包）</strong>
+<p style="padding-left: 30px;">打好的站点war包可以直接放置到webapps路径下 重启tomcat 可以看到它被自动解压并部署</p>
+<p style="padding-left: 30px;">war包的3种打包方式</p>
+<p style="padding-left: 60px;"> (1)用命令打包</p>
+<p style="padding-left: 60px;">(2)用zip方式压缩站点目录 改成.war</p>
+<p style="padding-left: 60px;">(3)用eclipse打包发布</p>
+
+<ul>
+	<li><strong> 管理员的配置</strong></li>
+</ul>
+在文件conf/tomcat-user.xml中 根标签下添加
+<blockquote>&lt;role rolename="manager"/&gt;
+&lt;role rolename="standard"/&gt;
+&lt;user username="用户名" password="密码" roles="standard,manager"/&gt;</blockquote>
+<ul>
+	<li><strong>虚拟主机的配置</strong></li>
+</ul>
+<strong>引擎和默认虚拟主机配置</strong>
+<blockquote>&lt;Engine name="Catalina" defaultHost="localhost"&gt;
+
+name是引擎名 defaultHost是默认的主机名 就是用ip访问的时候启动的虚拟主机</blockquote>
+<strong>虚拟主机配置</strong>
+<blockquote>&lt;Host name="www.yutouxiuxiu.cn" appBase="webapps"
+unpackWARs="true" autoDeploy="true"
+xmlValidation="false" xmlNamespaceAware="false"&gt;
+
+name是虚拟主机名 appBase是虚拟主机的目录
+
+&lt;Context path="" appBase="webapps" /&gt;
+
+这样可以让访问www.yutouxiuxiu.cn就直接访问webapps里的内容 就像apache里的www一样</blockquote>
+<ul>
+	<li><strong>注意事项</strong></li>
+</ul>
+1.Tomcat启动需要<span style="color: #ff0000;">JAVA_HOME</span>环境变量
+
+2.startup.bat会启动<span style="color: #ff0000;">CATALINA_HOME</span>环境变量里配置路径下的Tomcat 而不管运行的是哪里的startup.bat 多个Tomcat时需要注意这个问题
+
+3.Tomcat的配置文件中<span style="color: #ff0000;">不能出现中文 包括注释</span>
+
+4.官方不建议配置server.xml 因为一旦出错 就无法启动Tomcat了
+
+5.有WEB-INF目录 就一定要有web.xml 并且内部有根标签
+<p style="padding-left: 30px;">其根标签形式为：</p>
+
+<blockquote>&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+version="2.5"&gt;
+
+&nbsp;
+
+&lt;/web-app&gt;</blockquote>
+6.打war包要用zip压缩然后改扩展名 不能用rar压缩
+
+7.粘贴新的class文件之后 它不能自动加载 需要在Tomcat Manager里Reload以下
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

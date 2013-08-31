@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>XML的约束 Schema约束</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				XML的约束 Schema约束
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>为什么要用Schema</strong></li>
+</ul>
+<p style="padding-left: 30px;">DTD有所不足 对具体的数据类型无法限定 所以可以用Schema约束 还支持数据范围 还有自定义数据类型</p>
+<p style="padding-left: 30px;">Schema正在逐渐的取代DTD的位置 但是Schema的语法比较复杂</p>
+<p style="padding-left: 30px;">它也是一个XML文档（.xsd） <span style="text-decoration: underline;">必须有根节点（schema）</span></p>
+<p style="padding-left: 60px;">W3C  --------  约束文件  --------  XML</p>
+<p style="padding-left: 60px;">    ↓                （模式文档）      （实例文档）</p>
+<p style="padding-left: 60px;">    ↓          约束                         约束</p>
+<p style="padding-left: 60px;">绑定到一个网址（名称空间）是W3C预先定义好的</p>
+
+<blockquote>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+targetNamespace="http://www.yutouxiuxiu.cn/family"
+
+elementFormDefault="qualified"&gt;
+
+1.定义xs指向那个名称空间 Schema也是xml也需要约束
+
+2.targetNamespace 目标名称空间 这个约束文档的名称空间
+
+3.名称空间必须唯一
+
+4.qualified 将下面所有的标签都绑定到这个目标名称空间上 unqualified质量不好的 只将根标签绑定到这个目标名称空间上
+<p style="padding-left: 30px;">&lt;xs:element.....</p>
+&lt;/schema&gt;</blockquote>
+<p style="padding-left: 30px;">支持名称空间</p>
+<p style="padding-left: 60px;">可以引多个Schema约束</p>
+
+<ul>
+	<li><strong>引入</strong></li>
+</ul>
+<strong>引入一个或多个Schema约束文档</strong>
+<blockquote>&lt;yu:根标签 xmlns="默认名称空间"
+
+xmlns:yu="http://www.yutouxiuxiu.cn/family"
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+xsi:schemaLocation="默认名称空间[空格]默认名称空间的schema.xsd[空格] http://www.yutouxiuxiu.cn/family[空格]schema.xsd"&gt;
+
+1.定义变量yu指向yutouxiuxiu名称空间
+
+2.定义变量xsi指向w3c名称空间 因为解析引擎内置w3c的名称空间 所以不用指定它的位置
+
+3.schemaLocation是属于w3c的约束文档的所以前边要加xsi
+
+4.schemaLocation是指定yutouxiuxiu名称空间的文件位置的
+
+5.声明了多个名称空间 每个都要指定它的文档在哪里
+<p style="padding-left: 30px;">&lt;yu:person id="0" yu:sex="female"&gt;......</p>
+<p style="padding-left: 60px;">&lt;name&gt;</p>
+<p style="padding-left: 60px;">6.如果前面没写冒号（id和name） 就说明它是默认名称空间</p>
+&lt;/yu:根标签&gt;</blockquote>
+<strong>没有名称空间的引入（不推荐）</strong>
+<blockquote>&lt;根标签 xml:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema.xsd"&gt;
+<p style="padding-left: 30px;">......</p>
+&lt;/根标签&gt;</blockquote>
+<ul>
+	<li><strong>Schema的语法</strong></li>
+</ul>
+<strong>1.简单元素</strong>
+<blockquote>&lt;xs:element name="xxx" type="" [default="默认值"]/[fixed="固定值"]/&gt;
+<p style="padding-left: 30px;">type:</p>
+<p style="padding-left: 60px;">xs:string</p>
+<p style="padding-left: 60px;">xs:decimal</p>
+<p style="padding-left: 60px;">...</p>
+</blockquote>
+<strong>2.属性</strong>
+<blockquote><span style="color: #c0c0c0;">&lt;xs:element name=""&gt;</span>
+<p style="text-align: left; padding-left: 30px;">&lt;xs:attribute name="xxx" type="" [default="默认值"]/[fixed="固定值"][use="[un]required"]/&gt;</p>
+<p style="text-align: left; padding-left: 30px;"><span style="color: #c0c0c0;">&lt;xs:complexType&gt;</span></p>
+</blockquote>
+<p style="text-align: left;"><strong>3.限定</strong></p>
+<p style="text-align: left; padding-left: 30px;">(1)范围的限定</p>
+
+<blockquote>
+<p style="text-align: left;"><span style="color: #c0c0c0;">&lt;xs:element name=""&gt;</span></p>
+<p style="text-align: left; padding-left: 30px;"><span style="color: #c0c0c0;">&lt;xs:simpleType&gt;</span></p>
+<p style="text-align: left; padding-left: 60px;">&lt;xs:restriction base="xs:integer"&gt;</p>
+<p style="text-align: left; padding-left: 90px;">&lt;xs:minInclusive value="0" /&gt;</p>
+<p style="text-align: left; padding-left: 90px;">&lt;xs:maxInclusive value="120" /&gt;</p>
+<p style="text-align: left; padding-left: 60px;">&lt;/xs:restriction&gt;</p>
+<p style="text-align: left; padding-left: 30px;"><span style="color: #c0c0c0;">&lt;/xs:simpleType&gt;</span></p>
+<p style="text-align: left;"><span style="color: #c0c0c0;">&lt;/xs:element&gt;</span></p>
+<p style="text-align: left;">base 是数据要基于什么类型 然后有个范围</p>
+</blockquote>
+<p style="text-align: left; padding-left: 30px;">(2)枚举的限定</p>
+
+<blockquote><span style="color: #c0c0c0;">&lt;xs:element name=""&gt;</span>
+<p style="padding-left: 30px;"><span style="color: #c0c0c0;">&lt;xs:simpleType&gt;</span></p>
+<p style="padding-left: 60px;">&lt;xs:restriction base="xs:string"&gt;</p>
+<p style="padding-left: 90px;">&lt;xs:enumeration value="yutou" /&gt;</p>
+<p style="padding-left: 90px;">&lt;xs:enumeration value="xiuxiu" /&gt;</p>
+<p style="padding-left: 60px;">&lt;/xs:restriction&gt;</p>
+<p style="padding-left: 30px;"><span style="color: #c0c0c0;">&lt;/xs:simpleType&gt;</span></p>
+<span style="color: #c0c0c0;">&lt;/xs:element&gt;</span></blockquote>
+<p style="padding-left: 30px;">还有很多 请参w3c school</p>
+<strong>4.复杂元素</strong>
+
+空标签
+
+包含其他元素
+<blockquote><span style="color: #c0c0c0;">&lt;xs:element name=""&gt;</span>
+<p style="padding-left: 30px;">&lt;xs:complexType&gt;</p>
+<p style="padding-left: 60px;">&lt;xs:sequence base="xs:string"&gt;</p>
+<p style="padding-left: 90px;">&lt;xs:element name="name" /&gt;</p>
+<p style="padding-left: 90px;">&lt;xs:element name="age" /&gt;</p>
+<p style="padding-left: 60px;">&lt;/xs:sequence&gt;</p>
+<p style="padding-left: 30px;">&lt;/xs:complexType&gt;</p>
+<span style="color: #c0c0c0;">&lt;/xs:element&gt;</span></blockquote>
+仅包含文本元素
+
+既包含其他元素又包含文本
+<blockquote>eg：&lt;description&gt;It happened on &lt;date&gt;2013-08-09&lt;/date&gt;&lt;/description&gt;</blockquote>
+&nbsp;
+
+<strong>5.指示器</strong>
+<p style="padding-left: 30px;">sequence  -  有顺序的</p>
+<p style="padding-left: 30px;">choice  -  有选择的（几选一）</p>
+<p style="padding-left: 30px;">all  -  随意（里边的东西可以出现也可以不出现出现几个都行）</p>
+<p style="padding-left: 30px;"></p>
+<p style="padding-left: 30px;">maxOccurs  -  最大出现次数 unbounded 无上限</p>
+<p style="padding-left: 30px;">minOccurs  -  最小出现次数</p>
+
+<ul>
+	<li><strong><span style="line-height: 13px;">疑问</span></strong></li>
+</ul>
+<span style="line-height: 13px;">1.为什么加了约束就不能检测重复添加的了？</span>
+<p style="padding-left: 30px;">名称空间的问题</p>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

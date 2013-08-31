@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>wordpress更改域名之后发生问题的处理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				wordpress更改域名之后发生问题的处理
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		执行SQL语句：
+
+<blockquote>
+UPDATE wp_posts SET post_content = 
+REPLACE(post_content, 'http://www.coridc.com/blog', 'http://www.coridc.com')
+</blockquote>
+这里前面的地址为原博客地址，后面地址为新博客域名地址， 执行后刷新下文章就能发现，图片地址已更新成新博客地址。 另附几个常用的WordPress SQL 语句： 1 变更Siteurl &amp; Homeurl WordPress将站点URL的绝对路径和本地URL保存在数据库中。因此，如果你将WordPress站点从本地主机转到你的服务器，你的站点不会加载网络，因为你的绝对路径URL仍然指向你的本地主机。你需要改变站点URL和本地URL，网站才能运作。 解决办法:
+
+<blockquote>
+UPDATE wp_options SET option_value = 
+REPLACE(option_value, 'http://www.oldsiteurl.com', 'http://www.newsiteurl.com')
+WHERE option_name = 'home' OR option_name = 'siteurl';
+</blockquote>
+
+2 更改内容中的URL WordPress保存在数据库中的URL链接使用绝对路径而非相对路径。在每个发布文章的记录中，它保存的是旧的URL引用旧的资源。因此，如果你需要将这些URL转的新的域名位置，就可以使用下面的方法。 解决办法:
+
+<blockquote>
+UPDATE wp_posts SET post_content = 
+REPLACE(post_content, 'http://www.coridc.com/blog', 'http://www.coridc.com')
+</blockquote>
+
+3 更新文章Meta标签 更新文章Meta标签的方法与更新文章内容中URL方法几乎一致。如果你给每篇文章保存了额外的URL数据，你可以使用下面的查询来更改。 解决办法:
+
+<blockquote>
+UPDATE wp_postmeta SET meta_value = 
+REPLACE (meta_value, 'http://www.oldsiteurl.com', 'http://www.newsiteurl.com');
+</blockquote>
+
+4 更改默认的”Admin” 用户名 安装WordPress后，会默认创建一个 “admin” 的账户名。这一点只要有使用WordPress的用户都知道。不过，这可能会带来一个安全问题，因为黑客很容易侵入并控制你的WordPress管理面板。如果你可以对这个默认的 “Admin” 用户名进行修改将会提高WordPress管理面板的安全性。 解决办法:
+
+<blockquote>
+UPDATE wp_users SET user_login = 'Your New Username' WHERE user_login = 'Admin';
+</blockquote>
+
+5 将所有的B作者的文章归入A作者 如果你想将所有的B作者下的文章转移到A作者名下，一篇一篇移动起来将会非常耗时。使用下面的SQL查询，你可以轻松地访问所有的记录将B作者的文章转到A作者下。 首先你需要进入WordPress管理面板的作者和用户页面获得作者的ID。点击作者名查看个人资料，在地址栏，查找”user_id”。得到的就是我们需要的作者ID信息。 解决办法:
+
+<blockquote>
+UPDATE wp_posts SET post_author = 'new-author-id' WHERE post_author = 'old-author-id';
+</blockquote>
+
+6 删除草稿 在WordPress中编辑一篇文章时，系统会保存多份修订的副本。由于过多的修订记录会加重数据库的负担造成了资源的浪费。并且，随着时间的推移，当你的文章条目达到上千条是，你的数据库就会变得越来越庞大。这样就会增加了循环迭代、数据检索影响页面的加载时间。 解决办法:
+
+<blockquote>
+DELETE a,b,c FROM wp_posts a    
+LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id)    
+LEFT JOIN wp_postmeta c ON (a.ID = c.post_id)    
+WHERE a.post_type = 'revision'
+</blockquote>
+
+7 删除文章Meta标签 在WordPress的使用中，安装或删除插件是非常经常的。有些插件利用post meta 来存储插件相关的数据。就算你删除了这些插件，这些不必要的数据仍然保留在post_meta表格里。 你可以使用下面的语句来清除不需要的post meta 值。这将有助于加快你的数据库运行速度，减小数据。 解决办法:
+
+<blockquote>
+DELETE FROM wp_postmeta WHERE meta_key = 'your-meta-key';
+</blockquote>
+
+8 导出所有的评论邮件地址 经过一点时间，你的博客可能收到了非常多评论。这些评论里包含了评论者留下的邮件地址。你可以取回这些邮件地址列入你的邮件列表中。 解决办法:
+
+<blockquote>
+SELECT DISTINCT comment_author_email FROM wp_comments;
+</blockquote>
+
+获得结果后，在查询结果的操作中，选择导出导出 所有的邮件。 9 删除所有的Pingback 热门文章会获得非常多的pingback。这样，你的数据库就变大，为了减小数据库，你可以尝试将所有这些pingbacks删除。 解决办法:
+
+<blockquote>
+DELETE FROM wp_comments WHERE comment_type = 'pingback';
+</blockquote>
+
+10 删除所有的垃圾评论 如果碰到非常多垃圾评论，一个个删除的话讲会非常头疼。而是用下面的SQL 查询，就算你要删除五百多条垃圾评论也变得轻而易举了。 解决办法:
+
+<blockquote>
+DELETE FROM wp_comments WHERE comment_approved = 'spam';
+0 = Comment Awaiting Moderation
+1 = Approved Comment
+spam = Comment marked AS Spam
+</blockquote>
+
+11 确定未使用的标签 在WordPress数据库中，如果你使用一个查询语句手动来删除旧的文章，旧的标签却仍然会保留并在你的标签云/列表中出现。你可以使用下面的方法识别未使用的标签并将它删除。 解决办法:
+
+<blockquote>
+SELECT * FROM wp_terms wt    
+INNER JOIN wp_term_taxonomy wtt ON wt.term_id=wtt.term_id    
+INNER JOIN wp_term_relationships wtr ON wtr.term_taxonomy_id=wtt.term_taxonomy_id    
+LEFT JOIN wp_posts wp ON wp.ID=wtr.object_id    
+WHERE taxonomy='post_tag'   
+AND ID IS NULL   
+AND NOT EXISTS(SELECT * FROM wp_terms wt2    
+INNER JOIN wp_term_taxonomy wtt2 ON wt2.term_id=wtt2.term_id WHERE wtt2.parent=wt.term_id) ORDER BY name;
+</blockquote>
+
+12 重设密码 想重设WordPress的密码，但是却由于各种各样的原因却无法使用重设密码这个选项？ 解决办法:
+
+<blockquote>
+UPDATE wp_users SET user_pass = MD5( 'new_password' ) WHERE user_login = 'your-username';
+</blockquote>
+
+&nbsp;
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

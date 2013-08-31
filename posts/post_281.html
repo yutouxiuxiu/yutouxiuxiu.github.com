@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>验证码的生成</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				验证码的生成
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>实现思路<br />
+		</strong></li>
+</ul>
+<p>1.生成图片</p>
+<p style="margin-left: 40px;">BufferedImage</p>
+<p><code><b><a href="http://localhost:8080/javaapi/java/awt/image/BufferedImage.html#BufferedImage(int, int, int)">BufferedImage</a></b>(int width, int height, int imageType)</code> <br />
+	构造一个类型为预定义图像类型之一的 <code>BufferedImage</code>。</p>
+<p style="margin-left: 40px;">&nbsp;</p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://localhost:8080/javaapi/java/awt/Graphics.html" title="java.awt 中的类">Graphics</a></code></font></td>
+			<td><code><b><a href="http://localhost:8080/javaapi/java/awt/image/BufferedImage.html#getGraphics()">getGraphics</a></b>()</code> <br />
+				此方法返回 <a href="http://localhost:8080/javaapi/java/awt/Graphics2D.html" title="java.awt 中的类"><code>Graphics2D</code></a>，但此处是出于向后兼容性的考虑。</td>
+		</tr>
+	</tbody>
+</table>
+<p>&nbsp;</p>
+<p>2.产生随机数</p>
+<p style="margin-left: 40px;">Random类 或者 Math.random()</p>
+<p>2.向图片上写文字</p>
+<p style="margin-left: 40px;">Graphics2D（比父类Graphics有更多方法 可以进行旋转）</p>
+<p><a href="./javaapi/java/awt/Graphics2D.html">.</a><a href="javaapi/java/awt/Graphics2D.html">/javaapi/java/awt/Graphics2D.html</a></p>
+<p>3.显示出来</p>
+<p style="margin-left: 40px;">ImageIO</p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code>static boolean</code></font></td>
+			<td><code><b><a href="http://localhost:8080/javaapi/javax/imageio/ImageIO.html#write(java.awt.image.RenderedImage, java.lang.String, java.io.OutputStream)">write</a></b>(<a href="http://localhost:8080/javaapi/java/awt/image/RenderedImage.html" title="java.awt.image 中的接口">RenderedImage</a> im, <a href="http://localhost:8080/javaapi/java/lang/String.html" title="java.lang 中的类">String</a> formatName, <a href="http://localhost:8080/javaapi/java/io/OutputStream.html" title="java.io 中的类">OutputStream</a> output)</code> <br />
+				使用支持给定格式的任意 <code>ImageWriter</code> 将一个图像写入 <code>OutputStream</code>。</td>
+		</tr>
+	</tbody>
+</table>
+<ul>
+	<li>代码实现</li>
+</ul>
+<p>在Servlet的doGet或doPost方法中</p>
+<blockquote>
+	<p>//创建图片</p>
+	<p>int width = 120;</p>
+	<p>int height = 30;</p>
+	<p>BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);</p>
+	<p>&nbsp;</p>
+	<p>//随机数</p>
+	<p>String words = &quot;QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890&quot;;</p>
+	<p>Random random = new Random();</p>
+	<p>char[] c = new char[4];</p>
+	<p>for (int i = 0; i &lt; 4; i++) {</p>
+	<p style="margin-left: 40px;">int index = random.nextInt(words.length());//生成字符串长度范围的随机数</p>
+	<p style="margin-left: 40px;">c[i] = words.charAt(index);</p>
+	<p>}</p>
+	<p>&nbsp;</p>
+	<p>//写在图片上</p>
+	<p>Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();//获得画笔</p>
+	<p>g2d.setColor(Color.GRAY);</p>
+	<p>g2d.fillRect(0, 0, width, height);//绘制背景</p>
+	<p>g2d.setFont(new Font(&quot;宋体&quot;, Font.BOLD, 18));</p>
+	<p>g2d.setColor(Color.BLUE);</p>
+	<p>for (int i = 0; i &lt; 4; i++) {</p>
+	<p style="margin-left: 40px;">//文字歪歪扭扭</p>
+	<p style="margin-left: 40px;">//弧度 = 角度 * PI /&nbsp;</p>
+	<p style="margin-left: 40px;">double theta = Math.PI * (random.nextInt(60) - 30) / 180;//角度在-30~+30之间</p>
+	<p style="margin-left: 40px;">g2d.rotate(theta, x, 20);//按照弧度旋转画笔（根据某个点旋转）</p>
+	<p style="margin-left: 40px;">g2d.drawString(c[i] + &quot;&quot;, 15 + i * 25, 20);//写字</p>
+	<p style="margin-left: 40px;">g2d.rotate(-theta, x, 20);//写完一个字之后要转回去 防止下一个字在之前的基础上转</p>
+	<p>}</p>
+	<p>&nbsp;</p>
+	<p>//干扰线</p>
+	<p>g2d.setColor(Color.GREEN);</p>
+	<p>int x1, x2, y1, y2;</p>
+	<p>for (int i = 0; i &lt; 5; i++) {</p>
+	<p style="margin-left: 40px;">x1 = random.nextInt(width);</p>
+	<p style="margin-left: 40px;">x2 = random.nextInt(width);</p>
+	<p style="margin-left: 40px;">y1 = random.nextInt(height);</p>
+	<p style="margin-left: 40px;">y2 = random.nextInt(height);</p>
+	<p style="margin-left: 40px;">g2d.drawLine(x1, y1, x2, y2);</p>
+	<p>}</p>
+	<p>&nbsp;</p>
+	<p>//输出图片</p>
+	<p>ImageIO.write(bufferedImage, &quot;jpg&quot;, response.getOutputStream());</p>
+</blockquote>
+<ul>
+	<li><strong>关于汉字验证码<br />
+		</strong></li>
+	<li><strong>用Session完成验证码的校验</strong></li>
+	<li><strong>看不清换一个</strong></li>
+</ul>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

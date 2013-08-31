@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Cookie记录上次操作的时间</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Cookie记录上次操作的时间
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<p>在service方法里</p>
+<blockquote>
+	<p>public void doGet(HttpServletRequest request, HttpServletResponse response) <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws ServletException, IOException { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.setContentType(&quot;text/html;charset=UTF-8&quot;); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.setCharacterEncoding(&quot;UTF-8&quot;); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //取出时一个数组 因为可能存了许多cookie <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie[] cookies = request.getCookies(); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //通用的方法 在数组中查找指定名称的cookie <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie cookie = getCookie(cookies, &quot;lastVisit&quot;); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //判断是否为第一次访问 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cookie == null) { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.getWriter().println(&quot;第一次访问&quot;); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //取出cookie的值 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long lastVisit = Long.parseLong(cookie.getValue()); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date date = new Date(lastVisit); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.getWriter().println(&quot;上次操作 &quot; + date.toLocaleString()); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //给浏览器返回本次访问时间cookie <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie c = new Cookie(&quot;lastVisit&quot;, System.currentTimeMillis()+&quot;&quot;); <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response.addCookie(c); <br />
+		&nbsp;&nbsp;&nbsp; }</p>
+	<p>&nbsp;&nbsp;&nbsp; /** <br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 获取指定的cookie信息 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * @param cookies Cookie数组 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * @param string 查找的信息名称 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * @return 所要查找的cookie <br />
+		&nbsp;&nbsp;&nbsp;&nbsp; */ <br />
+		&nbsp;&nbsp;&nbsp; private Cookie getCookie(Cookie[] cookies, String cookieName) { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cookies == null) { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return null;&nbsp;&nbsp;&nbsp; //没有携带任何的cookie信息 <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (Cookie c : cookies) { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (c.getName().equals(cookieName)) { <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return c; <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return null;&nbsp;&nbsp;&nbsp; //为找到指定名称的cookie <br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br />
+		&nbsp;&nbsp;&nbsp; }</p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">这样注意 浏览器关掉之后 消息就没有了</font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以设置成永久级的Cookie</font></p>
+<blockquote>
+	<p>c.setMaxAge(60*60);//保存在本地1小时</p>
+</blockquote>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

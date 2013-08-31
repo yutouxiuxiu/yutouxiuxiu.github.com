@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>JSP的概述和执行过程</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				JSP的概述和执行过程
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>   <li><span style="background-color: #f6f6f6; color: #545454"><strong>JSP的作用</strong></span> </li> </ul>  <p><span style="background-color: #f6f6f6; color: #545454">SUN公司推出了两种动态网页开发技术</span></p>  <p><span style="background-color: #f6f6f6; color: #545454">&#160;&#160;&#160;&#160;&#160;&#160;&#160; Servlet，JSP（Java Server Pages）</span></p>  <p><span style="background-color: #f6f6f6; color: #545454">用Servlet进行页面的布局很麻烦 不能与ASP，PHP技术相抗衡 于是就推出了JSP</span></p>  <p><span style="background-color: #f6f6f6; color: #545454">JSP就主要用来设计动态的页面</span></p>  <p><span style="background-color: #f6f6f6; color: #545454">JSP就相当于 JAVA+HTML</span></p>  <ul>   <li><span style="background-color: #f6f6f6; color: #545454"><strong>JSP的执行过程</strong></span> </li> </ul>  <p><span style="background-color: #f6f6f6; color: #545454">会在第一次访问的时候翻译成Servlet（它继承了Servlet）到tomcat/work下（java源代码）然后再编译成class文件 并执行</span></p>  <ul>   <li><strong>JSP的脚本元素</strong> </li> </ul>  <p>在JSP里写Java代码的方式</p>  <p><strong>1.声明标签</strong></p>  <blockquote>   <p>&lt;%!&#160; %&gt;</p> </blockquote>  <p><span style="background-color: #f6f6f6; color: #545454">&#160;&#160;&#160;&#160;&#160;&#160;&#160; 这里的内容会被定义成全局 有线程安全问题 所以不常用</span></p>  <p><span style="background-color: #f6f6f6; color: #545454">&#160;&#160;&#160;&#160;&#160;&#160;&#160; 定义的变量变成全局变量 定义的类变成内部类</span></p>  <blockquote>   <p>&lt;%! int a = 1; %&gt;</p> </blockquote>  <p><strong>2.程序代码标签</strong></p>  <blockquote>   <p>&lt;%</p>    <p>%&gt;</p> </blockquote>  <p>直接写Java代码 会被放到service方法中</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 在这里输出就写 out.println(“”); 就行</p>  <p><font color="#ff0000">如何导包</font></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 在没有包的代码上 Alt+/ 然后回车</p>  <p>在最上面</p>  <blockquote>   <p>&lt;%@page import=””%&gt;</p> </blockquote>  <p><strong>3.表达式标签</strong></p>  <blockquote>   <p>&lt;%=表达式%&gt;</p> </blockquote>  <p>会被翻译成</p>  <p>可以直接输出 <span style="text-decoration: underline"><span style="color: #ff0000">表达式后边不要写分号 要挨着不要有空格</span></span></p>  <p><span style="color: #000000">这些都可以和HTML穿插着写 Java代码要用脚本元素标签括起来 就和PHP，ASP差不多</span></p>  <ul>   <li><span style="color: #000000"><strong>EL表达式</strong></span> </li> </ul>  <p><span style="color: #000000">EL（Expression Language）</span></p>  <blockquote>   <p><span style="color: #000000">${EL表达式}</span></p> </blockquote>  <p><span style="color: #000000">来取<span style="text-decoration: underline">域对象（SerletContext，HttpServletRequest）</span>存的值</span></p>  <p><span style="color: #000000">eg</span></p>  <blockquote>   <p>&lt;%     <br />getServletContext().setAttribute(&quot;name&quot;, &quot;yutou&quot;);      <br />request.setAttribute(&quot;name&quot;, &quot;xiuxiu&quot;);      <br />%&gt;</p>    <p>应用范围的name：${ applicationScope.name }&lt;br/&gt;     <br />request范围的name：${ requestScope.name }</p> </blockquote>  <p><span style="background-color: #f6f6f6; color: #545454"><strong>用这种方式获取值的时候的好处</strong></span></p>  <p><span style="background-color: #f6f6f6; color: #545454">&#160;&#160;&#160;&#160;&#160;&#160;&#160; 用传统方式取值之前 没有设置值的话 会显示null 还得出现空指针异常</span></p>  <blockquote>   <p><span style="background-color: #f6f6f6; color: #545454">&lt;%=request.getAttribute(“name”)%&gt;</span></p> </blockquote>  <p><span style="background-color: #f6f6f6; color: #545454">&#160;&#160;&#160;&#160;&#160;&#160;&#160; 用这种方式 如果没有设置 会给转为空的字符串显示 不会出异常</span></p>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

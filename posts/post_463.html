@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>JSTL</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				JSTL
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<h5><font style="font-weight: bold">一、简述</font></h5>
+<p>JSTL（JavaServerPages Standard Tag Library）JSP的标准标签库</p>
+<p>和EL表达式结合 可以完全替代&lt;%%&gt; 提高程序的可读性和可维护性</p>
+<p>EL表达式 不能做判断和循环 JSTL可以完成这个功能</p>
+<p><strong>版本：</strong></p>
+<blockquote>
+	<p>1.0 - JavaEE1.3 1.4之前EL还没有被纳入正式的官方规范</p>
+	<p>1.1 - JavaEE1.4</p>
+	<p>1.2 - 和1.1几乎差不多 没什么太大变化</p>
+</blockquote>
+<h5><font style="font-weight: bold">二、使用</font></h5>
+<p><strong>1.需要下载引入支持jar包</strong></p>
+<blockquote>
+	<p>jstl.jar&nbsp; -&nbsp; 使用到的接口类</p>
+	<p>standard.jar&nbsp; -&nbsp; 使用到的具体实现类</p>
+	<p>&nbsp;&nbsp; |--&nbsp; META-INF</p>
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&mdash; *.tld&nbsp; -&nbsp; 所有的标签库</p>
+	<p><span style="color:#f00;"><strong>JavaEE5 之后 都内置了jstl包 不用导了<br />
+		</strong></span></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>2.在jsp文件中引入标签</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">引入c标签库（c.tld）</font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">看它的文件里面有 short-name和uri 把他们用taglib引入</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;%@ taglib uri=&rdquo;http://java.sun.com/jsp/jstl/core&rdquo; prefix=&rdquo;c&rdquo; %&gt;</font></p>
+	<p><font color="#ff0000">（注意！！！）</font> 如果uri写错了 比如少写了一个jsp 它就变成了1.0版本的 就不支持EL表达式了</p>
+	<p><a href="http://java.sun.com/jsp/jstl/core">http://java.sun.com/jsp/jstl/core</a>&nbsp; -&nbsp; 1.1</p>
+	<p><a href="http://java.sun.com/jstl/core">http://java.sun.com/jstl/core</a> &ndash; 1.0</p>
+	<p><a href="http://java.sun.com/jstl/core-rt">http://java.sun.com<font color="#545454">/</font>jstl/core-rt</a> &ndash; 1.0 并支持EL</p>
+</blockquote>
+<p><strong>3.使用标签</strong></p>
+<blockquote>
+	<p>&lt;c:&hellip;/&gt;</p>
+	<h5>&nbsp;</h5>
+</blockquote>
+<p><strong>举个栗子</strong></p>
+<blockquote>
+	<p>&lt;c: set var=&rdquo;n&rdquo; value=&rdquo;10&rdquo; scope=&rdquo;page&rdquo;&gt;&lt;/c: set&gt;</p>
+	<p>&lt;c:if test=&rdquo;${ n &gt; 5 }&rdquo;&gt;</p>
+	<p>&nbsp;&nbsp; n &gt; 5</p>
+	<p>&lt;/c:if&gt;</p>
+	<p>&lt;c:if test=&rdquo;${ n &lt;= 5 }&rdquo;&gt;</p>
+	<p>&nbsp;&nbsp; n &lt;= 5</p>
+	<p>&lt;/c:if&gt;</p>
+</blockquote>
+<p>&nbsp;</p>
+<h5><font style="font-weight: bold">三、核心标签库（Core）</font></h5>
+<p>还有SQL标签，XML标签，国际化用的标签 不过暂时用不到</p>
+<p><strong>1.out</strong></p>
+<p>将内容输出到页面</p>
+<p><strong>属性：</strong></p>
+<blockquote>
+	<p>value&nbsp; -&nbsp; 输出的内容 常量 或 变量的EL表达式</p>
+	<p>default&nbsp; -&nbsp; 默认值</p>
+	<p>escapeXml&nbsp; -&nbsp; 默认为true 是否转义HTML</p>
+</blockquote>
+<p><strong>（1）输出常量</strong></p>
+<blockquote>
+	<p>&lt;c: out value=&rdquo;hello yutou&rdquo;&gt;&lt;/c: out&gt;</p>
+</blockquote>
+<p><strong>（2）输出变量</strong></p>
+<p>&nbsp;&nbsp;&nbsp; 先用set标签设置属性</p>
+<blockquote>
+	<p>&lt;c: out value=&rdquo;${ 变量名 }&rdquo;&gt;&lt;/c: out&gt;</p>
+</blockquote>
+<p><strong>（3）输出默认值</strong></p>
+<p>&nbsp;&nbsp;&nbsp; 如果没有设置city的值 就输出默认值</p>
+<blockquote>
+	<p>&lt;c: out value=&rdquo;${ city }&rdquo; default=&rdquo;北京&rdquo;&gt;&lt;/c: out&gt;</p>
+</blockquote>
+<p><strong>（4）转义HTML代码输出</strong></p>
+<p>直接显示HTML的内容</p>
+<blockquote>
+	<p>&lt;c: out value=&rdquo;&lt;a href=&rsquo;#&rsquo;&gt;link&lt;/a&gt;&rdquo;&gt;</p>
+</blockquote>
+<p>会输出&lt;a href=&rsquo;#&rsquo;&gt;link&lt;/a&gt; 而不会变成一个链接 要输出成一个链接 请参考escapeXml</p>
+<p><strong>2.set</strong></p>
+<p><strong>属性：</strong></p>
+<blockquote>
+	<p>var&nbsp; -&nbsp; 变量名称</p>
+	<p>value&nbsp; -&nbsp; 变量值</p>
+	<p>scope&nbsp; -&nbsp; 作用范围（page, request, session, application）</p>
+	<p>target&nbsp; -&nbsp; 作用目标对象</p>
+	<p>property&nbsp; -&nbsp; 对象的属性名称</p>
+</blockquote>
+<p><strong>（1）设置值到四个作用范围</strong></p>
+<blockquote>
+	<p>&lt;c: set var=&rdquo;name&rdquo; value=&rdquo;value&rdquo; scope=&rdquo;page&rdquo;&gt;&lt;/c: set&gt;</p>
+</blockquote>
+<p><strong>（2）设置属性值到四个范围中的JavaBean对象</strong></p>
+<blockquote>
+	<p>&lt;%</p>
+	<p>Person p = new Person();</p>
+	<p>p.setName(&ldquo;yutou&rdquo;);</p>
+	<p>pageContext.setAttribute(&ldquo;p&rdquo;, p);</p>
+	<p>%&gt;</p>
+	<p>&lt;c: set target=&rdquo;${ p }&rdquo; property=&rdquo;name&rdquo; value=&rdquo;xiuxiu&rdquo;&gt;&lt;/c: set&gt;</p>
+</blockquote>
+<p><strong>3.remove</strong></p>
+<p><strong>属性：</strong></p>
+<blockquote>
+	<p>var&nbsp; -&nbsp; 变量名</p>
+	<p>scope&nbsp; -&nbsp; 作用范围 默认是page</p>
+</blockquote>
+<p>移除属性</p>
+<blockquote>
+	<p>&lt;%</p>
+	<p>pageContext.setAttribute(&ldquo;name&rdquo;, &ldquo;yutou&rdquo;);</p>
+	<p>%&gt;</p>
+	<p>&lt;c:remove var=&rdquo;name&rdquo; scope=&rdquo;page&rdquo; /&gt;</p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>4.catch</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">捕获标签内出现的异常 封装到var所指定的对象里</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:catch var=&rdquo;e&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;%</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp; int a = 10 / 0;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; %&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:catch&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">${ e }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">${ e.message }</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>5.if</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">条件判断标签 注意 没有else</font></p>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>属性：</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">test&nbsp; -&nbsp; 必须要写的属性 判断的条件 里面写EL表达式</font></p>
+	<p>var&nbsp; -&nbsp; 把test的执行结果存在某个变量里</p>
+	<p>scope&nbsp; -&nbsp; var变量的作用范围</p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>6.choose</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">多重选择</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:choose&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;c:when test=&rdquo;${ weekdy == 1 }&rdquo;&gt;</font></p>
+	<p>&nbsp;&nbsp;&nbsp; 星期一</p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;/c:when&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;c:when test=&rdquo;${ weekdy == 2 }&rdquo;&gt;</font></p>
+	<p>&nbsp;&nbsp;&nbsp; 星期二</p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;/c:when&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;c: otherwise&gt;</font></p>
+	<p>&nbsp;&nbsp;&nbsp; 休息</p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;/c: otherwise&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:choose&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>7.forEach</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">for循环</font></p>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>属性：</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">var&nbsp; -&nbsp; 遍历过程值</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">items&nbsp; -&nbsp; 要被遍历的数组</font></p>
+	<p>begin&nbsp; -&nbsp; 开始</p>
+	<p>end&nbsp; -&nbsp; 结束</p>
+	<p>step&nbsp; -&nbsp; 步长 默认为1</p>
+	<p>varStatus&nbsp; -&nbsp; 用于记录保存迭代的信息</p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">varStatus</font></p>
+<blockquote>
+	<p>index - 当前成员的索引</p>
+	<p>count - 当前循环次数</p>
+	<p>first - 当前是否为第一个成员</p>
+	<p>last - 当前是否为最后一个成员</p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>（1）遍历数组，List集合</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;%</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; pageContext.setAttribute(&ldquo;arr&rdquo;, new int[] = {11, 22, 33, 44, 55, 66});</font></p>
+	<p>%&gt;</p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:forEach var=&rdquo;i&rdquo; items=&rdquo;${ arr }&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; ${ i }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:forEach&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>（2）遍历Map集合</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;%</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; Map map = new HashMap():</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; map.put(&ldquo;name1&rdquo;, &ldquo;yutou&rdquo;);</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; map.put(&ldquo;name2&rdquo;, &ldquo;xiuxiu&rdquo;);</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; pageContext.setAttribute(&ldquo;map&rdquo;, map);</font></p>
+	<p>%&gt;</p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:forEach var=&rdquo;entry&rdquo; items=&rdquo;${ map }&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; ${ entry.key } = ${ entry.value }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:forEach&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>（3）1~10</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:forEach var=&rdquo;i&rdquo; begin=&rdquo;1&rdquo; end=&rdquo;10&rdquo; &gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; ${ i }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:forEach&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>（4）1~100中的基数 每第三个数变红</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:forEach var=&rdquo;i&rdquo; begin=&rdquo;1&rdquo; end=&rdquo;100&rdquo; step=&rdquo;2&rdquo; varStatus=&rdquo;status&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;c:if test=&rdquo;${ status.count % 3 == 0 }&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp; &lt;font color=&rdquo;red&rdquo;&gt;${ i }&lt;/font&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;/c:if&gt;</font></p>
+	<p><font color="#545454"><font style="background-color: #f6f6f6">&nbsp; &lt;c:if test=&rdquo;${ status.count % 3 != 0 }&rdquo;&gt;</font></font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp; ${ i }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;/c:if&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:forEach&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>8.<strong><font color="#545454" style="background-color: #f6f6f6">forTokens</font></strong></strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">切分字符串</font></p>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>属性：</strong></font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">var&nbsp; -&nbsp; 切分后循环每次切分出的结果放在变量里</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">items&nbsp; -&nbsp; 要切分的数据</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">delims&nbsp; -&nbsp; 按照什么切分</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">传统方式切分出get请求的参数</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">String[] s = url.split(&ldquo;\\?|&amp;&rdquo;);</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">forTokens方法</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:forTokens var=&rdquo;i&rdquo; items=&rdquo;yuotu,xiuxiu,yuyuan&rdquo; delims=&rdquo;,&rdquo;&gt;&lt;c:forTokens&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>9.import</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">导入</font></p>
+<p><strong><font color="#545454" style="background-color: #f6f6f6">属性：</font></strong></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">var&nbsp; -&nbsp; 把页面的代码存到的变量中</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">url&nbsp; -&nbsp; 引入页面的url（会在context下的url查找文件）</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;context&nbsp; -&nbsp; 引入页面的工程名</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">导入页面</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:import var=&rdquo;i&rdquo; url=&rdquo;&rdquo; context=&rdquo;&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; ${ i }</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:import&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>10.url</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">url重写 禁用cookie时session追踪时用的&nbsp; </font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">传统方式</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">String url = &ldquo;&rdquo;;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">url = response.encodeURL(url);</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6">标签方式</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:url context=&rdquo;项目名称&rdquo; value=&rdquo;页面&rdquo;&gt;</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&nbsp; &lt;c: param name=&rdquo;&rdquo; value=&rdquo;&rdquo;&gt;&lt;/c: param&gt;&nbsp; 还可以用get方式传参数</font></p>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;/c:url&gt;</font></p>
+</blockquote>
+<p><font color="#545454" style="background-color: #f6f6f6"><strong>11.redirect</strong></font></p>
+<p><font color="#545454" style="background-color: #f6f6f6">重定向</font></p>
+<blockquote>
+	<p><font color="#545454" style="background-color: #f6f6f6">&lt;c:redirect context=&rdquo;项目名称&rdquo; value=&rdquo;页面&rdquo;&gt;&lt;/c:redirect&gt;</font></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><font color="#545454" style="background-color: #f6f6f6">&nbsp;</font></p>
+<h5><font style="font-weight: bold">四、自定义标签</font></h5>
+<p>在大企业中 会自定义一些标签库 来简化程序</p>
+<p>setJspContext</p>
+<p>JspContext是PageContext的父类</p>
+<p>setParent</p>
+<p>getParent</p>
+<p>setJspBody</p>
+<p>doTag</p>
+<p>标签的处理方法</p>
+<p><a href="http://localhost:8080/wp-content/uploads/2013/08/tag.jpg"><img alt="tag" border="0" height="137" src="http://localhost:8080/wp-content/uploads/2013/08/tag_thumb.jpg" style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="tag" width="244" /></a></p>
+<p>继承 SimpleTagSupport 重写 doTag</p>
+<p>public void doTag() throw&hellip; {</p>
+<p>&nbsp;</p>
+<p>}</p>
+<p>&nbsp;</p>
+<p>WEB-INF下的文件不会自动发布</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>8月上学习总结</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				8月上学习总结
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>重点</strong></li>
+</ul>
+<p>1.XML两种约束的区别</p>
+<p>2.XML的解析技术有哪些 区别是什么</p>
+<p style="margin-left: 40px;">（有很多种 常用的...）</p>
+<p>3.dom4j</p>
+<p style="margin-left: 40px;">创建解析器 new SAXReader（需要导入jar包）</p>
+<p style="margin-left: 40px;">解析xml reader.read(&quot;xml&quot;)文件（返回Document）</p>
+<p style="margin-left: 40px;">先得找到根节点 document.getRoodElement</p>
+<p style="margin-left: 40px;">查找节点 root.elements（返回List），root.element（返回Element）</p>
+<p style="margin-left: 40px;">找到具体元素 elements.get</p>
+<p style="margin-left: 40px;">添加节点 先找到具体节点 addElement（返回add完的Element）setText</p>
+<p style="margin-left: 40px;">修改 找到之后 setText</p>
+<p style="margin-left: 40px;">删除 先找到要删的父节点</p>
+<p style="margin-left: 40px;">不要忘了回写（注意！！！）</p>
+<p>4.web站点的目录结构</p>
+<p>5.虚拟路径的配置</p>
+<p>6.Http重点的头信息</p>
+<p style="margin-left: 40px;">请求 Referer，User-Agent，If-Modified-Since</p>
+<p style="margin-left: 40px;">响应 Location（302），Refresh，Last-Modified（304），Content-Disposition</p>
+<p>7.Http请求方式有哪些 他们的区别</p>
+<p style="margin-left: 40px;">有7种常用的GET POST</p>
+<p>8.response</p>
+<p style="margin-left: 40px;">setStatus，setHeader（setIntHeader，setDateHeader），addHeader（addIntHeader，addDateHeader），getOutputStream，getWriter，sendRedirect，setContentType</p>
+<p style="margin-left: 40px;"><span style="color:#f00;">注意</span></p>
+<p style="margin-left: 80px;">getOutputStream 和 getWriter 互斥</p>
+<p style="margin-left: 80px;"><span style="color:#f00;">乱码问题</span></p>
+<p style="margin-left: 120px;">字节流</p>
+<p style="margin-left: 160px;">输出的时候需要转成字符 所以要给它指定编码 &quot;&quot;.getBytes(&quot;UTF-8&quot;)</p>
+<p style="margin-left: 160px;">还要设置浏览器的打开编码 setContentType(&quot;text/html;charset=UTF-8&quot;);</p>
+<p style="margin-left: 120px;">字符流（返回PrintWriter）</p>
+<p style="margin-left: 160px;">写入缓冲区的时候 默认使用的是ISO8859-1 可以改变它的编码 setCharacterEncoding(&quot;UTF-8&quot;)</p>
+<p style="margin-left: 160px;">还要设置浏览器的打开编码 setContentType</p>
+<p>9.request</p>
+<p style="margin-left: 40px;">getRemoteAddr，<span style="color:#f00;">getParameter，getParameterValues</span>（复选框，下拉列表（multiple）），<span style="color:#f00;">getParameterMap</span>，setAttribute，getAttribute，removeAttribute</p>
+<p style="margin-left: 40px;">域对象 范围是一次请求</p>
+<p>10.重定向和转发 的区别</p>
+<p style="margin-left: 40px;">转发 request.getRequestDispatcher(&quot;&quot;).forward(request, response);</p>
+<p>11.jsp的执行过程</p>
+<p>12.Cookie和Session的区别</p>
+<p>13.会话Cookie和持久Cookie</p>
+<p style="margin-left: 40px;">setMaxAge</p>
+<p>14.Cookie</p>
+<p style="margin-left: 40px;">setMaxAge，setPath，setDomain</p>
+<p>15.Session的原理</p>
+<p>16.Session的生命周期</p>
+<p style="margin-left: 40px;">创建：</p>
+<p style="margin-left: 40px;">销毁：</p>
+<p style="margin-left: 80px;">1.</p>
+<p style="margin-left: 80px;">2.</p>
+<p style="margin-left: 80px;">3.session.invalidate</p>
+<p>17.Session域对象</p>
+<p style="margin-left: 40px;">get set remove...</p>
+<p>18.Servlet中的四个域对象</p>
+<p>19.URLConnection模拟get/post请求</p>
+<ul>
+	<li><strong>忘记的</strong></li>
+</ul>
+<p>2.DTD约束如何引用实体</p>
+<p>3.怎样定义和引用Schema</p>
+<p>4.jaxp解析</p>
+<p style="margin-left: 40px;">创建工厂类 DocumentBuilderFactory （newInstance）</p>
+<p style="margin-left: 40px;">生产解析器 DocumentBuilder</p>
+<p style="margin-left: 40px;">解析文档 builder.parse(&quot;xml文档&quot;); （返回Document）</p>
+<p style="margin-left: 40px;">查找节点 document.getElementByTagName(&quot;&quot;);（返回NodeList）</p>
+<p style="margin-left: 40px;">添加节点 createElement(&quot;&quot;)，setText(&quot;&quot;)，appendChild();</p>
+<p style="margin-left: 40px;">删除节点 getParent，removeChild</p>
+<p style="margin-left: 40px;">更改节点 setText</p>
+<p>5.XPath</p>
+<p style="margin-left: 40px;">document.selectNodes(&quot;XPath&quot;);</p>
+<p style="margin-left: 40px;">document.selectSingleNode</p>
+<p style="margin-left: 40px;">//book</p>
+<p style="margin-left: 40px;">//book[@id=&#39;1&#39;]</p>
+<p style="margin-left: 40px;">/*/*/book</p>
+<p style="margin-left: 40px;">//book[2]</p>
+<p><span style="background-color:#f00;">6.Node和Element是什么关系</span></p>
+<p style="margin-left: 40px;">Element是标签 Node是节点</p>
+<p style="margin-left: 40px;">Node是Element 的父接口</p>
+<p style="margin-left: 40px;">标签 空白 文本 都是Node</p>
+<p>7.include时只能用getOutputStream输出</p>
+<p>8.Session的追踪</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
