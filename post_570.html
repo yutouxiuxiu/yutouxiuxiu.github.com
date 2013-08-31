@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>防止SQL注入</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				防止SQL注入
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<h5><font style="font-weight: bold">零、引例</font></h5>  <p>在用户登录的时候 会执行这样的语句 如果查找到了记录 就说明用户名密码正确</p>  <blockquote>   <p>select * from user where username=’张三丰’ and password=’123’</p> </blockquote>  <p><strong>注入手段</strong></p>  <p>1.传入 <u>张三丰’#</u></p>  <blockquote>   <p>select * from user where username=’张三丰’#’ and password=’’</p> </blockquote>  <p>由于#是sql的注释 后面会被当做没用的内容</p>  <blockquote>   <p>select * from user where username=’张三丰’</p> </blockquote>  <p><font style="background-color: #f6f6f6" color="#545454">3.传入 <u>张三丰’ or ‘1=1</u></font></p>  <blockquote>   <p>select * from user where username=’张三丰’ or ‘1=1’ and password=’’</p> </blockquote>  <p>1=1永远成立 所以可以查找到记录</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、用PreparedStatement 防止注入漏洞</font></h5>  <p>用PreparedStatement 预编译传输对象</p>  <p>是Statement的子类</p>  <p>它会先把sql语句编译成机器码 而不是直接把sql语句传过去</p>  <blockquote>   <p>//…</p>    <p>//不用之前的Statement了</p>    <p>PreparedStatement ps = conn.preparedStatement(“select * from user where username=? and password=?”);&#160;&#160;&#160; //这个是sql语句的骨干 传进来的参数用?替代</p>    <p>//传入参数</p>    <p>ps.setString(1, user.getUsername());</p>    <p>ps.setString(2, user.getPassword());</p>    <p>//执行</p>    <p>ResultSet rs = ps.executeQuery();</p>    <p>//…</p> </blockquote>  <p><strong>好处1：</strong></p>  <p>这样 它就先把sql语句的主干编译好了 后面传入的参数只按照参数处理</p>  <p>而不能被当做sql语句的主干处理 就不会发生注入的问题了</p>  <p><strong>好处2：</strong></p>  <p>预编译过的 效率高</p>  <p><strong>好处3：</strong></p>  <p>写sql语句的时候不用拼凑字符串</p>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

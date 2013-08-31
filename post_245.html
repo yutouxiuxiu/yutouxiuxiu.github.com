@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>css层叠样式表</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				css层叠样式表
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li>作用</li>
+</ul>
+将网页中的样式分离出来 完全由css控制
+
+html作用于用标签封装数据 然后让css加载到指定的标签上
+
+增强样式的复用性和可扩展性
+<ul>
+	<li><strong>选择器</strong></li>
+</ul>
+样式要作用的标签容器
+
+选择器的基本分类
+
+<strong>1.标签选择器</strong>
+<p style="padding-left: 30px;">html中的每一个标签名</p>
+
+<blockquote>标签</blockquote>
+<strong>2.类选择器</strong>
+<p style="padding-left: 30px;">每一个标签中的class属性</p>
+<p style="padding-left: 30px;">只用来给css所使用 可以给不同的标签相同的值 还可以用来做动态样式切换 改变class属性的值就可以切换样式</p>
+
+<blockquote>.类名</blockquote>
+<strong>3.id选择器</strong>
+<p style="padding-left: 30px;">其实就是每一个标签中的id属性 但是要保证id的唯一性</p>
+<p style="padding-left: 30px;">id不仅可以被css所使用 还可以被javasript所使用</p>
+
+<blockquote>#id</blockquote>
+<strong>选择器的优先级</strong>
+<p style="padding-left: 30px;">id &gt; class &gt; 标签</p>
+<strong>扩展选择器</strong>
+<p style="padding-left: 30px;"><strong>1.关联选择器</strong></p>
+
+<blockquote>选择器 选择器[ 选择器...]</blockquote>
+<p style="padding-left: 60px;">例如 "div b"</p>
+<p style="padding-left: 30px;"><strong>2.组合选择器</strong></p>
+<p style="padding-left: 60px;">对多个选择器 进行相同样式定义</p>
+
+<blockquote>选择器, 选择器[, 选择器...]</blockquote>
+<p style="padding-left: 30px;"><strong>3.伪元素选择器</strong></p>
+<p style="padding-left: 60px;">元素的一种状态</p>
+
+<blockquote>a:link  -  超链接被点前
+
+a:visited  -  超链接被点后
+
+a:hover  -  悬停在超链接上
+
+a:active  -  点击超链接时（少用些）
+
+<span style="color: #ff0000;">这些事件的样式定义时要按照上边的顺序</span> L V H A</blockquote>
+<p style="padding-left: 60px;"><strong>&gt;</strong> 技巧：如果想让点击前和点击后的样式一致</p>
+<p style="padding-left: 90px;">可以用伪元素选择器和组合选择器一起用</p>
+
+<ul>
+	<li>css滤镜</li>
+</ul>
+<p style="padding-left: 30px;">通过一些代码丰富了样式 比如图片的水印效果 倒影效果 拖影效果</p>
+
+<ul>
+	<li>语法</li>
+</ul>
+<blockquote>选择器 {
+<p style="padding-left: 30px;">属性名: 属性值;</p>
+<p style="padding-left: 30px;">属性名: 属性值</p>
+<p style="padding-left: 30px;">...</p>
+}</blockquote>
+<ul>
+	<li>html引用css的方式</li>
+</ul>
+1.在html标签中的style属性中写css样式（一般用特殊样式覆盖普遍样式时用）
+
+2.在style标签中定义
+<blockquote>&lt;style&gt;
+<p style="padding-left: 30px;">css代码</p>
+&lt;/style&gt;</blockquote>
+3.可以在style标签中引入css文件（一般在css文件中汇总css用 例子见下面技巧）
+<blockquote>&lt;style&gt;
+<p style="padding-left: 30px;">@import url(".css");</p>
+&lt;/style&gt;</blockquote>
+4.在html的head标签中的link标签中连接css文件（在html里一般使用这种方式）
+<blockquote>&lt;link rel="stylesheet" href=".css" /&gt;</blockquote>
+技巧
+<p style="padding-left: 30px;">为了提高相同的样式的复用性以及可扩展性 可以将多个标签样式进行单独定义 并封装成css文件</p>
+<p style="padding-left: 30px;">p.css  div.css ...</p>
+<p style="padding-left: 30px;">在一个css文件中将使用到的css文件import进来</p>
+<p style="padding-left: 30px;">article.css</p>
+
+<blockquote>@import url("p.css");
+
+@import url("div.css");
+
+...</blockquote>
+<p style="padding-left: 30px;">然后在html文件中link进来</p>
+<p style="padding-left: 30px;">article.html</p>
+
+<blockquote>&lt;link rel="stylesheet" href="article.css" /&gt;</blockquote>
+<ul>
+	<li> div+css</li>
+</ul>
+div行级区域 两个div间没有空行
+
+p行级区域（p中不要嵌套div）两个p间有空行
+
+span块级区域
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

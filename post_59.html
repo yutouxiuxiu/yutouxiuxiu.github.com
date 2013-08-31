@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>Map集合</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Map集合
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li>Map 接口</li>
+</ul>
+<strong>共有方法</strong> 添加
+<p style="padding-left: 30px;">put(K key, V value)     //存相同键时 新的值会覆盖老的值 并返回之前的值 不存在时返回null</p>
+<p style="padding-left: 30px;">putAll(Map&lt;? extends K, ? extends V&gt; m)</p>
+删除
+<p style="padding-left: 30px;">clear()   //全部删除</p>
+<p style="padding-left: 30px;">remove(Object key)      //不存在返回null 存在删除了之后返回值</p>
+判断
+<p style="padding-left: 30px;">containsKey(Object key)</p>
+<p style="padding-left: 30px;">containsValue(Object value)</p>
+获取
+<p style="padding-left: 30px;">get(Object key)     不存在返回空 存在返回值</p>
+<p style="padding-left: 30px;">size()</p>
+<p style="padding-left: 30px;">values()     获取所有的值 返回Collection</p>
+<p style="padding-left: 30px;">keySet()</p>
+<p style="padding-left: 60px;"><code>Set&lt;String&gt; set = map.entrySet();
+Iterator&lt;String&gt; it = set.iterator();
+while(it.hasNext()) {
+String key = it.next();
+}</code></p>
+<p style="padding-left: 30px;">entrySet()</p>
+<p style="padding-left: 60px;">（Map.Entry 映射关系）将映射关系存到Set中</p>
+<p style="padding-left: 60px;"><code>Set&lt;Map.Entry&lt;String,String&gt;&gt; entrySet = map.entrySet();
+Iterator &lt;Map.Entry&lt;String,String&gt;&gt; it = entrySet.iterator();
+while (it.hasNext()) {
+Map.Entry&lt;String,String&gt; me = it.next();
+String key = me.getKey();
+String value = me.getValue();
+}</code></p>
+Map.Entry 其实Entry也是一个接口 是Map的内部接口
+
+<code>
+interface Map
+{
+public static interface Entry //只有接口在成员位置的时候才能加静态修饰符
+{
+public abstract Object getKey();
+public abstract Object getValue();
+}</code>
+
+class HashMap implements Map
+{
+class HaHa impelements Map.Entry
+{
+public Object getKey();
+public Object getValue();
+}
+}
+<ul>
+	<li>HashTable 哈希表（不怎么用了）</li>
+</ul>
+底层是哈希表数据结构（存进去没什么顺序）是这个数据结构 就得覆写 hashCode 和 equals 方法
+
+不可以用空作为键/值 用作键的
+
+该集合是线程同步的
+
+jdk1.0
+<ul>
+	<li>HashMap</li>
+</ul>
+底层是哈希表数据结构
+
+允许null作为键/值
+
+该集合线程不同步
+
+jdk1.2
+
+较HashTable效率高
+<ul>
+	<li>TreeMap</li>
+</ul>
+底层是二叉树数据结构 线程不同步 可以用于给键进行排序（和Set很像 其实Set集合底层就是使用了Map集合）
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

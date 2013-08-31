@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>c3p0数据源配置文件详解</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				c3p0数据源配置文件详解
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<p>配置文件应放置在 src/c3p0-config.xml</p>  <blockquote>   <p>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;     <br />&lt;c3p0-config&gt;      <br />&lt;default-config&gt;      <br />&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 --&gt;      <br />&lt;property name=&quot;acquireIncrement&quot;&gt;3&lt;/property&gt;      <br />&lt;!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 --&gt;      <br />&lt;property name=&quot;acquireRetryAttempts&quot;&gt;30&lt;/property&gt;      <br />&lt;!--两次连接中间隔时间，单位毫秒。Default: 1000 --&gt;      <br />&lt;property name=&quot;acquireRetryDelay&quot;&gt;1000&lt;/property&gt;      <br />&lt;!--连接关闭时默认将所有未提交的操作回滚。Default: false --&gt;      <br />&lt;property name=&quot;autoCommitOnClose&quot;&gt;false&lt;/property&gt;      <br />&lt;!--c3p0将建一张名为Test的空表，并使用其自带的查询语句进行测试。如果定义了这个参数那么      <br />属性preferredTestQuery将被忽略。你不能在这张Test表上进行任何操作，它将只供c3p0测试      <br />使用。Default: null--&gt;      <br />&lt;property name=&quot;automaticTestTable&quot;&gt;Test&lt;/property&gt;      <br />&lt;!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效      <br />保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试      <br />获取连接失败后该数据源将申明已断开并永久关闭。Default: false--&gt;      <br />&lt;property name=&quot;breakAfterAcquireFailure&quot;&gt;false&lt;/property&gt;      <br />&lt;!--当连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时后将抛出      <br />SQLException,如设为0则无限期等待。单位毫秒。Default: 0 --&gt;      <br />&lt;property name=&quot;checkoutTimeout&quot;&gt;100&lt;/property&gt;      <br />&lt;!--通过实现ConnectionTester或QueryConnectionTester的类来测试连接。类名需制定全路径。      <br />Default: com.mchange.v2.c3p0.impl.DefaultConnectionTester--&gt;      <br />&lt;property name=&quot;connectionTesterClassName&quot;&gt;&lt;/property&gt;      <br />&lt;!--指定c3p0 libraries的路径，如果（通常都是这样）在本地即可获得那么无需设置，默认null即可      <br />Default: null--&gt;      <br />&lt;property name=&quot;factoryClassLocation&quot;&gt;null&lt;/property&gt;      <br />&lt;!--Strongly disrecommended. Setting this to true may lead to subtle and bizarre bugs.      <br />（文档原文）作者强烈建议不使用的一个属性--&gt;      <br />&lt;property name=&quot;forceIgnoreUnresolvedTransactions&quot;&gt;false&lt;/property&gt;      <br />&lt;!--每60秒检查所有连接池中的空闲连接。Default: 0 --&gt;      <br />&lt;property name=&quot;idleConnectionTestPeriod&quot;&gt;60&lt;/property&gt;      <br />&lt;!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 --&gt;      <br />&lt;property name=&quot;initialPoolSize&quot;&gt;3&lt;/property&gt;      <br />&lt;!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 --&gt;      <br />&lt;property name=&quot;maxIdleTime&quot;&gt;60&lt;/property&gt;      <br />&lt;!--连接池中保留的最大连接数。Default: 15 --&gt;      <br />&lt;property name=&quot;maxPoolSize&quot;&gt;15&lt;/property&gt;      <br />&lt;!--JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements      <br />属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。      <br />如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0--&gt;      <br />&lt;property name=&quot;maxStatements&quot;&gt;100&lt;/property&gt;      <br />&lt;!--maxStatementsPerConnection定义了连接池内单个连接所拥有的最大缓存statements数。Default: 0 --&gt;      <br />&lt;property name=&quot;maxStatementsPerConnection&quot;&gt;&lt;/property&gt;      <br />&lt;!--c3p0是异步操作的，缓慢的JDBC操作通过帮助进程完成。扩展这些操作可以有效的提升性能      <br />通过多线程实现多个操作同时被执行。Default: 3--&gt;      <br />&lt;property name=&quot;numHelperThreads&quot;&gt;3&lt;/property&gt;      <br />&lt;!--当用户调用getConnection()时使root用户成为去获取连接的用户。主要用于连接池连接非c3p0      <br />的数据源时。Default: null--&gt;      <br />&lt;property name=&quot;overrideDefaultUser&quot;&gt;root&lt;/property&gt;      <br />&lt;!--与overrideDefaultUser参数对应使用的一个参数。Default: null--&gt;      <br />&lt;property name=&quot;overrideDefaultPassword&quot;&gt;password&lt;/property&gt;      <br />&lt;!--密码。Default: null--&gt;      <br />&lt;property name=&quot;password&quot;&gt;&lt;/property&gt;      <br />&lt;!--定义所有连接测试都执行的测试语句。在使用连接测试的情况下这个一显著提高测试速度。注意：      <br />测试的表必须在初始数据源的时候就存在。Default: null--&gt;      <br />&lt;property name=&quot;preferredTestQuery&quot;&gt;select id from test where id=1&lt;/property&gt;      <br />&lt;!--用户修改系统配置参数执行前最多等待300秒。Default: 300 --&gt;      <br />&lt;property name=&quot;propertyCycle&quot;&gt;300&lt;/property&gt;      <br />&lt;!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的      <br />时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable      <br />等方法来提升连接测试的性能。Default: false --&gt;      <br />&lt;property name=&quot;testConnectionOnCheckout&quot;&gt;false&lt;/property&gt;      <br />&lt;!--如果设为true那么在取得连接的同时将校验连接的有效性。Default: false --&gt;      <br />&lt;property name=&quot;testConnectionOnCheckin&quot;&gt;true&lt;/property&gt;      <br />&lt;!--用户名。Default: null--&gt;      <br />&lt;property name=&quot;user&quot;&gt;root&lt;/property&gt;      <br />&lt;!--早期的c3p0版本对JDBC接口采用动态反射代理。在早期版本用途广泛的情况下这个参数      <br />允许用户恢复到动态反射代理以解决不稳定的故障。最新的非反射代理更快并且已经开始      <br />广泛的被使用，所以这个参数未必有用。现在原先的动态反射与新的非反射代理同时受到      <br />支持，但今后可能的版本可能不支持动态反射代理。Default: false--&gt;      <br />&lt;property name=&quot;usesTraditionalReflectiveProxies&quot;&gt;false&lt;/property&gt;      <br />&lt;property name=&quot;automaticTestTable&quot;&gt;con_test&lt;/property&gt;      <br />&lt;property name=&quot;checkoutTimeout&quot;&gt;30000&lt;/property&gt;      <br />&lt;property name=&quot;idleConnectionTestPeriod&quot;&gt;30&lt;/property&gt;      <br />&lt;property name=&quot;initialPoolSize&quot;&gt;10&lt;/property&gt;      <br />&lt;property name=&quot;maxIdleTime&quot;&gt;30&lt;/property&gt;      <br />&lt;property name=&quot;maxPoolSize&quot;&gt;25&lt;/property&gt;      <br />&lt;property name=&quot;minPoolSize&quot;&gt;10&lt;/property&gt;      <br />&lt;property name=&quot;maxStatements&quot;&gt;0&lt;/property&gt;      <br />&lt;user-overrides user=&quot;swaldman&quot;&gt;      <br />&lt;/user-overrides&gt;      <br />&lt;/default-config&gt;      <br />&lt;named-config name=&quot;dumbTestConfig&quot;&gt;      <br />&lt;property name=&quot;maxStatements&quot;&gt;200&lt;/property&gt;      <br />&lt;user-overrides user=&quot;poop&quot;&gt;      <br />&lt;property name=&quot;maxStatements&quot;&gt;300&lt;/property&gt;      <br />&lt;/user-overrides&gt;      <br />&lt;/named-config&gt;      <br />&lt;/c3p0-config&gt;</p></blockquote>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

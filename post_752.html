@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>分页查询</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				分页查询
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<h5><font style="font-weight: bold">一、两种分页方式</font></h5>  <p><strong>1.逻辑分页（很少用）</strong></p>  <p>把所有的信息都查出来 然后放在List中 通过逻辑语句获取分页信息</p>  <p>但是如果数据库记录太多了 可能导致内存溢出问题</p>  <p>而且和真实数据还可能有延迟 如果数据库记录被改掉了 它无法及时体现</p>  <p><strong>2.物理分页</strong></p>  <p>在SQL查询时 只检索需要的数据</p>  <p>M月SQL中 用limit关键字进行查询</p>  <blockquote>   <p>limit 从第几条开始（<font color="#ff0000">0</font><font color="#ff0000">代表第1条</font>） 取几条</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、物理分页实现思路</font></h5>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

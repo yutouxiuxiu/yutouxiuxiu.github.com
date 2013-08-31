@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>Reflect反射</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Reflect反射
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		&nbsp;
+
+public class Reflect {
+<p style="padding-left: 30px;">public static void main(String[] args) throws Exception {</p>
+<p style="padding-left: 60px;">/* 找到类 */
+String className = "cn.yutouxiuxiu.study.Student"; //1.通过类的全限定名称获得。常用于框架中
+Class clazz = Class.forName(className);</p>
+<p style="padding-left: 60px;">/* 实例化 */
+Constructor con = clazz.getConstructor(int.class); //2.已知类，用来确定方法参数列表 在getConstructor时
+Object obj = con.newInstance(1);</p>
+<p style="padding-left: 60px;">System.out.println(obj.getClass()); //3.已知对象，方法体获得运行时类型</p>
+<p style="padding-left: 60px;">/* 执行方法 */
+Method method = clazz.getMethod("method", int.class); //获取方法
+method.invoke(obj, 1); //obj为该类的实例</p>
+<p style="padding-left: 60px;">/* 获取字段 */
+Field field = clazz.getField("name");
+System.out.println(field.get(obj));</p>
+<p style="padding-left: 60px;">/* 执行私有方法 */
+Method privateMethod = clazz.getDeclaredMethod("privateMethod", null); //获取定义的方法（包括私有方法）
+privateMethod.setAccessible(true); //设置可进入性
+privateMethod.invoke(obj, null);</p>
+<p style="padding-left: 30px;">}</p>
+}
+
+&nbsp;
+
+public class Student {
+<p style="padding-left: 30px;">public String name = "yutou";</p>
+<p style="padding-left: 30px;">static {</p>
+<p style="padding-left: 60px;">System.out.println("类加载进内存");</p>
+<p style="padding-left: 30px;">}</p>
+<p style="padding-left: 30px;">public Student() {</p>
+<p style="padding-left: 60px;">System.out.println("默认构造");</p>
+<p style="padding-left: 30px;">}</p>
+<p style="padding-left: 30px;">public Student(int a) {</p>
+<p style="padding-left: 60px;">System.out.println("构造" + a);</p>
+<p style="padding-left: 30px;"><em id="__mceDel"><em id="__mceDel"> }</em></em></p>
+<p style="padding-left: 30px;">public void method() {</p>
+<p style="padding-left: 60px;"><em id="__mceDel"><em id="__mceDel"> System.out.println("方法");</em></em></p>
+<p style="padding-left: 30px;"><em id="__mceDel"><em id="__mceDel"> }</em></em></p>
+<p style="padding-left: 30px;">public void method(int a) {</p>
+<p style="padding-left: 60px;"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel">System.out.println("方法" + a);</em></em></em></p>
+<p style="padding-left: 30px;"><em id="__mceDel"><em id="__mceDel"> }</em></em></p>
+<p style="padding-left: 30px;">private void privateMethod() {</p>
+<p style="padding-left: 60px;"><em id="__mceDel"><em id="__mceDel"> System.out.println("私有方法");</em></em></p>
+<p style="padding-left: 30px;"><em id="__mceDel"><em id="__mceDel"> }</em></em></p>
+<em id="__mceDel"><em id="__mceDel">}</em></em>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

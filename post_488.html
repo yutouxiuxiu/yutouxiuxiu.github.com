@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>为何要将多个图标放在一张背景图里？</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				为何要将多个图标放在一张背景图里？
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<p>很多网站喜欢将小图标拼在一个图片文件里. 然后在 CSS 中通过 background 定位访问图标, 访问量大的网站尤是如此. 为什么呢? 分开管理不是更加灵活吗?<br />
+	大家都这么做当然有它的优点, 但这同样存在缺点.</p>
+<h2>优点:</h2>
+<p><strong>A. 1 + 1 &lt; 2</strong><br />
+	图标放在一起, 可以令图标的总容量稍小一点. 这不是最重要的, 但我可以告诉你, 很多程序员都是完美主义者.</p>
+<p><strong>B. 让连接次数大量减少</strong><br />
+	用过 Opera 的朋友可能会对它那个显示图片下载的进度条印象很深, 它会显示 &ldquo;已下载图片/图片总数&rdquo;. 对于 Web 服务器上的每个独立资源, 都需要去连接和获取的. 所以大家都设法将很多图标放在一个图片上, 连接一次就全部取回来. 这也许是一图多标的主要目的.</p>
+<p><strong>C. 让浏览器将图标预先下载</strong><br />
+	浏览器为了尽快地显示页面, 一般只是将打开页面时用到的图片下载到本地, 而一些可能用到, 但没有立刻被用到的图片需要在应用的时候再进行下载. 最经典的例子可能是导航菜单的 Tab 图标, 如果普通状态的 Tab 图标和鼠标悬停时的图标都是独立放置的, 那么当你鼠标移动到 Tab 按钮时, 图标才开始下载, 这样会带给用户很不好的视觉效果. 所以我觉得遇到这种情况时, 将多个图标合并在一起的处理是必须的.</p>
+<h2>&nbsp;缺点</h2>
+<p><strong>A. 图片难以管理, 难以定位</strong><br />
+	如果你要更换一个图标, 那么你需要编辑整个大图片. 如果你要改变一个图标的大小, 很可能你需要重新计算它的位置, 甚至无从下手, 只能在别的位置再添加一个图标.</p>
+<p><strong>B. 2 &gt; 1</strong><br />
+	两个图标合成的图片是肯定比其中一个图标独占的图片大的, 也就是说, 下载这个图片所需的时间将比单独一个图标用的时间长. 浏览器显示图片一般都是下载完则显示或者边下载边显示的, 如果你那几个图标组成的图片容量比较大, 那么它们不能逐个显示予用户, 会造成很不好的用户体验.</p>
+<h3>应用</h3>
+<p><strong>A. 让图标尽量排列得有规律</strong><br />
+	有规律地排放的图标跟容易定位和维护, 这里的间隔可以使用 16, 32, 48, 96 等标准尺寸.</p>
+<p><strong>B. 将背景颜色一致的图标放置在一起</strong><br />
+	如果背景颜色不一样, 最好分为两个或多个图片放置, 特别是背景颜色相近的, 很容易混淆.</p>
+<p><strong>C. 将相同栏目的图标放置在一起</strong><br />
+	这样可以少写一些 CSS 代码. 设置一个 background, 再在每个项设置 background-position 就行了.</p>
+<p><strong>D. 不要将大图绑在一块</strong><br />
+	大部分用户都不会耐心地等待页面的所以文件被下载完毕再进行阅读, &ldquo;不耐烦&rdquo; 会驱使他们去点 close.<br />
+	<strong>&nbsp;用法</strong><br />
+	<a href="http://www.php900.com/wp-content/uploads/2012/10/11.png"><img alt="为何要将多个图标放在一张背景图里？" class="size-full wp-image-594 aligncenter" height="150" src="http://www.php900.com/wp-content/uploads/2012/10/11.png" style="display: block;" title="为何要将多个图标放在一张背景图里？" width="150" /></a></p>
+<p>比如上图，我们先选中要显示的图标，假如是垃圾桶，我们获取它的大小，宽度、高度，在获取它的y坐标和x坐标</p>
+<p>样式可以这样写</p>
+<pre>&lt;style&gt;
+.icon{background: url(&quot;Icons.png&quot;) -112px -78px; width:32px;height: 35px; border: 0px;cursor: pointer;}
+&lt;/style&gt;</pre><pre>&lt;body&gt;
+&lt;div class=&quot;icon&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;</pre>
+<p>结果就找到了<br />
+	<img alt="多个图标放在一张背景图" class="alignnone size-full wp-image-595" height="47" src="http://www.php900.com/wp-content/uploads/2012/10/12.png" style="display: inline;" title="多个图标放在一张背景图" width="47" /><br />
+	实现的办法很简单吧，赶快也试试吧！</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

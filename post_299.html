@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>Servlet中文乱码问题的解决</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Servlet中文乱码问题的解决
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li>
+		<strong>Response的中文乱码问题</strong>
+	</li>
+</ul>
+
+<p>
+	<strong>字节流</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	写入缓冲区的时候 默认是使用操作系统默认的码表进行编码的
+</p>
+
+<p style="margin-left: 40px;">
+	我们的操作系统默认是GBK码表
+</p>
+
+<blockquote>
+	<p>
+		response.getOutputStream().write(&quot;&quot;.getBytes(&quot;UTF-8&quot;));
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	浏览器打开使用的码表默认也是操作系统的默认码表 所以如果服务器和客户端操作系统的默认码表一致 就不会出现乱码 但是为了所有人都能浏览 也要设置一下
+</p>
+
+<p style="margin-left: 40px;">
+	设置浏览器的打开编码
+</p>
+
+<p style="margin-left: 40px;">
+	要告诉浏览器信息 只能通过HTTP协议 所以就设置HTTP头 告诉浏览器用什么方式打开
+</p>
+
+<blockquote>
+	<p>
+		response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+	</p>
+</blockquote>
+
+<p>
+	<strong>字符流</strong>（返回PrintWriter）
+</p>
+
+<p>
+	（&ldquo;？？？&rdquo;乱码基本上都是ISO8859-1的问题 因为它找不到的时候就用&ldquo;？&rdquo;表示）
+</p>
+
+<p style="margin-left: 40px;">
+	写入缓冲区的时候 默认使用的是ISO8859-1 找不到那个码 存进去的就是&ldquo;？&rdquo;所以怎么打开都不行
+</p>
+
+<p style="margin-left: 40px;">
+	所以可以改变它的编码
+</p>
+
+<blockquote>
+	<p>
+		response.setCharacterEncoding(&quot;UTF-8&quot;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	所有的编码表都兼容ISO8859-1所以如果传过来的是一堆&ldquo;？&rdquo;他就能显示出来一堆&ldquo;？&rdquo;
+</p>
+
+<p style="margin-left: 40px;">
+	还要设置浏览器的打开编码
+</p>
+
+<blockquote>
+	<p>
+		response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+	</p>
+
+	<p>
+		//如果设置了这一行的话 服务器会自动帮助设置response.setCharacterEncoding(&quot;UTF-8&quot;);
+	</p>
+
+	<p>
+		//所以可以省写一个
+	</p>
+</blockquote>
+
+<p>
+	其实<strong>一行代码解决</strong>Request乱码
+</p>
+
+<blockquote>
+	<p>
+		response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+	</p>
+</blockquote>
+
+<ul>
+	<li>
+		<strong>Request的中文乱码问题</strong>
+	</li>
+</ul>
+
+<p>
+	根据不同的请求方式有不同的处理乱码的方式
+</p>
+
+<p>
+	<strong>POST乱码</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>乱码原理：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	一个汉字会出现三个问号&ldquo;？？？&rdquo;乱码
+</p>
+
+<p style="margin-left: 40px;">
+	浏览器发送POST的编码方式：当初打开用什么编码打开 提交就按什么url编码提交
+</p>
+
+<p style="margin-left: 40px;">
+	（url编码：把非ASCII字符转成ASCII字符（非英文字符按照英文字符）表示 utf-8码表中三个字节代表一个汉字 它会把每个字节的二进制转成十六进制表示前面加上%）
+</p>
+
+<p style="margin-left: 40px;">
+	服务器解释方式：如果不指定的话 就按照ISO8859-1码表（一个字符是一个字节）查
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>解决：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	在获取参数之前 告诉服务器用什么码表打开
+</p>
+
+<blockquote>
+	<p>
+		request.setCharacterEncoding(&quot;UTF-8&quot;);//此方法仅对请求体中的内容起作用
+	</p>
+</blockquote>
+
+<p>
+	<strong>GET乱码</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>乱码原理：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	GET方式如果按POST方式解决 还有乱码 因为request.setCharacterEncoding(&quot;UTF-8&quot;);方法仅对请求体中的内容起作用
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	1.方案一
+</p>
+
+<blockquote>
+	<p>
+		URLDecoder.decode(request.getParameter(&quot;name&quot;) ,&quot;UTF-8&quot;);
+	</p>
+</blockquote>
+
+<p>
+	2.方案二
+</p>
+
+<p style="margin-left: 40px;">
+	传过来的是utf-8编码的 它用ISO8859-1解释之后 虽然显示的是问号 但是他的二进制编码是没有错误的
+</p>
+
+<p style="margin-left: 40px;">
+	给它用ISO8859-1查会二进制 然后再用UTF-8给转成字符就行了
+</p>
+
+<blockquote>
+	<p>
+		new String(request.getParameter(&quot;name&quot;).getByte(&quot;ISO8859-1&quot;), &quot;UTF-8&quot;);
+	</p>
+</blockquote>
+
+<p>
+	<strong>在地址栏直接发送数据</strong>
+</p>
+
+<p>
+	浏览器发送数据时 表单页面是什么编码发过来的 就用什么编码发送数据
+</p>
+
+<p>
+	如果直接在地址栏中写请求参数 浏览器使用平台码（操作系统默认编码）来发送数据（我们的操作系统的是GBK）
+</p>
+
+<blockquote>
+	<p>
+		new String(request.getParameter(&quot;name&quot;).getByte(&quot;ISO8859-1&quot;), &quot;GBK&quot;);
+	</p>
+</blockquote>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

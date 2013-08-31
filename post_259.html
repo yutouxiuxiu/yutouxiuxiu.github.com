@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>HttpServletRequest接口</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				HttpServletRequest接口
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>特点<br />
+		</strong></li>
+</ul>
+<p>1.HttpServletRequest 是 ServletRequest 的子接口</p>
+<p>2.ServletRequest也是域对象 作用范围是一次请求过程（一次请求和一次响应） 在一次请求过程中它可以存值取值</p>
+<p style="margin-left: 40px;">域对象都共有的方法：</p>
+<p style="margin-left: 80px;">setAttribute</p>
+<p style="margin-left: 80px;">getAttribute</p>
+<p style="margin-left: 80px;">removeAttribute</p>
+<ul>
+	<li><strong>方法</strong></li>
+</ul>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getContextPath</a></b>()</code> <br />
+					Returns the portion of the request URI that indicates the context of the request.</p>
+				<p>获取工程名</p>
+				<p><span style="color:#f00;">以后跳转的时候 就直接用这个获取就行了 防止项目改名之后不好用</span></p>
+				<p>之后还有东西可以把它替代</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getRemoteAddr</a></b>()</code> <br />
+					Returns the Internet Protocol (IP) address of the client or last proxy that sent the request.</p>
+				<p>获取客户端IP</p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td><code><b><a href="">getRemoteHost</a></b>()</code> <br />
+				Returns the fully qualified name of the client or the last proxy that sent the request.</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code>int</code></font></td>
+			<td><code><b><a href="">getRemotePort</a></b>()</code> <br />
+				Returns the Internet Protocol (IP) source port of the client or last proxy that sent the request.</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getRequestURI</a></b>()</code> <br />
+					Returns the part of this request&#39;s URL from the protocol name up to the query string in the first line of the HTTP request.</p>
+				<p>除了域名之后的东西</p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/StringBuffer.html" title="class or interface in java.lang">StringBuffer</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getRequestURL</a></b>()</code> <br />
+					Reconstructs the URL the client used to make the request.</p>
+				<p>全的网址</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td><code><b><a href="">getQueryString</a></b>()</code> <br />
+				Returns the query string that is contained in the request URL after the path.</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getMethod</a></b>()</code> <br />
+					Returns the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.</p>
+				<p>获取请求方式</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code>long</code></font></td>
+			<td><code><b><a href="">getDateHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+				Returns the value of the specified request header as a <code>long</code> value that represents a <code>Date</code> object.</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+					Returns the value of the specified request header as a <code>String</code>.</p>
+				<p>获取请求头</p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/util/Enumeration.html" title="class or interface in java.util">Enumeration</a></code></font></td>
+			<td><code><b><a href="">getHeaderNames</a></b>()</code> <br />
+				Returns an enumeration of all the header names this request contains.</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/util/Enumeration.html" title="class or interface in java.util">Enumeration</a></code></font></td>
+			<td><code><b><a href="">getHeaders</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+				Returns all the values of the specified request header as an <code>Enumeration</code> of <code>String</code> objects.</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code>int</code></font></td>
+			<td><code><b><a href="">getIntHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+				Returns the value of the specified request header as an <code>int</code>.</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getMethod</a></b>()</code> <br />
+					Returns the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.</p>
+				<p>获取请求的方式</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getParameter</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+					Returns the value of a request parameter as a <code>String</code>, or <code>null</code> if the parameter does not exist.</p>
+				<p>获得请求参数（get或post请求）</p>
+				<p><span style="color:#f00;">如果提交过来的参数有多个值（比如说多选框）请用<a href="">getParameterValues</a>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a>&nbsp;name)&nbsp;</span></p>
+				<p>如果提交过来的数据有中文 <span style="color:#f00;">直接获取会有乱码 详见下面</span></p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/util/Map.html" title="class or interface in java.util">Map</a></code></font></td>
+			<td>
+				<p><code><b><a href="">getParameterMap</a></b>()</code> <br />
+					Returns a java.util.Map of the parameters of this request.</p>
+				<p><span style="color:#f00;">可以把传过来的参数封装到对象里 有工具可以把对象和集合穿进去 直接就OK</span></p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/util/Enumeration.html" title="class or interface in java.util">Enumeration</a></code></font></td>
+			<td><code><b><a href="">getParameterNames</a></b>()</code> <br />
+				Returns an <code>Enumeration</code> of <code>String</code> objects containing the names of the parameters contained in this request.</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1"><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a>[]</code></font></td>
+			<td>
+				<p><code><b><a href="">getParameterValues</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name)</code> <br />
+					Returns an array of <code>String</code> objects containing all of the values the given request parameter has, or <code>null</code> if the parameter does not exist.</p>
+				<p>可以获取提交过来的一个参数的多个值（比如说多选框）</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>&nbsp;</p>
+<ul>
+	<li><strong>接收请求参数时的中文乱码问题</strong></li>
+</ul>
+<ul></ul>
+<p><strong>1.POST</strong></p>
+<p style="margin-left: 40px;">在接收前</p>
+<blockquote>
+	<p>request.setCharacterEncoding(&quot;UTF-8&quot;);</p>
+</blockquote>
+<p><strong>2.GET</strong></p>
+<p style="margin-left: 40px;">中文提交过去 会显示在url上 如果是在表单上提交的会自动进行url编码 接收的时候要进行解码</p>
+<p style="margin-left: 40px;">方式1：</p>
+<blockquote>
+	<p>String username = URLDecoder.decode(request.getParameter(&quot;username&quot;), &quot;UTF-8&quot;);</p>
+</blockquote>
+<p style="margin-left: 40px;">方式2（<span style="color:#f00;">推荐</span>）：</p>
+<p style="margin-left: 80px;">用new String 和 getBytes</p>
+<blockquote>
+	<p>String username = new String(request.getParameter(&quot;username&quot;).getBytes(&quot;ISO8859-1&quot;), &quot;UTF-8&quot;);</p>
+</blockquote>
+<ul>
+	<li><strong>重定向和转发<br />
+		</strong></li>
+</ul>
+<p><strong>1.重定向</strong></p>
+<p style="margin-left: 40px;">重定向是两次请求</p>
+<p style="margin-left: 40px;">第一次请求之后 服务器返回302状态码 和Location 然后浏览器再一次请求</p>
+<p style="margin-left: 40px;">&nbsp;<a href="http://localhost:8080/wp-content/uploads/2013/08/302.jpg"><img alt="302" class="alignnone size-medium wp-image-309" height="80" src="http://localhost:8080/wp-content/uploads/2013/08/302-300x80.jpg" width="300" /></a></p>
+<p><strong>2.转发</strong></p>
+<p style="margin-left: 40px;">转发是一次请求</p>
+<p style="margin-left: 40px;">转发在服务器内部完成（可以转发到servlet, JSP file, or HTML file）</p>
+<p style="margin-left: 40px;">这样做的目的是 因为request对象的作用范围是一次请求过程（一个请求和相应应答）这样用一次请求 就可以传递参数了</p>
+<p style="margin-left: 40px;">然后地址栏的地址也不会变</p>
+<p style="margin-left: 40px;"><a href="http://localhost:8080/wp-content/uploads/2013/08/2.jpg"><img alt="2" class="alignnone size-medium wp-image-308" height="80" src="http://localhost:8080/wp-content/uploads/2013/08/2-300x80.jpg" width="300" /></a></p>
+<p style="margin-left: 40px;">代码实现</p>
+<blockquote>
+	<p>request.getRequestDispatcher(&quot;/servlet的映射路径&quot;).forward(request, response);</p>
+	<p>//获取到RequestDispatcher 然后用forward方法进行转发</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+	<li>interface <b>RequestDispatcher </b></li>
+</ul>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><pre>void</pre></td>
+			<td>
+				<p><code><b><a href="">forward</a></b>(<a href="" title="interface in javax.servlet">ServletRequest</a> request, <a href="" title="interface in javax.servlet">ServletResponse</a> response)</code> Forwards a request from a servlet to another resource (servlet, JSP file, or HTML file) on the server.</p>
+				<p>进行转发</p>
+				<p>直接写servlet映射的路径 或者是服务器内部地址的html或jsp</p>
+				<p><span style="color:#f00;">不能在流被关闭之后转发</span></p>
+				<p style="margin-left: 40px;">如果转发的话 转向的时候 之前页面的response的缓冲区会被清空 之前页面输出的内容不会被输出到浏览器</p>
+				<p style="margin-left: 40px;">如果在转发之前 强制关闭了流 它就把流中的内容写到了浏览器上 然后转发就不起作用了 会抛出异常</p>
+			</td>
+		</tr>
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%"><font size="-1">void</font></td>
+			<td>
+				<p><code><b><a href="">include</a></b>(<a href="" title="interface in javax.servlet">ServletRequest</a> request, <a href="" title="interface in javax.servlet">ServletResponse</a> response)</code> Includes the content of a resource (servlet, JSP page, HTML file) in the response.</p>
+				<p>进行包含（应用的不多）</p>
+				<p>页面布局用的（header,left,main,footer） 包含的话 就是把里边的代码整个拿过来粘上 在哪调用的include方法 就粘在哪个位置上</p>
+				<p>但是这个Servlet就绝对不能用getWriter来输出东西了</p>
+				<p style="margin-left: 40px;">会发生500 报异常 IIlegalStateException: getOutputStream()或getWriter() has already been call for this response</p>
+				<p style="margin-left: 40px;"><span style="color:#f00;">getOutputStream 和 getWriter 是互斥的</span> 一个Servlet里只能用其中的一个</p>
+				<p style="margin-left: 40px;">include方法内部调用了getOutputStream 所以就不能再写 getWriter&nbsp;</p>
+				<p>但是一般都用jsp来做页面布局模板 所以这个并不怎么用</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<ul>
+	<li>注意事项</li>
+</ul>
+<p>&nbsp;</p>
+<p><span style="color: rgb(255, 0, 0);">1.不能在流被关闭之后转发</span></p>
+<p style="margin-left: 40px;">如果转发的话 转向的时候 之前页面的response的缓冲区会被清空 之前页面输出的内容不会被输出到浏览器</p>
+<p style="margin-left: 40px;">如果在转发之前 强制关闭了流 它就把流中的内容写到了浏览器上 然后转发就不起作用了 会抛出异常</p>
+<p><span style="color: rgb(255, 0, 0);">2.getOutputStream 和 getWriter 是互斥的</span></p>
+<p style="margin-left: 40px;"><span style="color: rgb(255, 0, 0);">getOutputStream 和 getWriter 是互斥的</span>&nbsp;一个Servlet里只能用其中的一个</p>
+<p style="margin-left: 40px;">include方法内部调用了getOutputStream 所以就不能再写 getWriter&nbsp;</p>
+<p style="margin-left: 40px;">为什么是互斥的呢？</p>
+<p style="margin-left: 80px;">出现字符流是因为操作文本方便 其实字符流底层就是字节流 它俩就是一样的</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

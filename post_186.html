@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>Servlet简介和快速入门</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				Servlet简介和快速入门
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>什么是Servlet</strong></li>
+</ul>
+运行在web服务器上的一个小的java程序
+<ul>
+	<li><strong>写一个Servlet的步骤</strong></li>
+</ul>
+<blockquote>1.实现Servlet接口 程序写到service里
+
+2.部署到web服务器上</blockquote>
+<ul>
+	<li><strong>快速入门</strong></li>
+</ul>
+<strong>1.用记事本写一个Servlet</strong>
+
+<strong>2.编译</strong>
+
+原来的编译过程是依赖JDK的环境变量 现在的这个类 依赖的包在javaee里 只依赖JDK的jar就不够了 tomcat提供了Servlet的jar包 通过设置临时环境变量可以实现
+<blockquote>设置临时环境变量
+
+set clsaapath=%classpath%;%CATALINA_HOME%\lib\servlet-api.jar
+
+编译
+
+javac -d . HelloServlet.java</blockquote>
+<strong>3.在web.xml中注册</strong>
+<blockquote>注册
+
+&lt;servlet&gt;
+<p style="padding-left: 30px;">&lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;</p>
+<p style="padding-left: 30px;">&lt;servlet-class&gt;cn.yutouxiuxiu.servlet.HelloServlet&lt;/servlet-class&gt;</p>
+&lt;/servlet&gt;
+
+&lt;!--配置servlet映射<span style="color: #ff0000;">（注意 注释不支持中文的话 可以存为UTF-8）</span>--&gt;
+
+&lt;servlet-mapping&gt;
+<p style="padding-left: 30px;">&lt;servlet-name&gt;HelloServlet&lt;/servlet-name&gt;&lt;!--名字和上面要统一--&gt;</p>
+<p style="padding-left: 30px;">&lt;url-pattern&gt;/hello&lt;/url-pattern&gt;&lt;!--在访问web页面是 访问http://网址/hello就会访问这个Serlet 让service方法执行--&gt;</p>
+&lt;servlet-mapping&gt;</blockquote>
+<strong> 4.尽情地去浏览器访问吧</strong>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

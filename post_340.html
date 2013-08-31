@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>会话管理Cookie和Session</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				会话管理Cookie和Session
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li>
+		<strong>会话</strong>
+	</li>
+</ul>
+
+<p>
+	一个用户打开浏览器 到关闭浏览器的过程 包含了多次的请求过程
+</p>
+
+<ul>
+	<li>
+		<strong>用处</strong>
+	</li>
+</ul>
+
+<p>
+	<strong>引例</strong>
+</p>
+
+<p>
+	<strong>1.如果将购物信息存在ServletContext中?</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 所有访问的人会共享这里边的数据
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/08/context.jpg"><img alt="context" border="0" height="120" src="http://localhost:8080/wp-content/uploads/2013/08/context_thumb.jpg" style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="context" width="260" /></a>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 所以很不靠谱 买玫瑰还给别人媳妇儿买了
+</p>
+
+<p>
+	<strong>2.如果将购物信息存在request里?</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/08/request.jpg"><img alt="request" border="0" height="75" src="http://localhost:8080/wp-content/uploads/2013/08/request_thumb.jpg" style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="request" width="244" /></a>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 买半天啥都没买到
+</p>
+
+<p>
+	<strong>用会话技术来解决这个问题</strong>
+</p>
+
+<ul>
+	<li>
+		<strong>Cookie</strong>
+	</li>
+</ul>
+
+<p>
+	会把信息带回到客户端 然后再次请求的时候 带着客户端的信息 然后再次请求到服务器修改后 再带回客户端 覆盖原来的消息
+</p>
+
+<p style="text-align: center">
+	&nbsp;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/08/cookie.jpg"><img alt="cookie" border="0" height="104" src="http://localhost:8080/wp-content/uploads/2013/08/cookie_thumb.jpg" style="background-image: none; text-align: center; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="cookie" width="244" /></a>
+</p>
+
+<p style="text-align: center">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px">
+	<strong>会话级Cookie</strong>
+</p>
+
+<p style="margin-left: 40px">
+	没有特殊设置的话 浏览器关闭 Cookie就销毁
+</p>
+
+<p style="margin-left: 40px">
+	<strong>持久级Cookie</strong>
+</p>
+
+<p style="margin-left: 40px">
+	进行了有效时间设置之后 会保存到本地的硬盘上
+</p>
+
+<p style="margin-left: 40px">
+	<strong>Cookie的方法</strong>
+</p>
+
+<p style="margin-left: 80px">
+	<strong>Cookie的有效时间</strong>
+</p>
+
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="#ffffff" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>void</code></font>
+			</td>
+			<td>
+				<p>
+					<code><b><a href="mk:@MSITStore:H:\文档\笔记\java笔记\就业班\api文档\java_ee_api_中英文对照版.chm::/javax/servlet/http/Cookie.html#setMaxAge(int)">setMaxAge</a></b>(int expiry)</code>
+				</p>
+
+				<p>
+					Sets the maximum age of the cookie in seconds.
+				</p>
+
+				<p>
+					设置为0 就表示删除cookie
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="margin-left: 80px">
+	<strong>Cookie的有效路径</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="#ffffff" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<strong><font size="-1"><code>void</code></font></strong>
+			</td>
+			<td>
+				<strong><code><b><a href="mk:@MSITStore:H:\文档\笔记\java笔记\就业班\api文档\java_ee_api_中英文对照版.chm::/javax/servlet/http/Cookie.html#setPath(java.lang.String)">setPath</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> uri)</code> </strong>
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					<strong>Specifies a path for the cookie to which the client should return the cookie.</strong>
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<blockquote>
+	<p>
+		cookie.setPath(&quot;/cookie&quot;)
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px">
+	<strong>Cookie的有效域名</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="#ffffff" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<strong><font size="-1"><code>void</code></font></strong>
+			</td>
+			<td>
+				<strong><code><b><a href="mk:@MSITStore:H:\文档\笔记\java笔记\就业班\api文档\java_ee_api_中英文对照版.chm::/javax/servlet/http/Cookie.html#setDomain(java.lang.String)">setDomain</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> pattern)</code> </strong>
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					<strong>Specifies the domain within which this cookie should be presented.</strong>
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<blockquote>
+	<p>
+		cookie.setDomain(&quot;yutouxiuxiu.cn&quot;);
+	</p>
+</blockquote>
+
+<ul>
+	<li>
+		<strong>Session</strong>
+	</li>
+</ul>
+
+<p>
+	会在服务器端给每个用户开辟一个空间 然后返回一个钥匙 下次请求带着钥匙去 可以找到那个开辟的空间
+</p>
+
+<p>
+	Session也是域对象
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/08/session.jpg"><img alt="session" border="0" height="123" src="http://localhost:8080/wp-content/uploads/2013/08/session_thumb.jpg" style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="session" width="244" /></a>
+</p>
+
+<p>
+	<strong>Session的实现过程</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/08/session1.jpg"><img alt="session" border="0" height="96" src="http://localhost:8080/wp-content/uploads/2013/08/session_thumb1.jpg" style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: block; float: none; border-top-width: 0px; border-bottom-width: 0px; margin-left: auto; border-left-width: 0px; margin-right: auto; padding-top: 0px" title="session" width="244" /></a>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 新的用户访问的时候 服务器开辟了一个空间 然后返回空间的id号 通过cookie的jsessionid回写到客户端浏览器 然后再次访问的时候 就自动把这个session的id传回服务器 然后通过这个id找到对应的空间
+</p>
+
+<p>
+	<strong>Session的生命周期（<font color="#ff0000">重要</font>）</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每个用户浏览器第一次执行request.getSession()时 会在服务器里创建一个Session
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">（注意！！！）</span></strong>
+</p>
+
+<p>
+	<strong>getSession()，getSession(true)</strong>
+</p>
+
+<p>
+	如果不存在session 则创建session 如果存在 返回以前创建的session
+</p>
+
+<p>
+	<strong>getSession(false)</strong>
+</p>
+
+<p>
+	如果不存在session 返回null 如果存在 返回以前创建的session
+</p>
+
+<p>
+	想判断是否存在session 要用 getSession(false)
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在Session销毁之前 再调用getSession时 取的是之前创建的Session
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在以下几种情况下销毁Session
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.服务器非正常关闭
+</p>
+
+<p>
+	（正常关闭时 Session会被序列化 叫做<strong>Session的钝化</strong>（Session在内存中是活跃的 序列化到硬盘就不活跃 就叫钝化 ） 存在tomcat/work里
+</p>
+
+<p>
+	再次启动服务器的时候 服务器会将钝化的<strong>Session活化</strong>到内存中
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>但是钝化期间 仍然计入到session-timeout中</strong></span> 如果再次启动服务器的时候 session活化过程中 发现session已经超时 会被销毁掉）
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">重要：</span></strong>
+</p>
+
+<p>
+	想要随着Session钝化 一起钝化的信息 必须实现Serializable标记接口
+</p>
+
+<blockquote>
+	<p>
+		setAttribute(&quot;name&quot;, &quot;zhang&quot;);
+	</p>
+
+	<p>
+		setAttribute(&quot;p&quot;, new Person(&quot;li&quot;));
+	</p>
+</blockquote>
+
+<p>
+	String默认实现了Serializable接口
+</p>
+
+<p>
+	这样的话 如果Person没有实现Serializable接口 再重启服务器之后 就得不到它了
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.在tomcat的web.xml中 里边有对session失效时间的配置
+</p>
+
+<blockquote>
+	<p>
+		&lt;session-config&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;session-timeout&gt;30&lt;/session-timeout&gt;<br />
+		&lt;/session-config&gt;
+	</p>
+</blockquote>
+
+<p>
+	<font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 默认在30分钟不使用它 就自动销毁</font>
+</p>
+
+<p>
+	<font color="#545454" style="background-color: #f6f6f6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.在手动调用了session.invalidate()方法时 会销毁Session</font><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关闭浏览器Session不会销毁
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果关闭浏览器 还想使用以前的Session 就把sessionid保存起来 然后再次访问的时候从cookie回写那个jsessionid
+</p>
+
+<p>
+	<strong>不同IE版本的Session</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IE6，IE7新开浏览器是新的Session
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IE8 打开多个浏览器 是一个Session钥匙 如果想要新的钥匙 可以 文件-&gt;新建会话
+</p>
+
+<p>
+	<strong>如果禁用了Cookie 也无法使用Session了</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以进行session追踪 每请求的时候 都把之前的sessionid传给它 就可以了
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在地址栏url后边加上
+</p>
+
+<blockquote>
+	<p>
+		;jsessionid=&hellip;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以直接用以下的方法就能搞定（url重写）
+</p>
+
+<blockquote>
+	<p>
+		String url =&rdquo;&rdquo;;
+	</p>
+
+	<p>
+		response.encodeURL(url);//这个方法会在禁用cookie的时候在后面自动加上jsessionid
+	</p>
+
+	<p>
+		//就得在这个网站所有的链接都得加上这个（一个都不能差 差一个Session就没了）
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一般网站 如果你禁用了Cookie 网站就不让你上了 没人乐意帮你弄url重写
+</p>
+
+<ul>
+	<li>
+		<strong>比较</strong>
+	</li>
+</ul>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie是客户端技术 Session是服务器端技术
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session较为安全 但是耗费服务器资源
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie有大小显示 Session没什么大小限制
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cookie可以持久 Session关掉浏览器就没有了
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session可以存对象 Cookie只能存字符串
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 具体用哪个得看公司需求 淘宝用的是Session 京东亚马逊用的是Cookie
+</p>
+
+<ul>
+	<li>
+		<strong>典型应用</strong>
+	</li>
+</ul>
+
+<p>
+	Cookie
+</p>
+
+<p style="margin-left: 40px">
+	可以记录上次访问的时间
+</p>
+
+<p style="margin-left: 40px">
+	记住用户名密码
+</p>
+
+<p style="margin-left: 40px">
+	最近浏览的商品
+</p>
+
+<h1>
+	&nbsp;
+</h1>
+
+<p>
+	Session
+</p>
+
+<p style="margin-left: 40px">
+	购物车
+</p>
+
+<h1>
+	&nbsp;
+</h1>
+
+<ul>
+	<li>
+		<strong>注意事项</strong>
+	</li>
+</ul>
+
+<p>
+	1.浏览器对Cookie的限制
+</p>
+
+<p style="margin-left: 40px">
+	浏览器一般只允许存放300个Cookie 每个站点最多存放20个Cookie 每个Cookie大小限制为4K
+</p>
+
+<p style="margin-left: 40px">
+	最高级的浏览器 也只支持8K而已
+</p>
+
+<p>
+	2.默认的Cookie都是会话级Cookie
+</p>
+
+<p style="margin-left: 40px">
+	关闭浏览器之后就没有了 要进行特殊的设置
+</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>XML的约束 DTD约束</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				XML的约束 DTD约束
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>引入DTD</strong></li>
+</ul>
+<p style="padding-left: 30px;"><strong>1.独立文件</strong></p>
+<p style="padding-left: 30px;"><span style="text-decoration: underline;"><span style="color: #ff0000; text-decoration: underline;">DTD文档必须存成UTF-8</span></span> DTD文件的第一行要写 &lt;?xml version="1.0" encoding="UTF-8"?&gt;</p>
+
+<blockquote>本地 &lt;!DOCTYPE 根标签 SYSTEM ".dtd"&gt;
+
+网络 &lt;!DOCTYPE 根标签 PUBLIC "DTD名称" "http://DTD的url"&gt;</blockquote>
+<p style="padding-left: 30px;"><strong>2.文件内部</strong></p>
+<p style="padding-left: 30px;">一般不用</p>
+
+<ul>
+	<li><strong>书写步骤</strong></li>
+</ul>
+<p style="padding-left: 30px;">先统计有多少个标签</p>
+<p style="padding-left: 30px;">然后再看标签中要出现的具体的内容</p>
+
+<ul>
+	<li><strong>语法</strong></li>
+</ul>
+<strong>1.元素（标签）</strong>
+<blockquote>&lt;!ELEMENT 元素名称 使用规则&gt;</blockquote>
+<p style="padding-left: 30px;">使用规则（标签中可以出现的内容）：</p>
+
+<blockquote>(#PCDATA)  文本数据
+
+EMPTY  必须空
+
+ANY  任意
+
+(子元素关系式)  可以出现的子元素
+<p style="padding-left: 30px;">子元素  -  单个子元素</p>
+<p style="padding-left: 30px;">子元素,子元素  -  有顺序的</p>
+<p style="padding-left: 30px;">子元素|子元素  -  或（只能出现其中一个）</p>
+<p style="padding-left: 30px;">子元素后还可加出现次数限定符</p>
+<p style="padding-left: 60px;"><span style="text-decoration: underline;">+  -  一次或多次（比它多）</span></p>
+<p style="padding-left: 60px;"><span style="text-decoration: underline;">?  -  零次或一次（又还是没有啊）</span></p>
+<p style="padding-left: 60px;"><span style="text-decoration: underline;">*  -  零次或一次或多次（随便）</span></p>
+</blockquote>
+<strong>2.属性</strong>
+<blockquote>&lt;!ATTLIST 所属标签名称
+<p style="padding-left: 30px;">属性名 属性类型 属性约束</p>
+<p style="padding-left: 30px;">...</p>
+&gt;</blockquote>
+<p style="padding-left: 30px;">属性类型</p>
+
+<blockquote>CDATA  -  文本数据
+
+ID  -  不能重复（不一定是数字）
+
+(值1|值2...)  -  枚举</blockquote>
+<p style="padding-left: 30px;">属性约束</p>
+
+<blockquote>#REQUIRED  -  必须的
+
+#IMPLIED  -  可选的
+
+#FIXED "固定值"  -  固定值 写XML时 必须把值写成它
+
+"默认值"  -  默认值  如果没写那个属性 就带默认的</blockquote>
+<strong>3.实体</strong>
+<p style="padding-left: 30px;">就是给实际的内容创建一个别名 然后在XML里可以引用它</p>
+
+<blockquote>&lt;!ENTITY 实体名称 "实体内容"&gt;</blockquote>
+<p style="padding-left: 30px;">引用方式</p>
+
+<blockquote>&amp;实体名称;</blockquote>
+PS：老师用的工具 Stylus Studio
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

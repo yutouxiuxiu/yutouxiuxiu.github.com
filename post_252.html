@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./stylesheets/common.css" />
+<link rel="stylesheet" href="./stylesheets/style.css" />
+
+<title>HttpServletResponse接口</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="post-title">
+		<h2>
+			<a rel="bookmark" href="">
+				HttpServletResponse接口
+			</a>
+		</h2>
+		<span class="post-time">
+			{ post:time }
+		</span>
+	</div>
+	<div class="post-content">
+		<ul>
+	<li><strong>描述</strong></li>
+</ul>
+<p>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象</p>
+<p>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了</p>
+<ul>
+	<li><strong>方法</strong></li>
+</ul>
+<p><strong>响应行的方法</strong></p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+			<td><code><b><a>setStatus</a></b>(int sc)</code> Sets the status code for this response.设置状态码 常用的有<span style="color: #333333; font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif; font-size: 13px; line-height: 19px;">200 302 304 404 500</span></td>
+		</tr>
+	</tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong>响应头的方法</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+			<td><code><b><a>addHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name, <a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> value)</code> Adds a response header with the given name and value.添加响应头信息（在后面追加 用于一个key对应多个value）
+				<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+					<tbody>
+						<tr bgcolor="white">
+							<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+							<td><code><b><a>addDateHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name, long date)</code> Adds a response header with the given name and date-value.</td>
+						</tr>
+						<tr bgcolor="white">
+							<td align="right" valign="top" width="1%"><span style="font-family: monospace;">void</span></td>
+							<td><code><b><a>addIntHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a>&nbsp;name, int value)</code> Adds a response header with the given name and integer value.</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+			<td><code><b><a>setHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name, <a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> value)</code> Sets a response header with the given name and value.设置响应头信息（会覆盖原来的）
+				<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+					<tbody>
+						<tr bgcolor="white">
+							<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+							<td><code><b><a>setDateHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> name, long date)</code> Sets a response header with the given name and date-value.一般看到long类型 就是毫秒 看到int型 就是秒</td>
+						</tr>
+						<tr bgcolor="white">
+							<td align="right" valign="top" width="1%"><span style="font-family: monospace;">void</span></td>
+							<td><code><b><a>setIntHeader</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a>&nbsp;name, int value)</code> Sets a response header with the given name and integer value.</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p><strong>响应体的方法</strong>（父接口ServletResponse的方法）</p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code><a title="class in javax.servlet">ServletOutputStream</a></code></span></td>
+			<td><code><b><a>getOutputStream</a></b>()</code> Returns a <a title="class in javax.servlet"><code>ServletOutputStream</code></a> suitable for writing binary data in the response.</td>
+		</tr>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code><a href="http://java.sun.com/j2se/1.5/docs/api/java/io/PrintWriter.html" title="class or interface in java.io">PrintWriter</a></code></span></td>
+			<td><code><b><a>getWriter</a></b>()</code> Returns a <code>PrintWriter</code> object that can send character text to the client.</td>
+		</tr>
+	</tbody>
+</table>
+<ul>
+	<li><strong>&nbsp;设置跳转的技巧</strong></li>
+</ul>
+<p><strong>1.一句话设置</strong></p>
+<table border="1" cellpadding="3" cellspacing="0" summary="" width="100%">
+	<tbody>
+		<tr bgcolor="white">
+			<td align="right" valign="top" width="1%"><span><code>void</code></span></td>
+			<td><code><b><a>sendRedirect</a></b>(<a href="http://java.sun.com/j2se/1.5/docs/api/java/lang/String.html" title="class or interface in java.lang">String</a> location)</code> Sends a temporary redirect response to the client using the specified redirect location URL.</td>
+		</tr>
+	</tbody>
+</table>
+<p><strong>2.用html</strong></p>
+<blockquote>
+	<p>&lt;meta http-equiv=&quot;Refresh&quot; content=&quot;秒数;目标url&quot; /&gt;</p>
+</blockquote>
+<ul>
+	<li><strong>禁用浏览器缓存</strong></li>
+</ul>
+<p>例如需要每次页面都变化</p>
+<blockquote>response.getOutputStream().write((&quot;Now: &quot;+ new Date().<del>toLocalString</del>()).getBytes()); //此处应该用 SimpleDateFormat 来格式化日期
+	<p>或者是在网银里 不希望用户可以后退 以防止重复操作或其他人退回去进行操作 也可以禁用缓存 因为后退读取的就是缓存中的内容 但是这样在浏览器浏览的时候 会因为缓存 页面的时间不变</p>
+	<p>response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</p>
+	<p>response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;); //response.setHeader(&quot;Expires&quot;, &quot;还得格式化时间 麻烦 所以用setDateHeader方法&quot;);</p>
+	<p>response.setDateHeader(&quot;Expires&quot;, -1); //设置到当前时间往前就行 就直接传-1就行 就是1970年1月1日0:0:0.000之前的一秒</p>
+</blockquote>
+<ul>
+	<li><strong>输出到浏览器的中文乱码问题</strong></li>
+</ul>
+<p>只要存取统一 就会回有乱码</p>
+<p><strong>1.字节流</strong></p>
+<blockquote>response.getOutputStream().write(&quot;芋头&quot;.getBytes());</blockquote>
+<p style="padding-left: 30px;">这个不一定会出现乱码 得看浏览器的默认打开编码</p>
+<p style="padding-left: 30px;">解决方式：</p>
+<p style="padding-left: 60px;">控制浏览器的默认打开编码</p>
+<blockquote>
+	<p>response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;); //在getBytes也用UTF-8 统一编码就没问题</p>
+	<p>response.getOutputStream().write(&quot;芋头&quot;.getBytes(&quot;UTF-8&quot;));//在转换成字节数组的时候传入想要的码表</p>
+</blockquote>
+<p><strong>2.字符流</strong></p>
+<blockquote>response.getWriter.write(&quot;芋头&quot;);</blockquote>
+<p style="padding-left: 30px;">和上边的乱码不一样&quot;??&quot;是因为根本就没找到编码对应的内容</p>
+<p style="padding-left: 30px;">老外设计response时 缓冲区默认用的是ISO8859-1 不支持中文</p>
+<p style="padding-left: 30px;">可以修改response缓冲区的编码</p>
+<blockquote>//response.setHeader(&quot;Content-Type&quot;, &quot;text/html;charset=UTF-8&quot;);//也得设置浏览器的打开方式 response.setContentType(&quot;text/html;charset=UTF-8&quot;);//这句话可以替代上面那行（其实它也能同时替代下边那行 但是开发的时候 最好把下边那行写上 比较清晰） response.setCharacterEncoding(&quot;UTF-8&quot;);//修改response缓冲区的编码 response.getWriter.write(&quot;芋头&quot;);
+	<p style="padding-left: 30px;">注意不能直接输出数字 要加引号 否则它就显示成查码表中数字对应的字符了</p>
+	<del>response.getWriter.write(1);</del> response.getWriter.write(&quot;1&quot;);</blockquote>
+<ul>
+	<li><strong>文件的下载</strong></li>
+</ul>
+<p>先用输入流从服务器上读 然后用输出流写到用户浏览器上 下面的代码会把图片直接输出到浏览器上 而不是下载 因为浏览器支持jpg文件 如果是rar 浏览器不支持才会下载</p>
+<blockquote>//获得磁盘的绝对路径</blockquote>
+<blockquote>String path = getServletContext().getRealPath(&quot;/download/yutou.jpg&quot;); //放在WebRoot下</blockquote>
+<blockquote>InputStream is = new FileInputStream(path); OutputStream os = sesponse.getOutputStream(); int lenth = 0; byte[] b = new byte[1024]; while ((lenth = is.read(b)) != -1) {
+	<p style="padding-left: 30px;">os.write(b, 0, lenth);</p>
+	} is.close(); //os由tomcat容器自动关闭</blockquote>
+<p><span style="color: #ff0000;">注意！！！下载<span style="text-decoration: underline;">一定要用字节流 用字符流会丢数据</span></span> 所以可以设置头信息 让它以附件的形式打开</p>
+<blockquote>response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot; + 下载时候的);</blockquote>
+<p>如果要直接用原来的文件名可以</p>
+<blockquote>String filename = path.substring(path.lastIndexOf(&quot;\\&quot;) + 1);</blockquote>
+<p>在IE里 如果图片是<span style="color: #ff0000;">中文文件名</span> 如果乱码很乱的话 可能都打不开</p>
+<p style="padding-left: 30px;">（<span style="text-decoration: underline;">仅针对IE 别的可能还不好使</span>）可以用urlencode</p>
+<blockquote>filename = URLEncoder.encode(filename, &quot;UTF-8&quot;);</blockquote>
+<ul>
+	<li>注意事项</li>
+</ul>
+<p>1.下载一定要用字节流 用字符流会丢数据</p>
+
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="" class="sidebar">
+	我是右边栏<br/>
+	我还木有被做好
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
