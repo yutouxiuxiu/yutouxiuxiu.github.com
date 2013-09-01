@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>用户自动登录 过滤器</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					用户自动登录 过滤器
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、原理</font></h5>  <p>让用户无论访问哪个页面 都是自动登录上的 所以用到过滤器</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/autologin.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="autologin" border="0" alt="autologin" src="http://localhost:8080/wp-content/uploads/2013/09/autologin_thumb.jpg" width="642" height="253" /></a></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、实现</font></h5>  <p><strong>正常登录时</strong></p>  <p>在正常登录的时候 如果勾选了自动登录</p>  <p>返回一个Cookie信息存在浏览器</p>  <blockquote>   <p>Cookie c = new Cookie(“auto-login”, username + “,”+ password);</p>    <p>c.setMaxAge(…);</p>    <p>c.setPath(…);</p> </blockquote>  <p><strong>自动登录时</strong></p>  <p>用Filter来处理自动登录</p>  <blockquote>   <p>public void doFilter(ServletRequest request, ServletResponse response,     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; FilterChain chain) throws IOException, ServletException {      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; HttpServletRequest httpRequest = (HttpServletRequest) request;      <br />&#160;&#160;&#160; HttpServletResponse httpResponse = (HttpServletResponse) response;      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; //1.只给未登录的用户 才需要自动登录      <br />&#160;&#160;&#160; if (httpRequest.getSession(false) == null || httpRequest.getSession().getAttribute(&quot;user&quot;) == null) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //2.只给带了auto-login的Cookie信息的才给自动登录      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Cookie[] cookies = httpRequest.getCookies();      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; Cookie cookie = null;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; if (cookies != null) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; for (Cookie c : cookies) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; if (&quot;auto-login&quot;.equals(c.getName())) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; cookie = c;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; if (cookie != null) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; String username = cookie.getValue().split(&quot;,&quot;)[0];      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; String password = cookie.getValue().split(&quot;,&quot;)[1];      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //3.只给Cookie信息中用户名密码对的自动登录      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这里就查数据库了      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; if (...) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; httpRequest.getSession().setAttribute(&quot;user&quot;, user);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }      <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; chain.doFilter(request, response);&#160;&#160;&#160; //不用传httpResponse 传respnse就行 httpResponse和response都是引用 本质是一个      <br />}      <br /></p> </blockquote>  <p><strong>注册访问所有的资源都进行自动登录</strong></p>  <blockquote>   <p>&lt;url-pattern&gt;/*&lt;/url-pattern&gt;</p> </blockquote>  <p><strong>不要忘了在注销的时候 也删Cookie</strong></p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

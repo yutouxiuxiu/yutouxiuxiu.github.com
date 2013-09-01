@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../stylesheets/common.css" />
 <link rel="stylesheet" href="../stylesheets/style.css" />
 
-<title>未分类</title>
+<title>异常的处理</title>
 </head>
 <body>
 <div class="screen">
@@ -23,80 +23,22 @@
 
 	<div class="center">
 		<div class="main">
-		<div id="postlist">
-	<div id="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				未分类
-			</a>
-		</h2>
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					异常的处理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>1.如果一个异常抛给上一层 会增加耦合性 要当场解决</strong></p>  <p>比如说Dao层中 解析XML的XMLException异常 要当场解决 不能传给Service层</p>  <p><strong>2.如果上一层明确需要这个异常进行流转</strong></p>  <p>比如说MessageException 向上一层传递错误信息</p>  <p>抛出去 上一层接</p>  <p><strong>3.如果异常本层和上层都可以处理 并且不会增加耦合</strong></p>  <p>在本层解决</p>  <p><strong>4.如果本层解决不了 上层能解决</strong></p>  <p>抛给上层</p>  <p><strong>5.如果哪层都解决不了这个异常</strong></p>  <p>比如XML文件找不到异常 谁都处理不了</p>  <p>catch住转化为RuntimeException抛出</p>  <p>抛给虚拟机 让虚拟机停止线程</p>  <p>throw new RuntimeException();</p>  <p>RuntimeException的特点是抛出之后 上层不用处理</p>
+		</div>
 	</div>
-	<ul class="cate">
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_752.html">
-				分页查询<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_754.html">
-				JavaWeb国际化<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_765.html">
-				HTML注入、JS注入<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_788.html">
-				复习课<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_806.html">
-				Filter<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_825.html">
-				让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_833.html">
-				用户自动登录 过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_838.html">
-				URL级权限认证的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_843.html">
-				异常的处理<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-	</ul>
 </div>
 
 		</div>

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Filter</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Filter
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是过滤器</font></h5>  <p>是Servlet技术中最实用的技术</p>  <p>可以管理资源 对JSP Servlet 静态图片 html文件拦截 不让用户访问</p>  <p>过滤敏感词汇</p>  <p>&#160;</p>  <p><strong>过滤器能干嘛</strong></p>  <p>1.过滤器可以根据条件控制 是否允许访问资源（权限控制）</p>  <p>2.过滤器可以拦截到Request和Response对象 可以在访问资源之前 和访问资源之后 对Request和Response当中的数据进行改变（全站乱码解决）</p>  <p>3.在访问资源之前和访问资源之后 可以做额外的操作</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、过滤器的原理</font></h5>  <p>可以拦截请求和响应 </p>  <blockquote>   <p>一个请求/响应可以被多个过滤器拦截</p>    <p>一个过滤器也可以拦截多个请求/响应</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/lanjie1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="lanjie" border="0" alt="lanjie" src="http://localhost:8080/wp-content/uploads/2013/09/lanjie_thumb1.jpg" width="586" height="240" /></a></p>  <p><strong>它是基于什么拦截的呢？</strong></p>  <p>过滤器拦截资源是基于url来进行的</p>  <p><strong>过滤器链（FilterChain）</strong></p>  <p>一个资源可以被多个过滤器拦截</p>  <p>拦截的顺序 是按照web.xml中配置的&lt;filter-mapping&gt;的配置顺序决定的</p>  <p>多个过滤器拦截一个资源时 这些过滤器按照拦截的顺序 就组成了一个过滤器链</p>  <p>这个过滤器链的最后一个节点是要访问的资源</p>  <p>每个过滤器执行时都会调用doFilter方法 在doFilter方法中的 FilterChain就代表过滤器链</p>  <p><u><font color="#ff0000">调用chain中的doFilter方法 就表示这个过滤器放行</font></u> 执行下一个过滤器</p>  <p>如果不调用这个方法 就表示过滤器拦截请求 不允许通过</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/2filter1.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="2filter" border="0" alt="2filter" src="http://localhost:8080/wp-content/uploads/2013/09/2filter_thumb1.jpg" width="612" height="274" /></a></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、如何写一个过滤器</font></h5>  <p><strong>1.写一个类实现Filter接口</strong></p>  <blockquote>   <p>public class MyFilter implements Filter {      <br />&#160;&#160;&#160; /* Filter被销毁 */       <br />&#160;&#160;&#160; public void destroy() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* 过滤的功能 */      <br />&#160;&#160;&#160; public void doFilter(ServletRequest request, ServletResponse response,       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; FilterChain chain) throws IOException, ServletException {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //<strong><font color="#ff0000">如果不进行chain.doFilter 资源是不被放行的</font></strong></p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; chain.doFilter(request, respnse); //这样表示放行 会交由过滤器链中的下一个过滤器进行处理 如果之后没有过滤器 则会访问到资源</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //在其之后的代码 也可以执行      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /* Filter被创建 */      <br />&#160;&#160;&#160; public void init(FilterConfig arg0) throws ServletException {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>Filter的生命周期</strong></p>  <p>（1）当服务器启动 web应用加载时 服务器创建所有的Filter 创建时调用init方法</p>  <p>（2）在存活期间 如果访问的资源被Filter拦截到 会导致doFilter方法执行 在当中可以控制资源是否运行</p>  <p>（3）服务器关闭或web应用被移除出容器时 Filter随着应用的销毁而销毁 调用destory方法</p>  <p><strong>2.到web.xml中注册过滤器</strong></p>  <p>&#160;</p>  <blockquote>   <p>&lt;filter&gt;      <br />&#160; &lt;filter-name&gt;TestFilter&lt;/filter-name&gt;       <br />&#160; &lt;filter-class&gt;com.yutouxiuxiu.home.test.MyFilter&lt;/filter-class&gt;       <br />&lt;/filter&gt;</p>    <p>&lt;filter-mapping&gt;      <br />&#160; &lt;filter-name&gt;TestFilter&lt;/filter-name&gt;       <br />&#160; &lt;url-pattern&gt;/*&lt;/url-pattern&gt;       <br />&#160; &lt;url-pattern&gt;...&lt;/url-pattern&gt;&#160;&#160;&#160;&#160;&#160; 可以写多个哦       <br />&#160; &lt;servlet-name&gt;TestServlet&lt;/servlet-name&gt;       <br />&#160; &lt;servlet-name&gt;...&lt;/servlet-name&gt;       <br />&lt;/filter-mapping&gt;       <br /></p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、FilterConfig</font></h5>  <p>用来配置Filter的初始化参数 或者获得代表整个应用的ServletContext对象</p>  <p>可以<strong>在web.xml中配置</strong>Filter的初始化信息</p>  <blockquote>   <p><font color="#cccccc">&lt;filter&gt;        <br />&#160; &lt;filter-name&gt;TestFilter&lt;/filter-name&gt;         <br />&#160; &lt;filter-class&gt;com.yutouxiuxiu.home.test.MyFilter&lt;/filter-class&gt;         <br />&#160; &lt;init-param&gt;</font>       <br />&#160;&#160;&#160; &lt;param-name&gt;&lt;/param-name&gt;       <br />&#160;&#160;&#160; &lt;param-value&gt;&lt;/param-value&gt;       <br />&#160; &lt;/init-param&gt;       <br />&#160; &lt;init-param&gt;       <br />&#160;&#160;&#160; &lt;param-name&gt;&lt;/param-name&gt;       <br />&#160;&#160;&#160; &lt;param-value&gt;&lt;/param-value&gt;       <br />&#160; &lt;/init-param&gt;       <br /><font color="#cccccc">&lt;/filter&gt;</font>       <br /></p> </blockquote>  <p>在初始化的时候可以得到它</p>  <blockquote>   <p>public void init(FilterConfig filterConfig) throws ServletException {</p>    <p>&#160;&#160;&#160;&#160;&#160; //…</p>    <p>}</p> </blockquote>  <p><strong>获取所有Filter配置信息</strong></p>  <blockquote>   <p>Enumeration e = filterConfig.getInitParameterNames();      <br />while (e.hasMoreElements()) {       <br />&#160;&#160;&#160; String name = (String)e.nextElement();       <br />&#160;&#160;&#160; String value = filterConfig.getInitParameter(name);       <br />}       <br /></p> </blockquote>  <p>&#160;</p>  <p><strong>获取ServletContext对象</strong></p>  <blockquote>   <p>filterConfig.getServletContext();</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、web.xml配置过滤器细节</font></h5>  <p>1.一个filter标签可以对应多个filter-mapping</p>  <p>2.一个filter-mapping中可以配置多个servlet-name和多个url-partten</p>  <p>3.多个filter拦截同一个资源时 filter-mapping的配置顺序决定拦截顺序</p>  <p>4.url-partten中配置路径的方式和配置Servlet的url-partten相同</p>  <p>5.还可以配置&lt;dispatcher&gt;标签 控制拦截何种方式的对资源的访问</p>  <p><strong>参数</strong></p>  <p>（1）REQUEST </p>  <p>request方式 浏览器直接访问的（<font color="#ff0000">如果不配置 只拦截request方式</font>）</p>  <p>（2）FORWARD </p>  <p>forward方式 请求转发的</p>  <p>（3）INCLUDE </p>  <p>include方式 被其他资源包含进来的</p>  <p>（4）ERROR </p>  <p>error方式 被定义到错误页面的</p>  <p><strong>配置方式</strong></p>  <p>一个filter-mapping中可以配置多个dispatcher</p>  <p><font color="#ff0000"><u>但是一旦配置了 如果没配置REQUEST 就不会对request方式的访问拦截了</u></font></p>  <blockquote>   <p>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;</p>    <p>&lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、应用</font></h5>  <p><strong>1.统一全站字符编码过滤器</strong></p>  <p><a href="?p=818">详情请见?p=818</a></p>  <p><strong>2.让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器</strong></p>  <p><a href="?p=825">详情请见?p=825</a></p>  <p><strong>3.用户自动登录过滤器</strong></p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

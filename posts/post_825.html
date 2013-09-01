@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、禁止缓存动态资源</font></h5>  <p><strong>以前的做法</strong></p>  <p>设置三个头</p>  <blockquote>   <p>Expires: -1</p>    <p>Cache-Control: no-cache</p>    <p>Pragma: no-cache</p> </blockquote>  <p>但是每个页面都得写 很麻烦</p>  <p><strong>1.所以写一个Filter</strong></p>  <blockquote>   <p>public void doFilter(ServletRequest request, ServletResponse response,     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; FilterChain chain) throws IOException, ServletException {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; HttpServletResponse httpResponse = (HttpServletResponse) response;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这些要放到doFilter上边 允许servlet还可以修改这个配置      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; httpResponse.setIntHeader(&quot;Expires&quot;, -1);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; httpResponse.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; httpResponse.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; chain.doFilter(request, response);&#160;&#160;&#160; //不用传httpResponse 传respnse就行 httpResponse和response都是引用 本质是一个      <br />&#160;&#160;&#160; }</p> </blockquote>  <p><strong>2.web.xml配置</strong></p>  <p>所有Servlet和jsp页面</p>  <blockquote>   <p> &lt;filter&gt;     <br />&#160;&#160; &lt;filter-name&gt;NoCacheFilter&lt;/filter-name&gt;      <br />&#160;&#160; &lt;filter-class&gt;com.yutouxiuxiu.home.filter.NoCacheFilter&lt;/filter-class&gt;      <br />&#160;&#160;&#160; &lt;init-param&gt;      <br />&#160;&#160;&#160;&#160;&#160; &lt;param-name&gt;encoding&lt;/param-name&gt;      <br />&#160;&#160;&#160;&#160;&#160; &lt;param-value&gt;UTF-8&lt;/param-value&gt;      <br />&#160;&#160;&#160; &lt;/init-param&gt;      <br /> &lt;/filter&gt;</p>    <p> &lt;filter-mapping&gt;     <br />&#160;&#160; &lt;filter-name&gt;NoCacheFilter&lt;/filter-name&gt;      <br />&#160;&#160; &lt;url-pattern&gt;/servlet/*&lt;/url-pattern&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;      <br /> &lt;/filter-mapping&gt;      <br /></p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、控制缓存静态资源</font></h5>  <p><strong>浏览器的默认缓存机制</strong></p>  <p>浏览器默认的缓存机制将资源缓存起来时 没有设置截止日期</p>  <blockquote>   <p>对于这样的缓存 在地址栏敲回车时 使用缓存</p>    <p>新建一个会话 再访问时 找服务器要</p>    <p>刷新 找服务器要</p> </blockquote>  <p><strong>我们也可以通知浏览器缓存资源</strong></p>  <p>告诉浏览器缓存时间</p>  <p>这样的缓存就具有一个截止日期 在截止之前 多个会话都可以使用这个缓存资源</p>  <blockquote>   <p>如果在地址栏敲回车 使用缓存</p>    <p>刷新 是重新像服务器要</p> </blockquote>  <p><strong>可以通过过滤器拦截所有静态资源 设置缓存时间</strong></p>  <blockquote>   <p>public void doFilter(ServletRequest request, ServletResponse response,     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; FilterChain chain) throws IOException, ServletException {      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; HttpServletResponse httpResponse = (HttpServletResponse) response;      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; //这些要放到doFilter上边 允许servlet还可以修改这个配置      <br />&#160;&#160;&#160; httpResponse.setDateHeader(&quot;Expires&quot;, System.currentTimeMillis() + 1000L * 3600 * 24 * 30);&#160;&#160;&#160; //缓存它30天 注意一定要加上当前时间 注意后边的要变成Long型 否则有可能会加成负数      <br />&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; chain.doFilter(request, response);&#160;&#160;&#160; //不用传httpResponse 传respnse就行 httpResponse和response都是引用 本质是一个      <br />}</p> </blockquote>  <p><strong>对web.xml进行配置</strong></p>  <p>使其作用于静态资源</p>  <blockquote>   <p> &lt;filter&gt;     <br />&#160;&#160; &lt;filter-name&gt;CacheFilter&lt;/filter-name&gt;      <br />&#160;&#160; &lt;filter-class&gt;com.yutouxiuxiu.home.filter.CacheFilter&lt;/filter-class&gt;      <br />&#160;&#160;&#160; &lt;init-param&gt;      <br />&#160;&#160;&#160;&#160;&#160; &lt;param-name&gt;encoding&lt;/param-name&gt;      <br />&#160;&#160;&#160;&#160;&#160; &lt;param-value&gt;UTF-8&lt;/param-value&gt;      <br />&#160;&#160;&#160; &lt;/init-param&gt;      <br /> &lt;/filter&gt;</p>    <p> &lt;filter-mapping&gt;     <br />&#160;&#160; &lt;filter-name&gt;CacheFilter&lt;/filter-name&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.jpg&lt;/url-pattern&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.jpeg&lt;/url-pattern&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.png&lt;/url-pattern&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;      <br />&#160;&#160; &lt;url-pattern&gt;*.bmp&lt;/url-pattern&gt;      <br /> &lt;/filter-mapping&gt;      </p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
