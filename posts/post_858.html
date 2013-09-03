@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../stylesheets/common.css" />
 <link rel="stylesheet" href="../stylesheets/style.css" />
 
-<title>未分类</title>
+<title>文件下载</title>
 </head>
 <body>
 <div class="screen">
@@ -23,108 +23,22 @@
 
 	<div class="center">
 		<div class="main">
-		<div id="postlist">
-	<div id="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				未分类
-			</a>
-		</h2>
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					文件下载
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、怎么弄下载</font></h5>  <p>下载是个响应</p>  <p><strong>两个头一个流！</strong></p>  <p><strong>响应头</strong> </p>  <blockquote>   <p>response.addHeader(“”, “”);</p> </blockquote>  <blockquote>   <p>1.content-type: image/jpeg</p>    <p>2.content-disposition:</p>    <p>&#160;&#160;&#160; inline&#160; -&#160; （默认）直接在页面中打开</p>    <p>&#160;&#160;&#160; attachement;Filename=框框中显示的文件名&#160; -&#160; 弹出下载框</p> </blockquote>  <p><strong>数据流</strong></p>  <blockquote>   <p>要把in中的数据写到getOutputStream中</p>    <p>InputStream in;</p>    <p>response.getOutputStream();</p> </blockquote>  <p><u>下载的文件也要放在WEB-INF中</u></p>  <p>这样才能控制让什么样的用户下载</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、下载实例</font></h5>  <p><strong>1.一个简单的下载</strong></p>  <blockquote>   <p>public void doGet(HttpServletRequest request, HttpServletResponse response)     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; throws ServletException, IOException {      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; //两个头      <br />&#160;&#160;&#160; response.addHeader(&quot;content-type&quot;, &quot;image/jpeg&quot;);      <br />&#160;&#160;&#160; response.addHeader(&quot;content-disposition&quot;, &quot;attachement;filename=yutou.jpg&quot;);      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; //一个流      <br />&#160;&#160;&#160; FileInputStream in = new FileInputStream(this.getServletContext().getRealPath(&quot;/WEB-INF/downloads/yutou.jpg&quot;));      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; //流写入到response.getOutputStream()中      <br />&#160;&#160;&#160; IOUtils.copy(in, response.getOutputStream());      <br />}      <br /></p> </blockquote>  <p><strong>2.点击链接下载</strong></p>  <p>页面</p>  <blockquote>   <p>&lt;a href=”&lt;c:url value=’/DownloadServlet?filename=芋头图.jpg’&gt;”&gt;芋头图&lt;/a&gt;</p> </blockquote>  <p>下载的Servlet</p>  <blockquote>   <p>String filename = request.getParameter(“filename”);</p>    <p>filename = new String(filename.getBytes(“ISO8859-1”), “UTF-8”);</p>    <p>String path = this.getServletContext().getRealPath(“/WEB-INF/downloads”);</p>    <p>File file = new File(path, filename);</p>    <p>//通过文件给两个头一个流赋值</p>    <p>response.addHeader(“content-type”, this.getServletContext().getMimeType(filename));&#160;&#160;&#160; //通过文件名称获取MIME类型 有文件名就够了</p>    <p>response.addHeader(“content-disposition”, “attachement;filename=” + new String(filename.getBytes(“GBK”), “ISO8859-1”));&#160;&#160;&#160; //为什么呢 不知道 但是它好使….</p>    <p>//获取文件的字节 写入到相应流中</p>    <p>response.getOutputStream().writer(FileUtils.readFileToByteArray(file));&#160;&#160;&#160; //在jar包里</p></blockquote>
+		</div>
 	</div>
-	<ul class="cate">
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_752.html">
-				分页查询<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_754.html">
-				JavaWeb国际化<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_765.html">
-				HTML注入、JS注入<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_788.html">
-				复习课<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_806.html">
-				Filter<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_825.html">
-				让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_833.html">
-				用户自动登录 过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_838.html">
-				URL级权限认证的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_843.html">
-				异常的处理<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_851.html">
-				文件上传<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_858.html">
-				文件下载<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_865.html">
-				邮件协议<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_877.html">
-				JavaMail<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-	</ul>
 </div>
 
 		</div>

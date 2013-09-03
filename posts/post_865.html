@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../stylesheets/common.css" />
 <link rel="stylesheet" href="../stylesheets/style.css" />
 
-<title>未分类</title>
+<title>邮件协议</title>
 </head>
 <body>
 <div class="screen">
@@ -23,108 +23,22 @@
 
 	<div class="center">
 		<div class="main">
-		<div id="postlist">
-	<div id="post-title">
-		<h2>
-			<a rel="bookmark" href="">
-				未分类
-			</a>
-		</h2>
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					邮件协议
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、邮件协议</font></h5>  <p>163邮件服务器</p>  <p><strong>1.SMTP简单的邮件传输协议</strong></p>  <p>SMTP服务器 发送邮件的</p>  <p>smtp.163.com（必须按照这个命名规范命名 否则发送方会找不到它）</p>  <p>端口：25</p>  <p><strong>2.POP3邮局协议第三版</strong></p>  <p>POP3服务器 用户收邮件的</p>  <p>pop3.126.com</p>  <p>端口：110</p>  <p><strong>3.IMAP 既能收又能发</strong></p>  <p>现在也有很多用这个的</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail_thumb2.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail_thumb[2]" border="0" alt="mail_thumb[2]" src="http://localhost:8080/wp-content/uploads/2013/09/mail_thumb2_thumb.jpg" width="433" height="292" /></a></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail2_thumb1.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail2_thumb" border="0" alt="mail2_thumb" src="http://localhost:8080/wp-content/uploads/2013/09/mail2_thumb_thumb.jpg" width="431" height="175" /></a></p>  <p>&#160;</p>  <p>所有的邮件发送信息的时候 都采用了BASE64加密 这个加密是可逆的</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、telnet发送邮件</font></h5>  <p>连接</p>  <blockquote>   <p>telnet smtp.163.com 25</p> </blockquote>  <p>说hello</p>  <blockquote>   <p>ehlo xxx</p> </blockquote>  <p>出一堆250就说明行了</p>  <p>登录</p>  <blockquote>   <p>auth login</p>    <p>BASE64加密的用户名</p>    <p>BASE64加密的密码</p> </blockquote>  <p>设置发送和接收者</p>  <blockquote>   <p>mail from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>rcpt to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p> </blockquote>  <p>设置内容</p>  <blockquote>   <p>data</p>    <p>from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p>    <p>subject:标题</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //空行</p>    <p>正文</p>    <p>.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //·表示结束</p></blockquote>
+		</div>
 	</div>
-	<ul class="cate">
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_752.html">
-				分页查询<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_754.html">
-				JavaWeb国际化<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_765.html">
-				HTML注入、JS注入<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_788.html">
-				复习课<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_806.html">
-				Filter<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_825.html">
-				让浏览器 禁止缓存动态资源 缓存静态资源 的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_833.html">
-				用户自动登录 过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_838.html">
-				URL级权限认证的过滤器<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_843.html">
-				异常的处理<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_851.html">
-				文件上传<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_858.html">
-				文件下载<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_865.html">
-				邮件协议<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-		<li>
-			<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_877.html">
-				JavaMail<br/>
-				<span>{ post:time }</span>
-			</a>
-		</li>
-		
-	</ul>
 </div>
 
 		</div>
