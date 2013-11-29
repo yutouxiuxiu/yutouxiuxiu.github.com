@@ -37,7 +37,7 @@
 		</div>
 		<div class="post-content">
 			<h5>
-	<strong>一、语法规范</strong>
+	<strong style="line-height: 1.2em; font-size: 13px;">一、语法规范</strong>
 </h5>
 
 <blockquote>
@@ -369,7 +369,72 @@
 </blockquote>
 
 <p>
+	<span style="color: rgb(0, 0, 255); font-size: 13px;">ThinkPHP/Common/common.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $path[0]== '@' ? dirname(BASE_LIB_PATH) : APP_PATH.'../'.$path[0].&#39;/&#39;.C(&#39;APP_GROUP_PATH&#39;).&#39;/&#39;;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 两个项目必须在同一级目录 才能远程调用<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);
+	</p>
+</blockquote>
+
+<p>
 	&nbsp;
+</p>
+
+<h5>
+	<strong>八、模块分组</strong>
+</h5>
+
+<p>
+	当一个应用有不同类别的模块的时候 就用到了模块分组
+</p>
+
+<p>
+	比如说有Home和Admin两组模块 希望通过 index.php/Home 或直接通过 index.php 访问 Home分组下的模块 通过 index.php/Admin 访问 Admin分组下的模块
+</p>
+
+<p>
+	<strong>1.配置分组</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">应用路径/Conf/config.php</span>
+</p>
+
+<blockquote>
+	<p>
+		return array(
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;APP_GROUP_LIST&#39;&nbsp;=&gt; &#39;Home,Admin&#39;; &nbsp; &nbsp;//分组列表 用逗号隔开
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;DEFAULT_GROUP&#39; =&gt; &#39;Home&#39;; &nbsp;//默认分组 在URL上不指定分组时采用的分组
+	</p>
+
+	<p>
+		)
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.在分组下编写Action</strong>
+</p>
+
+<p>
+	分别在指定的分组下编写Action
+</p>
+
+<p>
+	<span style="color:#0000FF;">应用路径/Lib/Action/Home</span>
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">应用路径/Lib/Action/Admin</span></span>
 </p>
 
 <p>
@@ -377,28 +442,184 @@
 </p>
 
 <p>
-	&nbsp;
+	<strong>3.分组前后目录结构</strong>
 </p>
+
+<table border="0" cellpadding="0" cellspacing="1">
+	<tbody>
+		<tr>
+			<th>
+				项目目录
+			</th>
+			<th>
+				分组(以Home和Admin分组为例)
+			</th>
+			<th>
+				不分组
+			</th>
+		</tr>
+		<tr>
+			<td>
+				公共目录<br />
+				（Common）
+			</td>
+			<td>
+				<p>
+					Home分组：Common/Home/function.php
+				</p>
+
+				<p>
+					Admin分组：Common/Admin/function.php
+				</p>
+
+				<p>
+					公共文件：Common/common.php
+				</p>
+			</td>
+			<td>
+				Common/common.php
+			</td>
+		</tr>
+		<tr>
+			<td>
+				配置目录<br />
+				（Conf）
+			</td>
+			<td>
+				<p>
+					Home分组：Conf/Home/config.php
+				</p>
+
+				<p>
+					Admin分组：Conf/Admin/config.php
+				</p>
+
+				<p>
+					公共配置：Conf/config.php
+				</p>
+			</td>
+			<td>
+				Conf/config.php
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Action目录
+			</td>
+			<td>
+				<p>
+					Home分组：Lib/Action/Home/
+				</p>
+
+				<p>
+					Admin分组：Lib/Action/Admin/
+				</p>
+
+				<p>
+					公共Action：Lib/Action/
+				</p>
+			</td>
+			<td>
+				Lib/Action/
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Model&nbsp;目录
+			</td>
+			<td>
+				Lib/Model/
+			</td>
+			<td>
+				Lib/Model/
+			</td>
+		</tr>
+		<tr>
+			<td>
+				语言包目录（Lang&nbsp;以zh-cn为例）
+			</td>
+			<td>
+				<p>
+					Home分组：Lang/zh-cn/Home/lang.php
+				</p>
+
+				<p>
+					Admin分组：Lang/zh-cn/Admin/lang.php
+				</p>
+
+				<p>
+					公共语言包：Lang/zh-cn/common.php
+				</p>
+			</td>
+			<td>
+				Lang/zh-cn/common.php
+			</td>
+		</tr>
+		<tr>
+			<td>
+				模板目录（Tpl以theme主题为例）
+			</td>
+			<td>
+				<p>
+					Home分组：Tpl/Home/theme/
+				</p>
+
+				<p>
+					Admin分组：Tpl/Admin/theme/
+				</p>
+			</td>
+			<td>
+				Tpl/theme/
+			</td>
+		</tr>
+		<tr>
+			<td>
+				运行时目录（Runtime）
+			</td>
+			<td>
+				<p>
+					Home分组：Runtime/Home/
+				</p>
+
+				<p>
+					Admin分组：Runtime/Admin/
+				</p>
+			</td>
+			<td>
+				Runtime/
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 <p>
 	&nbsp;
 </p>
 
 <p>
-	&nbsp;
+	<strong>4.URL设置</strong>
 </p>
 
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
+<table border="0" cellpadding="0" cellspacing="1">
+	<tbody>
+		<tr>
+			<td>
+				TMPL_FILE_DEPR
+			</td>
+			<td>
+				分组模板下面模块和操作的分隔符，默认值为&ldquo;/&rdquo;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				VAR_GROUP
+			</td>
+			<td>
+				分组的URL参数名，默认为g（普通模式URL才需要）
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 <p>
 	&nbsp;
@@ -509,6 +730,8 @@
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
 				
 			</ul>
 		</li>

@@ -1,0 +1,738 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - Model</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - Model
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	TP下的Model符合和数据库交互 和 校验数据
+</p>
+
+<h5>
+	<strong>一、命名规则</strong>
+</h5>
+
+<blockquote>
+	<p>
+		表名Model extends Model {
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	表名使用大驼峰
+</p>
+
+<h5>
+	<strong><span style="line-height: 1.6em;">二、实例化</span></strong>
+</h5>
+
+<p>
+	假如说有个UserModel 想要实例化
+</p>
+
+<blockquote>
+	<p>
+		$userModel&nbsp;= D(&#39;User&#39;);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、操作数据库</strong>
+</h5>
+
+<p>
+	<strong>1.增加数据 add</strong>
+</p>
+
+<p>
+	<strong>（1）CRM（数据关系映射）方式</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	数组的键与表的字段一一对应
+</p>
+
+<p style="margin-left: 40px;">
+	数组与表的一行一一对应
+</p>
+
+<blockquote>
+	<p>
+		$xxxModel =&gt; D(&#39;Xxx&#39;);
+	</p>
+
+	<p>
+		$data = array (
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;字段&#39; =&gt; &#39;值&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		);
+	</p>
+
+	<p>
+		var_dump($xxxModel-&gt;add($data)); &nbsp; &nbsp;//插入成功返回主键 插入失败返回false
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）AR（Active Recodes 活动对象）方式</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	把对象的属性和表的字段对应
+</p>
+
+<p style="margin-left: 40px;">
+	操作对象的属性 就是在操作表中的数据
+</p>
+
+<p style="margin-left: 40px;">
+	保存对象 数据就保存了
+</p>
+
+<blockquote>
+	<p>
+		$userModel-&gt;D(&#39;User&#39;);
+	</p>
+
+	<p>
+		$userModel-&gt;username = &#39;yutou&#39;;
+	</p>
+
+	<p>
+		$userModel-&gt;password = &#39;123&#39;;
+	</p>
+
+	<p>
+		$userModel-&gt;add();<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;&nbsp; &nbsp;//插入成功返回主键 插入失败返回false</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）原理</strong>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* ThinkPHP Model模型类<br />
+		&nbsp;* 实现了ORM和ActiveRecords模式<br />
+		&nbsp;* @category &nbsp; Think<br />
+		&nbsp;* @package &nbsp;Think<br />
+		&nbsp;* @subpackage &nbsp;Core<br />
+		&nbsp;* @author &nbsp; &nbsp;liu21st &lt;liu21st@gmail.com&gt;<br />
+		&nbsp;*/<br />
+		class Model {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; // 数据信息<br />
+		&nbsp; &nbsp; protected <strong><span style="color:#FF0000;">$data</span></strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; array();
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 新增数据<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $data 数据<br />
+		&nbsp; &nbsp; &nbsp;* @param array $options 表达式<br />
+		&nbsp; &nbsp; &nbsp;* @param boolean $replace 是否replace<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">add($data=&#39;&#39;</span></strong>,$options=array(),$replace=false) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">没有传递数据，获取当前数据对象的值</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;data;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 重置数据<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data &nbsp; &nbsp; = array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp;= L(&#39;_DATA_TYPE_INVALID_&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp; $this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 数据处理<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;<strong><span style="color:#FF0000;">_facade($data)</span></strong>;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ <strong><span style="color:#FF0000;">过滤非字段的数据</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $this-&gt;_before_insert($data,$options)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 写入数据到数据库<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $result = $this-&gt;db-&gt;insert($data,$options,$replace);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>if(false !== $result ) {</strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>$insertId &nbsp; = &nbsp; $this-&gt;getLastInsID();</strong></span><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($insertId) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 自增主键返回插入ID<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data[$this->getPk()] &nbsp;= $insertId;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_insert($data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return $insertId;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_insert($data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $result;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 对保存到数据库的数据进行处理<br />
+		&nbsp; &nbsp; &nbsp;* @access protected<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $data 要操作的数据<br />
+		&nbsp; &nbsp; &nbsp;* @return boolean<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; &nbsp;protected function <strong><span style="color:#FF0000;">_facade</span></strong>($data) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 检查非数据字段<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($data as $key=&gt;$val){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">if(!in_array($key,$this-&gt;fields,true)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$key]);</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif(is_scalar($val)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 字段类型检查<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_parseType($data,$key);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 安全过滤<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;options['filter'])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data = array_map($this-&gt;options['filter'],$data);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($this-&gt;options['filter']);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_before_write($data);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $data;<br />
+		&nbsp; &nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 设置数据对象的值<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $value 值<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function __set($name,$value) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 设置数据对象属性<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data[$name] &nbsp;= &nbsp; $value;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 获取数据对象的值<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function __get($name) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return isset($this-&gt;data[$name])?$this->data[$name]:null;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 检测数据对象的值<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
+		&nbsp; &nbsp; &nbsp;* @return boolean<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function __isset($name) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return isset($this-&gt;data[$name]);<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 销毁数据对象的值<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function __unset($name) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; unset($this-&gt;data[$name]);<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.修改数据 save</strong>
+</p>
+
+<p>
+	<strong>（1）CRM方式</strong>
+</p>
+
+<blockquote>
+	<p>
+		$data = array(...); &nbsp;//不包含主键
+	</p>
+
+	<p>
+		$options = array(&#39;where&#39;&nbsp;=&gt; &#39;&#39;);
+	</p>
+
+	<p>
+		$userModel-&gt;save($data, $options);
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$data = array(...); &nbsp;//包含主键
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">$userModel-&gt;save($data);</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="font-size: 13px;">（2）AR方式</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		$userModel-&gt;id = 1;
+	</p>
+
+	<p>
+		$userModel-&gt;username = &#39;&#39;;
+	</p>
+
+	<p>
+		$userModel-&gt;save();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（3）原理</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 保存数据<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $data 数据<br />
+		&nbsp; &nbsp; &nbsp;* @param array $options 表达式<br />
+		&nbsp; &nbsp; &nbsp;* @return boolean<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function save($data=&#39;&#39;,$options=array()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 没有传递数据，获取当前数据对象的值<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;data;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 重置数据<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data &nbsp; &nbsp; = &nbsp; array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp;= &nbsp; L(&#39;_DATA_TYPE_INVALID_&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 数据处理<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;_facade($data);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp; $this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $pk &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;getPk();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!isset($options['where']) ) {&nbsp;&nbsp; &nbsp;// ~ 如果没传option的where条件 就到$data数组里找主键的值 如果都没有 就报错<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果存在主键数据 则自动作为更新条件<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($data[$pk])) {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ $data数组里 有没有以主键作为键名的单元<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $data[$pk]; &nbsp;&nbsp;&nbsp; &nbsp;// ~ where $pk=$data[$pk]<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; = &nbsp; $where;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$pk]);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果没有任何更新条件则不执行<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; L(&#39;_OPERATION_WRONG_&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_array($options['where']) &amp;&amp; isset($options['where'][$pk])){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $pkValue &nbsp; &nbsp;= &nbsp; $options['where'][$pk];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; } &nbsp; &nbsp; &nbsp; &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $this-&gt;_before_update($data,$options)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; } &nbsp; &nbsp; &nbsp; &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $result &nbsp; &nbsp; = &nbsp; $this-&gt;db-&gt;update($data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false !== $result) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($pkValue)) $data[$pk] &nbsp; = &nbsp;$pkValue;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_update($data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $result;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.options</strong>
+</p>
+
+<p style="font-size: 13px;">
+	存放SQL查询条件的数组
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		<span style="line-height: 1.6em;">$options = array (&#39;where&#39;</span><span style="line-height: 1.6em;">&nbsp;=&gt; &#39;email=&quot;yutou@xiuxiu.com&quot;&#39;,&nbsp;</span><span style="line-height: 1.6em;">&#39;order&#39;&nbsp;=&gt; &#39;id desc&#39;,&nbsp;</span><span style="line-height: 1.6em;">&#39;limit&#39; =&gt; &#39;2&#39;);</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">/* 结果</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">Array</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">(</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		[where] =&gt;&nbsp;email=&quot;yutou@xiuxiu.com&quot;
+	</p>
+
+	<p style="margin-left: 40px;">
+		[order] =&gt;&nbsp;id desc
+	</p>
+
+	<p style="margin-left: 40px;">
+		[limit] =&gt; 2
+	</p>
+
+	<p style="margin-left: 40px;">
+		[table] =&gt; user
+	</p>
+
+	<p style="margin-left: 40px;">
+		[model] =&gt; User
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">)</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">*/</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	options原理
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 查询数据集<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param array $options 表达式参数<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function select($options=array()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;<strong><span style="color: rgb(255, 0, 0);">&nbsp;if(is_string($options) || is_numeric($options))</span></strong>&nbsp;{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 根据主键查询<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $pk &nbsp; = &nbsp;$this-&gt;getPk();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong><span style="color: rgb(255, 0, 0);">if(strpos($options,&#39;,&#39;)) {</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;array(&#39;IN&#39;,$options);&nbsp;&nbsp; &nbsp;// ~ WHERE $pk IN(...,...,...)<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;$options;&nbsp;&nbsp; &nbsp;// ~ WHERE $pk=...<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; = &nbsp;$where;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<strong><span style="color: rgb(255, 0, 0);">elseif(false === $options)</span></strong>{ // 用于子查询 不查询只返回SQL<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;$this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return &nbsp;&#39;( &#39;.$this-&gt;db-&gt;buildSelectSql($options).&#39; )&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp;$this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $resultSet &nbsp;= $this-&gt;db-&gt;select($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $resultSet) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($resultSet)) { // 查询结果为空<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_select($resultSet,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $resultSet;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<div>
+		&nbsp;
+	</div>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.查询 select</strong>
+</p>
+
+<p>
+	可以传options到select中
+</p>
+
+<blockquote>
+	<p>
+		$options = array(...);
+	</p>
+
+	<p>
+		$userModel-&gt;select($options);
+	</p>
+</blockquote>
+
+<p>
+	也可以使用连贯操作
+</p>
+
+<blockquote>
+	<p>
+		$userModel-&gt;where(&#39;id&lt;5&#39;)-&gt;order(&#39;id desc&#39;)-&gt;limit(3)-&gt;select(); &nbsp; &nbsp;
+	</p>
+</blockquote>
+
+<p>
+	连贯操作原理
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; // 链操作方法列表<br />
+		&nbsp; &nbsp; protected <strong><span style="color:#FF0000;">$methods</span></strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; array(&#39;table&#39;,&#39;order&#39;,&#39;alias&#39;,&#39;having&#39;,&#39;group&#39;,&#39;lock&#39;,&#39;distinct&#39;,&#39;auto&#39;,&#39;filter&#39;,&#39;validate&#39;,&#39;result&#39;,&#39;bind&#39;,&#39;token&#39;);
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 利用__call方法实现一些特殊的Model方法<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $method 方法名称<br />
+		&nbsp; &nbsp; &nbsp;* @param array $args 调用参数<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">__call($method,$args)</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(in_array(strtolower($method),<span style="color:#FF0000;"><strong>$this-&gt;methods</strong></span>,true)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 连贯操作的实现<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;options[strtolower($method)] = &nbsp; $args[0];</span></strong>&nbsp;&nbsp; &nbsp;// ~ 将操作的参数放到options数组中<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>return $this;</strong></span>&nbsp;&nbsp; &nbsp;// ~ 因为return $this 所以可以链式操作
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
