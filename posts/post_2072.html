@@ -1,0 +1,886 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - 概述</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - 概述
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	库 供我们的代码调用
+</h5>
+
+<p>
+	框架 调用我们的代码
+</p>
+
+<h5>
+	<strong>一、版本问题</strong>
+</h5>
+
+<p>
+	目前使用3.0版本
+</p>
+
+<p>
+	核心<span style="font-size: 13px;">版</span> = 框架的功能
+</p>
+
+<p>
+	完整版 = 核心<span style="font-size: 13px;">版</span> + 库文件（文件上传类，图片类...） + 很多案例
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、快速入门</strong>
+</h5>
+
+<p>
+	新建项目目录&nbsp;
+</p>
+
+<p>
+	将ThinkPHP目录放在与项目目录同级
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">建立项目入口文件index.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php
+	</p>
+
+	<p>
+		require(&#39;../ThinkPHP/ThinkPHP.php&#39;);
+	</p>
+
+	<p>
+		?&gt;
+	</p>
+</blockquote>
+
+<p>
+	成了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、项目目录结构</strong>
+</h5>
+
+<p>
+	Common &nbsp;- &nbsp;放置常用函数
+</p>
+
+<p>
+	Conf &nbsp;- &nbsp;配置文件
+</p>
+
+<p>
+	Extend 扩展 - 核心板这个是空的
+</p>
+
+<p>
+	Lang &nbsp;- &nbsp;语言包
+</p>
+
+<p>
+	Lab &nbsp;- &nbsp;核心库文件
+</p>
+
+<p style="margin-left: 40px;">
+	Behavior
+</p>
+
+<p style="margin-left: 40px;">
+	Core &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	Action
+</p>
+
+<p style="margin-left: 80px;">
+	Model
+</p>
+
+<p style="margin-left: 80px;">
+	View
+</p>
+
+<p style="margin-left: 80px;">
+	Think核心类
+</p>
+
+<p style="margin-left: 80px;">
+	App应用管理
+</p>
+
+<p style="margin-left: 80px;">
+	Dispatcher路由器
+</p>
+
+<p style="margin-left: 40px;">
+	Driver
+</p>
+
+<p style="margin-left: 40px;">
+	Template
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、执行过程</strong>
+</h5>
+
+<p>
+	入口文件 -&gt;
+</p>
+
+<p>
+	ThinkPHP.php（定义APP_PATH, THINK_PATH, APP_DEBUG） -&gt;&nbsp;
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">runtime.php（解决魔术引号 定义许多常量 加载common.php 加载核心文件 创建应用目录） -&gt;</span>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">Think::start（指定错误处理函数&nbsp;指定异常处理函数 类自动加载机制）&nbsp;</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">-&gt;&nbsp;</span>Think::buildApp（加载各种配置文件）
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">-&gt;&nbsp;</span>App::run
+</p>
+
+<p style="margin-left: 80px;">
+	-&gt; App::init -&gt;&nbsp;<span style="line-height: 1.6em;">Dispatcher::</span><span style="line-height: 1.6em;">dispatch（得到</span><span style="line-height: 1.6em;">MODULE_NAME, ACTION_NAME</span><span style="line-height: 1.6em;">）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	-&gt; App::exec（实例化Module调用Action方法）
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/ThinkPHP.php</span>
+</p>
+
+<blockquote>
+	<p>
+		// ThinkPHP 入口文件<br />
+		// 记录开始运行时间<br />
+		$GLOBALS['_beginTime'] = microtime(TRUE);<br />
+		// 记录内存初始使用<br />
+		define(&#39;MEMORY_LIMIT_ON&#39;,function_exists(&#39;memory_get_usage&#39;));&nbsp;&nbsp; &nbsp;// ~ php5.2+ 新增一个编译选项 允许不编译此函数<br />
+		if(MEMORY_LIMIT_ON) $GLOBALS['_startUseMems'] = memory_get_usage();<br />
+		// 系统目录定义<br />
+		defined(&#39;<strong><span style="color:#FF0000;">THINK_PATH</span></strong>&#39;) &nbsp;&nbsp; &nbsp;or define(&#39;THINK_PATH&#39;, dirname(__FILE__).&#39;/&#39;);<br />
+		defined(&#39;<span style="color:#FF0000;"><strong>APP_PATH</strong></span>&#39;) &nbsp;&nbsp; &nbsp;or define(&#39;APP_PATH&#39;, dirname($_SERVER['SCRIPT_FILENAME']).&#39;/&#39;);&nbsp;&nbsp; &nbsp;// ~ 当前应用绝对路径<br />
+		defined(&#39;<strong><span style="color:#FF0000;">APP_DEBUG</span></strong>&#39;) &nbsp;&nbsp; &nbsp;or define(&#39;APP_DEBUG&#39;,false); // 是否调试模式 &nbsp;- &nbsp;<strong><span style="color:#FF0000;">在应用的入口文件里可以开启 需要先开启 再require这个文件</span></strong><br />
+		if(defined(&#39;ENGINE_NAME&#39;)) {<br />
+		&nbsp; &nbsp; defined(&#39;ENGINE_PATH&#39;) or define(&#39;ENGINE_PATH&#39;,THINK_PATH.&#39;Extend/Engine/&#39;);<br />
+		&nbsp;&nbsp; &nbsp;require ENGINE_PATH.strtolower(ENGINE_NAME).&#39;.php&#39;;<br />
+		}else{<br />
+		&nbsp; &nbsp; defined(&#39;<span style="color:#FF0000;"><strong>RUNTIME_PATH</strong></span>&#39;) or define(&#39;RUNTIME_PATH&#39;,APP_PATH.&#39;Runtime/&#39;);&nbsp;&nbsp; &nbsp;// ~ 运行临时目录 如果手动设定了 这里就不再次定义<br />
+		&nbsp;&nbsp; &nbsp;$runtime = defined(&#39;MODE_NAME&#39;)?&#39;~&#39;.strtolower(MODE_NAME).&#39;_runtime.php&#39;:&#39;~runtime.php&#39;;&nbsp;&nbsp; &nbsp;// ~ 生成不同模式的runtime.php<br />
+		&nbsp;&nbsp; &nbsp;defined(&#39;<strong><span style="color:#FF0000;">RUNTIME_FILE</span></strong>&#39;) or define(&#39;RUNTIME_FILE&#39;,RUNTIME_PATH.$runtime);<br />
+		&nbsp;&nbsp; &nbsp;// ~ 在非调试模式下 如果项目下有runtime.php 就加载 没有则加载ThinkPHP框架的运行时文件<br />
+		&nbsp;&nbsp; &nbsp;if(!APP_DEBUG &amp;&amp; is_file(RUNTIME_FILE)) {<br />
+		&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;// 部署模式直接载入运行缓存<br />
+		&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<strong><span style="color:#FF0000;">require RUNTIME_FILE</span></strong>;&nbsp;&nbsp; &nbsp;// ~ runtime.php是运行时的大的php文件 是把很多php文件组合到一起的<br />
+		&nbsp;&nbsp; &nbsp;}else{<br />
+		&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;// 加载运行时文件<br />
+		&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;require THINK_PATH.&#39;Common/runtime.php&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}&nbsp;&nbsp; &nbsp;<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Common/runtime.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* ThinkPHP 运行时文件 编译后不再加载<br />
+		&nbsp;* @category &nbsp; Think<br />
+		&nbsp;* @package &nbsp;Common<br />
+		&nbsp;* @author &nbsp; liu21st &lt;liu21st@gmail.com&gt;<br />
+		&nbsp;*/<br />
+		defined(&#39;THINK_PATH&#39;) or exit();<br />
+		if(version_compare(PHP_VERSION,&#39;5.2.0&#39;,&#39;&lt;&#39;)) &nbsp;die(&#39;require PHP &gt; 5.2.0 !&#39;);
+	</p>
+
+	<p>
+		// &nbsp;版本信息<br />
+		define(&#39;THINK_VERSION&#39;, &#39;3.1.3&#39;);
+	</p>
+
+	<p>
+		// &nbsp; 系统信息<br />
+		if(version_compare(PHP_VERSION,&#39;5.4.0&#39;,&#39;&lt;&#39;)) {<br />
+		&nbsp; &nbsp; ini_set(&#39;<strong><span style="color:#FF0000;">magic_quotes_runtime</span></strong>&#39;,0);<br />
+		&nbsp; &nbsp; define(&#39;MAGIC_QUOTES_GPC&#39;,get_magic_quotes_gpc()?True:False);<br />
+		}else{<br />
+		&nbsp; &nbsp; define(&#39;MAGIC_QUOTES_GPC&#39;,false);<br />
+		}<br />
+		define(&#39;IS_CGI&#39;,substr(PHP_SAPI, 0,3)==&#39;cgi&#39; ? 1 : 0 );<br />
+		define(&#39;IS_WIN&#39;,strstr(PHP_OS, &#39;WIN&#39;) ? 1 : 0 );<br />
+		define(&#39;IS_CLI&#39;,PHP_SAPI==&#39;cli&#39;? 1 &nbsp; : &nbsp; 0);
+	</p>
+
+	<p>
+		// 项目名称<br />
+		defined(&#39;APP_NAME&#39;) or define(&#39;APP_NAME&#39;, basename(dirname($_SERVER['SCRIPT_FILENAME'])));
+	</p>
+
+	<p>
+		if(!IS_CLI) {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; //<strong><span style="color:#FF0000;">支持的URL模式</span></strong><br />
+		&nbsp; &nbsp; define(&#39;URL_COMMON&#39;, &nbsp; &nbsp; &nbsp;0); &nbsp; //普通模式<br />
+		&nbsp; &nbsp; define(&#39;URL_PATHINFO&#39;, &nbsp; &nbsp;1); &nbsp; //PATHINFO模式<br />
+		&nbsp; &nbsp; define(&#39;URL_REWRITE&#39;, &nbsp; &nbsp; 2); &nbsp; //REWRITE模式<br />
+		&nbsp; &nbsp; define(&#39;URL_COMPAT&#39;, &nbsp; &nbsp; &nbsp;3); &nbsp; // 兼容模式
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		// 路径设置 可在入口文件中重新定义 所有路径常量都必须以/ 结尾<br />
+		// ~ <span style="color:#FF0000;"><strong>定义路径常量</strong></span> 方便调用<br />
+		defined(&#39;CORE_PATH&#39;) &nbsp; &nbsp;or define(&#39;CORE_PATH&#39;, &nbsp; &nbsp; &nbsp;THINK_PATH.&#39;Lib/&#39;); // 系统核心类库目录<br />
+		defined(&#39;EXTEND_PATH&#39;) &nbsp;or define(&#39;EXTEND_PATH&#39;, &nbsp; &nbsp;THINK_PATH.&#39;Extend/&#39;); // 系统扩展目录<br />
+		defined(&#39;MODE_PATH&#39;) &nbsp; &nbsp;or define(&#39;MODE_PATH&#39;, &nbsp; &nbsp; &nbsp;EXTEND_PATH.&#39;Mode/&#39;); // 模式扩展目录<br />
+		defined(&#39;ENGINE_PATH&#39;) &nbsp;or define(&#39;ENGINE_PATH&#39;, &nbsp; &nbsp;EXTEND_PATH.&#39;Engine/&#39;); // 引擎扩展目录<br />
+		defined(&#39;VENDOR_PATH&#39;) &nbsp;or define(&#39;VENDOR_PATH&#39;, &nbsp; &nbsp;EXTEND_PATH.&#39;Vendor/&#39;); // 第三方类库目录<br />
+		defined(&#39;LIBRARY_PATH&#39;) or define(&#39;LIBRARY_PATH&#39;, &nbsp; EXTEND_PATH.&#39;Library/&#39;); // 扩展类库目录<br />
+		defined(&#39;COMMON_PATH&#39;) &nbsp;or define(&#39;COMMON_PATH&#39;, &nbsp; &nbsp;APP_PATH.&#39;Common/&#39;); // 项目公共目录<br />
+		defined(&#39;LIB_PATH&#39;) &nbsp; &nbsp; or define(&#39;LIB_PATH&#39;, &nbsp; &nbsp; &nbsp; APP_PATH.&#39;Lib/&#39;); // 项目类库目录<br />
+		defined(&#39;CONF_PATH&#39;) &nbsp; &nbsp;or define(&#39;CONF_PATH&#39;, &nbsp; &nbsp; &nbsp;APP_PATH.&#39;Conf/&#39;); // 项目配置目录<br />
+		defined(&#39;LANG_PATH&#39;) &nbsp; &nbsp;or define(&#39;LANG_PATH&#39;, &nbsp; &nbsp; &nbsp;APP_PATH.&#39;Lang/&#39;); // 项目语言包目录<br />
+		defined(&#39;TMPL_PATH&#39;) &nbsp; &nbsp;or define(&#39;TMPL_PATH&#39;, &nbsp; &nbsp; &nbsp;APP_PATH.&#39;Tpl/&#39;); // 项目模板目录<br />
+		defined(&#39;HTML_PATH&#39;) &nbsp; &nbsp;or define(&#39;HTML_PATH&#39;, &nbsp; &nbsp; &nbsp;APP_PATH.&#39;Html/&#39;); // 项目静态目录<br />
+		defined(&#39;LOG_PATH&#39;) &nbsp; &nbsp; or define(&#39;LOG_PATH&#39;, &nbsp; &nbsp; &nbsp; RUNTIME_PATH.&#39;Logs/&#39;); // 项目日志目录<br />
+		defined(&#39;TEMP_PATH&#39;) &nbsp; &nbsp;or define(&#39;TEMP_PATH&#39;, &nbsp; &nbsp; &nbsp;RUNTIME_PATH.&#39;Temp/&#39;); // 项目缓存目录<br />
+		defined(&#39;DATA_PATH&#39;) &nbsp; &nbsp;or define(&#39;DATA_PATH&#39;, &nbsp; &nbsp; &nbsp;RUNTIME_PATH.&#39;Data/&#39;); // 项目数据目录<br />
+		defined(&#39;CACHE_PATH&#39;) &nbsp; or define(&#39;CACHE_PATH&#39;, &nbsp; &nbsp; RUNTIME_PATH.&#39;Cache/&#39;); // 项目模板缓存目录
+	</p>
+
+	<p>
+		。。。。。。
+	</p>
+
+	<p>
+		// 加载运行时所需要的文件 并负责自动目录生成<br />
+		function load_runtime_file() {<br />
+		&nbsp; &nbsp; // 加载系统<strong><span style="color:#FF0000;">基础函数库</span></strong><br />
+		&nbsp; &nbsp; require THINK_PATH.&#39;Common/common.php&#39;;<br />
+		&nbsp; &nbsp; // <span style="color:#FF0000;"><strong>读取核心文件</strong></span>列表<br />
+		&nbsp; &nbsp; $list = array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; CORE_PATH.&#39;Core/Think.class.php&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; CORE_PATH.&#39;Core/ThinkException.class.php&#39;, &nbsp;// 异常处理类<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; CORE_PATH.&#39;Core/Behavior.class.php&#39;,<br />
+		&nbsp; &nbsp; );<br />
+		&nbsp; &nbsp; // 加载模式文件列表<br />
+		&nbsp; &nbsp; foreach ($list as $key=&gt;$file){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_file($file)) &nbsp;require_cache($file);<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; // <strong><span style="color:#FF0000;">检查项目目录结构 如果不存在则自动创建</span></strong><br />
+		&nbsp; &nbsp; if(!is_dir(LIB_PATH)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 创建项目目录结构<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">build_app_dir</span></strong>();<br />
+		&nbsp; &nbsp; }elseif(!is_dir(CACHE_PATH)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 检查缓存目录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>check_runtime</strong></span>();<br />
+		&nbsp; &nbsp; }elseif(APP_DEBUG){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <span style="color:#FF0000;"><strong>调试模式切换删除编译缓存</strong></span><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_file(RUNTIME_FILE)) &nbsp; unlink(RUNTIME_FILE);<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		// 检查缓存目录(Runtime) 如果不存在则自动创建<br />
+		function check_runtime() {<br />
+		&nbsp; &nbsp; if(!is_dir(RUNTIME_PATH)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; mkdir(RUNTIME_PATH);<br />
+		&nbsp; &nbsp; }elseif(!is_writeable(RUNTIME_PATH)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; header(&#39;Content-Type:text/html; charset=utf-8&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; exit(&#39;目录 [ '.RUNTIME_PATH.' ] 不可写！&#39;);<br />
+		&nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; mkdir(CACHE_PATH); &nbsp;// 模板缓存目录<br />
+		&nbsp; &nbsp; if(!is_dir(LOG_PATH)) &nbsp; mkdir(LOG_PATH); &nbsp; &nbsp;// 日志目录<br />
+		&nbsp; &nbsp; if(!is_dir(TEMP_PATH)) &nbsp;mkdir(TEMP_PATH); &nbsp; // 数据缓存目录<br />
+		&nbsp; &nbsp; if(!is_dir(DATA_PATH)) &nbsp;mkdir(DATA_PATH); &nbsp; // 数据文件目录<br />
+		&nbsp; &nbsp; return true;<br />
+		}
+	</p>
+
+	<p>
+		。。。。。
+	</p>
+
+	<p>
+		function build_app_dir() {<br />
+		&nbsp; &nbsp; // 没有创建项目目录的话自动创建<br />
+		&nbsp; &nbsp; if(!is_dir(APP_PATH)) mkdir(APP_PATH,0755,true);<br />
+		&nbsp; &nbsp; if(is_writeable(APP_PATH)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $dirs &nbsp;= array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RUNTIME_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CONF_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; COMMON_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LANG_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CACHE_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; TMPL_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; TMPL_PATH.C(&#39;DEFAULT_THEME&#39;).&#39;/&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LOG_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; TEMP_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DATA_PATH,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Model/&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Action/&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Behavior/&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Widget/&#39;,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; );<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; foreach ($dirs as $dir){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!is_dir($dir)) &nbsp;mkdir($dir,0755,true);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		。。。。。。
+	</p>
+
+	<p>
+		// 加载运行时所需文件<br />
+		load_runtime_file();<br />
+		// 记录加载文件时间<br />
+		G(&#39;loadTime&#39;);<br />
+		// <strong><span style="color:#FF0000;">执行入口<br />
+		Think::Start();</span></strong>
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;↘
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Core/Think.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		class Think { &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size: 13px;">↘</span>
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size: 13px;">↘</span>
+	</p>
+
+	<p>
+		&nbsp; &nbsp; static public function <strong><span style="color:#FF0000;">start()</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">设定错误和异常处理</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; register_shutdown_function(array(&#39;Think&#39;,&#39;fatalError&#39;));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; set_error_handler(array(&#39;Think&#39;,&#39;appError&#39;));&nbsp;&nbsp; &nbsp;// ~ 设置出错的处理函数<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; set_exception_handler(array(&#39;Think&#39;,&#39;appException&#39;));&nbsp;&nbsp; &nbsp;// ~ 设置出现异常处理的函数<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <span style="color:#FF0000;"><strong>注册AUTOLOAD方法</strong></span><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; spl_autoload_register(array(&#39;Think&#39;, &#39;autoload&#39;));&nbsp;&nbsp; &nbsp;// ~ 注册autoload 类自动加载方法 在new的时候 不用引入文件 这个函数自动帮我们加载类文件<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; //[RUNTIME]<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">Think::buildApp(); &nbsp;//见下面</span></strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// 预编译项目<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; //[/RUNTIME]<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 运行应用<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">App::run(); &nbsp;//见下面</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; //[RUNTIME]<br />
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 读取配置信息 编译项目<br />
+		&nbsp; &nbsp; &nbsp;* @access private<br />
+		&nbsp; &nbsp; &nbsp;* @return string<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; static private function <strong><span style="color:#FF0000;">buildApp()</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">加载核心惯例配置文件</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; C(include THINK_PATH.&#39;Conf/convention.php&#39;);&nbsp;&nbsp; &nbsp;// ~ 这里有数据库连接参数 <u>但是如果想修改该 可以在项目的CONF_PATH下的config.php中配置 进行覆盖</u><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(isset($mode['config'])) {// 加载模式配置文件<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; C( is_array($mode['config'])?$mode['config']:include $mode['config'] );<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // <span style="color:#FF0000;"><strong>加载项目配置文件</strong></span><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_file(CONF_PATH.&#39;config.php&#39;))&nbsp;&nbsp; &nbsp;// ~ 应用下的配置文件 这里有数据库连接参数<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; C(include CONF_PATH.&#39;config.php&#39;);
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 系统自动加载ThinkPHP类库<br />
+		&nbsp; &nbsp; &nbsp;* 并且支持配置自动加载路径<br />
+		&nbsp; &nbsp; &nbsp;* @param string $class 对象类名<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public static function <strong><span style="color:#FF0000;">autoload($class)</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(substr($class,-5)==&#39;Model&#39;){ // 加载模型<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(require_array(array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Model/&#39;.$group.$file,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $libPath.&#39;Model/&#39;.$file,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; EXTEND_PATH.&#39;Model/&#39;.$file),true)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(substr($class,-6)==&#39;Action&#39;){ // 加载控制器<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(require_array(array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LIB_PATH.&#39;Action/&#39;.$group.$file,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $libPath.&#39;Action/&#39;.$file,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; EXTEND_PATH.&#39;Action/&#39;.$file),true)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		。。。。。。。。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Core/App.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* ThinkPHP 应用程序类 执行应用过程管理<br />
+		&nbsp;* 可以在模式扩展中重新定义 但是必须具有Run方法接口<br />
+		&nbsp;* @category &nbsp; Think<br />
+		&nbsp;* @package &nbsp;Think<br />
+		&nbsp;* @subpackage &nbsp;Core<br />
+		&nbsp;* @author &nbsp; &nbsp;liu21st &lt;liu21st@gmail.com&gt;<br />
+		&nbsp;*/<br />
+		class App {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 运行应用实例 入口文件使用的快捷方法<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; static public function <strong><span style="color:#FF0000;">run()</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 项目初始化标签<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; tag(&#39;app_init&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">App::init(); &nbsp;//见下面 其实在上面</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 项目开始标签<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; tag(&#39;app_begin&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // Session初始化<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; session(C(&#39;SESSION_OPTIONS&#39;));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 记录应用初始化时间<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; G(&#39;initTime&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">App::exec();</span></strong><strong style="font-size: 13px;"><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;//见下面 其实在上面</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 项目结束标签<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; tag(&#39;app_end&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 应用程序初始化<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/
+	</p>
+
+	<p>
+		&nbsp; &nbsp; static public function <strong><span style="color:#FF0000;">init()</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">URL调度</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>Dispatcher::dispatch();</strong></span>&nbsp;&nbsp; &nbsp;// ~ 路由器 单入口用到 用于调度 分析URL 要调用哪个Controller的哪个方法
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 执行应用程序<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; static public function <strong><span style="color:#FF0000;">exec()</span></strong> {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 根据得到的Module名和Action名 实例化该Module并调用Action方法<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!preg_match(&#39;/^[A-Za-z](\w)*$/&#39;,MODULE_NAME)){ // 安全检测 &nbsp;~ 看有没有非法字符<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $module &nbsp;= &nbsp;false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //创建Action控制器实例<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $group &nbsp; = &nbsp;defined(&#39;GROUP_NAME&#39;) &amp;&amp; C(&#39;APP_GROUP_MODE&#39;)==0 ? GROUP_NAME.&#39;/&#39; : &#39;&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $module &nbsp;= &nbsp;A($group.MODULE_NAME);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ <strong><span style="color:#FF0000;">创建Module实例</span></strong> new XxxAction();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!$module) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(&#39;4e5e5d7364f443e28fbf0d3ae744a59a&#39; == MODULE_NAME) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; header(&quot;Content-type:image/png&quot;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exit(base64_decode(App::logo()));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(function_exists(&#39;__hack_module&#39;)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // hack 方式定义扩展模块 返回Action对象<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $module = __hack_module();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!is_object($module)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 不再继续执行 直接返回<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 是否定义Empty模块<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $module = A($group.&#39;Empty&#39;);&nbsp;&nbsp; &nbsp;// ~ 如果定义了EmptyAction.class.php 就执行 <strong><span style="color:#FF0000;">空模块</span></strong> 可以定制错误页面和进行URL优化<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!$module){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _404(L(&#39;_MODULE_NOT_EXIST_&#39;).&#39;:&#39;.MODULE_NAME);&nbsp;&nbsp; &nbsp;// ~ 如果连EmptyAction也没有 就进行报错<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">获取当前操作名 支持动态路由</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $action = C(&#39;ACTION_NAME&#39;)?C(&#39;ACTION_NAME&#39;):ACTION_NAME;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $action .= &nbsp;C(&#39;ACTION_SUFFIX&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; try{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!preg_match(&#39;/^[A-Za-z](\w)*$/&#39;,$action)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 非法操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw new ReflectionException();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //执行当前操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method = &nbsp; new ReflectionMethod($module, $action);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($method-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $class &nbsp;= &nbsp; new ReflectionClass($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 前置操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(&#39;_before_&#39;.$action)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $before = &nbsp; $class-&gt;getMethod(&#39;_before_&#39;.$action);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($before-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $before-&gt;invoke($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // URL参数绑定检测<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(C(&#39;URL_PARAMS_BIND&#39;) &amp;&amp; $method-&gt;getNumberOfParameters()&gt;0){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; switch($_SERVER['REQUEST_METHOD']) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;POST&#39;:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp; &nbsp;= &nbsp;array_merge($_GET,$_POST);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;PUT&#39;:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_str(file_get_contents(&#39;php://input&#39;), $vars);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; default:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp;= &nbsp;$_GET;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $params = &nbsp;$method-&gt;getParameters();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($params as $param){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $name = $param-&gt;getName();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($vars[$name])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = &nbsp;$vars[$name];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif($param-&gt;isDefaultValueAvailable()){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = $param-&gt;getDefaultValue();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw_exception(L(&#39;_PARAM_ERROR_&#39;).&#39;:&#39;.$name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invokeArgs($module,$args);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invoke($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 后置操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(&#39;_after_&#39;.$action)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $after = &nbsp; $class-&gt;getMethod(&#39;_after_&#39;.$action);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($after-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $after-&gt;invoke($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 操作方法不是Public 抛出异常<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw new ReflectionException();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; } catch (ReflectionException $e) {&nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 方法调用发生异常后 引导到__call方法处理<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method = new ReflectionMethod($module,&#39;__call&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invokeArgs($module,array($action,&#39;&#39;));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		。。。。。。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Core/Dispatcher.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* ThinkPHP内置的Dispatcher类<br />
+		&nbsp;* 完成URL解析、路由和调度<br />
+		&nbsp;* @category &nbsp; Think<br />
+		&nbsp;* @package &nbsp;Think<br />
+		&nbsp;* @subpackage &nbsp;Core<br />
+		&nbsp;* @author &nbsp; &nbsp;liu21st &lt;liu21st@gmail.com&gt;<br />
+		&nbsp;*/<br />
+		class Dispatcher {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* URL映射到控制器<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; static public function <strong><span style="color:#FF0000;">dispatch()</span></strong> {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; define(&#39;MODULE_NAME&#39;,self::getModule(C(&#39;VAR_MODULE&#39;)));&nbsp;&nbsp; &nbsp;// ~ 分析URL 得到Module和Action名 什么都不输入就是 Index和index&nbsp;这个默认的名字在Conf/convention.php中有定义<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; define(&#39;ACTION_NAME&#39;,self::getAction(C(&#39;VAR_ACTION&#39;)));
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">。。。。。。</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

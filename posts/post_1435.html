@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java构建、读取json</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java构建、读取json
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h2>
+	<a href="http://www.cnblogs.com/xudong-bupt/archive/2013/05/06/3060745.html" id="cb_post_title_url">Java解析(读取)Json数据</a>
+</h2>
+
+<div>
+	<div id="cnblogs_post_body">
+		<p>
+			以前看过书上说，XML是web service间传输信息的标准格式吧，就看了看XML。最近在做个网站，又说是有了JSON，第一回听说就看了看，总结总结一下。
+		</p>
+
+		<p>
+			<strong>1.JSON介绍</strong>
+		</p>
+
+		<p>
+			　　JSON比XML简单，主要体现在传输相同信息的情况下，<strong>文件的大小不同</strong>。
+		</p>
+
+		<p>
+			　　JSON只用于传输信息，XML还可以用于配置文件的使用。
+		</p>
+
+		<p>
+			　　JSON中的符号主要有： &quot; , [ {:
+		</p>
+
+		<p>
+			<strong>2.JSON中的数组和对象</strong>
+		</p>
+
+		<p>
+			　　2.1数组（<strong>JSONArray</strong>）
+		</p>
+
+		<p>
+			　　数组用一对[]，表示存放的是一般的数组数据。
+		</p>
+
+		<p>
+			　　如：["11","22","33"]，表示这是一个JSONArray数组，里面有3个数据：&rdquo;11&ldquo;，&rdquo;22&ldquo;，&rdquo;33&ldquo;。当然可以是复杂的数据，就是所谓的<strong>嵌套定义</strong>吧。
+		</p>
+
+		<p>
+			　　2.对象（<strong>JSONObject</strong>）
+		</p>
+
+		<p>
+			　　对象用一对{}，来表示其中JSON通用的<strong>&rdquo;键-值&ldquo;</strong>对。
+		</p>
+
+		<p>
+			　　如：{&quot;sex1&quot;:&quot;female&quot;,&quot;name0&quot;:&quot;zhangsan&quot;}，表示的是一个JSON对象，里面有两组数据(<strong>键值对</strong>)，sex1=female，name0=zhangsan。当然这里键对应的数据值，可以是复杂的JSON对象或者数组。
+		</p>
+
+		<p>
+			<strong>3.代码示例</strong>
+		</p>
+
+		<p>
+			<strong>3.1基本的JSONArray与JSONObject操作</strong>
+		</p>
+
+		<div>
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<pre>
+import net.sf.json.JSONArray; import net.sf.json.JSONObject; public class ObjectAndArray1 { public static void main(String args[]) { JSONObject jsonObj = new JSONObject(); jsonObj.put(&quot;name0&quot;, &quot;zhangsan&quot;); jsonObj.put(&quot;sex1&quot;, &quot;female&quot;); System.out.println(jsonObj); //输出为：{&quot;sex1&quot;:&quot;female&quot;,&quot;name0&quot;:&quot;zhangsan&quot;}
+ JSONArray jsonArray = new JSONArray(); jsonArray.add(&quot;11&quot;); jsonArray.add(&quot;22&quot;); jsonArray.add(&quot;33&quot;); System.out.println(jsonArray); //输出为：["11","22","33"]
+ } }</pre>
+
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			<strong>3.2由java自带的数据结构转换为JSON文本</strong>
+		</p>
+
+		<div>
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<pre>
+import java.util.HashMap; import java.util.Map; import net.sf.json.JSONArray; import net.sf.json.JSONObject; public class ObjectAndArray2{ public static void main(String args[]) { //可以由数组，列表等生成JSONArray
+        String list[]={"11","22"}; JSONArray jsonarray = JSONArray.fromObject(list); jsonarray.add("33"); System.out.println(jsonarray); //输出为：["11","22","33"] //可以由Map生成JSONObject
+        Map&lt;String,Object&gt; map=new HashMap&lt;String,Object&gt;(); map.put(&quot;NO1&quot;, &quot;第一个&quot;); map.put(&quot;NO2&quot;, &quot;第二个&quot;); map.put(&quot;NO3&quot;, jsonarray); JSONObject jsonObj = JSONObject.fromObject(map); System.out.println(jsonObj); //输出为：{&quot;NO3&quot;:["11","22","33"],&quot;NO2&quot;:&quot;第二个&quot;,&quot;NO1&quot;:&quot;第一个&quot;}
+ } }</pre>
+
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			<strong>3.3读取JSON文本</strong>
+		</p>
+
+		<pre>
+JSONArray必须用下标读取内部数据。</pre>
+
+		<pre>
+JSONObject必须用&rdquo;键&ldquo;读取对应的&rdquo;值&ldquo;。</pre>
+
+		<div>
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<pre>
+import net.sf.json.JSONArray; import net.sf.json.JSONObject; public class ObjectAndArray { public static void main(String args[]) { JSONArray jsonarray; JSONObject jsonObj; //读取JSONArray，用下标索引获取
+        String array=&quot;[\"11\",\"22\",\"33\"]&quot;; jsonarray = JSONArray.fromObject(array); System.out.println(jsonarray.getString(1));    //输出为：22 //读取JSONObject
+        String object=&quot;{\&quot;NO1\&quot;:[\"44\",\"55\",\"66\"],\"NO2\":{\"NO1\":\"第一个\"}}"; jsonObj = JSONObject.fromObject(object); System.out.println(jsonObj.get("NO1"));    //输出为：["44","55","66"]
+ jsonarray = (JSONArray)(jsonObj.get(&quot;NO1&quot;)); System.out.println(jsonarray.getString(1));    //输出为：55 //用&quot;键&quot;获取值
+        jsonObj=(JSONObject)jsonObj.get(&quot;NO2&quot;); System.out.println(jsonObj); //输出为：{&quot;NO1&quot;:&quot;第一个&quot;}
+ } }</pre>
+
+			<div>
+				<a title="复制代码"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif" style="border:none !important;" /></a>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			<strong>4.总结</strong>
+		</p>
+
+		<p>
+			<strong>　　JSON就是一种数据的组织形式，可以说是XML的简化版本，只用于数据传输。</strong>
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

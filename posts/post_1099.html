@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2中的OGNL</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2中的OGNL
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、Struts2中的OGNL</font></h5>  <p>上下文和根对象不用自己创建 它自带有</p>  <p><strong>1.上下文</strong></p>  <blockquote>   <p>ActionContext.getContext().getContextMap();</p> </blockquote>  <p>以前解耦方式获取request的那个 也在这里面</p>  <p><strong>上下文ContextMap中的键</strong><strong>（五大Map）</strong></p>  <p><strong>paramters</strong></p>  <p>值是一个Map 是请求参数的Map集合</p>  <p>相当于request.getParameterMap();</p>  <p><strong>request</strong></p>  <p>值是一个Map 对应request域</p>  <blockquote>   <p>#request.xxx</p> </blockquote>  <p><strong>session</strong></p>  <p>值是一个Map 对应session域</p>  <p><strong>application</strong></p>  <p>值是一个Map 对应application域</p>  <p><strong>attr</strong></p>  <p>值是一个Map 对应全域</p>  <blockquote>   <p>#attr.xxx</p> </blockquote>  <p>它会在pageContext,request,session,application中依次查找</p>  <p>&#160;</p>  <p><strong>2.根对象</strong></p>  <p>ValueStack中的对象都是根对象</p>  <p>如果写一个不以#开头的OGNL表达式 它会在这ValueStack中依次从上到下查找 有则返回</p>  <p>&#160;</p>  <p><strong>ValueStack 值栈</strong></p>  <p>ValueStack是栈 有底儿的缸 后进先出</p>  <blockquote>   <p>属性驱动时 通常Action是栈顶</p>    <p>模型驱动时 通常当前的模型对象在栈顶 第二位是Action</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/11411.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="1" border="0" alt="1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb1411.jpg" width="546" height="230" /></a></p>  <p>这就是为什么模型比较优先的原因</p>  <p>一般Action下面就没有什么了 不关心了</p>  <p>当然 如果没访问Action，Action也不会在栈中</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、Struts2中的OGNL</font></h5>  <p><strong>0.用来输出的标签</strong></p>  <blockquote>   <p>&lt;s:property value=”OGNL表达式”&gt;</p> </blockquote>  <p>栗子</p>  <blockquote>   <p>&lt;s:property value=”#parameters.username”&gt;&#160;&#160;&#160; //请求参数中的username</p>    <p>&lt;s:property value=”username”&gt;&#160;&#160;&#160; //输出Action的username</p> </blockquote>  <p>&#160;</p>  <p><strong>1.[N]语法</strong></p>  <p>[N]&#160; -&#160; 子栈</p>  <p>在ValueStack中从下标N开始 到栈第 形成一个子栈</p>  <blockquote>   <p>[N].查找的数据</p> </blockquote>  <p>从子栈中查找数据</p>  <p><strong>栗子</strong></p>  <blockquote>   <p>&lt;s:property value=’[2].name’ /&gt;</p> </blockquote>  <p><strong></strong></p>  <p><strong>2.top语法</strong></p>  <p>获取栈顶元素 一般栈顶是当前Model或者Action</p>  <blockquote>   <p>top</p> </blockquote>  <p><strong>栗子</strong></p>  <p>获取栈顶对象</p>  <blockquote>   <p>&lt;s:property value=’top’ /&gt;</p> </blockquote>  <p>value的默认值是top：</p>  <blockquote>   <p>&lt;s:property /&gt;</p> </blockquote>  <p>等同于top：</p>  <blockquote>   <p>[0].top</p> </blockquote>  <p>获取下标为3的元素：</p>  <blockquote>   <p>[3].top</p> </blockquote>  <p>&#160;</p>  <p><strong>3.静态操作（访问静态成员）</strong></p>  <p><font color="#ff0000"><strong>在Struts中默认不允许操作静态</strong></font></p>  <blockquote>   <p>struts.ognl.allowStaticMethodAccess=false</p> </blockquote>  <p>例如如下的操作不好使</p>  <blockquote>   <p>&lt;s:property value=’@@PI’ /&gt;</p> </blockquote>  <p>需要修改一个常量使其允许</p>  <blockquote>   <p>&lt;constance name=”struts.ognl.allowStaticMethodAccess”&gt;false&lt;/constance&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>4.VS语法</strong></p>  <p>获取栈顶元素的类型</p>  <blockquote>   <p>@vs@</p> </blockquote>  <p>例如栈顶元素是com.yutouxiuxiu.test.User</p>  <p>那么</p>  <blockquote>   <p>@vs@hello() </p> </blockquote>  <p>就相当于</p>  <blockquote>   <p>@com.yutouxiuxiu.test.User@hello()</p> </blockquote>  <p>获取值栈的第一个元素的类型 即栈顶：</p>  <blockquote>   <p>@vs1@</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、EL访问值栈（ValueStack）</font></h5>  <p><strong>压栈</strong></p>  <p><strong>Action[execute]</strong></p>  <blockquote>   <p>ValueStack vs = ActionContext.getContext().getValueStack();</p>    <p>vs.push(new User(“yutou”, “123456”));&#160;&#160;&#160; //把User压到值栈中</p> </blockquote>  <p><strong>取值</strong></p>  <p><strong>jsp</strong></p>  <blockquote>   <p>${ username }&#160;&#160;&#160; //输出yutou</p> </blockquote>  <p>&#160;</p>  <p><strong><font color="#f79646">Q:它为什么能找到呢？</font></strong></p>  <p>EL的查找顺序</p>  <p>page, request, <font color="#373933"><strong><u>ValueStack</u></strong></font>, session, application</p>  <p>哪来的ValueStack</p>  <p><font color="#809ec2"><strong>A:因为Struts2对request进行了装饰</strong></font></p>  <p>这个增强在getAttribute方法上</p>  <p>我们知道${ requestScope.xxx } 是依赖 request.getAttribute() 的</p>  <blockquote>   <p>getAttribute() {</p>    <p>&#160;&#160;&#160; if (在request域不存在这个属性)</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 到ValueStack中再找找</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong><font color="#ff0000">（注意！！！）要小心 如果session中的东西都获取不出来 很有可能是ValueStack的问题</font></strong></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、Struts2OGNL的#,%,$</font></h5>  <p><strong>1.#</strong></p>  <p>访问上下文</p>  <p><strong>2.${}</strong></p>  <p>在配置文件中使用OGNL</p>  <p>&#160;</p>  <p><strong>3.%{}</strong></p>  <p>某些struts标签不支持OGNL 那么就需要使用%来支持OGNL</p>  <blockquote>   <p>&lt;s:hidden name=”” value=”%{…}”/&gt;</p> </blockquote>  <p>支持的比如说</p>  <blockquote>   <p>&lt;s:property value=”name”/&gt;</p> </blockquote>  <p><strong>万能方法</strong></p>  <blockquote>   <p>&lt;s:property value=”%{name}”/&gt;&#160;&#160;&#160; //支持的不支持的 都可以用这个括起来</p>    <p>&lt;s:property value=”%{’name‘}”/&gt;&#160;&#160;&#160; //如果要输出字符串 就加单引号</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、Acion传递值到jsp页面</font></h5>  <p><strong>1.传递String</strong></p>  <p>（1）addFiledError</p>  <p>（2）addAcionError</p>  <p>（3）addActionMessage</p>  <p><strong>2.传递Object</strong></p>  <p><strong>（1）把它赋给Action的属性</strong></p>  <p>Action在栈里 直接用名字调用就行</p>  <blockquote>   <p>private List&lt;User&gt; userList;</p>    <p>getter…（一定要有）</p>    <p>setter…</p>    <p>public String execute() {</p>    <p>&#160;&#160;&#160; userList = userService.findAll();</p>    <p>}</p> </blockquote>  <p>这样不太好 容易导致属性和方法暴增</p>  <p><strong>（2）把对象直接压栈</strong></p>  <p>把查询出的结果压栈</p>  <blockquote>   <p>ActionContext.getContext().getValueStack().push(userService.findAll());</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2参数封装类型转换器</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2参数封装类型转换器
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、类型转换器</font></h5>  <p>在Struts2封装请求参数的时候 需要类型转换 类型转换器就是做这个的</p>  <blockquote>   <p>请求参数的类型&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; String[]</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓</p>    <p>Action或Model的属性类型&#160; Object （目标类型）</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓</p>    <p>页面显示类型&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; String</p> </blockquote>  <p>把请求参数转换成与Action/Model的属性类型一致</p>  <p>需要输出属性时需要把属性的类型转换成String</p>  <h5><font style="font-weight: bold"></font></h5>  <h5><font style="font-weight: bold">一、Struts2内部提供的类型转换器</font></h5>  <blockquote>   <p>8种基本类型 及包装器</p>    <p>Date类型（要求输入字符串的格式 yyyy-MM-dd）</p> </blockquote>  <p>属性如果是基本类型 那么Struts2会自动给转换</p>  <p><strong>类型转换失败</strong></p>  <p>但转换不一定成功</p>  <p>类型转换 是在拦截器的时候运行的 如果转换失败 就被拦截了 无法执行execute方法</p>  <p>比如说 使用params拦截器封装 int型的age属性 表单提交过来几个英文字母abc 会出现如下异常</p>  <blockquote>   <p>NoSuchMethodException ….setAge([L.java.lang.String;)</p> </blockquote>  <p>这是因为它没有办法把abc转换成int类型 params拦截器会退而求其次 选择不转换的原始（Stirng[]）方式完成封装 直接把提交过来的数据封装起来 但是还没有原始类型的set方法</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、自定义类型转换器</font></h5>  <p><strong>1.创建自定义类型转换器</strong></p>  <p>实现接口/继承已经实现好了的类</p>  <p><strong>可选方式</strong></p>  <blockquote>   <p>接口TypeConverter（不方便）</p>    <p>类DefaultTypeConverter（不方便）</p>    <p>类StrutsTypeConverter（常用）</p> </blockquote>  <p><strong>继承StrutsTypeConverter类</strong></p>  <blockquote>   <p>public class MyConverter extends StrutsTypeConverter {</p>    <p>&#160;&#160;&#160; /**      <br />&#160;&#160;&#160;&#160; * 从字符串转换到目标类型       <br />&#160;&#160;&#160;&#160; */       <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public Object convertFromString(Map context, String[] values, Class toClass) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; OGNL上下文对象&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 要被转换的对象&#160;&#160;&#160;&#160;&#160;&#160; 目标类型       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 没有用 当它不存在&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 请求参数&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果是万能转换器 这个就有用了 根据这个进行转换       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return ...;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; /**      <br />&#160;&#160;&#160;&#160; * 从目标类型转换到字符串       <br />&#160;&#160;&#160;&#160; */       <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String convertToString(Map context, Object o) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↓       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; OGNL上下文对象&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 要被转换的对象       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 没有用 当它不存在       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return o.toString();       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>2.部署类型转换器</strong></p>  <p>让params拦截器使用我们自定义的类型转换器来完成特定类型的转换</p>  <p><strong>（1）局部部署</strong></p>  <p>让某个属性使用自定义的类型转换器</p>  <p><font color="#ff0000">在Action的同包下“Action类名-conversion.properties”</font></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/11211.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="1" border="0" alt="1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb1211.jpg" width="244" height="64" /></a></p>  <p><strong>Action类名-conversion.properties</strong></p>  <blockquote>   <p>属性名=转换器全路径名</p> </blockquote>  <p><strong>（2）全局部署</strong></p>  <p>所有的Action的这个类型的属性都是用这个类型转换器</p>  <p><font color="#ff0000">在src下“xwork-conversion.properties”</font></p>  <p><strong>xwork-conversion.properties</strong></p>  <blockquote>   <p>目标类型名=类型转换器全路径名</p> </blockquote>  <p>&#160;</p>  <p><strong>3.类型转换失败时如何执行</strong></p>  <p>当转换错误的时候 会进入conversionError拦截器</p>  <p>conversionError拦截器会添加fielderror</p>  <p>workflow拦截器会查看当前Action中是否存在fieldError或actionError</p>  <p>如果有 它就会转发到input结果 就不会执行execute了</p>  <p>如果Action没有配置input 会报错 找不到result input</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/21111.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="2" border="0" alt="2" src="http://localhost:8080/wp-content/uploads/2013/09/21_thumb1111.jpg" width="401" height="286" /></a></p>  <p>&#160;</p>  <blockquote>   <p>&lt;interceptor-ref name=&quot;params&quot;&gt;     <br /><font color="#cccccc">&lt;param name=&quot;excludeParams&quot;&gt;dojo..*,^struts..*,^session..*,^request..*,^application..*,^servlet(Request|Response)..*,parameters...*&lt;/param&gt;        <br />&lt;/interceptor-ref&gt;</font>       <br />&lt;interceptor-ref name=&quot;conversionError&quot;/&gt;       <br /><font color="#cccccc">&lt;interceptor-ref name=&quot;validation&quot;&gt;        <br />&lt;param name=&quot;excludeMethods&quot;&gt;input,back,cancel,browse&lt;/param&gt;         <br />&lt;/interceptor-ref&gt;</font>       <br />&lt;interceptor-ref name=&quot;workflow&quot;&gt;       <br /><font color="#cccccc">&lt;param name=&quot;excludeMethods&quot;&gt;input,back,cancel,browse&lt;/param&gt;        <br />&lt;/interceptor-ref&gt;</font>       <br /></p> </blockquote>  <p>&#160;</p>  <p>但是产生的field信息是英文的 可能看不懂 所以要国际化</p>  <p><strong>国际化错误信息</strong></p>  <p><font color="#ff0000">在Action同包下Action类名.properties</font></p>  <p><strong>Action类名.properties</strong></p>  <blockquote>   <p>invalid.fieldvalue.属性名=错误信息（例如：输入的信息格式不正确）</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

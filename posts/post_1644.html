@@ -1,0 +1,758 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MySQL优化 - 索引</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL优化 - 索引
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	时间紧 任务重 老板让你赶紧把数据库弄快 不得已而为之 赶紧去看带WHERE的查询语句能加索引的就加索引 速度立马就上去
+</h5>
+
+<h5>
+	<strong style="line-height: 1.2em; font-size: 13px;">一、索引优化</strong>
+</h5>
+
+<p>
+	不用改程序 不用改SQL 只要创建正确的索引 就可能将查询速度提高百倍千倍
+</p>
+
+<p>
+	如果用 WHERE 字段=? 来查询 如果这个字段是索引的话 查询的速度会相当的快 除非表的数据达到了<strong><span style="color:#FF0000;">400亿</span></strong>条以上
+</p>
+
+<p>
+	<strong>1.为什么创建索引后查询的速度会变快？</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	&rarr; 没有索引的时候 只能一个一个的往下查 并且查到了需要的数据它也不会停下来 因为它不确定后面还有没有同样符合要求的数据&nbsp;知道将所有的记录都看一遍 <span style="color:#FF0000;">直到查到最后一条为止</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">&rarr;&nbsp;</span>加了索引之后 它会建立一个索引文件 构建一个<span style="color:#FF0000;"><strong>二叉树（BTREE）</strong></span> 找到中间的那个数据 作为树根 记录上对应数据的磁盘位置 然后再把比它小的数据的中间的数据 放在左边的树杈&nbsp;然后再接着找比它小的中间的数放在左边的树杈... 以此类推
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ecs.jpg" rel="" style="" target="" title=""><img alt="ecs" class="alignnone size-full wp-image-1650" height="224" src="http://localhost:8080/wp-content/uploads/2013/11/ecs.jpg" style="" title="" width="370" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	然后在检索的时候 查的数据 先和树根比 决定在左边找还是右边找 这样一下就少了一半要查的数据 以此类推... 所以就很快的
+</p>
+
+<p style="margin-left: 40px;">
+	检索20次 就能读取1024条数据 检索30次 理论上就能扫描10亿条数据
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	如果把数据文件挪走了 索引就要重建 因为记录的是磁盘的位置 挪走了就变了
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.索引是有开销的</strong>
+</p>
+
+<p>
+	每张表都有可能有3个文件
+</p>
+
+<blockquote>
+	<p>
+		.frm &nbsp;- &nbsp;表结构文件
+	</p>
+
+	<p>
+		.myd &nbsp;- &nbsp;数据文件
+	</p>
+
+	<p>
+		.myi &nbsp;- &nbsp;索引文件 &nbsp;创建了索引之后 这个文件会变的很大
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、索引的操作</strong>
+</h5>
+
+<p>
+	<strong>1.添加索引</strong>
+</p>
+
+<p>
+	建立索引的语句的执行也是可能需要很多时间 它需要创建索引文件
+</p>
+
+<p>
+	<strong>（2）主键索引</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">把某个字段设置成主键的时候 该字段就是自动成为主键索引</span>
+</p>
+
+<blockquote>
+	<p>
+		在建立表的时候就指定主键索引
+	</p>
+
+	<p>
+		CREATE TABLE xxx (id int unsigned primary key auto_increment, ...)
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		如果在创建表的时候没有添加主键索引 可以在创建表之后进行修改
+	</p>
+
+	<p>
+		ALTER TABLE 表名 ADD PRIMARY KEY (字段)
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）普通索引</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	先创建表 再创建普通索引
+</p>
+
+<blockquote>
+	<p>
+		CREATE INDEX 索引名称 ON 表名 (字段, ...) &nbsp; 可以创建复合索引
+	</p>
+</blockquote>
+
+<p>
+	<strong>（4）全文索引</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	主要是针对文字/文本的检索 比如文章 全文索<strong><span style="color:#FF0000;">只引针对MyISAM有效</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">只对英文字母有效</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	使用sphinx（coreseek）技术来处理中文
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	创建示例
+</p>
+
+<blockquote>
+	<p>
+		CREATE TABLE articles (
+	</p>
+
+	<p style="margin-left: 40px;">
+		id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	</p>
+
+	<p style="margin-left: 40px;">
+		title VARCHAR(200),
+	</p>
+
+	<p style="margin-left: 40px;">
+		body TEXT,
+	</p>
+
+	<p style="margin-left: 40px;">
+		FULLTEXT (title, body)
+	</p>
+
+	<p>
+		) <strong><span style="color:#FF0000;">ENGINE = MyISAM</span></strong> CHARSET UTF-8
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>如何使用全文索引？</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		SELECT * FROM articles WHERE body LIKE &#39;%database%&#39;;
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	这样不会使用全文索引
+</p>
+
+<blockquote>
+	<p>
+		SELECT * FROM articles WHERE MATCH(title, body) AGAINST (&#39;database&#39;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>停止词</strong>
+</p>
+
+<blockquote>
+	<p>
+		SELECT MATCH(title, body) AGAINST(&#39;database&#39;) FROM articles;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/tzc.jpg"><img alt="tzc" class="alignnone size-full wp-image-1653" height="117" src="http://localhost:8080/wp-content/uploads/2013/11/tzc.jpg" width="271" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	意思是在每条记录中可能匹配到这个词的可能性 这个匹配度有什么用呢？那要看看全文索引是怎么建的 因为单词是在是太多了 它不可能为每个单词都建一个索引 它只会给不常用的单词建立 例如这个database 如果向下边这样查询 将查询不到匹配度
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/a.jpg" rel="" style="" target="" title=""><img alt="a" class="alignnone size-full wp-image-1654" height="98" src="http://localhost:8080/wp-content/uploads/2013/11/a.jpg" style="" title="" width="235" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	它对a就不建索引 因为a太多了 没法建索引 要是都建了 就无穷大了
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">对于常用词和字符就不会创建索引</span></strong> 这些词 就叫做停止词
+</p>
+
+<p>
+	<strong>（5）唯一索引</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	当表的某字段被指定为 UNIQUE约束时 这个字段就是唯一索引
+</p>
+
+<p style="margin-left: 40px;">
+	UNIQUE的字段 可以放<strong><span style="color:#FF0000;">多个NULL 不算重复</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">空字符串不同于NULL&nbsp;不能有多个</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	它也是采用了<strong><span style="color:#FF0000;">二叉树</span></strong>的结构
+</p>
+
+<blockquote>
+	<p>
+		在创建表的时候创建
+	</p>
+
+	<p>
+		字段名 字段类型 ... UNIQUE
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	在创建表之后创建
+</p>
+
+<blockquote>
+	<p>
+		CREATE UNIQUE INDEX 索引名称 ON 表名(字段)
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.查看索引</strong>
+</p>
+
+<blockquote>
+	<p>
+		SHOW INDEX[ES]&nbsp;FROM 表名 &nbsp;- &nbsp;加不加EX没去别
+	</p>
+
+	<p>
+		SHOW KEYS FROM 表名 &nbsp;- &nbsp;和上边的效果一样
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	可以在后面加上&ldquo;\G&rdquo; 可以竖着查看信息 看起来方便
+</p>
+
+<p>
+	<strong>3.删除索引</strong>
+</p>
+
+<blockquote>
+	<p>
+		ALTER TABLE 表名 DROP INDEX 索引名称;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		删除主键索引
+	</p>
+
+	<p>
+		ALTER TABLE 表名 DROP PRIMARY KEY;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、分析MySQL是如何执行SELECT语句的</strong>
+</h5>
+
+<p>
+	通过explain语句
+</p>
+
+<blockquote>
+	<p>
+		EXPLAIN 语句\G
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/explain.jpg" rel="" style="" target="" title=""><img alt="explain" class="alignnone size-full wp-image-1663" height="148" src="http://localhost:8080/wp-content/uploads/2013/11/explain.jpg" style="" title="" width="344" /></a>
+</p>
+
+<p>
+	在不执行SQL语句的时候 就知道MySQL会怎样执行 便于我们优化
+</p>
+
+<p>
+	select_type：
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/SELECTTYPE.jpg" rel="" style="" target="" title=""><img alt="SELECTTYPE" class="alignnone size-full wp-image-1664" height="176" src="http://localhost:8080/wp-content/uploads/2013/11/SELECTTYPE.jpg" style="" title="" width="238" /></a>
+</p>
+
+<p>
+	type：
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/type.jpg" rel="" style="" target="" title=""><img alt="type" class="alignnone size-full wp-image-1665" height="163" src="http://localhost:8080/wp-content/uploads/2013/11/type.jpg" style="" title="" width="232" /></a>
+</p>
+
+<p>
+	extra：
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/extra.jpg" rel="" style="" target="" title=""><img alt="extra" class="alignnone size-full wp-image-1666" height="197" src="http://localhost:8080/wp-content/uploads/2013/11/extra.jpg" style="" title="" width="274" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、创建索引的注意事项</strong>
+</h5>
+
+<p>
+	<strong>1.磁盘占用</strong>
+</p>
+
+<p>
+	因为创建索引 需要索引文件 而且索引文件还不是很小
+</p>
+
+<p>
+	<strong>2.对DML语句产生效率影响</strong>
+</p>
+
+<p>
+	对UPDATE INSERT DELETE语句的性能造成影响
+</p>
+
+<p>
+	因为修改记录 同时要修改索引文件
+</p>
+
+<p>
+	索引只提高了SELECT的速度
+</p>
+
+<p>
+	任何技术有好的地方就有不好的地方
+</p>
+
+<p>
+	但一个网站 查询:修改=9:1 所以索引的代价是值得的
+</p>
+
+<p>
+	<strong>3.不同引擎允许的索引</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/yq00.jpg"><img alt="yq00" class="alignnone size-full wp-image-1661" height="104" src="http://localhost:8080/wp-content/uploads/2013/11/yq00.jpg" width="261" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>4.哪些字段适合添加索引？</strong></span>
+</p>
+
+<p>
+	（1）较为频繁作为查询条件（在WHERE中的是条件）的字段
+</p>
+
+<p style="margin-left: 40px;">
+	不出现在WHERE子句中的字段 不应该创建
+</p>
+
+<p>
+	（2）内容种类太少没有意义
+</p>
+
+<p style="margin-left: 40px;">
+	比如说性别 就两种 建了也没用 也不会提高效率 还耗费磁盘空间
+</p>
+
+<p>
+	（3）对于频繁修改的字段不应创建
+</p>
+
+<p style="margin-left: 40px;">
+	比如浏览次数 总变化 索引总要变
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、使用索引的注意事项</strong>
+</h5>
+
+<p>
+	<strong>0.只有WHERE子句使用索引</strong>
+</p>
+
+<p>
+	SELECT 和 GROUP BY 等都不使用索引
+</p>
+
+<p>
+	<strong>1.对于创建的多列联合索引</strong>
+</p>
+
+<p>
+	查询条件使用最左边的列 索引才会被用到
+</p>
+
+<p style="margin-left: 40px;">
+	例如 对于部门表
+</p>
+
+<blockquote>
+	<p>
+		ALTER TABLE dept ADD INDEX my_ind (dname,loc); &nbsp;//dname就是最左边的列
+	</p>
+
+	<p>
+		EXPLAIN SELECT * FROM dept WHERE loc=&#39;aaa&#39;\G
+	</p>
+
+	<p>
+		发现根本没有用到索引
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.对于模糊查询</strong>
+</p>
+
+<p>
+	如果前边有&ldquo;%&rdquo;或者&ldquo;_&rdquo;就不会用到索引
+</p>
+
+<p style="margin-left: 40px;">
+	例如这样
+</p>
+
+<blockquote>
+	<p>
+		SELECT * FROM dept WHERE dname LIKE &#39;%aaa&#39;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	下面这样可以
+</p>
+
+<blockquote>
+	<p>
+		aaa%
+	</p>
+
+	<p>
+		a_a
+	</p>
+</blockquote>
+
+<p>
+	如果前边加了% 它就不知道该匹配哪个索引
+</p>
+
+<p>
+	全文索引 就解决了这个问题
+</p>
+
+<p>
+	<strong>3.对于条件中有OR的</strong>
+</p>
+
+<p>
+	必须要使用到的所有的字段都必须建立索引 才能使用到索引
+</p>
+
+<p>
+	如果其中有一个没建立索引 就不会使用
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">OR的效率是比较低的 避免使用OR</span></strong>
+</p>
+
+<p>
+	<strong>4.对于字段类型是字符串的</strong>
+</p>
+
+<p>
+	字符串要用单引号引起来 才能用到索引 即使是存数值的字符串类型字段
+</p>
+
+<p>
+	<strong>5.如果MySQL觉得全表扫描更快 则不用索引</strong>
+</p>
+
+<p>
+	比如说只有一条记录
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>六、索引的使用率</strong>
+</p>
+
+<p>
+	<strong>1.查看索引使用情况</strong>
+</p>
+
+<blockquote>
+	<p>
+		SHOW STATUS LIKE &#39;handler_read%&#39;;
+	</p>
+</blockquote>
+
+<p>
+	handler_read_key &nbsp;- &nbsp;<span style="line-height: 1.6em;">这个值越高 说明查询效率越高</span>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">handler_read_rnd_next &nbsp;- &nbsp;这个值越高 说明查询效率越低</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

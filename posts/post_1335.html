@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate的一级缓存</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate的一级缓存
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、session的生成</strong>
+</h5>
+
+<p>
+	1.openSession()
+</p>
+
+<p>
+	开启一个新的session
+</p>
+
+<p>
+	2.getCurentSession()
+</p>
+
+<p>
+	如果在service中要组合几个dao 进行一个事务中的操作 就要用一个session 而openSession会打开新的session 所以用getCurrentSession
+</p>
+
+<blockquote>
+	<p>
+		先从当前线程中获取session
+	</p>
+
+	<p>
+		如果存在 就用这个session
+	</p>
+
+	<p>
+		如果不存在 则调用sessionFactory.openSession()创建一个session 再绑定到当前线程中
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/2.jpg"><img alt="2" class="alignnone size-medium wp-image-1337" height="128" src="http://localhost:8080/wp-content/uploads/2013/10/2-300x128.jpg" width="300" /></a>
+</p>
+
+<p>
+	如果用getCurrentSession必须在hibernate的配置文件中进行配置
+</p>
+
+<blockquote>
+	<p>
+		&lt;property name=&quot;current_session_context_class&quot;&gt;thread&lt;/property&gt;
+	</p>
+</blockquote>
+
+<p>
+	如果session是通过这种方式得到的 增删改查都<span style="color:#FF0000;"><strong>必须在事务的环境下进行</strong></span>
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>事务提交之后session自动关闭 不允许手动关闭</strong></span>（但是这种做法并不好 因为如果后面还进行查询 就没法做了 Spring对它进行了改进）<br />
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、session的数据缓存</strong>
+</h5>
+
+<p>
+	session的缓存是hibernate的一级缓存
+</p>
+
+<ul>
+	<li>
+		<strong>什么是缓存</strong>
+	</li>
+</ul>
+
+<p>
+	第一次取的时候放在内存中 再次取就从内存中取 很快
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/32.jpg"><img alt="3" class="alignnone size-medium wp-image-1338" height="120" src="http://localhost:8080/wp-content/uploads/2013/10/32-300x120.jpg" width="300" /></a>
+</p>
+
+<ul>
+	<li>
+		<strong>session的缓存</strong>
+	</li>
+</ul>
+
+<p>
+	1.把数据库中的数据存在缓存中
+</p>
+
+<p>
+	session.get/save/update
+</p>
+
+<p>
+	2.把缓存中的数据提取出来
+</p>
+
+<p>
+	session.get
+</p>
+
+<p>
+	3.把数据库中的数据同步到缓存中
+</p>
+
+<p>
+	session.refresh
+</p>
+
+<p>
+	4.把缓存中的数据同步到数据库中
+</p>
+
+<p>
+	session.flush（生成相应的SQL语句 在数据库中执行 但是flush之后 数据库中的数据还没变 得事务提交才行）
+</p>
+
+<p>
+	用意：
+</p>
+
+<p>
+	当向数据库插入很多记录的时候 会内存溢出 所以 要有一些之后 就flush一下 然后clear
+</p>
+
+<p>
+	还可以设置它什么时候flush
+</p>
+
+<blockquote>
+	<p>
+		session.setFlushMode(FlushMode.AUTO/ALWAYS);
+	</p>
+</blockquote>
+
+<p>
+	5.清空缓存（清空一个、全部清空）
+</p>
+
+<p>
+	session.evict/clear
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>session缓存存在的意义</strong>
+	</li>
+</ul>
+
+<p>
+	session缓存 是这次查数据从数据库中查 然后下次就从缓存中查？纯扯 下次都没有session了
+</p>
+
+<p>
+	session缓存是为了减少和数据库的交互 避免在对象操作的过程中修改一个对象的属性就和数据库交互一次 而是都修改好了 然后再flush 进行SQL语句的发送 而不是上边说的那样
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>session缓存的生命周期</strong>
+	</li>
+</ul>
+
+<p>
+	与session的生命周期同步
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>怎样保证session中缓存数据的安全性</strong>
+	</li>
+</ul>
+
+<p>
+	session是放在当前线程中的 当前线程本身有数据安全性 每有一个客户访问的时候 会开启一个新的线程
+</p>
+
+<p>
+	session存在当前线程的ThreadLocal中 ThreadLocal只有当前线程可以访问
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

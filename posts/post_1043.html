@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2输入校验</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2输入校验
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是输入校验</font></h5>  <p>用户名不能为空，长度必须在多少…</p>  <p>用户名密码错误不叫输入校验</p>  <p><strong>校验的方式</strong></p>  <p>javascript客户端校验：只能说用户体验好一点 没什么实际的作用</p>  <p>服务器端校验</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、代码校验</font></h5>  <p><strong>1.全局校验</strong></p>  <p>当一个Action有多个请求处理方法的时候 这个输入校验 会在所有的请求方法执行之前都进行校验</p>  <p><strong>（1）Action必须继承ActionSupport</strong></p>  <p><strong>（2）Action重写validate()方法</strong></p>  <p>在其中进行输入校验</p>  <blockquote>   <p>@Override</p>    <p>public void validate() {</p>    <p>&#160;&#160;&#160; if (username == null || username.trim().isEmpty()) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.addFieldError(“username”, “用户名不能为空”);</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; ……</p>    <p>}</p> </blockquote>  <p><strong>执行过程</strong></p>  <p>这个方法不由我们来调用 由<font color="#4f81bd"><strong>validate拦截器</strong></font>来调用</p>  <p>这个拦截器会在params拦截器之后调用 一定会在execute/其他请求处理方法 之前执行</p>  <p>在validate拦截器执行之后 还有一个workFlow拦截器</p>  <p>它会检测是否存在错误 如果存在 它会拦截execute的执行 跳到input结果</p>  <p>&#160;</p>  <p><strong>2.局部(私有)校验</strong></p>  <p>在一个Action中可能存在多个请求处理方法 每个请求处理方法 可以有自己的校验方法</p>  <p><strong>局部校验方法的格式</strong></p>  <blockquote>   <p>public void validate请求处理方法名（首字母大写）() {</p>    <p>}</p> </blockquote>  <p><strong>请求处理方法自己的input配置</strong></p>  <p>而且每个请求处理方法都应该能有一个对应的input结果</p>  <p>input结果的给出方式 是通过InputConfig注解的resultName属性</p>  <p>workFlow拦截器的代码：</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/0022.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="截图00" border="0" alt="截图00" src="http://localhost:8080/wp-content/uploads/2013/09/002_thumb22.jpg" width="458" height="157" /></a></p>  <p>当然需要在struts.xml的Action中配置那个result</p>  <p><strong>例如</strong></p>  <blockquote>   <p>@InputConfig(resultName=”loginInput”)</p>    <p>public String login() {</p>    <p>}</p>    <p>public void validateLogin() {</p>    <p>}</p>    <p>@InputConfig(resultName=”registerInput”)</p>    <p>public String register() {</p>    <p>}</p>    <p>public void validateRegister() {</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>3.如果全局校验和私有校验同时存在</strong></p>  <p>先执行私有校验 再执行全局校验 全局校验总是要执行的</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、xml配置校验</font></h5>  <p>常见校验规则</p>  <blockquote>   <p>非空校验、长度校验、邮箱、手机号、日期、网址、…</p> </blockquote>  <p>它都有对应的类（这些校验规则都实现了某个接口）</p>  <p>如果想要使用的话 在一个配置文件中给出要检验的属性 和要校验的规则的名称 还有一些参数 就行了</p>  <p>xwork-core-….jar/com.opensymphony.xwork2.validator.validators/default.xml</p>  <p>&#160;</p>  <blockquote>   <p>&lt;validators&gt;</p>    <p><strong>//null校验</strong>      <br />&#160;&#160;&#160; &lt;validator name=&quot;required&quot; class=&quot;com.opensymphony.xwork2.validator.validators.RequiredFieldValidator&quot;/&gt;</p>    <p><strong>//空字符串校验</strong></p>    <p>//（如果不是字符串（null）校验失败 有属性trim配置是否去掉前后空格（默认去） 长度是0校验失败）     <br />&#160;&#160;&#160; &lt;validator name=&quot;requiredstring&quot; class=&quot;com.opensymphony.xwork2.validator.validators.RequiredStringValidator&quot;/&gt;      <br /></p>    <p><strong>//数值校验</strong></p>    <p>//min，max</p>    <p>&#160;&#160;&#160; &lt;validator name=&quot;int&quot; class=&quot;com.opensymphony.xwork2.validator.validators.IntRangeFieldValidator&quot;/&gt;     <br />&#160;&#160;&#160; &lt;validator name=&quot;long&quot; class=&quot;com.opensymphony.xwork2.validator.validators.LongRangeFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;short&quot; class=&quot;com.opensymphony.xwork2.validator.validators.ShortRangeFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;double&quot; class=&quot;com.opensymphony.xwork2.validator.validators.DoubleRangeFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;date&quot; class=&quot;com.opensymphony.xwork2.validator.validators.DateRangeFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;expression&quot; class=&quot;com.opensymphony.xwork2.validator.validators.ExpressionValidator&quot;/&gt;</p>    <p><strong>//用来校验OGNL表达式</strong></p>    <p>//expression：用来校验的OGNL表达式 例如password==repassword     <br />&#160;&#160;&#160; &lt;validator name=&quot;fieldexpression&quot; class=&quot;com.opensymphony.xwork2.validator.validators.FieldExpressionValidator&quot;/&gt;</p>    <p><strong>//邮箱校验</strong>      <br />&#160;&#160;&#160; &lt;validator name=&quot;email&quot; class=&quot;com.opensymphony.xwork2.validator.validators.EmailValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;url&quot; class=&quot;com.opensymphony.xwork2.validator.validators.URLValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;visitor&quot; class=&quot;com.opensymphony.xwork2.validator.validators.VisitorFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;conversion&quot; class=&quot;com.opensymphony.xwork2.validator.validators.ConversionErrorFieldValidator&quot;/&gt;</p>    <p><strong>//字符串长度校验</strong></p>    <p>//minLength，maxLength     <br /></p>    <p>&#160;&#160;&#160; &lt;validator name=&quot;stringlength&quot; class=&quot;com.opensymphony.xwork2.validator.validators.StringLengthFieldValidator&quot;/&gt;</p>    <p><strong>//正则校验</strong></p>    <p>//expression：正则表达式</p>    <p>//caseSensitive：是否不忽略大小写（默认为true）     <br />&#160;&#160;&#160; &lt;validator name=&quot;regex&quot; class=&quot;com.opensymphony.xwork2.validator.validators.RegexFieldValidator&quot;/&gt;      <br />&#160;&#160;&#160; &lt;validator name=&quot;conditionalvisitor&quot; class=&quot;com.opensymphony.xwork2.validator.validators.ConditionalVisitorFieldValidator&quot;/&gt;      <br />&lt;/validators&gt;</p> </blockquote>  <p><strong></strong></p>  <p><strong>1.全局校验</strong></p>  <p><font color="#ff0000">在Action同包的”Action类名-validation.xml”</font></p>  <p>DTD在 xwork-core-….jar/xwork-validator-1.0.3.dtd中有</p>  <p><strong>样例</strong></p>  <blockquote>   <p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</p>    <p>&lt;!DOCTYPE validators PUBLIC     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &quot;-//Apache Struts//XWork Validator 1.0.3//EN&quot;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &quot;<a href="http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd&quot;">http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd&quot;</a>&gt;      <br /></p>    <p>&lt;validators&gt;     <br />&#160;&#160;&#160; &lt;field name=&quot;username&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;field-validator type=&quot;requirestring&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;message&gt;用户名不能为空&lt;/message&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/field-validator&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;field-validator type=&quot;stringlength&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;minLength&quot;&gt;3&lt;/param&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;maxLength&quot;&gt;3&lt;/param&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;message&gt;用户名长度必须在<strong>${minLength}-${maxLength}</strong> &lt;/message&gt;&#160;&#160;&#160; //此处可以获取校验器的属性 这是OGNL表达式      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/field-validator&gt;      <br />&#160;&#160;&#160; &lt;/field&gt;      <br />&#160;&#160;&#160; &lt;field name=&quot;repassword&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;field-validator type=&quot;fieldexpression&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;expression&quot;&gt;password == repassword&lt;/param&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;message&gt;两次输入的密码不一致&lt;/message&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/field-validator&gt;      <br />&#160;&#160;&#160; &lt;/field&gt;      <br />&#160;&#160;&#160; &lt;field name=&quot;birthday&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;field-validator type=&quot;date&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;min&quot;&gt;1900-01-01&lt;/param&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;max&quot;&gt;2013-09-14&lt;/param&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;message&gt;生日必须在${min}和${max}之间&lt;/message&gt;&#160;&#160;&#160; //这个显示的效果不太好 需要学习OGNL      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/field-validator&gt;      <br />&#160;&#160;&#160; &lt;/field&gt;      <br />&lt;/validators&gt;</p> </blockquote>  <p><u><font color="#ff0000">里面的参数 可以查询该校验器的源代码的set方法就可以获得</font></u></p>  <p>不通过则会跳到input结果</p>  <p>&#160;</p>  <p><strong>2.局部部署</strong></p>  <p><font color="#ff0000">在Action同包的”Action类名-Action配置名（必须是真实值 不能带通配符“*”）-validation.xml”</font></p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>学生成绩管理系统 表设计</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					学生成绩管理系统 表设计
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>1.基础数据</strong>
+</p>
+
+<p>
+	（1）基础档案
+</p>
+
+<p style="margin-left: 40px;">
+	成绩修改原因
+</p>
+
+<p style="margin-left: 80px;">
+	（判卷错误）（录入错误）
+</p>
+
+<p style="margin-left: 40px;">
+	教师状态
+</p>
+
+<p style="margin-left: 80px;">
+	（在职）（离职）
+</p>
+
+<p style="margin-left: 40px;">
+	学生状态
+</p>
+
+<p style="margin-left: 80px;">
+	（在籍）（毕业）
+</p>
+
+<p style="margin-left: 40px;">
+	成绩状态
+</p>
+
+<p style="margin-left: 80px;">
+	（正常）（取消成绩）（缺考）
+</p>
+
+<p>
+	（2）班级设置
+</p>
+
+<p style="margin-left: 40px;">
+	界设置
+</p>
+
+<p style="margin-left: 80px;">
+	界名称 界年限 作废标记
+</p>
+
+<p style="margin-left: 80px;">
+	（2013界,&nbsp;2013.09.01-2016.8.31,&nbsp;0）
+</p>
+
+<p style="margin-left: 40px;">
+	年级设置
+</p>
+
+<p style="margin-left: 80px;">
+	年级名称 第几年 作废标记
+</p>
+
+<p style="margin-left: 80px;">
+	（高一, 1, 0）
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高二, 2, 0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高三, 3, 0）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<strike>学期设置</strike>
+</p>
+
+<p style="margin-left: 80px;">
+	<strike>学期名称 学期月限 作废标记</strike>
+</p>
+
+<p style="margin-left: 80px;">
+	<strike>（上学期, 09.01-02.29, 0）</strike>
+</p>
+
+<p style="margin-left: 80px;">
+	<strike><span style="font-size: 13px;">（下学期, 03.01-08.31, 0）</span></strike>
+</p>
+
+<p style="margin-left: 40px;">
+	班级类型设置
+</p>
+
+<p style="margin-left: 80px;">
+	班级类型名称 作废标记
+</p>
+
+<p style="margin-left: 80px;">
+	（文科, 0）
+</p>
+
+<p style="margin-left: 80px;">
+	（理科, 0）
+</p>
+
+<p>
+	（3）考试设置
+</p>
+
+<p style="margin-left: 40px;">
+	单一科目设置
+</p>
+
+<p style="margin-left: 80px;">
+	科目名称 <u>所属班级类型</u> <u>所属年级</u> 科目满分 是否单一科目 <u>综合科目</u>&nbsp;作废标记
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 文科, 高一, 150, 1, , 0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 理科, 高一, 150, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 文科, 高二, 150, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 理科, 高二, 150, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 文科, 高三, 150, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（语文, 理科, 高三, 150, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（数学,&nbsp;文科,&nbsp;高一, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">数学</span>,&nbsp;理科,&nbsp;高一, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">数学</span>,&nbsp;文科, 高二, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">数学</span>,&nbsp;理科, 高二, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">数学</span>,&nbsp;文科, 高三, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">数学</span>,&nbsp;理科, 高三, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（英语,&nbsp;文科,&nbsp;高一, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">英语</span>,&nbsp;理科,&nbsp;高一, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">英语</span>,&nbsp;文科, 高二, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">英语</span>,&nbsp;理科, 高二, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">英语</span>,&nbsp;文科, 高三, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（<span style="font-size: 13px;">英语</span>,&nbsp;理科, 高三, 150, 1,&nbsp;<span style="font-size: 13px;">,&nbsp;</span>0）
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（</span><span style="font-size: 13px;">政治</span><span style="font-size: 13px;">, </span><span style="font-size: 13px;">文科</span><span style="font-size: 13px;">, 高一, 100, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（</span><span style="font-size: 13px;">政治</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">文科</span><span style="font-size: 13px;">,&nbsp;高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（</span><span style="font-size: 13px;">政治</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">,&nbsp;, 100,&nbsp;1, 文综合,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（历史</span><span style="font-size: 13px;">, 文科, 高一, 100, 1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（历史</span><span style="font-size: 13px;">,&nbsp;文科,&nbsp;高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（历史</span><span style="font-size: 13px;">,&nbsp;, , 100,&nbsp;1, 文综合,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（地理</span><span style="font-size: 13px;">,&nbsp;文科,&nbsp;高一, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（地理</span><span style="font-size: 13px;">,&nbsp;文科,&nbsp;高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（地理</span><span style="font-size: 13px;">,&nbsp;, , 100,&nbsp;1, 文综合,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（物理, <span style="font-size: 13px;">理</span><span style="font-size: 13px;">科</span>, 高一, 100, <span style="font-size: 13px;">1,&nbsp;,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（物理, 理科</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（物理,&nbsp;</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">, 110,&nbsp;1, 理综合,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（化学, <span style="font-size: 13px;">理</span><span style="font-size: 13px;">科</span>, 高一, 100, <span style="font-size: 13px;">1,&nbsp;,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（化学,&nbsp;</span><span style="font-size: 13px;">理</span><span style="font-size: 13px;">科</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（化学,&nbsp;</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">, 100,&nbsp;1, 理综合,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（生物, 理科, 高一, 100, <span style="font-size: 13px;">1,&nbsp;,&nbsp;</span>0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（生物,&nbsp;</span><span style="font-size: 13px;">理科</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">高二, 100,&nbsp;1,&nbsp;,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（生物,&nbsp;</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">, 90,&nbsp;1, 理综合,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（文综合, 文科, 高三, , 0, , 0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（理综合, 理科, 高三, , 0, , 0</span><span style="font-size: 13px;">）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	考试类型设置
+</p>
+
+<p style="margin-left: 80px;">
+	考试类型名称 <u>参加班级类型</u> <u>参加年级</u> <u>考试科目（多对多）</u> 作废标记
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高一文科考试</span><span style="font-size: 13px;">, 文科, </span><span style="font-size: 13px;">高一</span><span style="font-size: 13px;">, [语文, 数学, 英语, 政治</span><span style="font-size: 13px;">, 历史</span><span style="font-size: 13px;">, 地理</span><span style="font-size: 13px;">], 0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	（高一理科考试, 理科, 高一, [语文, 数学, 英语, 物理, 化学, 生物], 0）
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高二文科考试</span><span style="font-size: 13px;">, 文科, </span><span style="font-size: 13px;">高二</span><span style="font-size: 13px;">, [语文, 数学, 英语, 政治</span><span style="font-size: 13px;">, 历史</span><span style="font-size: 13px;">, 地理</span><span style="font-size: 13px;">], 0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高二理科考试</span><span style="font-size: 13px;">, 理科, 高二, [语文, 数学, 英语, 物理, 化学, 生物], 0）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（高三文科考试, </span><span style="font-size: 13px;">文科</span><span style="font-size: 13px;">,&nbsp;</span><span style="font-size: 13px;">高三</span><span style="font-size: 13px;">, [语文, 数学, 英语, 文综合], 0）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（高三理科考试, 理科, <span style="font-size: 13px;">高三</span>, [语文, 数学, 英语, 理综合], 0）
+</p>
+
+<p style="margin-left: 40px;">
+	分数等级设置
+</p>
+
+<p style="margin-left: 80px;">
+	等级名称 百分比
+</p>
+
+<p style="margin-left: 80px;">
+	（及格, 60%）
+</p>
+
+<p>
+	<strong>2.班级管理</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">班级管理</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="line-height: 1.6em;">班级名称 <u>所属类型</u> <u>所属界</u>&nbsp;作废标记</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（一班,&nbsp;理科,&nbsp;2011界,&nbsp;0）
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（八班, 文科,&nbsp;2011界,&nbsp;0）
+</p>
+
+<p style="margin-left: 80px;">
+	（二班,&nbsp;理科,&nbsp;2013界,&nbsp;0）
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（九班,&nbsp;文科,&nbsp;2013界,&nbsp;0）</span>
+</p>
+
+<p style="font-size: 13px;">
+	<strong>3.人员管理</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	教师管理
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	教师姓名 教师性别 <u>教师下科目（多对多）</u>&nbsp;<u>教师下班级（多对多）</u> 账号 密码 <u>教师状态</u>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（张三, 男, [生物], [一班], <span style="font-size: 13px;">zhangsan, 123,&nbsp;</span>在职）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	学生管理
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	学号 学生姓名 学生性别 <u>所属班级</u><span style="font-size: 13px;">&nbsp;账号 密码&nbsp;</span><u>学生状态</u>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="font-size: 13px;">（20110201, 李四</span><span style="font-size: 13px;">, 男, 八班, lisi, 123,&nbsp;</span><span style="font-size: 13px;">在校）</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（20130101, 张红, 女, 二班, zhanghong, 123,&nbsp;在校）
+</p>
+
+<p>
+	<strong>4.考试管理</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	考试管理
+</p>
+
+<p style="margin-left: 80px;">
+	考试名称 <u>考试类型</u> 考试时间 成绩录入开始时间 成绩录入结束时间
+</p>
+
+<p style="margin-left: 80px;">
+	（2013年11月高一月考, 高一文科考试, 2013.11.03, 2013.11.04, 2013.11.10）
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11月高一月考,&nbsp;</span><span style="font-size: 13px;">高一理科考试, 2013.11.03, 2013.11.04, 2013.11.10）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高三</span><span style="font-size: 13px;">月考, 高三理科考试</span><span style="font-size: 13px;">, 2013.11.07, 2013.11.08, 2013.11.15</span><span style="font-size: 13px;">）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高三</span><span style="font-size: 13px;">月考,&nbsp;高三理科考试</span><span style="font-size: 13px;">, 2013.11.07, 2013.11.08, 2013.11.15</span><span style="font-size: 13px;">）</span>
+</p>
+
+<p>
+	<strong>5.成绩管理</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	各科成绩（10个小表,&nbsp;10个大表） &nbsp;- &nbsp;万级别表
+</p>
+
+<p style="margin-left: 80px;">
+	<u>考试名称</u> <u>考试科目</u> <u>学生</u> 成绩&nbsp;<u>成绩状态</u>&nbsp;排名
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一</span><span style="font-size: 13px;">月考,&nbsp;语文, 张红, 120, 正常, ?）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一月考, 数学, 张红, 100, 正常,&nbsp;?）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一月考,&nbsp;英语, 张红, 130, 正常,&nbsp;?）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一月考, 物理, 张红, 70, 正常,&nbsp;?）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一月考, 化学, 张红, 80, 正常,&nbsp;?）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">（2013年11</span><span style="font-size: 13px;">月高一月考, 生物, 张红, 80,&nbsp;正常,&nbsp;?）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	个人总成绩统计（2个小表, 1个大表） &nbsp;- &nbsp;万级别表
+</p>
+
+<p style="margin-left: 80px;">
+	<u>考试名称</u> <u>学生</u> 总分 排名
+</p>
+
+<p style="margin-left: 80px;">
+	（<span style="font-size: 13px;">2013年11</span><span style="font-size: 13px;">月高一</span><span style="font-size: 13px;">月考, 张红, ?, ?</span>）
+</p>
+
+<p style="margin-left: 40px;">
+	考试科目总成绩统计
+</p>
+
+<p style="margin-left: 80px;">
+	<u>考试名称</u> <u>考试科目</u> 平均成绩 正确性 上次计算时间
+</p>
+
+<p style="margin-left: 80px;">
+	（<span style="font-size: 13px;">2013年11</span><span style="font-size: 13px;">月高一月考,&nbsp;语文, ?, 0, 0000.00.00 00:00:00</span>）
+</p>
+
+<p style="margin-left: 40px;">
+	考试班级科目成绩统计
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	考试表信息
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	考试名称 各科成绩所在表 个人总成绩所在表
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	（2013年11月高一月考, 表1, 表1, 0）
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

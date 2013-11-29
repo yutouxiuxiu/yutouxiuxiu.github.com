@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Servlet3.0新特性</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Servlet3.0新特性
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、Servlet3.0</font></h5>  <ul>   <li>现在在市场上还没有普及</li> </ul>  <p>&#160;&#160;&#160; 用的还是2.5</p>  <ul>   <li><font color="#ff0000">必须使用Tomcat7</font></li> </ul>  <p>&#160;&#160;&#160; Servlet给出的是接口 而容器Tomcat是实现者</p>  <ul>   <li>最好使用myeclipse10.0开发</li> </ul>  <p>&#160;&#160;&#160; 低于myeclipse10.0的无法创建Servlet3.0</p>  <p>&#160;&#160;&#160; 高于myeclipse10.0的有bug…</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、三大组件用注解完成配置</font></h5>  <p>JavaWeb三大组件不用配置 使用注解完成</p>  <blockquote>   <p>@WebServlet</p>    <p>@WebFilter</p>    <p>@WebListener</p> </blockquote>  <p>将来发现里边有注解 那就想到以前是用配置文件做的 就知道了</p>  <p><strong>1.Servlet</strong></p>  <p><strong>原来的</strong></p>  <blockquote>   <p>&lt;servlet&gt;</p>    <p>&#160; &lt;servlet-name&gt;&lt;/…</p>    <p>&#160; &lt;servlet-class&gt;&lt;/…</p>    <p>&#160; &lt;init-param&gt;</p>    <p>&#160;&#160;&#160; &lt;param-name&gt;&lt;/..</p>    <p>&#160;&#160;&#160; &lt;param-value&gt;&lt;/..</p>    <p>&#160; &lt;/…</p>    <p>&#160; &lt;init-param&gt;</p>    <p>&#160;&#160;&#160; …</p>    <p>&#160; &lt;/…</p>    <p>&#160; &lt;startup-on-load&gt;</p>    <p>&#160; &lt;/…</p>    <p>&lt;/…</p>    <p>&lt;servlet-mapping&gt;</p>    <p>&#160; &lt;servlet-name&gt;&lt;/…</p>    <p>&#160; &lt;url-pattern&gt;&lt;/…</p>    <p>&lt;/…</p> </blockquote>  <p><strong>现在的</strong></p>  <blockquote>   <p>@WebServlet(urlPatterns={“/AServlet”, “/BServlet”} <font color="#a5a5a5">,</font></p>    <p><font color="#a5a5a5">&#160; initParams={&#160;&#160; //指定初始化参数 其实在这里指定初始化参数就没有任何意义了</font></p>    <p><font color="#a5a5a5">&#160;&#160;&#160; @WebInitParam(name=””, value=””),</font></p>    <p><font color="#a5a5a5">&#160;&#160;&#160; @WebInitParam(name=””, value=””)</font></p>    <p><font color="#a5a5a5">&#160; }</font>,</p>    <p>&#160; loadOnStartup=0</p>    <p>}</p>    <p>public class AServlet extends HttpServlet {</p>    <p>&#160;&#160;&#160; ….</p>    <p>&#160;&#160;&#160; </p>    <p>}</p> </blockquote>  <p><strong>优点</strong></p>  <p>方便简单</p>  <p><strong>缺点</strong></p>  <p>增加了耦合性 如果在注解上配置初始化参数 就和没配置一样 在方法里面直接用不就行了</p>  <p>&#160;</p>  <p><strong>2.Listener</strong></p>  <p>这样一下就行了</p>  <blockquote>   <p>@WebListener</p>    <p>public class AListener implements ServletContextListener {</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p><strong>3.Filter</strong></p>  <blockquote>   <p>@WebFilter(urlPattern=”/*”, </p>    <p>&#160; dispatcherTypes={DispacherType.REQUEST}&#160;&#160;&#160; //可选的又多了一个异步处理 ASYNC </p>    <p>)</p>    <p>public class MyFilter implements Filter {</p>    <p>&#160;&#160; …</p>    <p>} </p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、异步处理</font></h5>  <p><strong>1.需要在Servlet上的WebServlet注解中添加asyncSupported属性</strong></p>  <blockquote>   <p>@WebServlet(urlPatterns=”/ASyncServlet”, asyncSupported=true)</p> </blockquote>  <p><strong>2.设置响应头<font color="#ff0000">text/html</font></strong></p>  <blockquote>   <p>response.setContentType(“<strong><font color="#ff0000">text/html</font></strong>;charset=utf-8”);&#160;&#160; <font color="#ff0000"><strong>//（注意！！！）一定要text/html否则不好使</strong></font></p> </blockquote>  <p><strong>3.获取异步上下文对象</strong></p>  <blockquote>   <p>AsyncContext cxt = request.startAsync(request, response);</p> </blockquote>  <p>一般都是比较费时的才这么做 给它分一个线程给它做</p>  <p><strong>4.使用异步上下文启动线程</strong></p>  <p>Thread 是一个人 Runable 是一个任务 人来完成任务</p>  <p>start内部完成了这件事</p>  <blockquote>   <p>cxt.start(new MyRunnable(cxt));</p> </blockquote>  <p>&#160;</p>  <blockquote>   <p>class MyRunable implements Runable {</p>    <p>&#160;&#160;&#160; private AsyncContext context;</p>    <p>&#160;&#160;&#160; public MyRunable(AsyncContext context) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.context = context;</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void run() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //获取异步上下文时 就已经把request和response传给它了 就可以用getRequest和getResponse来获取</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; HttpServletResponse response = cxt.getResponse(); </p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; for (char c = ‘A’; c &lt;= ‘Z’; c++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; response.getWriter().print(c);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; response.flush();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Thread.sleep(500);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; context.comlete();&#160;&#160;&#160; //通知tomcat 我完事儿了 如果不告诉的话 tomcat会等到等不下去了再结束</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p>也可以用内部类</p>  <blockquote>   <p>cxt.start(new Runable() {</p>    <p>&#160;&#160;&#160; public void run() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; for (char c = ‘A’; c &lt;= ‘Z’; c++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; }</p>    <p>});</p> </blockquote>  <p><strong><font color="#ff0000">（注意！！！）如果存在过滤器</font></strong></p>  <p>需要设置@WebFilter的属性<u>asyncSupport=true</u></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、上传</font></h5>  <p><strong>1.在Servlet上添加一个注解</strong></p>  <blockquote>   <p>@MultipartConfig</p>    <p>@MultipartConfig(fileSizeThreshold=1024*20, location=””, maxFileSize=1024*100, maxRequestSize=1024*1024)</p>    <p>缓存大小 临时目录 单个上传文件大小限制 整个请求大小限制</p> </blockquote>  <p><strong>2.request.getParameter(“”) 可以使用了！！！</strong></p>  <p><strong>3.获取上传的文件</strong></p>  <blockquote>   <p>Part part = request.getPart(“upload”);&#160;&#160;&#160; //字段名</p>    <p>part.getContentType();&#160;&#160; //获取文件的MIME类型</p>    <p>part.getSize();&#160;&#160; //获取文件大小</p>    <p>part.getName();&#160;&#160; //获取字段名</p>    <p>String header = part.getHeader(“content-disposition”);&#160;&#160; //可以自己从中截取文件名 它自己没有获取文件名的方法</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; -&#160;&#160; form-date; name=”upload” filename=”….”</p>    <p>filename = header.substring(header.lastIndexOf(“filename=”) + 10, header.length() – 1);</p>    <p>part.write(“保存的路径”); //保存文件</p> </blockquote>  <p><strong>原理</strong></p>  <p>Servlet3.0上传的底层 其实用的还是commons-fileupload</p>  <p>Part接口把Servlet和commons-fileupload进行了解耦</p>  <p>如果Servlet底层更换了实现方式 也不用去操心</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

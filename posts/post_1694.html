@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MySQL优化 - 定时维护</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL优化 - 定时维护
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、备份恢复数据库/数据表</strong>
+</h5>
+
+<p>
+	<strong>1.备份</strong>
+</p>
+
+<p>
+	cmd控制台：
+</p>
+
+<blockquote>
+	<p>
+		mysqldump -u root -proot 数据库名 [表名1 表名2 ...]&nbsp;&gt; d:/....sql&nbsp;后缀随便写&nbsp;
+	</p>
+
+	<p>
+		注意 -p之后不要有空格
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.恢复</strong>
+</p>
+
+<p>
+	mysql控制台：
+</p>
+
+<blockquote>
+	<p>
+		source d:/....sql
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、定时备份</strong>
+</h5>
+
+<p>
+	如果没有自动备份 就没有人敢当数据库管理员了 要半夜两点爬起来备份 还不能哪天忘了
+</p>
+
+<ul>
+	<li>
+		<strong>用.bat和计划任务</strong>
+	</li>
+</ul>
+
+<p>
+	把备份数据库的指令写入到一个.bat批处理文件中
+</p>
+
+<p>
+	通过任务调度器（windows）/crontab（linux）定时调用它
+</p>
+
+<p>
+	<strong>1.写批处理文件</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">backuptask.bat</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;D:\MySQL Server 5.5\bin\</span>mysqldump&quot;&nbsp;-u root -proot blog &gt; D:\_云备份目录\blog_bak.sql
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">（注意！！！）</span></strong>如果目录中有空格 要用引号引起来
+</p>
+
+<p>
+	<strong>2.做成任务定时调用</strong>
+</p>
+
+<p>
+	控制面板 -&gt; 任务计划 -&gt; 添加任务计划
+</p>
+
+<p>
+	Win7直接在开始菜单里搜索计划任务
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>用php执行备份</strong>
+	</li>
+</ul>
+
+<p>
+	可是向上边那样备份 备份的文件名都一样 覆盖了 不好
+</p>
+
+<p>
+	可以用php来执行命令行备份 然后用.bat文件调用执行php
+</p>
+
+<p>
+	<strong>1.写php文件</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">backuptask\blog.php</span></span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php<br />
+		&nbsp;&nbsp; &nbsp;date_default_timezone_set(&quot;PRC&quot;);<br />
+		&nbsp;&nbsp; &nbsp;$blog_backup_file_name = &quot;backup_blog_&quot; . date(&quot;Y_m_d_H_i_s&quot;.time()) . &quot;.bak.sql&quot;;<br />
+		&nbsp;&nbsp; &nbsp;echo $blog_backup_file_name;<br />
+		&nbsp;&nbsp; &nbsp;echo &quot;&lt;br/&gt;&quot;;<br />
+		&nbsp;&nbsp; &nbsp;echo $command = &quot;\&quot;D:\MySQL Server 5.5\bin\mysqldump\&quot; -u root -proot&nbsp;blog &gt; D:\_云备份目录\\{$blog_backup_file_name}&quot;;<br />
+		&nbsp;&nbsp; &nbsp;echo &quot;&lt;br/&gt;&quot;;<br />
+		&nbsp;&nbsp; &nbsp;exec($command);<br />
+		?&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.测试使用控制台调用php文件</strong>
+</p>
+
+<p>
+	php.exe 本身可以解析php文件
+</p>
+
+<p>
+	cmd：
+</p>
+
+<blockquote>
+	<p>
+		D:\APMServ5.2.6\PHP\php&nbsp;D:\APMServ5.2.6\www\htdocs\backuptask\blog.php
+	</p>
+</blockquote>
+
+<p>
+	这样执行的效果 和在浏览器执行的效果是一样的
+</p>
+
+<p>
+	然后当然可以把这个指令放在.bat中
+</p>
+
+<p>
+	然后再添加一个计划任务 老毕了！
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>在linux下</strong>
+	</li>
+</ul>
+
+<p>
+	可执行的shell文件
+</p>
+
+<p>
+	crontab 0 0 0 0 0 task.sh
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

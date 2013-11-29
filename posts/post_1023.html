@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2初体验 之 用户登录非完整小栗子</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2初体验 之 用户登录非完整小栗子
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>login.jsp</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:fielderror fieldName=&rdquo;username&rdquo;/&gt;
+	</p>
+
+	<p>
+		&lt;s:fielderror fieldName=&rdquo;password&rdquo;/&gt;
+	</p>
+
+	<p>
+		&lt;s:actionerror/&gt;
+	</p>
+
+	<p>
+		&lt;form action=&rdquo;&lt;c:url value=&rsquo;/user_login.action&rsquo;&gt;&rdquo;&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;input type=&rdquo;text&rdquo; name=&rdquo;username&rdquo;/&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;input type=&rdquo;password&rdquo; name=&rdquo;username&rdquo;/&gt;
+	</p>
+
+	<p>
+		&lt;/form&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>success.jsp</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:actionmessage/&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>struts.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;action name=&rdquo;user_*&rdquo; class=&rdquo;&hellip;..LoginAction&rdquo; method=&rdquo;{1}&rdquo;&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;result&gt;/success.jsp&lt;/result&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;result name=&rdquo;input&rdquo;&gt;/login.jsp&lt;/result&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;result name=&rdquo;error&rdquo;&gt;/login.jsp&lt;/result&gt;
+	</p>
+
+	<p>
+		&lt;/action&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>LoginAction</strong>
+</p>
+
+<h5>
+	<font style="font-weight: bold">一、属性驱动</font>
+</h5>
+
+<p>
+	在表单中的字段名称与Action的属性名称相同 那么Struts2会自动把表单数据封装到Action的属性中
+</p>
+
+<p>
+	其实这个事情是拦截器做的
+</p>
+
+<p>
+	<strong>[login]</strong>
+</p>
+
+<blockquote>
+	<p>
+		private String username;&nbsp;&nbsp;&nbsp; //Action中的属性必须和表单中字段的name属性对应
+	</p>
+
+	<p>
+		private String password;
+	</p>
+
+	<p>
+		geters&hellip;&nbsp; //Struts会自动在execute方法之前把参数封装过来
+	</p>
+
+	<p>
+		seters&hellip;
+	</p>
+
+	<p>
+		/* 输入校验 其实以后都在xml中配置如何校验 */
+	</p>
+
+	<p>
+		if (username == null || username.trim().isEmpty()) {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; this.addFieldError(&ldquo;username&rdquo;, &ldquo;用户名不能为空&rdquo;);
+	</p>
+
+	<p>
+		} else if (username.length() &lt; 3 || username.length() &gt; 10) {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; this.addFieldError(&ldquo;username&rdquo;, &ldquo;用户名长度必须在3-10之间&rdquo;);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		if (password == null || password.trim().isEmpty()) {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; this.addFieldError(&ldquo;password&rdquo;, &ldquo;密码不能为空&rdquo;);
+	</p>
+
+	<p>
+		} else if (password.length() &lt; 3 || password.length() &gt; 10) {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; this.addFieldError(&ldquo;password&rdquo;, &ldquo;密码长度必须在3-10之间&rdquo;);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		if (this.hasFieldErrors()) {&nbsp;&nbsp;&nbsp; //如果有字段错误 就不继续了
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return INPUT;
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		/* 后台校验 */
+	</p>
+
+	<p>
+		if (!username.equals(&ldquo;xxxxx&rdquo;) || !password.equals(&ldquo;xxxxxx&rdquo;)) {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; this.addActionError(&ldquo;用户名/密码错&rdquo;);
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return ERROR;
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		ActionContext.getContext().getSession().put(&ldquo;username&rdquo;, username);
+	</p>
+
+	<p>
+		this.addActionMessage(&ldquo;登录成功&rdquo;);
+	</p>
+
+	<p>
+		return SUCCESS;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<font style="font-weight: bold">二、模型驱动</font>
+</h5>
+
+<p>
+	<strong><font color="#ff0000">开发的时候用这个</font></strong>
+</p>
+
+<p>
+	<strong>1.实现接口</strong>
+</p>
+
+<p>
+	Action必须
+</p>
+
+<blockquote>
+	<p>
+		implements ModelDriven&lt;JavaBean类型&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.添加属性 并手动实例化</strong>
+</p>
+
+<blockquote>
+	<p>
+		private User user = new User();&nbsp; //必须手动实例化
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.Struts自动封装</strong>
+</p>
+
+<p>
+	Struts会先用instanceof去判断Action是否实现了ModelDriven接口
+</p>
+
+<p>
+	如果实现了 会调用getModel方法来获取Model对象
+</p>
+
+<p>
+	把表单数据封装到对象中
+</p>
+
+<p>
+	（这时再使用属性驱动就不好使了 二者取其一）
+</p>
+
+<blockquote>
+	<p>
+		public JavaBean类型 getModel() {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return user;&nbsp;&nbsp;&nbsp; //返回的是那个属性的名
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 分区管理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 分区管理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	+.异常处理策略
+</p>
+
+<p>
+	1.分区添加 Combobox的使用
+</p>
+
+<p>
+	2.分区查询（条件查询）
+</p>
+
+<p>
+	3.查询方法优化 抽取
+</p>
+
+<p>
+	4.分区查询结果的导出
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>+、<span style="font-size: 13px;">异常处理策略</span></strong>
+</h5>
+
+<p>
+	ajax方式请求和非ajax方式请求服务器返回的内容是不同的
+</p>
+
+<p style="margin-left: 40px;">
+	非ajax -&gt; 500错误页面改成友好错误页面
+</p>
+
+<p style="margin-left: 40px;">
+	ajax -&gt; 返回json格式的错误信息
+</p>
+
+<p>
+	可以做一个<u><strong>通用异常处理拦截器</strong></u> 把异常的处理统一起来 代码中就不用管异常的问题了
+</p>
+
+<p>
+	<span style="color:#0000FF;">BosExceptionInterceptor</span>
+</p>
+
+<p>
+	不要用<span style="font-size: 13px;">ExceptionInterceptor Struts有这个类了</span>
+</p>
+
+<blockquote>
+	<p>
+		Bos<span style="font-size: 13px;">ExceptionInterceptor extends AbstractInterceptor {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String intercept(ActionInvocation invocation) ... {
+	</p>
+
+	<p style="margin-left: 80px;">
+		try {
+	</p>
+
+	<p style="margin-left: 120px;">
+		return invocation.invoke();
+	</p>
+
+	<p style="margin-left: 80px;">
+		} catch (Exception e) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		//区分是否为ajax请求
+	</p>
+
+	<p style="margin-left: 120px;">
+		//<span style="color:#FF0000;">ajax的头信息 有一个<span style="font-size: 13px;">X-Requested-With 如果不为空 就是ajax请求</span></span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		if (ServletContext.getRequest().getAttribute(&quot;X-Requested-With&quot;) != null) {
+	</p>
+
+	<p style="margin-left: 160px;">
+		//是ajax
+	</p>
+
+	<p style="margin-left: 160px;">
+		Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+	</p>
+
+	<p style="margin-left: 160px;">
+		map.put(&quot;success&quot;, &quot;false&quot;);
+	</p>
+
+	<p style="margin-left: 160px;">
+		map.put(&quot;msg&quot;, e.getMessage());
+	</p>
+
+	<p style="margin-left: 160px;">
+		ActionContext.getContext().put(&quot;json&quot;, map);
+	</p>
+
+	<p style="margin-left: 160px;">
+		return &quot;error-ajax&quot;;
+	</p>
+
+	<p style="margin-left: 120px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 160px;">
+		ActionContext.getContext().put(&quot;error&quot;, e.getMessage());
+	</p>
+
+	<p style="margin-left: 160px;">
+		return &quot;error&quot;;
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">异常拦截器要放在第一位 在默认拦截器栈之前</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>配置全局结果集</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;global-results&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;result name=&quot;error-ajax&quot; type=&quot;json&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;param name=&quot;root&quot;&gt;json&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;result name=&quot;error&quot;&gt;/error.jsp<span style="line-height: 1.6em;">&lt;/</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">error.jsp</span>
+</p>
+
+<blockquote>
+	<p>
+		${error}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	一键上传的功能 是仿ajax的 实际用的是iframe 没有用$.post方法 所以回来的json是一个字符串 需要转一下
+</p>
+
+<blockquote>
+	<p>
+		function (data) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		var result = eval(&quot;(&quot; + data&nbsp;+ &quot;)&quot;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (result.success == &quot;true&quot;) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、分区管理模块</strong>
+</h5>
+
+<p>
+	分区是将自然行政区进行划分
+</p>
+
+<p>
+	<strong>1.分区数据添加</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/fq.jpg"><img alt="fq" class="alignnone size-full wp-image-1594" height="162" src="http://localhost:8080/wp-content/uploads/2013/11/fq.jpg" width="324" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/txfq.jpg" rel="" style="" target="" title=""><img alt="txfq" class="alignnone size-full wp-image-1593" height="250" src="http://localhost:8080/wp-content/uploads/2013/11/txfq.jpg" style="" title="" width="372" /></a>
+</p>
+
+<p>
+	<strong>（1）用EasyUI的Combobox完成区域选择</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	自动进行ajax请求生成select option（根据返回json的id作为option的value name作为option的文本）
+</p>
+
+<blockquote>
+	<p>
+		&lt;input type=&quot;text&quot; class=&quot;easyui-combobox&quot; data-options=&quot;valueField: &#39;id&#39;,textField:&#39;name&#39;, url:&#39;..../region_ajaxlist.action&#39;&quot;&gt;&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	json
+</p>
+
+<blockquote>
+	<p>
+		[
+	</p>
+
+	<p style="margin-left: 40px;">
+		{&quot;id&quot;:&quot;001&quot;, &quot;name&quot;:&quot;aaa&quot;},
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">{&quot;id&quot;:&quot;002&quot;, &quot;name&quot;:&quot;bbb&quot;</span><span style="font-size: 13px;">},</span>
+	</p>
+
+	<p>
+		]
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;param name=&quot;includeProperties&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		\[\d+\]\.id,
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		\[\d+\]\.name
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	但是region实体类里没有name属性&nbsp;name是省市区拼起来的 所以可以在region的实体类中加一个getName的方法
+</p>
+
+<blockquote>
+	<p>
+		public String getName() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		return province + &quot; &quot; + city + &quot; &quot; + district;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）Combobox的自动补全</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	如果下拉列表里太多了不好找&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/mode.jpg" rel="" style="" target="" title=""><img alt="mode" class="alignnone size-full wp-image-1598" height="29" src="http://localhost:8080/wp-content/uploads/2013/11/mode.jpg" style="" title="" width="529" /></a>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;input type=&quot;text&quot; class=&quot;easyui-combobox&quot; data-options=&quot;valueField: &#39;id&#39;,textField:&#39;name&#39;,&nbsp;</span>mode:&#39;remote&#39;, loader:&#39;callback&#39;&quot;&gt;&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	这个时候 就不用url了
+</p>
+
+<p style="margin-left: 40px;">
+	要用loader 绑定callback函数 这样每输入一个字母 就会调用这个方法 带一个q的参数 q的值就是用户输入的内容 发送一个ajax请求给服务器 拿到对应的数据 返回到data中 然后给它包到success中就行啦
+</p>
+
+<blockquote>
+	<p>
+		function callback(param, success, error) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		// param.q&nbsp;<span style="font-size: 13px;">是输入框用户输入的内容 把它发给服务器 获取json列表</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		$.post(&#39;.../region_ajaxlist.action&#39;, &quot;{&quot;q&quot;:param.q}&quot;,function(data) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">// success 是回显数据用的 用success包这个data就行</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">success(data);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		});
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">RegionAction</span>
+</p>
+
+<blockquote>
+	<p>
+		private String q;
+	</p>
+
+	<p>
+		setter...
+	</p>
+
+	<p>
+		List&lt;Region&gt; list = reginService.findRegion(q) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (q == null || q.trim().length() == 0) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		return regionDao.findAll();
+	</p>
+
+	<p style="margin-left: 40px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 80px;">
+		return regionDao.findByNamedQuery(&quot;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">Region.findlike</span>&quot;, &quot;%&quot; + q + &quot;%&quot;, <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;%&quot; + q + &quot;%&quot;,&nbsp;&quot;%&quot; + q + &quot;%&quot;</span>);
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">query.hbm.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;query name=&quot;Region.findlike&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		FROM Region WHERE province LIKE ? OR city LIKE ? OR district LIKE ?
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	这个查询 效率比较低 所以要用索引库优化 这个之后再说
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.分区列表</strong>
+</p>
+
+<p>
+	<strong>（1）分页查询抽取优化</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	对业务层的pageQuey进行抽取 因为很多功能都用到了分页查询
+</p>
+
+<p style="margin-left: 40px;">
+	放到BasicService里
+</p>
+
+<p style="margin-left: 40px;">
+	方法级别的泛型
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/pq.jpg"><img alt="pq" class="alignnone size-full wp-image-1599" height="302" src="http://localhost:8080/wp-content/uploads/2013/11/pq.jpg" width="796" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;"><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">com.yutouxiuxiu.bos.pagequery.PageQuery</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public interface PageQuery {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public PageResponseBean pageQuery(PageRequestBean p<span style="font-size: 13px;">ageRequestBean</span>);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	所有的业务接口 如果想使用分页的功能 只需要继承PageQuery接口
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">subareaService</span>
+</p>
+
+<blockquote>
+	<p>
+		public interface ...Service extends PageQuery {
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	在实现类中实现就可
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">subareaServiceImpl</span>
+</p>
+
+<blockquote>
+	<p>
+		@Override
+	</p>
+
+	<p>
+		public&nbsp;PageResponseBean&nbsp;pageQuery(PageRequestBean&nbsp;pageRequestBean)&nbsp;{
+	</p>
+
+	<p style="margin-left: 40px;">
+		return&nbsp;pageQuery(pageRequestBean,subareaDao);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）组合条件分页查询</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/cxtj.jpg" rel="" style="" target="" title=""><img alt="cxtj" class="alignnone size-full wp-image-1600" height="209" src="http://localhost:8080/wp-content/uploads/2013/11/cxtj.jpg" style="" title="" width="288" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	用户输入的条件是不确定的 输入多少条件 就按照多少个条件查
+</p>
+
+<p style="margin-left: 40px;">
+	问题
+</p>
+
+<p style="margin-left: 80px;">
+	服务器端如何实现组合条件查询 &nbsp;- &nbsp;拼接SQL语句 / hibernate用QBC添加条件
+</p>
+
+<p style="margin-left: 80px;">
+	客户端如何显示带条件的分页查询 &nbsp;- &nbsp;将查询条件缓存到datagrid中 让点分页的时候 条件一直存在
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">条件查询表单</span>
+</p>
+
+<blockquote>
+	<p>
+		省 &lt;input type=&quot;text&quot;&nbsp;name=&quot;region.province&quot;&gt;&lt;/
+	</p>
+
+	<p>
+		...
+	</p>
+
+	<p>
+		定区&nbsp;<span style="font-size: 13px;">&lt;input type=&quot;t</span><span style="font-size: 13px;">ext&quot;&nbsp;</span><span style="font-size: 13px;">name=&quot;decidedZone.id</span><span style="font-size: 13px;">&quot;&gt;&lt;/</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">...</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">查询按钮点击事件</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">将查询条件缓存到datagrid中 让点分页的时候 条件一直存在&nbsp;</span>datagrid提供了一个queryParams初始化参数 但是不是一开始就有条件的 是后来的 还可以使用load方法 重新加载参数
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	//将查询条件缓存的datagrid中
+</p>
+
+<p style="margin-left: 40px;">
+	//它需要js对象格式的参数 要<span style="color:#FF0000;"><strong>将form数据转换为json格式</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	jquery中有一个serialize方法 可以将表单内容转成url参数的格式 name=aaa&amp;password=bbb
+</p>
+
+<p style="margin-left: 40px;">
+	还有一个serializeArray方法 可以将表单内容转成 [{name: "",value:""}, ...]格式
+</p>
+
+<p style="margin-left: 40px;">
+	但是我们需要的格式是
+</p>
+
+<blockquote>
+	<p>
+		{
+	</p>
+
+	<p style="margin-left: 40px;">
+		name: &#39;hello&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		password: &#39;123&#39;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	上面的两种方式都不好使 不过可以借助<span style="font-size: 13px;">serializeArray方法</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">$.fn 的意思是<span style="color:#FF0000;"><strong>在jquery中添加一个方法</strong></span></span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;$.fn.serializeJson=function(){ &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var serializeObj={}; &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var array=this.serializeArray(); &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var str=this.serialize(); &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(array).each(function(){ &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(serializeObj[this.name]){ &nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果存在多个值 会变成数组的格式 例如 hobby: ["sport", "music"]<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($.isArray(serializeObj[this.name])){ &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; serializeObj[this.name].push(this.value); &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{ &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; serializeObj[this.name]=[serializeObj[this.name],this.value]; &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{ &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; serializeObj[this.name]=this.value; &nbsp;&nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }); &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return serializeObj; &nbsp;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; };&nbsp;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	然后提交表单的时候...
+</p>
+
+<blockquote>
+	<p>
+		var <span style="font-size: 13px;">params =&nbsp;</span>$(&quot;#searchForm&quot;).serializeJson();
+	</p>
+
+	<p>
+		$(&quot;#grid&quot;).datagrid(&quot;load&quot;, params);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	这样点击翻页的时候 发送过去的请求就是带条件参数的
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	使用hibernate的QBC组合条件查询
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">SubareaAction</span>
+</p>
+
+<blockquote>
+	<p>
+		public String pageQuery() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		//先写本表具备的条件 例如 subarea对象的关键字addresskey
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (subarea.getAddresskey() != null &amp;&amp;&nbsp;<span style="font-size: 13px;">subarea.getAddresskey().trim().length() &gt; 0</span>) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		detachedCriteria.add(Restrictions.like(&quot;addresskey&quot;, &quot;%&quot; + subarea.getAddresskey&nbsp;+ &quot;%&quot;));
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (subarea.getDecidedZone() != null &amp;&amp;&nbsp;<span style="font-size: 13px;">subarea.getDecidedZone().getId() != null &amp;&amp;&nbsp;subarea.getDecidedZone().getId().trim().length() &gt; 0</span>) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">detachedCriteria.add(Restrictions.eq(&quot;decidedZone&quot;, subarea.getDecidedZone()); &nbsp;// 它会自动比较id</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		//再写多表查询的 <strong>先为目标表创建别名</strong>（它就会视为进行表关联）
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (subarea.getRegion() != null) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">detachedCriteria.createAlias(&quot;region&quot;, &quot;r&quot;); &nbsp;// 别名 默认使用内连接</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">//detachedCriteria.createAlias(&quot;region&quot;, &quot;r&quot;, DetachedCriteria.INNER_JOIN/...); &nbsp;// 指定关联方式</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">if (subarea.getRegion().getProvince() != null &amp;&amp;&nbsp;subarea.getRegion().getProvince().trim().length() &gt; 0) {</span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">detachedCriteria.add(Restrictions.like(&quot;r.province&quot;, &quot;%&quot; + subarea.getRegion().getProvince()&nbsp;+ &quot;%&quot;));</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">}</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">city...</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">district...</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	但是这样有问题 返回的结果会是 rows: [[]]
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	原因是什么呢？
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/1.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-1602" height="314" src="http://localhost:8080/wp-content/uploads/2013/11/1.jpg" style="" title="" width="518" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/2.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-1603" height="317" src="http://localhost:8080/wp-content/uploads/2013/11/2.jpg" style="" title="" width="533" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	也就是说：
+</p>
+
+<p style="margin-left: 40px;">
+	原来创建forClass(Subarea.class)的时候 指定结果转换器（ResultTransformer）为将
+</p>
+
+<p style="margin-left: 40px;">
+	SELECT *
+</p>
+
+<p style="margin-left: 40px;">
+	当设置了
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/3.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-1604" height="161" src="http://localhost:8080/wp-content/uploads/2013/11/3.jpg" style="" title="" width="547" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	就是在BaseService中加入如上图选中的一行的代码 就行了
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、分区结果导出</strong>
+</h5>
+
+<p>
+	<strong>1.生成excel</strong>
+</p>
+
+<p>
+	用当前的条件 在数据库中不分页再查询一下 得到的结果生成成excel
+</p>
+
+<p>
+	新建工作薄 -&gt; 新建sheet -&gt; 写行 -&gt; 写单元格
+</p>
+
+<blockquote>
+	<p>
+		HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">HSSFSheet sheet = hssfWorkbook.createSheet(&quot;数据&quot;);</span>
+	</p>
+
+	<p>
+		//HSSFRow row =&nbsp;sheet.createRow(0);
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">HSSFRow row =&nbsp;sheet.createRow(sheet.getLastRowNum() + 1);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">row.createCell(0).setCellValue(&quot;内容&quot;);</span>
+	</p>
+</blockquote>
+
+<p>
+	写到文件中
+</p>
+
+<p>
+	<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">hssfWorkbook.write(new FileOutputStream(&quot;路径&quot;));</span>
+</p>
+
+<p>
+	<strong>2.下载</strong>
+</p>
+
+<p>
+	mime类型 在tomcat/conf/web.xml中查找即可
+</p>
+
+<p>
+	ServletContext.getMimeType(&quot;文件名&quot;);使用的就是这个
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	工具类来解决下载文件名中文乱码问题
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		attachment;filename=${downloadFilename}
+	</p>
+</blockquote>
+
+<p>
+	这个OGNL表达式会执行findValue方法
+</p>
+
+<blockquote>
+	<p>
+		String = downloadFilename = &quot;&quot;;
+	</p>
+
+	<p>
+		FileUtils.encodeDownloadFilename(<span style="font-size: 13px;">downloadFilename</span>, ServletContext.getRequest().getHeader(&quot;user-agent&quot;));
+	</p>
+
+	<p>
+		ActionContext.getContext().put(&quot;<span style="font-size: 13px;">downloadFilename&quot;,&nbsp;downloadFilename</span>);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

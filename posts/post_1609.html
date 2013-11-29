@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 定区管理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 定区管理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	1.定区添加 关联分区 取派员
+</p>
+
+<p>
+	2.定区分页查询
+</p>
+
+<p>
+	3.定区关联客户 远程调用RMI 实现数据的远程访问
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、<font size="2">定区管理</font></strong>
+</h5>
+
+<p>
+	管理定区是指定去拍范围的单位 管理定区分别匹配小件员 管理分区和客户地址 在动下单和自动分单服务
+</p>
+
+<p>
+	为客户找到他所在区域负责的取派员
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/11.jpg"><img alt="1" class="alignnone size-full wp-image-1610" height="65" src="http://localhost:8080/wp-content/uploads/2013/11/11.jpg" width="282" /></a>
+</p>
+
+<p>
+	<strong>1.添加定区</strong>
+</p>
+
+<p>
+	<strong>（1）选择取派员的下拉列表</strong>
+</p>
+
+<p>
+	参见昨天的 这里略...
+</p>
+
+<p>
+	<strong>（2）未分配定区的分区列表</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;query name=&quot;Subarea.findUnassociatedSubarea&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- hql <span style="font-size: 13px;">Subarea的decidedZone属性引用为空</span>&nbsp;--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		FROM Subarea WHERE decidedZone is null
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		detachedCriteria.add(Restrictions.isNotEmpty(&quot;subarea&quot;));
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（+）404错误</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;error-page&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;error-code&gt;404&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;loaction&gt;/404.jsp&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<h5>
+	<strong>二、定区分页查询</strong>
+</h5>
+
+<p>
+	略
+</p>
+
+<h5>
+	<strong>三、关联客户</strong>
+</h5>
+
+<p>
+	公司里可能有很多套软件 有OA（办公管理） 有CRM（客户管理） 有BOS（物流管理）
+</p>
+
+<p>
+	想要把客户分配给取派员 客户在CRM系统里 取派员在BOS里 如何关联？
+</p>
+
+<p>
+	BOS系统如何访问CRM中的数据？
+</p>
+
+<p>
+	可能现实中两个系统不在同一台服务器上 两套系统不是用同样的语言写的
+</p>
+
+<p>
+	要远程调用 去访问别的程序 获取数据 java中有RMI（远程方法调用）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.</strong><strong style="line-height: 1.6em;">Hessian</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/21.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-1611" height="64" src="http://localhost:8080/wp-content/uploads/2013/11/21.jpg" style="" title="" width="422" /></a>
+</p>
+
+<p>
+	RPC 远程过程调用协议
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	（Dubbo &nbsp;- &nbsp;阿里巴巴的开源技术 底层使用了Hessian 用于远程调用）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（1）优缺点</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	轻便 支持多种语言 快速 但是不安全没有加密 异常处理不好
+</p>
+
+<p>
+	<strong>（2）各种远程调用协议</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	RMI &nbsp;- &nbsp;传输java序列化对象 java的远程调用 不能跨语言 但是非常高效稳定 复杂对象也很快
+</p>
+
+<p style="margin-left: 40px;">
+	HttpInvoker &nbsp;- &nbsp;<span style="font-size: 13px;">传输java序列化对象&nbsp;</span>也不能跨语言
+</p>
+
+<p style="margin-left: 40px;">
+	Hessian &nbsp;- &nbsp;传输的是二进制 很快 可以跨语言 极其复杂的数据结构 就会慢一些 不明显
+</p>
+
+<p style="margin-left: 40px;">
+	Web Service &nbsp;- &nbsp;基于xml传输 采用soap协议 效率很低
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.Hessian快速入门</strong>
+</p>
+
+<p>
+	<strong>（1）两个项目&nbsp;导入jar包</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	项目1 是服务提供者 项目2 是服务调用者
+</p>
+
+<p style="margin-left: 40px;">
+	hessian-4.0.33.jar
+</p>
+
+<p>
+	<strong>（2）项目1 写业务接口</strong>
+</p>
+
+<blockquote>
+	<p>
+		public interface HelloService {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String sayHello(String name);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）</strong><strong style="font-size: 13px;">项目1&nbsp;</strong><strong>实现业务接口</strong>
+</p>
+
+<blockquote>
+	<p>
+		public HelloServiceImpl implements HelloService {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">public String sayHello(String name) {</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		return &quot;hello&nbsp;&quot; + name;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">}</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>（4）</strong><strong style="font-size: 13px;">项目1&nbsp;</strong><strong>将业务接口配置为Hessian服务</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	将这个接口暴露出去
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">web.xml</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/pz.jpg" rel="" style="" target="" title=""><img alt="pz" class="alignnone size-full wp-image-1612" height="207" src="http://localhost:8080/wp-content/uploads/2013/11/pz.jpg" style="" title="" width="370" /></a>
+</p>
+
+<p>
+	<strong>（5）发布并访问 试一下</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	显示 Hessian Requires POST 就说明成功了
+</p>
+
+<p>
+	<strong>（6）项目2&nbsp;</strong>
+</p>
+
+<p>
+	如果是java程序 需要把服务提供者的接口复制到调用者这里
+</p>
+
+<blockquote>
+	<p>
+		@Test
+	</p>
+
+	<p>
+		public void testHessian() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		HessianProxyFactory&nbsp;<span style="font-size: 13px;">hessianProxyFactory&nbsp;</span>= new&nbsp;<span style="font-size: 13px;">HessianProxyFactory</span>();
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">HelloService helloServiceProxy =&nbsp;hessianProxyFactory.create(HelloService.class, &quot;http://.../hello&quot;);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">String result = helloServiceProxy.sayHello(&quot;yutou&quot;); &nbsp;//会远程访问web服务那里的方法</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">syso(result);</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/12.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-1618" height="104" src="http://localhost:8080/wp-content/uploads/2013/11/12.jpg" style="" title="" width="423" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

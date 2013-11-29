@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate查询缓存</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate查询缓存
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、引例</strong>
+</h5>
+
+<p>
+	一级缓存、二级缓存是对象缓存 缓存的是表中所有的数据
+</p>
+
+<p>
+	如果只要查很多个字段中的某几个字段 但是一用get 就把所有的值都查过来了 大大的浪费内存资源
+</p>
+
+<p>
+	引出了查询缓存
+</p>
+
+<h5>
+	<strong>一、查询缓存</strong>
+</h5>
+
+<blockquote>
+	<p>
+		1.查询缓存是数据缓存 缓存的是数据 不是对象
+	</p>
+
+	<p>
+		2.查询缓存是建立在二级缓存基础之上的 只有这个类建立了二级缓存 才能有查询缓存
+	</p>
+
+	<p>
+		3.查询缓存只针对Query对象有效
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>查询缓存使用步骤</strong>
+	</li>
+</ul>
+
+<p>
+	1.开启二级缓存
+</p>
+
+<p>
+	2.指定某个类开启二级缓存
+</p>
+
+<p>
+	3.开启查询缓存
+</p>
+
+<blockquote>
+	<p>
+		&lt;property name=&quot;cache.use_query_cache&quot;&gt;true&lt;/property&gt;
+	</p>
+</blockquote>
+
+<p>
+	4.使用查询缓存
+</p>
+
+<blockquote>
+	<p>
+		Session session = sessionFactory.getCurrentSession();
+	</p>
+
+	<p>
+		Transaction transaction = session.beginTransaction();
+	</p>
+
+	<p>
+		Query query = session.createQuery(&quot;from Student&quot;);
+	</p>
+
+	<p>
+		query.setCacheable(true);&nbsp;&nbsp;&nbsp; //因为查询缓存是封装在Query中的 意思是把数据可以缓存到查询缓存中
+	</p>
+
+	<p>
+		List&lt;Student&gt; students = query.list();&nbsp;&nbsp;&nbsp; //把数据（不是对象）放入到查询缓存中
+	</p>
+
+	<p>
+		transaction.commit();
+	</p>
+</blockquote>
+
+<p>
+	5.验证
+</p>
+
+<blockquote>
+	<p>
+		session = sessionFactory.getCurrentSession();
+	</p>
+
+	<p>
+		transaction = session.beginTransaction();
+	</p>
+
+	<p>
+		query = session.createQuery(&quot;from Student&quot;);
+	</p>
+
+	<p>
+		List&lt;Student&gt; students = query.list();
+	</p>
+
+	<p>
+		transaction.commit();
+	</p>
+</blockquote>
+
+<p>
+	发现第二次查 学生表就不查了
+</p>
+
+<p>
+	数据缓存是根据查询语句来标识的 HQuery语句一致 就利用缓存 不一致就不利用
+</p>
+
+<blockquote>
+	<p>
+		<strong><span style="color:#FF0000;">query.list </span></strong>
+	</p>
+
+	<p>
+		1.在一些情况下 可以操作一级缓存 二级缓存
+	</p>
+
+	<p>
+		2.但也可以不操作一级缓存 二级缓存（插入操作）
+	</p>
+
+	<p>
+		3.在进行查询的时候利用的是查询缓存 而不是一级缓存 二级缓存
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>查询缓存应用的场景</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	查询的字段数远小于数据库中的字段 会按照需求缓存数据 通过查询语句查询
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

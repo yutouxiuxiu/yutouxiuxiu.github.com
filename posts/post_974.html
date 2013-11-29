@@ -1,0 +1,556 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>动态代理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					动态代理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<font style="font-weight: bold">零、什么是动态代理</font>
+</h5>
+
+<p>
+	<strong>1.作用</strong>
+</p>
+
+<p>
+	在运行时 可以动态生成一组指定接口的实现类对象
+</p>
+
+<p>
+	<strong>2.原理</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/09/1114111111.jpg"><img alt="11111" border="0" height="329" src="http://localhost:8080/wp-content/uploads/2013/09/111411111_thumb11.jpg" style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="11111" width="721" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<font style="font-weight: bold">一、如何进行动态代理</font>
+</h5>
+
+<p>
+	使用Proxy.newProxyInstance(1, 2, 3); 产生动态代理对象
+</p>
+
+<p>
+	需要
+</p>
+
+<p>
+	1.ClassLoader
+</p>
+
+<p>
+	2.Class[]
+</p>
+
+<p>
+	3.InvocationHandler
+</p>
+
+<p>
+	调用产生的代理对象实现的接口中的任何方法 都等同于调用本方法
+</p>
+
+<p>
+	<strong>小栗子</strong>
+</p>
+
+<blockquote>
+	<p>
+		public class Test {<br />
+		&nbsp;&nbsp;&nbsp; public<br />
+		&nbsp;&nbsp;&nbsp; /*<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 生成A接口的实现类<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 需要聚集3样宝贝才能获取这个对象<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 1.ClassLoader<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 2.Class[] 指定要实现的接口<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; * 3.InvocationHandler<br />
+		&nbsp;&nbsp;&nbsp;&nbsp; */<br />
+		&nbsp;&nbsp;&nbsp; ClassLoader loader = Test.class.getClassLoader();<br />
+		&nbsp;&nbsp;&nbsp; Class[] interfaces = {A.class};&nbsp;&nbsp;&nbsp; //代理类实现的接口<br />
+		&nbsp;&nbsp;&nbsp; InvocationHandler h = new InvocationHandler() {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public Object invoke(Object arg0, Method arg1, Object[] arg2)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws Throwable {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return null;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp; };<br />
+		&nbsp;&nbsp;&nbsp; //使用Proxy类获取A接口的实现类对象<br />
+		&nbsp;&nbsp;&nbsp; Object o = Proxy.newProxyInstance(loader, interfaces, h);&nbsp;&nbsp; //生成的代理对象<br />
+		&nbsp;&nbsp;&nbsp; A a = (A)o;&nbsp;&nbsp;&nbsp; //不会抛出ClassCastException
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; a.a1();&nbsp;&nbsp; //可以调用方法 <u>但是它的方法体是空的 因为你没告诉它实现接口的时候 怎么实现</u>
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; a.a2();&nbsp;&nbsp; //其实<u>它都调用的是InvocationHandler 里的invoke方法</u>
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; a.a3(&ldquo;aaa&rdquo;);
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; o.toString();&nbsp;&nbsp; //其实就连它的toString方法也是调用的invoke方法
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; o.hashCode();&nbsp;&nbsp;&nbsp; //就这个 它也是调用的invoke
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; //调用代理对象Object中的方法 除了getClass之外 也会调用invoke<br />
+		}
+	</p>
+
+	<p>
+		interface A {<br />
+		&nbsp;&nbsp;&nbsp; public void a1();<br />
+		&nbsp;&nbsp;&nbsp; public String a2();<br />
+		&nbsp;&nbsp;&nbsp; public void a3();<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<font style="font-weight: bold">二、invoke方法</font>
+</h5>
+
+<p>
+	invoke方法的参数
+</p>
+
+<blockquote>
+	<p>
+		public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &uarr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &uarr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &uarr;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 生成的动态代理对象 被调用的方法的反射对象 被调用的方法的实际参数
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return null;&nbsp;&nbsp; &larr;&nbsp; invoke方法返回什么 宿主方法返回什么 当然如果宿主方法没有返回值 它就不返回
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	可以获取调用的方法 和传的参数
+</p>
+
+<blockquote>
+	<p>
+		System.out.println(method.getName());
+	</p>
+
+	<p>
+		System.out.println(Arrays.toString(args));
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<font style="font-weight: bold">三、它有什么用？</font>
+</h5>
+
+<p>
+	动态代理的真实使用 是为了实现面向切面（AOP）
+</p>
+
+<p>
+	它和装饰者模式的效果相似 但是动态代理更加灵活
+</p>
+
+<p>
+	装饰还得把所有的方法都写一遍 可能太多了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>装饰者模式</strong>
+</p>
+
+<p>
+	<strong>是你还有你，一切拜托你</strong>
+</p>
+
+<blockquote>
+	<p>
+		class MyConnection implement Connection {&nbsp; //is a 是你
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; private Connection con;&nbsp; //has a 还有你 这个叫底层对象
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; public Statement creatStatement() {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return con.createStatement();&nbsp;&nbsp; //一切拜托你
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; }
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &hellip;方法太多了&hellip;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp; public void close() {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以拜托
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 也可以增强
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp; }
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>附：类与类之间的关系</strong>
+</p>
+
+<p>
+	<strong>1.is a</strong>&nbsp; -&nbsp; 是一个 继承/实现
+</p>
+
+<blockquote>
+	<p>
+		class A extends B
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.has a</strong>&nbsp; -&nbsp; 有一个 属性类型与类之间的关系（A类中有一个属性是B类型的）
+</p>
+
+<blockquote>
+	<p>
+		class A {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; private B b;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.use a</strong>&nbsp; -&nbsp; 用一个 类与其方法参数/局部变量（A中用了B）
+</p>
+
+<blockquote>
+	<p>
+		class A {
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; public void fun(B b) {}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>目标对象 + 增强 = 代理对象</strong>
+</p>
+
+<p>
+	在动态代理中 称呼底层对象为目标对象
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/09/dd11.jpg"><img alt="dd" border="0" height="330" src="http://localhost:8080/wp-content/uploads/2013/09/dd1_thumb11.jpg" style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="dd" width="640" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		interface Waiter {<br />
+		&nbsp;&nbsp;&nbsp; public void serve();<br />
+		}
+	</p>
+
+	<p>
+		class GirlWaiter implements Waiter {<br />
+		&nbsp;&nbsp;&nbsp; public void serve() {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;服务中...&quot;);<br />
+		&nbsp;&nbsp;&nbsp; }<br />
+		}
+	</p>
+
+	<p>
+		public class Demo {<br />
+		&nbsp;&nbsp;&nbsp; @Test<br />
+		&nbsp;&nbsp;&nbsp; public void Test() {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ClassLoader loader = Demo.class.getClassLoader();<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Class[] interfaces = {Waiter.class};<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Waiter targetWaiter = new GirlWaiter();<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; InvocationHandler h = new WaiterInvocationHandler(targetWaiter);<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Waiter proxyWaiter = (Waiter) Proxy.newProxyInstance(loader, interfaces, h);<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * 当调用代理对象的serve时 那么就会执行调用处理器的invoke()<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxyWaiter.serve();<br />
+		&nbsp;&nbsp;&nbsp; }<br />
+		}
+	</p>
+
+	<p>
+		class WaiterInvocationHandler implements InvocationHandler {<br />
+		&nbsp;&nbsp;&nbsp; private Waiter waiter;&nbsp;&nbsp;&nbsp; //目标对象<br />
+		&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp; public WaiterInvocationHandler(Waiter waiter) {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.waiter = waiter;&nbsp;&nbsp;&nbsp; //传入目标对象<br />
+		&nbsp;&nbsp;&nbsp; }
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; public Object invoke(Object proxy, Method method, Object[] args)<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws Throwable {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;您好 很高兴为您服务&quot;);&nbsp;&nbsp;&nbsp; //前置增强<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //使用目标对象来调用宿主方法<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; method.invoke(waiter, args);<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;欢迎下次再来&quot;);&nbsp;&nbsp;&nbsp; //后置增强<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //切面就是前后的增强会根据情况来变的 而且这些增强 都是某个接口里的方法<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return null;<br />
+		&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	比如说 JDBC的事务
+</p>
+
+<p>
+	先要开启事务
+</p>
+
+<p>
+	然后做事情
+</p>
+
+<p>
+	然后提交事务
+</p>
+
+<p>
+	开启事务 提交事务 就是前后做一些增强
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	AOP可以横向解耦
+</p>
+
+<p>
+	在方法内部进行解耦
+</p>
+
+<p>
+	就是这样&hellip;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -69,6 +69,10 @@ div.header {
 	float: left;
 }
 
+#header_logo {
+	padding-left: 10px;
+}
+
 div.center {
 	overflow: hidden;
 }

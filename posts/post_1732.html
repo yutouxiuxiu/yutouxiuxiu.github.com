@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Hibernate Search</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Hibernate Search
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、问题分析</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	<strong>1.问题</strong>
+</p>
+
+<p style="font-size: 13px;">
+	大规模的数据 进行搜索
+</p>
+
+<p style="font-size: 13px;">
+	可以根据 编号 到达地 货物 来进行搜索
+</p>
+
+<p style="font-size: 13px;">
+	如何来提高查询的效率
+</p>
+
+<p style="font-size: 13px;">
+	根据单号查询 建立了索引 是等值匹配 是很快的
+</p>
+
+<p style="font-size: 13px;">
+	但是根据到达地 货物名称 数据库自身就没法做索引了 LIKE匹配 也无法使用索引
+</p>
+
+<p style="font-size: 13px;">
+	查询效率会相当低
+</p>
+
+<p style="font-size: 13px;">
+	尤其是在互联网上 要搜索帖子的内容 就更差了
+</p>
+
+<p style="font-size: 13px;">
+	所以 我们来使用 Lucene全文索引
+</p>
+
+<p style="font-size: 13px;">
+	<strong>2.Lucene</strong>
+</p>
+
+<p style="font-size: 13px;">
+	Lucene 会在数据库外面建立一个索引库&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	它会对内容进行分词 分成<u><strong>词条</strong></u>&nbsp;之后建立索引
+</p>
+
+<p style="font-size: 13px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ls.jpg" rel="" target="" title=""><img alt="ls" class="alignnone size-full wp-image-1698" height="119" src="http://localhost:8080/wp-content/uploads/2013/11/ls.jpg" title="" width="418" /></a>
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong>二、使用Hibernate Search</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<strong>1.建立索引</strong>
+</p>
+
+<p style="font-size: 13px;">
+	使用 Hibernate Search 框架 来创建
+</p>
+
+<p style="font-size: 13px;">
+	Hibernate Search&nbsp;解决了 Hibernate 和 Lucene的整合
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（1）引入Hibernate Search</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	Hibernate Search 必须和 Hibernate的版本和Lucene的版本匹配
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	Hibernate Search 3.x &nbsp;- &nbsp;Hibernate 3.y &nbsp;- &nbsp;Lucene 3.z
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	Hibernate Search 4.x &nbsp;- &nbsp;Hibernate 4.y &nbsp;- &nbsp;Lucene 4.z
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	用Maven&nbsp;导入Search的时候 它会自动导入依赖的jar包（有很多的...）
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（2）导入IK分词器</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	每秒50w分词能力
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	有一个jar包 有两个配置文件
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	jar包在Maven中没有索引 自己添加
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	MyRclipse -&gt; Utilties -&gt; Maven4MyEclipse -&gt; Import Jar to...
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ik.jpg" rel="" target="" title=""><img alt="ik" class="alignnone size-full wp-image-1699" height="211" src="http://localhost:8080/wp-content/uploads/2013/11/ik.jpg" title="" width="283" /></a>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	截图上是老师演示的 真实中不要这么瞎写哦
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	配置文件放在resource中
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	IKAnalyzer.cfg.xml &nbsp;- &nbsp;
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	stopword.dic &nbsp;- &nbsp;停止词（在MySQL优化的全文索引中有介绍）
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（3）配置索引库位置</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<span style="color: rgb(0, 0, 255);">applicationContext-common.xml</span>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		&lt;property name=&quot;hibernateProperties&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;props&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;prop key=&quot;hibernate.search.default.indexBase&quot;&gt;${hibernate.search.default.indexBase}&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<span style="color: rgb(0, 0, 255);">config.properties</span>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		hibernate.search.default.indexBase = d:/index
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>（4）配置索引内容</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		@Index &nbsp;//配置对此Bean进行索引
+	</p>
+
+	<p>
+		@Analyzer(impl = IKAnalyzer.class) &nbsp;//分词器
+	</p>
+
+	<p>
+		public class WorkOrder {
+	</p>
+
+	<p style="margin-left: 40px;">
+		@DocumentId &nbsp;//指定索引的主键
+	</p>
+
+	<p style="margin-left: 40px;">
+		private String id;
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Field &nbsp;//指定对那些数据进行索引
+	</p>
+
+	<p style="margin-left: 40px;">
+		private String arrivecity;
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	这时启动服务器 它就会自动在索引库中创建文件夹
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	使用Hibernate添加和删除修改数据之后 他就会自动维护索引库
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	直接在数据库里改没有用
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（5）查看索引库内容</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	有一个lukeall工具
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	cmd：
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		<span style="line-height: 1.6em;">java -jar lukeall-3.5.0.jar</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	把带包名的路径复制粘贴上就OK
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong>2.条件查询</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<strong><span style="line-height: 1.6em;">（1）使用EasyUI的SearchBox</span></strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/scbx.jpg"><img alt="scbx" class="alignnone size-full wp-image-1736" height="78" src="http://localhost:8080/wp-content/uploads/2013/11/scbx.jpg" width="241" /></a>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		function doSearch(value, name) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//value &nbsp;- &nbsp;输入的搜索内容
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//name &nbsp;- &nbsp;下拉项的name属性
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//用datagrid的load方法 <span style="color:#FF0000;">将这个条件缓存到数据表格中</span> 才能让他翻页之后也带有条件
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		$(&quot;#grid&quot;).datagrid(&#39;load&#39;, {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		conditionName : name,
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		conditionValue : value
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		});
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//执行load方法之后 它就会自动向服务器发出请求
+	</p>
+
+	<p style="font-size: 13px;">
+		}
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;!--
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		menu &nbsp;- &nbsp;搜索项下拉列表div的id
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		prompt &nbsp;- &nbsp;提示信息
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		search &nbsp;- &nbsp;点击搜索执行的函数 --&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;input type=&quot;text&quot; class=&quot;easyui-searchbox&quot; style=&quot;width: 300px&quot; data-options=&quot;menu: &#39;#mm&#39;, prompt: &#39;请写要搜索的内容&#39;, searcher: doSearch&quot; /&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;!-- 搜索项
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		name &nbsp;- &nbsp;会发到服务器&nbsp;--&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;div id=&quot;mm&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;div data-options=&quot;name: &#39;arrivecity&#39;&quot;&gt;按照到达地搜索&lt;/
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;div<span style="font-size: 13px;">&nbsp;data-options=&quot;name: &#39;product&#39;&quot;</span>&gt;按照货物名称搜索&lt;/
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>（2）服务器端</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<span style="color:#0000FF;">WorkOrderManageAction</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		if (conditionName != null &amp;&amp; conditionName.trim().length() &gt; 0 &amp;&amp;&nbsp;<span style="font-size: 13px;">conditionValue != null &amp;&amp; conditionValue.trim().length() &gt; 0</span>) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		PageResponeBean = workOrderManageService.pageQueryByLucene(page, rows, conditionName, conditionValue);
+	</p>
+
+	<p style="font-size: 13px;">
+		} else {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//正常的分页查询
+	</p>
+
+	<p style="font-size: 13px;">
+		}
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<span style="color:#0000FF;">WorkOrderManageService</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">workOrderManagDao.pageQueryByLucene(page, rows, conditionName, conditionValue);</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<span style="color:#0000FF;">GenericDaoImpl</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">public PageResponeBean pageQueryByLucene(int page, int rows, String conditionName, String conditionValue) {</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//1.获得 Hibernate Session
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		Session session = this.getSession(); &nbsp;//它集成了HibernateDaoSupport 参加BOS项目中的<span style="font-size: 13px;">HibernateDaoSupport&nbsp;</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//2.将session交给索引库查询对象
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		FullTextSession fullTextSession = new FullTextSession(session);
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//3.创建Lucene的Query对象（搜索词条的）它查询的结果是对应的id
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//* &nbsp;- &nbsp;任意长度字符
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//? &nbsp;- &nbsp;任意一个字符
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		Query query = new WildcardQuery(new Term(conditionName, &quot;*&quot; + conditionValue&nbsp;+ &quot;*&quot;)); &nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//4.使用Hibernate Search的Query 完成索引库到数据库的自动查询
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		//第二个参数是控制返回结果的类型的 因为按照conditionName查询 可能很多实体类中都有这个字段 这个参数就是控制返回值的实体类类型的
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		FullTextQuery fullTextQuery =&nbsp;<span style="font-size: 13px;">fullTextSession.createFullTextQuery(query, clazz); &nbsp;//clazz是在GenericDaoImpl中定义的 请参见BOS项目</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		<span style="font-size: 13px;">//5.封装查询结果</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		PageResponseBean pageResponseBean = new&nbsp;<span style="font-size: 13px;">PageResponseBean();</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		<span style="font-size: 13px;">pageResponseBean.setTotal(fullTextQuery.getResultSize());</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		int firstResult = (page - 1) * rows;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		int maxResult = rows;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		<span style="line-height: 1.6em;">List list = fullTextQuery.setFirstResult(</span><span style="font-size: 13px;">firstResult</span><span style="line-height: 1.6em;">).setMaxResult(</span><span style="font-size: 13px;">maxResult</span><span style="line-height: 1.6em;">);</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		<span style="font-size: 13px;">pageResponseBean.setRows(list);</span>
+	</p>
+
+	<p style="font-size: 13px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">}</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/id.jpg"><img alt="id" class="alignnone size-full wp-image-1740" height="155" src="http://localhost:8080/wp-content/uploads/2013/11/id.jpg" width="285" /></a>
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

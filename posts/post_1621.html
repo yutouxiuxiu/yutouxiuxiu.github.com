@@ -1,0 +1,474 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>struts2 hibernate spring 总结</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					struts2 hibernate spring 总结
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、Struts2</strong>
+</h5>
+
+<p>
+	<strong>1.表现层框架 遵循MVC思想</strong>
+</p>
+
+<p>
+	在ssh整合后 struts主要起到控制层Controller的作用
+</p>
+
+<p style="margin-left: 40px;">
+	Sturts2 Action接收请求数据 对请求数据进行校验
+</p>
+
+<p style="margin-left: 40px;">
+	Struts2 通过jsp、值栈、ognl进行结果数据显示
+</p>
+
+<p>
+	<strong>2.Struts2 作为javeee表现层框架 使用前端控制器模式</strong>
+</p>
+
+<p>
+	前端控制器是javaee的设计模式&nbsp;
+</p>
+
+<p>
+	原来是Servlet 一个请求对应一个Servlet <strong><span style="color:#FF0000;">很多代码是重复的</span></strong>&nbsp;框架帮我们完成
+</p>
+
+<p>
+	客户端发送的请求都是先发到<span style="color:#FF0000;"><strong>前端控制器</strong></span>（StrutsPrepareAndExecuteFilter） 执行重复的控制代码 之后再分发（dispatcher）给不同的Action进行处理
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ff.jpg" rel="" style="" target="" title=""><img alt="ff" class="alignnone size-full wp-image-1622" height="130" src="http://localhost:8080/wp-content/uploads/2013/11/ff.jpg" style="" title="" width="454" /></a>
+</p>
+
+<p>
+	企业中处理Struts2 还可能用Struts1 或者SpringMVC
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.Struts2运行原理 流程</strong>
+</p>
+
+<p>
+	AOP思想 在代码不变的情况下 用代理的方式对目标增强 Struts2里用的是<strong><span style="color:#FF0000;">静态代理</span></strong>
+</p>
+
+<p>
+	Struts<u>Prepare</u>And<u>Execute</u>Filter
+</p>
+
+<p>
+	&nbsp; &nbsp; &nbsp; &nbsp;准备 &nbsp; &nbsp; &nbsp; 执行
+</p>
+
+<p>
+	一部分做环境初始化 一部分做请求过滤
+</p>
+
+<p>
+	<strong>Prepare</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	加载Struts2的配置文件
+</p>
+
+<p style="margin-left: 80px;">
+	struts2-core: default.properties
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">struts2-core:&nbsp;</span>struts-default.xml
+</p>
+
+<p style="margin-left: 80px;">
+	struts2插件包: struts-plugin.xml
+</p>
+
+<p style="margin-left: 80px;">
+	struts.xml
+</p>
+
+<p style="margin-left: 80px;">
+	struts.properties
+</p>
+
+<p style="margin-left: 40px;">
+	创建必要的对象
+</p>
+
+<p style="margin-left: 80px;">
+	Interceptor拦截器
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">ActionMapper</span>
+</p>
+
+<p style="margin-left: 80px;">
+	。。。
+</p>
+
+<p>
+	<strong>请求时</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	进入核心控制器 执行<span style="font-size: 13px;">StrutsPrepareAndExecuteFilter中的doFilter</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">询问ActionMapper 这个url有没有对应的Action</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">如果有 则创建Action的实例（aop里的目标（target））</span>
+</p>
+
+<p style="margin-left: 40px;">
+	创建Action实例的代理（接口：ActionProxy 实现类：StrutsActionProxy 静态代理）
+</p>
+
+<p style="margin-left: 40px;">
+	执行ActionProxy的execute方法
+</p>
+
+<p style="margin-left: 80px;">
+	调用ActionInvocation的invoke方法
+</p>
+
+<p style="margin-left: 120px;">
+	if (interceptors.hasNext()) {
+</p>
+
+<p style="margin-left: 160px;">
+	执行所有的拦截器&nbsp;
+</p>
+
+<p style="margin-left: 120px;">
+	} else {
+</p>
+
+<p style="margin-left: 160px;">
+	执行Action目标方法
+</p>
+
+<p style="margin-left: 120px;">
+	}
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.开发</strong>
+</p>
+
+<p>
+	ModelDriven
+</p>
+
+<p>
+	数据校验
+</p>
+
+<p>
+	国际化
+</p>
+
+<p>
+	自定义拦截器 相当于环绕增强（around advice）
+</p>
+
+<p>
+	值栈数据存取 OGNL
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、Spring</strong>
+</h5>
+
+<p>
+	<strong><span style="color:#EE82EE;">几乎所有公司 必问！！！</span></strong>
+</p>
+
+<p>
+	IoC&nbsp;和 DI 区别？
+</p>
+
+<p style="margin-left: 40px;">
+	实际上是同一个概念
+</p>
+
+<p style="margin-left: 40px;">
+	IoC（控制反转）是将接口和实现解耦了&nbsp;
+</p>
+
+<p>
+	IoC 什么被反转了？
+</p>
+
+<p style="margin-left: 40px;">
+	依赖短息
+</p>
+
+<p>
+	AOP 如何实现的？
+</p>
+
+<p style="margin-left: 40px;">
+	基于代理的思想 AOP的生命是代理 在不改变原来代码的情况下 将一些新的功能织入到目标中去
+</p>
+
+<p style="margin-left: 40px;">
+	aop基于JDK的动态代理和cglib动态代理
+</p>
+
+<p>
+	AOP 在开发中有什么用？
+</p>
+
+<p style="margin-left: 40px;">
+	声明式事务管理
+</p>
+
+<p style="margin-left: 40px;">
+	异常处理
+</p>
+
+<p style="margin-left: 40px;">
+	日志记录
+</p>
+
+<p style="margin-left: 40px;">
+	权限控制
+</p>
+
+<p>
+	事务特性 ACID（原子性、一致性、隔离性、持久性） 事务隔离级别 解决隔离性引发的问题
+</p>
+
+<p>
+	同时修改同一条记录（丢失更新问题） 悲观锁和乐观锁
+</p>
+
+<p>
+	Spring的<strong><span style="color:#FF0000;">事务传播行为</span></strong>（propageation）
+</p>
+
+<p style="margin-left: 40px;">
+	Spring根据实际开发设定的 <u>两个被事务管理的方法互相调用 这两个方法是同时属于一个事务 还是分属于不同的事务</u>&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	REQUIRED &nbsp;- &nbsp;同一事务&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	REQUIRES_NEW &nbsp;- &nbsp;不同事务
+</p>
+
+<p style="margin-left: 40px;">
+	NESTED &nbsp;- &nbsp;嵌套事务 一个事务 在里面设了回滚点
+</p>
+
+<p style="margin-left: 40px;">
+	要删除客户信息 还要删它的订单 应该在一个事务里 否则数据不完整了
+</p>
+
+<p style="margin-left: 40px;">
+	嵌套事务 只对DataSourceTransactionManager有效（在Hibernate的事务管理器中不起作用）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

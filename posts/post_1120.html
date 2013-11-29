@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>SyntaxHighlighter使用说明</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					SyntaxHighlighter使用说明
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h4>Installation</h4>  <h5>Basic Steps</h5>  <p>To get SyntaxHighlighter to work on you page, you need to do the following:</p>  <ol>   <li>Add base files to your page: <code>shCore.js</code> and <code>shCore.css</code></li>    <li>Add brushes that you want (for example, shBrushJScript.js for JavaScript, see the list of all <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/">available brushes</a>) </li>    <li>Include <code>shCore.css</code> and <code>shThemeDefault.css</code></li>    <li>Create a code snippet with either <code>&lt;pre /&gt;</code> or <code>&lt;script /&gt;</code> method (see below) </li>    <li>Call <code>SyntaxHighlighter.all()</code> JavaScript method</li> </ol>  <h5>&lt;pre /&gt; method</h5>  <p><strong>ADVANTAGES:</strong> Works everywhere, graceful fallback if there are script problems, shows up in all RSS readers as regular <code>&lt;pre /&gt;</code></p>  <p><strong>PROBLEMS:</strong> Major issue with this method is that all right angle brackets <strong>must be HTML escaped</strong>, eg all <code>&lt;</code> must be replaced with <code>&amp;lt;</code> This will ensure correct rendering.</p>  <p>SyntaxHighlighter looks for <code>&lt;pre /&gt;</code> tags which have a specially formatted <code>class</code> attribute. The format of the attribute is the same as the CSS <code>style</code>attribute. The only required parameter is <code>brush</code> (see <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/configuration/">configuration</a>), which should be set as one of the <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/">brush aliases</a>.</p>  <p>Here’s an example:</p>  <blockquote>   <p><code>&lt;!-- Include required JS files --&gt;</code></p>    <p><code>&lt;</code><code>script</code> <code>type</code><code>=</code><code>&quot;text/javascript&quot;</code> <code>src</code><code>=</code><code>&quot;js/shCore.js&quot;</code><code>&gt;&lt;/</code><code>script</code><code>&gt;</code></p>    <p><code>&lt;!--</code></p>    <p><code></code><code>At least one brush, here we choose JS. You need to include a brush for every </code></p>    <p><code></code><code>language you want to highlight</code></p>    <p><code>--&gt;</code></p>    <p><code>&lt;</code><code>script</code> <code>type</code><code>=</code><code>&quot;text/javascript&quot;</code> <code>src</code><code>=</code><code>&quot;css/shBrushJScript.js&quot;</code><code>&gt;&lt;/</code><code>script</code><code>&gt;</code></p>    <p><code>&lt;!-- Include *at least* the core style and default theme --&gt;</code></p>    <p><code>&lt;</code><code>link</code> <code>href</code><code>=</code><code>&quot;css/shCore.css&quot;</code> <code>rel</code><code>=</code><code>&quot;stylesheet&quot;</code> <code>type</code><code>=</code><code>&quot;text/css&quot;</code> <code>/&gt;</code></p>    <p><code>&lt;</code><code>link</code> <code>href</code><code>=</code><code>&quot;css/shThemeDefault.css&quot;</code> <code>rel</code><code>=</code><code>&quot;stylesheet&quot;</code> <code>type</code><code>=</code><code>&quot;text/css&quot;</code> <code>/&gt;</code></p>    <p><code>&lt;!-- You also need to add some content to highlight, but that is covered elsewhere. --&gt;</code></p>    <p><code>&lt;</code><code>pre</code> <code>class</code><code>=</code><code>&quot;brush: js&quot;</code><code>&gt;</code></p>    <p><code>function foo()</code></p>    <p><code>{</code></p>    <p><code>}</code></p>    <p><code>&lt;/</code><code>pre</code><code>&gt;</code></p>    <p><code>&lt;!-- Finally, to actually run the highlighter, you need to include this JS on your page --&gt;</code></p>    <p><code>&lt;</code><code>script</code> <code>type</code><code>=</code><code>&quot;text/javascript&quot;</code><code>&gt;</code></p>    <p><code></code><code>SyntaxHighlighter.all()</code></p>    <p><code>&lt;/</code><code>script</code><code>&gt;</code></p> </blockquote>  <p><code></code></p>  <p>Will render as:</p>  <blockquote>   <p><code>&lt;pre class=</code><code>&quot;brush: js&quot;</code><code>&gt;</code></p>    <p><code></code><code>/**</code></p>    <p><code></code><code>* SyntaxHighlighter</code></p>    <p><code></code><code>*/</code></p>    <p><code></code><code>function</code> <code>foo()</code></p>    <p><code></code><code>{</code></p>    <p><code></code><code>if</code> <code>(counter &lt;= 10)</code></p>    <p><code></code><code>return</code><code>;</code></p>    <p><code></code><code>// it works!</code></p>    <p><code></code><code>}</code></p>    <p><code>&lt;/pre&gt;</code></p> </blockquote>  <p><code></code></p>  <h5>&lt;script /&gt; method</h5>  <p>The benefit of this method is ability to place virtually anything inside the CDATA <strong>without having to escape anything*</strong>, so this allows for a straight ‘cut and paste’ experience from your favorite text editor.</p>  <p><strong>ADVANTAGES:</strong> Doesn’t require escaping of the right angle bracket*.</p>  <p><strong>PROBLEMS:</strong></p>  <ol>   <li>No fallback, <code>&lt;script/&gt;</code> tag is stripped out by most RSS readers, so if you are using SyntaxHighlighter on a blog, you are better off with the <code>&lt;pre /&gt;</code> method. </li>    <li>If you include a closing script tag, eg <code>&lt;/script&gt;</code>, even inside CDATA block, most browsers will incorrectly close <code>&lt;script type=&quot;syntaxhighlighter&quot;&gt;</code> tag prematurely.</li> </ol>  <p><strong>This feature is new in 2.1</strong> SyntaxHighlighter looks for <code>&lt;script type=&quot;syntaxhighlighter&quot; /&gt;</code> which have a specially formatted <code>class</code> attribute. The format of the attribute is the same as the CSS <code>style</code> attribute. The only required parameter is <code>brush</code> (see <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/configuration/">configuration</a>), which should be set to as one of the <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes.html">brush aliases</a>.</p>  <p>Here’s an example (<strong>Please note necessary CDATA tag</strong>):</p>  <blockquote>   <p><code>&lt;</code><code>script</code> <code>type</code><code>=</code><code>&quot;syntaxhighlighter&quot;</code> <code>class</code><code>=</code><code>&quot;brush: js&quot;</code><code>&gt;</code><code>&lt;![CDATA[</code></p>    <p><code></code><code>/**</code></p>    <p><code></code><code>* SyntaxHighlighter</code></p>    <p><code></code><code>*/</code></p>    <p><code></code><code>function foo()</code></p>    <p><code></code><code>{</code></p>    <p><code></code><code>if (counter &lt;= 10)</code></p>    <p><code></code><code>return;</code></p>    <p><code></code><code>// it works!</code></p>    <p><code></code><code>}</code></p>    <p><code>]]&gt;</code><code>&lt;/</code><code>script</code><code>&gt;</code></p> </blockquote>  <p><code></code></p>  <p>Will render as:</p>  <blockquote>   <p><code>/**</code></p>    <p><code></code><code>* SyntaxHighlighter</code></p>    <p><code></code><code>*/</code></p>    <p><code>function</code> <code>foo()</code></p>    <p><code>{</code></p>    <p><code></code><code>if</code> <code>(counter &lt;= 10)</code></p>    <p><code></code><code>return</code><code>;</code></p>    <p><code></code><code>// it works!</code></p>    <p><code>}</code></p> </blockquote>  <p><code></code></p>  <p><code></code></p>  <h4>Configuration</h4>  <p>If you are looking for instructions on how to set up SyntaxHighlighter, please refer to the <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/installation.html">installation</a> page.</p>  <p>SyntaxHighlighter can be configured in 3 different ways.</p>  <h5>SyntaxHighlighter.config</h5>  <p><code>SyntaxHighlighter.config</code> has configuration values that are common to all highlighted elements on the page and don’t make much sense within context of a single highlighted element. Below are these values:</p>  <p>Name   <br />Value    <br />Description</p>  <p><code>bloggerMode</code>    <br /><code>false</code>    <br />Blogger integration. If you are hosting on blogger.com, you must turn this on.</p>  <p><code>strings</code>    <br /><code>Object</code>    <br />Allows you to change default messages, <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/configuration/strings.html">see here</a> for more details.</p>  <p><code>stripBrs</code>    <br /><code>false</code>    <br />If your software adds <code>&lt;br /&gt;</code> tags at the end of each line, this option allows you to ignore those.</p>  <p><code>tagName</code>    <br /><code>&quot;pre&quot;</code>    <br />Facilitates using a different tag.</p>  <h6>Example</h6>  <blockquote>   <p><code>SyntaxHighlighter.config.bloggerMode = </code><code>true</code><code>;</code></p>    <p><code>SyntaxHighlighter.all();</code></p> </blockquote>  <h5>SyntaxHighlighter.defaults</h5>  <p><code>SyntaxHighlighter.defaults</code> holds all default values for each highlighted element on the page. These options are local to each highlighter element and could be changed individually via parameters described in the next section. The list below represent a full list of options that SyntaxHighlighter supports:</p>  <p>Name   <br />Value    <br />Description</p>  <p><code>auto-links</code>    <br /><code>true</code>    <br />Allows you to turn detection of links in the highlighted element on and off. If the option is turned off, URLs won’t be clickable. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/auto-links.html">Click here</a> for a demo.</p>  <p><code>class-name</code>    <br /><code>''</code>    <br />Allows you to add a custom class (or multiple classes) to every highlighter element that will be created on the page. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/class-name.html">Click here</a> for a demo.</p>  <p><code>collapse</code>    <br /><code>false</code>    <br />Allows you to force highlighted elements on the page to be collapsed by default. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/collapse.html">Click here</a> for a demo.</p>  <p><code>first-line</code>    <br /><code>1</code>    <br />Allows you to change the first (starting) line number. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/first-line.html">Click here</a> for a demo.</p>  <p><code>gutter</code>    <br /><code>true</code>    <br />Allows you to turn gutter with line numbers on and off. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/gutter.html">Click here</a> for a demo.</p>  <p><code>highlight</code>    <br /><code>null</code>    <br />Allows you to highlight one or more lines to focus user’s attention. When specifying as a parameter, you have to pass an array looking value, like <code>[1, 2, 3]</code> or just an number for a single line. If you are changing<code>SyntaxHighlighter.defaults['highlight']</code>, you can pass a number or an array of numbers. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/highlight.html">Click here</a> for a demo.</p>  <p><code>html-script</code>    <br /><code>false</code>    <br />Allows you to highlight a mixture of HTML/XML code and a script which is very common in web development. Setting this value to true requires that you have shBrushXml.js loaded and that the brush you are using supports this feature. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/html-script.html">Click here</a> for a demo.</p>  <p><code>smart-tabs</code>    <br /><code>true</code>    <br />Allows you to turn smart tabs feature on and off. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/smart-tabs.html">Click here</a> for a demo.</p>  <p><code>tab-size</code>    <br /><code>4</code>    <br />Allows you to adjust tab size. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/tab-size.html">Click here</a> for a demo.</p>  <p><code>toolbar</code>    <br /><code>true</code>    <br />Toggles toolbar on/off. <a href="http://alexgorbatchev.com/SyntaxHighlighter/manual/demo/toolbar.html">Click here</a> for a demo.</p>  <h6>Example</h6>  <blockquote>   <p><code>SyntaxHighlighter.defaults[</code><code>'gutter'</code><code>] = </code><code>false</code><code>;</code></p>    <p><code>SyntaxHighlighter.defaults[</code><code>'smart-tabs'</code><code>] = </code><code>false</code><code>;</code></p>    <p><code>...</code></p>    <p><code>SyntaxHighlighter.all();</code></p> </blockquote>  <h5>Parameters</h5>  <p>Parameters allow you to customize a single highlighted element to your liking. Key/value pairs are specified in the format similar to CSS, but instead of the style node attribute, they go together with the brush declaration into the class attribute.</p>  <p>In such fashion, you can change any default value from the <code>SyntaxHighlighter.defaults</code>.</p>  <h6>Example</h6>  <blockquote>   <p><code>&lt;pre class=</code><code>&quot;brush: js; ruler: true; first-line: 10; highlight: [2, 4, 6]&quot;</code><code>&gt;...&lt;/pre&gt;</code></p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 取派业务模块</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 取派业务模块
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	1.取派业务模块 需求
+</p>
+
+<p>
+	2.数据表
+</p>
+
+<p>
+	3.自动分单业务
+</p>
+
+<p>
+	4.工作单快速录入（EasyUI行编辑、条件查询Lucene索引技术）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、<span style="font-size: 13px;">取派业务模块 需求</span></strong>
+</h5>
+
+<p>
+	<strong>1.业务受理</strong>
+</p>
+
+<p>
+	顾客下单之后 根据地址&nbsp;自动分单到取件员
+</p>
+
+<p>
+	<strong>2.工作单管理</strong>
+</p>
+
+<p>
+	就是快递单的数据来源 记录货物在物流中心完整的信息
+</p>
+
+<p>
+	<strong>3.调度</strong>
+</p>
+
+<p>
+	（1）查台转单
+</p>
+
+<p style="margin-left: 40px;">
+	自动下单后 由于快递信息的错误 分配的取件员错误的时候 通过此处更正
+</p>
+
+<p>
+	（2）人工调度
+</p>
+
+<p style="margin-left: 40px;">
+	客户所在地 无法由系统自动匹配到取派员 由人工进行匹配
+</p>
+
+<p>
+	（3）打印工作单
+</p>
+
+<p>
+	（4）签收录入
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/qs.jpg" rel="" style="" target="" title=""><img alt="qs" class="alignnone size-full wp-image-1683" height="172" src="http://localhost:8080/wp-content/uploads/2013/11/qs.jpg" style="" title="" width="417" /></a>
+</p>
+
+<p>
+	（5）取消签收录入
+</p>
+
+<p>
+	（6）宣传任务
+</p>
+
+<p style="margin-left: 40px;">
+	与业务受理相关的优惠
+</p>
+
+<p>
+	（7）返货
+</p>
+
+<p style="margin-left: 40px;">
+	返货申请、返货申请确认、返货单生成
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、数据表</strong>
+</h5>
+
+<p>
+	1.业务通知单 qp_noticebill
+</p>
+
+<p>
+	业务受理信息
+</p>
+
+<p>
+	2.工单 qp_workbill
+</p>
+
+<p>
+	追踪取派员的取货过程
+</p>
+
+<p>
+	3.工作单 qp_workordermanage
+</p>
+
+<p>
+	货物 发件人 收件人 包装 费用 保险 返货
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">注意！！！</span></strong>
+</p>
+
+<p>
+	在PDM模型图中 最好每个模块分一个文件 但是新的文件要引用原来文件的表怎么做呢？
+</p>
+
+<p>
+	把文件打开 从左边把表拉到画板里就好了
+</p>
+
+<p>
+	这样新的模块对以前的模块就有一个引用
+</p>
+
+<p>
+	注意 在导出SQL语句的时候 一定要把原来的哪个模块的文件打开 要不然生成的SQL语句会有问题
+</p>
+
+<p>
+	或者双击那个引用 Change target object 选原来的那个文件
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>三、自动分单</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/notice.jpg" rel="" style="" target="" title=""><img alt="notice" class="alignnone size-full wp-image-1688" height="208" src="http://localhost:8080/wp-content/uploads/2013/11/notice.jpg" style="" title="" width="293" /></a>
+</p>
+
+<p>
+	<strong>1.日历控件</strong>
+</p>
+
+<p>
+	只能选择不能输入
+</p>
+
+<blockquote>
+	<p>
+		&lt;input type=&quot;text&quot; class=&quot;easyui-datebox&quot; data-options=&quot;editable: false&quot;/&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.自动分单业务规则</strong>
+</p>
+
+<p>
+	根据发件人的详细地址 和CRM中的地址库进行匹配
+</p>
+
+<p>
+	如果匹配到了 就根据客户关联的定区来找到取件员
+</p>
+
+<p>
+	如果匹配不到 就去和分区地址进行匹配 关联定区 找到取派员
+</p>
+
+<p>
+	和可以拆分成省市区 看和哪个分区匹配
+</p>
+
+<p>
+	如果它和多个分区匹配了 或者没有匹配结果 就转入人工调度
+</p>
+
+<p>
+	分单成功 会生成一个工单
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.工单</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/bill.jpg" rel="" style="" target="" title=""><img alt="bill" class="alignnone size-full wp-image-1689" height="80" src="http://localhost:8080/wp-content/uploads/2013/11/bill.jpg" style="" title="" width="271" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、工作单快速录入</strong>
+</h5>
+
+<p>
+	填工作单信息实在是太麻烦了 在双十一这种业务高峰期 就要进行快速录入
+</p>
+
+<p>
+	快速录入 只要满足配载就行 能满足送货就好 等空闲的时间 再录入完整信息
+</p>
+
+<p>
+	<strong>1.EasyUI datagrid的行编辑</strong>
+</p>
+
+<p>
+	<strong>（1）将列设置为可编辑列</strong> columns的列属性editor
+</p>
+
+<blockquote>
+	<p>
+		editor : {
+	</p>
+
+	<p style="margin-left: 40px;">
+		type : validatebox,&nbsp; &nbsp;//输入框类型
+	</p>
+
+	<p style="margin-left: 40px;">
+		options : { &nbsp;//选项
+	</p>
+
+	<p style="margin-left: 80px;">
+		required : true
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）将行转为编辑状态</strong>
+</p>
+
+<p>
+	<strong>（3）将行转为编辑结束/取消编辑状态</strong>
+</p>
+
+<p>
+	<strong>（4）新增行</strong>
+</p>
+
+<p>
+	<strong>（5）向服务器提交</strong>
+</p>
+
+<p>
+	有三个事件
+</p>
+
+<p style="margin-left: 40px;">
+	onBeforeEdit
+</p>
+
+<p style="margin-left: 40px;">
+	onAfterEdit
+</p>
+
+<p style="margin-left: 40px;">
+	onCancelEdit
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.工作单信息条件查询</strong>
+</p>
+
+<p>
+	<a href="?p=1732"><span style="color: rgb(102, 102, 102); font-family: sans-serif; line-height: 24px;">?p=1732</span></a>
+</p>
+
+<p>
+	<span style="color: rgb(102, 102, 102); font-family: sans-serif; line-height: 24px;">请移步此处 查看使用全文索引方式进行查找</span>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

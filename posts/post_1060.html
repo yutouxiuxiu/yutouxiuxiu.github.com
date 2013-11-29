@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2拦截器的登录小栗子</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2拦截器的登录小栗子
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>1.jsp</strong>
+</p>
+
+<p>
+	<strong>login.jsp</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:actionerror/&gt;
+	</p>
+
+	<p>
+		&lt;s:fielderror/&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>success.jsp</strong>
+</p>
+
+<blockquote>
+	<p>
+		显示当前用户
+	</p>
+
+	<p>
+		${ sessionScope.user.username }
+	</p>
+
+	<p>
+		&lt;a href=&rdquo;&lt;c:url value=&rsquo;/user_add.action&rsquo;&gt;&rdquo;&gt;添加用户&lt;/a&gt;
+	</p>
+
+	<p>
+		删除用户 修改用户 查询用户&hellip;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.Action</strong>
+</p>
+
+<p>
+	<strong>UserAction.java</strong>
+</p>
+
+<blockquote>
+	<p>
+		class UserAction extends ActionSupport implements ModelDriven&lt;User&gt;
+	</p>
+
+	<p>
+		private User user = new User();
+	</p>
+
+	<p>
+		getter/setter&hellip;
+	</p>
+</blockquote>
+
+<p>
+	<strong>[login]&nbsp; -&nbsp; 真的</strong>
+</p>
+
+<blockquote>
+	<p>
+		@InputConfig(resultName=&rdquo;loginInput&rdquo;)
+	</p>
+
+	<p>
+		//判断用户名密码是否正确
+	</p>
+
+	<p>
+		//错误 设置错误信息 跳到input结果
+	</p>
+
+	<p>
+		//正确的话存入session 跳到success结果
+	</p>
+</blockquote>
+
+<p>
+	[add]&nbsp; -&nbsp; 假的
+</p>
+
+<p>
+	[update]&nbsp; -&nbsp; 假的
+</p>
+
+<p>
+	[delete]&nbsp; -&nbsp; 假的
+</p>
+
+<p>
+	[find]&nbsp; -&nbsp; 假的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.输入校验</strong>
+</p>
+
+<p>
+	<strong>UserAction-user_login-validation.xml</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.struts.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;struts&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;constant name=&quot;struts.action.extension&quot; value=&quot;action&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;constant name=&quot;struts.serve.static.browserCache&quot; value=&quot;false&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;constant name=&quot;struts.devMode&quot; value=&quot;false&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;constant name=&quot;struts.configuration.xml.reload&quot; value=&quot;true&quot; /&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;package name=&quot;xxx&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;interceptors&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;interceptor name=&quot;LoginInterceptor&quot; class=&quot;cn.yutouxiuxiu.test.interceptors.LoginInterceptor&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/interceptors&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action name=&quot;user_*&quot; class=&quot;cn.yutouxiuxiu.test.action.UserAction&quot; method=&quot;{1}&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;interceptor-ref name=&quot;defaultStack&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#ff0000">&lt;interceptor-ref name=&quot;LoginInterceptor&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param name=&quot;excludeMethods&quot;&gt;login&lt;/param&gt;</font>&nbsp;&nbsp;&nbsp; //当拦截器的父类是MethodFilterInterceptor时 可以给它传递参数 excludeMethods表示不拦截的方法 includeMethods表示要拦截的方法 多个方法名之间用&ldquo;,&rdquo;隔开<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/interceptor-ref&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;result&gt;/success.jsp&lt;/result&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;result name=&quot;loginInput&quot;&gt;/login.jsp&lt;/result&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;result name=&quot;error&quot;&gt;/login.jsp&lt;/result&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/action&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;/package&gt;<br />
+		&lt;/struts&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.Interceptor</strong>
+</p>
+
+<p>
+	查看是否登录 未登录转到login结果
+</p>
+
+<blockquote>
+	<p>
+		public class LoginInterceptor <font color="#ff0000"><strong>extends MethodFilterInterceptor</strong></font> {<br />
+		&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp; @Override<br />
+		&nbsp;&nbsp;&nbsp; public String <font color="#ff0000"><strong>doIntercept</strong></font>(ActionInvocation invocation) throws Exception {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取session<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; User user = (User) ActionContext.getContext().getSession().get(&quot;user&quot;);<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //不存在返回login<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (user == null) {<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //获取Action<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ActionSupport action = (ActionSupport) invocation.getAction();&nbsp;&nbsp;&nbsp; //返回的是Object 因为解耦方式...<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //向Action添加错误信息<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; action.addActionError(&quot;您没有登录 无权访问&quot;);<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return &quot;login&quot;;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //存在放行<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return invocation.invoke();<br />
+		&nbsp;&nbsp;&nbsp; }<br />
+		&nbsp;&nbsp;&nbsp;<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.Bean</strong>
+</p>
+
+<p>
+	<strong>User.java</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	完整工程点击<a href="http://localhost:8080/wp-content/uploads/2013/09/Struts23Login1.zip">Struts2Login</a>下载
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

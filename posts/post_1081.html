@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2封装请求参数的三种方法</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2封装请求参数的三种方法
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、属性驱动</font></h5>  <p>使用<strong><font color="#4f81bd">params拦截器</font></strong></p>  <blockquote>   <p>表单的字段名必须与Action中的属性名相同</p>    <p>setter…</p> </blockquote>  <p>Struts2的<strong><font color="#4f81bd">params拦截器</font></strong>会在Action的execute()方法执行之前 通过调用对应属性的set方法来给这些属性赋值 把参数封装到Action的属性中</p>  <p><strong>login.jsp</strong></p>  <blockquote>   <p>用户名&lt;input type=”text” name=”username”/&gt; </p>    <p>密码&lt;input type=”password” name=”password”/&gt;</p> </blockquote>  <p><strong>Action</strong></p>  <blockquote>   <p>private String username;</p>    <p>private String password;</p>    <p>public void setUsername(String username) {</p>    <p>&#160;&#160;&#160; this.username = username;</p>    <p>}</p>    <p>public void setPassword(String password) {</p>    <p>&#160;&#160;&#160; this.password = password;</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、模型驱动</font></h5>  <p>&#160;</p>  <p>使用<strong><font color="#4f81bd">modelDriven拦截器</font></strong></p>  <blockquote>   <p>创建模型类属性并实例化</p>    <p>表单中的字段名必须与模型的属性名相同</p>    <p>Action必须实现ModelDriven接口</p>    <p>给出getModel方法 返回一个已经实例化的模型对象</p> </blockquote>  <p>Struts2的<strong><font color="#4f81bd">modelDriven拦截器</font></strong>会把请求参数封装到模型对象的属性中</p>  <p>modelDriven优先于params拦截器</p>  <p>当模型对象和Action有相同属性时 只会封装到模型中 而不会封装到Action的属性中</p>  <p>如果模型中没有这个属性 Action中有 能够封装到Action的属性中</p>  <p>&#160;</p>  <p><strong>login.jsp</strong> </p>  <blockquote>   <p>用户名&lt;input type=”text” name=”username”/&gt; </p>    <p>密码&lt;input type=”password” name=”password”/&gt;</p> </blockquote>  <p><strong>Action</strong></p>  <blockquote>   <p>private User user = new User();</p>    <p>public User getModel() {</p>    <p>&#160;&#160;&#160; return user;</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、OGNL</font></h5>  <ul>   <li><strong>封装请求参数</strong> </li> </ul>  <p><strong>Action</strong></p>  <p>在Action类中 把User当成普通属性一样 提供get/set方法</p>  <blockquote>   <p>public class MyAction extends ActionSupport {      <br />&#160;&#160;&#160; User user;       <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String execute() throws Exception {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(user);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public User getUser() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return user;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUser(User user) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.user = user;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>login.jsp</strong></p>  <p>其中user.username 是OGNL表达式 它会定位一个属性</p>  <p>定位到当前Action的user属性的username属性</p>  <blockquote>   <p>用户名&lt;input type=”text” name=”user.username”/&gt;</p>    <p>密码&lt;input type=”password” name=”user.password”/&gt;</p> </blockquote>  <ul>   <li><strong>封装一组请求参数</strong> </li> </ul>  <p><strong>Action</strong></p>  <blockquote>   <p>public class MyAction extends ActionSupport {      <br />&#160;&#160;&#160; List&lt;User&gt; userList;       <br />&#160;&#160;&#160; Map&lt;String, User&gt; userMap;       <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String execute() throws Exception {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(userList);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(userMap);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public List&lt;User&gt; getUserList() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return userList;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUserList(List&lt;User&gt; userList) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.userList = userList;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public Map&lt;String, User&gt; getUserMap() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return userMap;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUserMap(Map&lt;String, User&gt; userMap) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.userMap = userMap;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>adduser.jsp</strong></p>  <p>向List集合中封装</p>  <blockquote>   <p>用户1&lt;br/&gt;      <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userList[0].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userList[0].password&quot;/&gt;       <br />用户2&lt;br/&gt;       <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userList[1].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userList[1].password&quot;/&gt; </p> </blockquote>  <p>向Map集合中封装</p>  <blockquote>   <p>用户1&lt;br/&gt;      <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userMap['user1'].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userMap['user1'].password&quot;/&gt;       <br />用户2&lt;br/&gt;       <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userMap['user2'].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userMap['user2'].password&quot;/&gt; </p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

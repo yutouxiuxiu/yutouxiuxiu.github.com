@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>注解Annotation</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					注解Annotation
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是注解</font></h5>  <p>注解与注释相似 注释是给人看的 注解是给程序看的</p>  <p>注解是用来<u>代替配置文件</u>的 例如在Servlet3.0中来代替web.xml</p>  <p>以@开头的就是注解</p>  <p>注解是JDK5.0的新特性</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、Java内部提供的元注解</font></h5>  <p><strong>1.重写</strong></p>  <blockquote>   <p>@Overrid</p> </blockquote>  <p>编译器检查某个方法是否为重写 防止写错方法体造成重写失败 造成的易被忽略的错误 只能用在方法上</p>  <p><strong>2.声明不赞成</strong></p>  <blockquote>   <p>@Deprecated</p> </blockquote>  <p>声明某个方法、类、构造器为过时的 不赞成使用</p>  <p>一般是标记public的方法的 告诉别人小心使用 private的用不着声明 自己用不用 自己知道</p>  <p><strong>3.压制警告</strong></p>  <blockquote>   <p>@SuppressWarnings(“”)</p> </blockquote>  <p>用来压制警告</p>  <p>可以在单条语句上压制 也可以在整个方法甚至整个类上压制</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、定义注解类</font></h5>  <ul>   <li><strong>如何定义</strong></li> </ul>  <p>注解不是class 不是interface 不是enum 它是@interface</p>  <blockquote>   <p>@interface MyAnnotation {     <br />&#160;&#160;&#160; <br />}</p> </blockquote>  <p><u>其实编译之后 会变成Annotation的子接口</u></p>  <p>想让注解有意义 是个苦难的事情 需要用反射来玩儿注解</p>  <p>通常我们是使用别人写的注解</p>  <p>&#160;</p>  <ul>   <li><strong>注解里可以写什么</strong></li> </ul>  <p>类里可以有方法、属性、构造器、内部类</p>  <p>接口里可以有常量、抽象方法、内部类</p>  <p>枚举里可以有方法、属性、构造器（枚举是假的）</p>  <p>注解里也可以有属性（比较特殊）（注解也是假的）</p>  <p>&#160;</p>  <ul>   <li><strong>注解的作用目标</strong></li> </ul>  <p>注解可以放在 局部变量、属性、方法、构造器、类（接口、枚举）、形参前、包上（没啥意义）</p>  <p>1.如果不做任何操作 加在哪都行（加在包上比较特殊）</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、注解的属性</font></h5>  <p>&#160;</p>  <p><u>其实编译之后会变成abstract的方法</u></p>  <ul>   <li><strong>格式</strong></li> </ul>  <p><strong>1.</strong></p>  <blockquote>   <p>类型 名称();&#160;&#160;&#160; //这是属性 不是方法 括号里不能放东西</p> </blockquote>  <p>eg</p>  <blockquote>   <p>int n();</p> </blockquote>  <p><strong>2.</strong></p>  <blockquote>   <p>类型 名称() default 默认值;</p> </blockquote>  <p>eg</p>  <blockquote>   <p>String a() default “hello”;&#160;&#160; //这个属性有默认值 如果没被赋值 它就是默认值</p> </blockquote>  <ul>   <li><strong>使用属性的注意</strong></li> </ul>  <p>使用带有属性的注解 必须要在使用注解的时候为属性赋值 否则会报错（如果有默认值的 可以不赋值）</p>  <blockquote>   <p>@MyAnno(n=1,a=”yutou”)</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>value属性</strong></li> </ul>  <p>使用注解赋值的时候 可以省略属性名 直接给值</p>  <blockquote>   <p>String value();</p> </blockquote>  <blockquote>   <p>@MyAnno(“hei”);</p> </blockquote>  <p>但是如果除了value属性还有其他属性需要赋值 value的属性名就不可以省略了</p>  <blockquote>   <p>String value();</p>    <p>String name();</p> </blockquote>  <blockquote>   <p><strike>@MyAnno(“hei”, name=”1”);</strike></p>    <p>@MyAnno(value=“hei”, name=”1”);</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>属性的类型</strong></li> </ul>  <p>可以是基本类型（8种）、String、Class、枚举、注解、以上某类型的一维数组</p>  <p>eg</p>  <blockquote>   <p>@interface xx {</p>    <p>&#160;&#160;&#160; Element e();&#160;&#160;&#160; //如果你发现这个类型你不认识 它就是枚举</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>不同类型注解属性的赋值</strong></li> </ul>  <p>&#160;</p>  <p><strong>定义</strong></p>  <blockquote>   <p>enum Sex {</p>    <p>&#160;&#160;&#160; FEMALE, MALE</p>    <p>}</p>    <p>@interface MyAnno2 {</p>    <p>&#160;&#160;&#160; int value();</p>    <p>}</p>    <p>@interface MyAnno {</p>    <p>&#160;&#160;&#160; int i();</p>    <p>&#160;&#160;&#160; String s();</p>    <p>&#160;&#160;&#160; Class c();</p>    <p>&#160;&#160;&#160; int[] ii() default {1, 2};&#160;&#160; //不给大括号 就表示只给第一个赋值</p>    <p>&#160;&#160;&#160; Sex sex();</p>    <p>&#160;&#160;&#160; MyAnno2 anno2();</p>    <p>}</p> </blockquote>  <p><strong>使用</strong></p>  <blockquote>   <p>@MyAnno(i=0, s=”yutou”, c=Object.class, ii={1, 2, 3}, sex=Sex.MALE, anno2=@MyAnno2(100))</p> </blockquote>  <p><strong>当然你这样写 编译器会给你报错了</strong></p>  <blockquote>   <p>@interface MyAnno1 {     <br />&#160;&#160;&#160; <u><font color="#ff0000">(x)</font> MyAnno2</u> anno1();      <br />}</p>    <p>@interface MyAnno2 {     <br />&#160;&#160;&#160; <u><font color="#ff0000">(x)</font> MyAnno1</u> anno1();      <br />}</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、注解作用目标的限制</font></h5>  <p>&#160;</p>  <p>定义注解时 在<strong><font color="#ff0000">注解定义类上</font></strong>使用Target元注解来限制作用目标</p>  <blockquote>   <p>@Target({ElementType.作用目标[, …]})</p>    <p><font color="#a5a5a5">@interface MyAnno {</font></p>    <p><font color="#a5a5a5">}</font></p> </blockquote>  <blockquote>   <p>@Target(ElementType.作用目标)&#160;&#160; //不给大括号 就表示只给第一个赋值</p> </blockquote>  <p>ElementType：</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/11143.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="1" border="0" alt="1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb1132.jpg" width="528" height="222" /></a></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/217.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="2" border="0" alt="2" src="http://localhost:8080/wp-content/uploads/2013/09/21_thumb17.jpg" width="276" height="79" /></a></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、注解的保留策略</font></h5>  <ul>   <li><strong>三种保留策略</strong></li> </ul>  <p><strong>1.源代码 SOURCE</strong></p>  <p>只在源代码中存在 在编译时就已经被忽略（.class文件中没有）</p>  <p><strong>2.字节码 CLASS</strong></p>  <p>在源代码和.class中都有 在JVM加载这个类时 注解不会被加载</p>  <p><strong>3.运行时 RUNTIME</strong></p>  <p>在JVM加载类时 会加载注解信息</p>  <p>想要用反射获取注解信息 必须保留到运行时</p>  <p>&#160;</p>  <ul>   <li><strong>如何设置</strong></li> </ul>  <p>在注解定义类上</p>  <blockquote>   <p>@Retention(RetentionPolicy.RUNTIME)</p>    <p><font color="#a5a5a5">@interface MyAnno {</font></p>    <p><font color="#a5a5a5">}</font></p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">六、通过反射读取注解属性</font></h5>  <ul>   <li><strong>注意</strong></li> </ul>  <p>注解的保留策略必须是RUNTIME</p>  <p>才能通过反射获取到</p>  <ul>   <li><strong>栗子</strong></li> </ul>  <p><strong>1.注解定义类</strong></p>  <blockquote>   <p>@Retention(RetentionPolicy.RUNTIME)</p>    <p>@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})</p>    <p>@interface MyAnno {</p>    <p>&#160;&#160;&#160; String value();</p>    <p>&#160;&#160;&#160; String value1() defalut “value1”;</p>    <p>}</p> </blockquote>  <p><strong>2.使用了注解的类</strong></p>  <blockquote>   <p>@MyAnno(“类”)</p>    <p>public class Dome {</p>    <p>&#160;&#160;&#160; @MyAnno(“属性”)</p>    <p>&#160;&#160;&#160; private int field;</p>    <p>&#160;</p>    <p>&#160;&#160;&#160; @MyAnno(“构造器”)</p>    <p>&#160;&#160;&#160; public Demo() {</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;</p>    <p>&#160;&#160;&#160; @MyAnno(“方法”)</p>    <p>&#160;&#160;&#160; public void method() {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><strong>3.获取一个类的注解</strong></p>  <p>想读取谁的注解 就要先获取谁</p>  <p>想要获取的话 就要用到反射</p>  <p><strong>（1）获取类上注解的属性</strong></p>  <blockquote>   <p>Class&lt;Demo&gt; clazz = Demo.class;&#160;&#160; //注意要写泛型 否则下面要强转</p>    <p>MyAnno anno = clazz.getAnnotation(MyAnno.class);</p>    <p>String value = anno.value();</p>    <p>String value1 = anno.value1();</p> </blockquote>  <p><strong>注意方法的区别</strong></p>  <p>getAnnotation包含公有的 包含父类的</p>  <p>getDeclaredAnnotation包含公有私有 包含父类的</p>  <p>getDeclaredAnnotations包含公有私有方法 但是不包含父类的</p>  <p>&#160;</p>  <p><strong>（2）获取构造器上的注解属性</strong></p>  <blockquote>   <p>Construcator&lt;Demo&gt; c = calzz.getConstructor();</p>    <p>MyAnno anno = c.getAnnotation(MyAnno.class);</p>    <p>……</p> </blockquote>  <p><strong>（3）获取方法上注解的属性</strong></p>  <blockquote>   <p>Method m = clazz.getMethod(“method”);</p>    <p>MyAnno anno = m.getAnnotation(MyAnno.class);</p>    <p>……</p> </blockquote>  <p><strong>（4）获取属性上注释的属性</strong></p>  <blockquote>   <p>Field f = clazz.getDeclaredField(“field”);</p>    <p>MyAnno anno = f.getAnnotation(MyAnno.class);</p>    <p>……</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">七、应用</font></h5>  <p>可以当配置文件用</p>  <blockquote>   <p>/*     <br /> * 这个有点二hibernate的意思      <br /> */</p>    <p>/**     <br /> * 给所有DAO做父类的      <br /> * @author Administrator      <br /> *       <br /> */      <br />public abstract class BaseDao&lt;T&gt; {      <br />&#160;&#160;&#160; private Class&lt;T&gt; beanClass;      <br />&#160;&#160;&#160; public void add(T bean) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; /*      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; * 使用dbutils时 完成insert操作时 需要      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; * 1.语句      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; * 2.给?赋值      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; */      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //String sql = &quot;insert into 表名 values (?, ?, ...)&quot;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //为了完成insert语句 需要使用反射获取注解 把子类传递的泛型信息获取过来      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; beanClass = (Class&lt;T&gt;) ((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //在这里读取注解信息然后组织sql语句      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void update(T bean) {     <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; public </p>    <p>&#160;&#160;&#160; public void delete(String id) {     <br />&#160;&#160;&#160; }      <br />}</p> </blockquote>  <p>&#160;</p>  <blockquote>   <p>//说明当前类与哪个表对应     <br />@Table(name=&quot;users&quot;)      <br />public class User {      <br />&#160;&#160;&#160; @Column(name=&quot;uid&quot;)      <br />&#160;&#160;&#160; private String uid;      <br />&#160;&#160;&#160; @Column(name=&quot;username&quot;)&#160;&#160;&#160; //说明当前属性与表的哪个字段对应      <br />&#160;&#160;&#160; private String username;      <br />&#160;&#160;&#160; @Column(name=&quot;password&quot;)      <br />&#160;&#160;&#160; private String password;      <br />&#160;&#160;&#160; @ManyToOne(table=&quot;&quot;, column=&quot;&quot;)&#160;&#160;&#160; //多对一的关系      <br />&#160;&#160;&#160; private String did;</p>    <p>&#160;&#160;&#160; public String getUsername() {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return username;      <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; public void setUsername(String username) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.username = username;      <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; public String getPassword() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return password;      <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; public void setPassword(String password) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.password = password;      <br />&#160;&#160;&#160; }      <br />}</p> </blockquote>  <p>&#160;</p>  <blockquote>   <p>public interface UserDao {     <br />&#160;&#160;&#160; public void addUser(User user);      <br />&#160;&#160;&#160; public void updateUser(User user);      <br />}</p> </blockquote>  <p>&#160;</p>  <blockquote>   <p>public class UserDaoImpl extends BaseDao&lt;User&gt; implements UserDao {</p>    <p>&#160;&#160;&#160; @Override     <br />&#160;&#160;&#160; public void addUser(User user) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; super.add(user);      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; @Override     <br />&#160;&#160;&#160; public void updateUser(User user) {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; super.update(user);      <br />&#160;&#160;&#160; }</p>    <p>}</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

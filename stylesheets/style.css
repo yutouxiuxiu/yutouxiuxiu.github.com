@@ -13,23 +13,23 @@ blockquote {
 }
 
 h1 {
-	font-size: 160%;
+	font-size: 135%;
 }
 
 h2 {
-	font-size: 150%;
-}
-
-h3 {
-	font-size: 140%;
-}
-
-h4 {
 	font-size: 130%;
 }
 
-h5 {
+h3 {
+	font-size: 125%;
+}
+
+h4 {
 	font-size: 120%;
+}
+
+h5 {
+	font-size: 115%;
 }
 
 h6 {
@@ -38,7 +38,6 @@ h6 {
 
 h1,h1 a,h2,h2 a,h3,h3 a,h4,h4 a,h5,h5 a,h6,h6 a {
 	font-weight: normal;
-	line-height: 160%;
 }
 
 a,a visited {
@@ -313,7 +312,9 @@ div.post-title h2 {
 	padding: 10px 0px 0px 10px;
 	border-bottom: 1px solid #DDDDDD;
 	background: rgb(250,250,250);
-	font-size: 25px;
+	font-size: 19px;
+	font-weight: bold;
+	line-height: 150%;
 }
 
 div.a-post {

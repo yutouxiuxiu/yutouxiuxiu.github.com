@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>值栈</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					值栈
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>1.值栈</strong>
+</p>
+
+<p>
+	是Struts2框架里的一个数据结构
+</p>
+
+<p>
+	ValueStack对象
+</p>
+
+<p>
+	会被保存到request范围
+</p>
+
+<blockquote>
+	<p>
+		request.getAttribute(&quot;struts.valueStack&quot;);
+	</p>
+
+	<p>
+		ActionContext.getContext().getValueStack();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.值栈的生命周期</strong>
+</p>
+
+<p>
+	一次请求 对一个值栈对象 请求结束 值栈销毁
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.值栈的初始化</strong>
+</p>
+
+<p style="font-size: 13px;">
+	StrutsPrepareAndExecuteFilter 的 doFilter 方法
+</p>
+
+<p style="font-size: 13px;">
+	Dispatcher 类 serviceAction方法 创建值栈
+</p>
+
+<p style="font-size: 13px;">
+	ActionInvocation 类 init 初始化 将Action 压入值栈
+</p>
+
+<p style="font-size: 13px;">
+	ModelDrivenInterceptor 类 在intercept将model压入值栈
+</p>
+
+<p style="font-size: 13px;">
+	值栈：
+</p>
+
+<p style="font-size: 13px;">
+	model
+</p>
+
+<p style="font-size: 13px;">
+	Action
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong>值栈的操作</strong>
+</p>
+
+<p style="font-size: 13px;">
+	保存
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	1.<span style="font-size: 13px;">ActionContext.getContext().getV</span>alueStack.push(obj); 会压入栈顶（没有名字）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	2.ActionContext.getContext().put(key,value); 会存在map中（有名字）
+</p>
+
+<p style="font-size: 13px;">
+	读取
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	1.&lt;s:property value=&quot;#username&quot; /&gt; &nbsp;找的是map中的key的value
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<span style="font-size: 13px;">2.&lt;s:property value=&quot;username&quot; /&gt; &nbsp;遍历root中的对象 找value的属性</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	3.valueStack.findValue(expr); &nbsp;先遍历root 再到map中找
+</p>
+
+<p style="font-size: 13px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/zzzzzzzzz.jpg" rel="" style="" target="" title=""><img alt="zzzzzzzzz" class="alignnone size-full wp-image-1559" height="224" src="http://localhost:8080/wp-content/uploads/2013/10/zzzzzzzzz.jpg" style="" title="" width="452" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>Struts2 对 request对象的包装</strong>
+</p>
+
+<p>
+	StrutsRequestWrapper 重写了 getAttribute
+</p>
+
+<p>
+	所以EL表达式 可以取值栈里的值
+</p>
+
+<p>
+	${requestScope.username}
+</p>
+
+<p>
+	它会先执行 request.getAttribute(username);
+</p>
+
+<p>
+	找不到再执行&nbsp;<span style="font-size: 13px;">valueStack.findValue(expr);</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

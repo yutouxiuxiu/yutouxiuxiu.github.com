@@ -1,0 +1,1157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础 - 字符串</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础 - 字符串
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>目录</strong>
+</p>
+
+<h5>
+	<a href="#一、php的字符串">#一、php的字符串</a>
+</h5>
+
+<h5>
+	<a href="#二、声明字符串">#二、声明字符串</a>
+</h5>
+
+<h5>
+	<a href="#三、字符串处理函数">#三、字符串处理函数</a>
+</h5>
+
+<p style="margin-left: 40px;">
+	<a href="#1.字符串长度函数">#1.字符串长度函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#2.查找字符串中子字符串函数">#2.查找字符串中子字符串函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#3.字符串替换函数">#3.字符串替换函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#4.提取子字符函数">#4.提取子字符函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#5.分割、连接、反转函数">#5.分割、连接、反转函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#6.去除、增加空格函数">#6.去除、增加空格函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#7.HTML代码、数据库安全处理函数">#7.HTML代码、数据库安全处理函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#8.比较字符函数">#8.比较字符函数</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="#9.字符大小写转换函数">#9.字符大小写转换函数</a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a name="一、php的字符串"><strong>一、php的字符串</strong></a>
+</h5>
+
+<p>
+	在开发网站的过程中 想对字符串做什么操作 基本上php都提供了
+</p>
+
+<p>
+	字符串的函数非常非常的丰富
+</p>
+
+<p>
+	字符串在开发和<strong><span style="color:#EE82EE;">面试</span></strong>的时候也是最频繁用到的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a name="二、声明字符串"><strong>二、声明字符串</strong></a>
+</h5>
+
+<p>
+	<strong>1.双引号</strong>
+</p>
+
+<p>
+	解释转义字符 \&quot; \&#39; \t \n(换行) \r(回车)&nbsp;\$(不让解释成变量值) \\
+</p>
+
+<p>
+	<strong>2.单引号</strong>
+</p>
+
+<p>
+	除了 \\ 进行转义 其他一律原样输出
+</p>
+
+<p>
+	不对变量做解析
+</p>
+
+<p>
+	<strong>&uarr;.两者区别</strong>
+</p>
+
+<p>
+	（1）执行速度不同
+</p>
+
+<p style="margin-left: 40px;">
+	单引号快
+</p>
+
+<p>
+	（2）转义内容不同
+</p>
+
+<p>
+	<strong>&uarr;.如何选择</strong>
+</p>
+
+<p>
+	大段文本 使用单引号 解析快
+</p>
+
+<p>
+	确实要再一段字符串中夹杂变量 用双引号 比如拼接SQL语句时
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.定界符</strong>
+</p>
+
+<p>
+	如果一大段文本 里边有很多行 里面既有单引号 还有双引号 导致转义麻烦
+</p>
+
+<p>
+	可以使用 <u>heredoc</u>, <u>nowdoc（PHP5.3.0+）</u> 两种方式
+</p>
+
+<p>
+	<strong>（1）heredoc</strong>
+</p>
+
+<p>
+	<strong>像双引号一样解析大段文本</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;&lt;&lt;标识符<br />
+		<span style="line-height: 1.6em;">文本内容</span><br />
+		<span style="line-height: 1.6em;">标识符; &nbsp;//这个必须要独占一行 </span><strong style="line-height: 1.6em;"><span style="color:#FF0000;">前面没有其他任何字符 空格也不行</span></strong>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	例如
+</p>
+
+<blockquote>
+	<p>
+		$a = &#39;变量值&#39;;<br />
+		$str = &lt;&lt;&lt;title<br />
+		文本内容<br />
+		&#39; &quot; \ \\<br />
+		\t \r<br />
+		$a<br />
+		title;
+	</p>
+
+	<p>
+		echo $str;<br />
+		/* 结果：文本内容 &#39; &quot; \ \ 变量值 */
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">注意：</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	标识符和变量命名规则一致
+</p>
+
+<p style="margin-left: 40px;">
+	对文本的处理和双引号一样 转义很多字符 并且解析变量
+</p>
+
+<p style="margin-left: 40px;">
+	结束符要独占一行 且前面没有任何字符
+</p>
+
+<p>
+	<strong>（2）nowdoc 像单引号一样解析大段文本</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	PHP5.3.0之后新增的
+</p>
+
+<p style="margin-left: 40px;">
+	写法就是在上边的标识符上加上单引号
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;&lt;&lt;<strong><span style="color:#FF0000;">&lsquo;</span></strong>标识符<strong><span style="color:#FF0000;">&rsquo;</span></strong><br />
+		<span style="line-height: 1.6em;">文本内容</span><br />
+		<span style="line-height: 1.6em;">标识符;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a id="三、字符串处理函数" name="三、字符串处理函数"><strong>三、字符串处理函数</strong></a>
+</h5>
+
+<p>
+	（严重警告！！！）列出函数 都要练一遍 看手册
+</p>
+
+<p>
+	<a href="docs/php/en/book.strings.html">docs/php/en/book.strings.html</a>
+</p>
+
+<p>
+	<a href="docs/php/zh/book.strings.html" style="font-size: 13px;">docs/php/zh/book.strings.html</a>
+</p>
+
+<p>
+	<a id="1.字符串长度函数" name="1.字符串长度函数"><strong>1.字符串长度函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）</strong>int strlen($str)
+</p>
+
+<p style="margin-left: 40px;">
+	按照<span style="color:#FF0000;"><strong>字节</strong></span>算的
+</p>
+
+<p style="margin-left: 40px;">
+	中文
+</p>
+
+<p style="margin-left: 80px;">
+	utf-8 &nbsp;- &nbsp;1个汉字3个字节（.php文件是utf-8编码）
+</p>
+
+<p style="margin-left: 80px;">
+	gbk &nbsp;- &nbsp;1个汉字4个字节（ANSI代表gbk）
+</p>
+
+<p>
+	<strong>（2）</strong>mb_strlen(string $str[, string $encoding])
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">按照编码</span></strong>返回字符串长度 &ldquo;码表_strlen&rdquo;
+</p>
+
+<blockquote>
+	<p>
+		echo mb_strlen(&quot;芋头修修&quot;, &quot;utf-8&quot;); &nbsp;//4 &nbsp;- &nbsp;它内部应该就是把实际字节长度/3 所以如果指定为gbk 它就得到6
+	</p>
+</blockquote>
+
+<p>
+	<a id="2.查找字符串中子字符串函数" name="2.查找字符串中子字符串函数"><strong>2.查找字符串中子字符串函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）查找位置</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">strpos(string $haystack, mixed $needle[, int offset=0])</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">haystack &nbsp;- &nbsp;在该字符串中查找</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">needle &nbsp;- &nbsp;要找的</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">mixed&nbsp;</span> - &nbsp;混合类型 可以容纳多种类型参数 如果是整形 会被理解为ascii码
+</p>
+
+<p style="margin-left: 40px;">
+	offset &nbsp;- &nbsp;偏移量
+</p>
+
+<p style="margin-left: 40px;">
+	return int/false
+</p>
+
+<blockquote>
+	<p>
+		var_dump(strpos(&#39;12345678a&#39;, &#39;a&#39;)); &nbsp;//int(8)<br />
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">var_dump(strpos(&#39;12345678a&#39;, 345</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">)); &nbsp;//bool(false)</span><br />
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">var_dump(strpos(&#39;12345678a&#39;, 97)); &nbsp;//int(8)<br />
+		var_dump(strpos(&#39;12345678a1234a&#39;, 97, 8</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">)); &nbsp;//int(4) &nbsp;- &nbsp;在偏移的基础上的位置 并不是从字符串头开始的 4+8=12</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">（注意！！！）如果要查找的在第一位 会返回0 如果用if来判断 是false的结果 请用&ldquo;===&rdquo;判断</span></strong>
+</p>
+
+<p>
+	<strong>（2）<span style="font-size: 13px;">stripos</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">和（1）一样 但这个对大小写不敏感</span>
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">（3）strrpos</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">和（1）一样 但这个是查找最后一次出现的位置</span>
+</p>
+
+<p>
+	<strong>（4）查找出现次数</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	echo substr_count(<span style="font-size: 13px;">string $haystack, mixed $needle[, int offset=0[, int $length]]</span>)
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<a id="3.字符串替换函数" name="3.字符串替换函数"><strong>3.字符串替换函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）str_replace&nbsp;</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;str_replace&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$search&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$replace&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$subject&nbsp;[,&nbsp;int&nbsp;&amp;$count&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.str-replace.html">docs/php/zh/function.str-replace.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">count &nbsp;- &nbsp;可以传一个变量进去 然后会把替换的次数记录到这个变量中</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">可以一次性替换多个</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">$search = array(&#39;hi&#39;, &#39;heihei&#39;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">$replace = array(&#39;hello&#39;, &#39;hehe&#39;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">str_replace($search, $replace, &#39;hi, this is heihei&#39;);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">如果要把hi替换成hello 但是this单词里也有hi怎么办？</span>
+</p>
+
+<p style="margin-left: 80px;">
+	用正则表达式
+</p>
+
+<p style="margin-left: 40px;">
+	想把hi变成hello hello变成hi 怎么办？
+</p>
+
+<p style="margin-left: 80px;">
+	中间变量 hi -&gt; [#asdljwoncolcmosdfjw]
+</p>
+
+<p style="margin-left: 80px;">
+	hello - &gt; hi
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">[#asdljwoncolcm</span><span style="font-size: 13px;">osdfjw</span><span style="font-size: 13px;">] -&gt; hello</span>
+</p>
+
+<p>
+	<strong>（2）str_ireplace</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	忽略大小写的版本
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.str-ireplace.html" style="font-family: Simsun; font-size: medium; line-height: normal;">docs/php/zh/function.str-ireplace.html</a>
+</p>
+
+<p>
+	<strong>（3）strtr</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;strtr&nbsp;(&nbsp;string&nbsp;$str&nbsp;,&nbsp;string&nbsp;$from&nbsp;,&nbsp;string&nbsp;$to&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;strtr&nbsp;(&nbsp;string&nbsp;$str&nbsp;,&nbsp;array&nbsp;$replace_pairs&nbsp;) &nbsp;//这种方式看起来清晰
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.strtr.html">docs/php/zh/function.strtr.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	把出现在 from&nbsp;中的字符 一个一个转换为&nbsp;to&nbsp;中相应的字符。
+</p>
+
+<p style="margin-left: 40px;">
+	如果&nbsp;from&nbsp;与&nbsp;to&nbsp;长度不相等，那么多余的字符部分将被忽略。
+</p>
+
+<blockquote>
+	<p>
+		$a = &#39;abcdef&#39;;<br />
+		echo strtr($a, &#39;ab&#39;, &#39;bc&#39;); &nbsp;//bccdef &nbsp; &nbsp;- &nbsp;a-&gt;b, b -&gt; c
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#B22222;"><strong>全角转半角</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		$str = &#39;１２３４５&#39;;
+	</p>
+
+	<p>
+		echo strtr($str, array(&#39;<span style="font-size: 13px;">１&#39; =&gt; &#39;1&#39;, &#39;２&#39; =&gt; &#39;2&#39;, &#39;３&#39; =&gt; &#39;3&#39;</span>));
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	ecshop中就有这样的函数
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/qb.jpg" rel="" style="" target="" title=""><img alt="qb" class="alignnone size-full wp-image-1877" height="277" src="http://localhost:8080/wp-content/uploads/2013/11/qb.jpg" style="" title="" width="325" /></a>
+</p>
+
+<p>
+	<strong>（4）substr_replace &nbsp;- &nbsp;将字符串指定部分 替换</strong>
+</p>
+
+<div style="margin-left: 40px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;substr_replace&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$string&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$replacement&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$start&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$length&nbsp;] )
+</div>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.substr-replace.html">docs/php/zh/function.substr-replace.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	substr_replace()&nbsp;在字符串&nbsp;string&nbsp;的副本中将由&nbsp;start&nbsp;和可选的&nbsp;length&nbsp;参数限定的子字符串使用&nbsp;replacement&nbsp;进行替换。
+</p>
+
+<p class="para rdfs-comment" style="color: rgb(0, 0, 0); font-family: Simsun; font-size: medium; line-height: normal;">
+	&nbsp;
+</p>
+
+<p>
+	<a id="4.提取子字符函数" name="4.提取子字符函数"><strong>4.提取子字符函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）substr &nbsp;- &nbsp;截取字符串指定部分</strong>
+</p>
+
+<div style="margin-left: 40px;">
+	string&nbsp;substr&nbsp;(&nbsp;string&nbsp;$string&nbsp;,&nbsp;int&nbsp;$start&nbsp;[,&nbsp;int&nbsp;$length&nbsp;] )
+</div>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.substr.html">docs/php/zh/function.substr.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	返回字符串&nbsp;string&nbsp;由&nbsp;start&nbsp;和&nbsp;length&nbsp;参数指定的子字符串。
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">start &nbsp;- &nbsp;正数：前面跳过几个, 负数：要后几个</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">length &nbsp;- &nbsp;正数：截取的长度, 负数：截取的结束位置 从后往前数跳过几个</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#EE82EE;">面试</span> 中英文混合截取乱码问题</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）strstr（=strchr） &nbsp;- &nbsp;</strong><strong style="font-size: 13px;">截取字符串中 字符串第一次出现的位置到结尾</strong>
+</p>
+
+<div style="margin-left: 40px;">
+	string&nbsp;strstr&nbsp;(&nbsp;string&nbsp;$haystack&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$needle&nbsp;[,&nbsp;bool&nbsp;$before_needle&nbsp;= false&nbsp;] )
+</div>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.strstr.html">docs/php/zh/function.strstr.html&nbsp;</a>
+</p>
+
+<p style="margin-left: 40px;">
+	返回&nbsp;haystack&nbsp;字符串从&nbsp;needle&nbsp;第一次出现的位置开始到&nbsp;haystack&nbsp;结尾的字符串。
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">before_needle &nbsp;- &nbsp;true：返回之前的 false：返回之后的 （PHP &gt;&nbsp;5.3.0）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#B22222;"><strong>找文件后缀（.hbm.xml）</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	<font color="#b22222"><b>文件名</b></font>
+</p>
+
+<p>
+	<strong>（3）stristr</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	strstr的忽略大小写版本
+</p>
+
+<p>
+	<strong>（4）strrchr &nbsp;- &nbsp;截取字符串中 字符串最后出现的位置到结尾</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;strrchr&nbsp;(&nbsp;string&nbsp;$haystack&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$needle&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.strrchr.html">docs/php/zh/function.strrchr.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	该函数返回&nbsp;haystack&nbsp;字符串中的一部分，这部分以&nbsp;needle&nbsp;的最后出现位置开始，直到&nbsp;haystack&nbsp;末尾。
+</p>
+
+<p style="margin-left: 40px;">
+	<strong style="color: rgb(178, 34, 34); font-size: 13px;">找文件扩展名（.xml）</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	还可以用 pathinfo 系统函数 &nbsp;- &nbsp;返回文件路径的信息
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;pathinfo&nbsp;(&nbsp;string&nbsp;$path&nbsp;[,&nbsp;int&nbsp;$options&nbsp;= PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME&nbsp;] )
+</p>
+
+<blockquote>
+	<p>
+		$pathinfo = pathinfo(&#39;yutou.love.xml&#39;);<br />
+		echo $pathinfo['extension'];
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		echo&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">pathinfo(&#39;yutou.love.xml&#39;, </span><span style="font-size: 13px;">PATHINFO_EXTENSION</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">);</span>
+	</p>
+</blockquote>
+
+<p>
+	<a id="5.分割、连接、反转函数" name="5.分割、连接、反转函数"><strong>5.分割、连接、反转函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）str_split &nbsp;- &nbsp;将字符串 定长切成数组</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;str_split&nbsp;(&nbsp;string&nbsp;$string&nbsp;[,&nbsp;int&nbsp;$split_length&nbsp;= 1&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	将一个字符串拆成数组。
+</p>
+
+<p>
+	<strong>（2）split &nbsp;- &nbsp;按照正则 分割字符串</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;split&nbsp;(&nbsp;string&nbsp;$pattern&nbsp;,&nbsp;string&nbsp;$string&nbsp;[,&nbsp;int&nbsp;$limit&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.split.html">docs/php/zh/function.split.html</a>
+</p>
+
+<div>
+	<p style="margin-left: 40px;">
+		<a href="http://localhost:8080/docs/php/zh/function.preg-split.html">preg_split()</a>&nbsp;函数使用了 Perl 兼容正则表达式语法，通常是比&nbsp;split()&nbsp;更快的替代方案。<strong><span style="color:#FF0000;">如果不需要正则表达式的威力，则使用&nbsp;</span><a href="http://localhost:8080/docs/php/zh/function.explode.html"><span style="color:#FF0000;">explode()</span></a><span style="color:#FF0000;">&nbsp;更快</span></strong>，这样就不会招致正则表达式引擎的浪费。
+	</p>
+</div>
+
+<p style="margin-left: 40px;">
+	本函数返回一个字符串数组，每个单元为&nbsp;string&nbsp;经区分大小写的正则表达式&nbsp;pattern&nbsp;作为边界分割出的子串。如果设定了&nbsp;limit，则返回的数组最多包含&nbsp;limit&nbsp;个单元，而其中最后一个单元包含了&nbsp;string&nbsp;中剩余的所有部分。如果出错，则&nbsp;split()&nbsp;返回&nbsp;FALSE。
+</p>
+
+<p>
+	<strong>（3）explode &nbsp;- &nbsp;使用一个字符串 分割另一个字符串</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;explode&nbsp;(&nbsp;string&nbsp;$delimiter&nbsp;,&nbsp;string&nbsp;$string&nbsp;[,&nbsp;int&nbsp;$limit&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.explode.html">docs/php/zh/function.explode.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	此函数返回由字符串组成的数组，每个元素都是&nbsp;string&nbsp;的一个子串，它们被字符串&nbsp;delimiter&nbsp;作为边界点分割出来。
+</p>
+
+<p>
+	<strong>（4）implode &nbsp;- &nbsp;<span style="font-size: 13px;">将数组 用特定的分隔符 连接成字符串</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;implode&nbsp;(&nbsp;string&nbsp;$glue&nbsp;,&nbsp;array&nbsp;$pieces&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;implode&nbsp;(&nbsp;array&nbsp;$pieces&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.implode.html">docs/php/zh/function.implode.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	Join array elements with a&nbsp;glue&nbsp;string. 将数组用特定的分隔符连接成字符串
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<a id="6.去除、增加空格函数" name="6.去除、增加空格函数"><strong>6.去除、增加空格函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）trim &nbsp;- &nbsp;去除两边 多余字符</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;trim&nbsp;(&nbsp;string&nbsp;$str&nbsp;[,&nbsp;string&nbsp;$charlist&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.trim.html">docs/php/zh/function.trim.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	此函数返回字符串&nbsp;str&nbsp;去除首尾空白字符后的结果。如果不指定第二个参数，&nbsp;trim()&nbsp;将去除这些字符：
+</p>
+
+<p style="margin-left: 80px;">
+	&quot; &quot; (<acronym title="American Standard Code for Information Interchange">ASCII</acronym>&nbsp;32&nbsp;(0x20))，普通空格符。<br />
+	<span style="line-height: 1.6em;">&quot;\t&quot; (</span><acronym style="line-height: 1.6em;" title="American Standard Code for Information Interchange">ASCII</acronym><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">9</span><span style="line-height: 1.6em;">&nbsp;(</span><span style="line-height: 1.6em;">0x09</span><span style="line-height: 1.6em;">))，制表符。</span><br />
+	<span style="line-height: 1.6em;">&quot;\n&quot; (</span><acronym style="line-height: 1.6em;" title="American Standard Code for Information Interchange">ASCII</acronym><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">10</span><span style="line-height: 1.6em;">&nbsp;(</span><span style="line-height: 1.6em;">0x0A))，换行符。</span><br />
+	<span style="line-height: 1.6em;">&quot;\r&quot; (</span><acronym style="line-height: 1.6em;" title="American Standard Code for Information Interchange">ASCII</acronym><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">13</span><span style="line-height: 1.6em;">&nbsp;(</span><span style="line-height: 1.6em;">0x0D))，回车符。</span><br />
+	<span style="line-height: 1.6em;">&quot;\0&quot; (</span><acronym style="line-height: 1.6em;" title="American Standard Code for Information Interchange">ASCII</acronym><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">0</span><span style="line-height: 1.6em;">&nbsp;(</span><span style="line-height: 1.6em;">0x00))，空字节符。</span><br />
+	<span style="line-height: 1.6em;">&quot;\x0B&quot; (</span><acronym style="line-height: 1.6em;" title="American Standard Code for Information Interchange">ASCII</acronym><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">11</span><span style="line-height: 1.6em;">&nbsp;(</span><span style="line-height: 1.6em;">0x0B</span><span style="line-height: 1.6em;">))，垂直制表符。</span>
+</p>
+
+<p>
+	<strong>（2）ltrim</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	只删除左边的版本
+</p>
+
+<p>
+	<strong>（3）rtrim</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	只删除右边的版本
+</p>
+
+<p>
+	<strong>（4）chunk_split &nbsp;- &nbsp;<span style="font-size: 13px;">每隔几个字符 加一个字符串</span></strong>
+</p>
+
+<div style="margin-left: 40px;">
+	string&nbsp;chunk_split&nbsp;(&nbsp;string&nbsp;$body&nbsp;[,&nbsp;int&nbsp;$chunklen&nbsp;= 76&nbsp;[,&nbsp;string&nbsp;$end&nbsp;= "\r\n"&nbsp;]] )
+</div>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.chunk-split.html">docs/php/zh/function.chunk-split.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	使用此函数将字符串分割成小块 非常有用。例如将&nbsp;<a href="http://localhost:8080/docs/php/zh/function.base64-encode.html">base64_encode()</a>&nbsp;的输出转换成符合 RFC 2045 语义的字符串。它会在每&nbsp;chunklen&nbsp;个字符后边插入&nbsp;end。
+</p>
+
+<p style="margin-left: 40px;">
+	每隔几个字符 加一个字符串
+</p>
+
+<p>
+	<strong>（4）str_pad&nbsp; - &nbsp;字符串两端补白 到指定长度</strong>
+</p>
+
+<div style="margin-left: 40px;">
+	string&nbsp;str_pad&nbsp;(&nbsp;string&nbsp;$input&nbsp;,&nbsp;int&nbsp;$pad_length&nbsp;[,&nbsp;string&nbsp;$pad_string&nbsp;= " "&nbsp;[,&nbsp;int&nbsp;$pad_type&nbsp;= STR_PAD_RIGHT&nbsp;]] )
+</div>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.str-pad.html">docs/php/zh/function.str-pad.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	该函数返回&nbsp;input&nbsp;被从左端、右端或者同时两端被填充到制定长度后的结果。如果可选的&nbsp;pad_string&nbsp;参数没有被指定，input&nbsp;将被空格字符填充，否则它将被&nbsp;pad_string&nbsp;填充到指定长度。
+</p>
+
+<p>
+	<a id="7.HTML代码、数据库安全处理函数" name="7.HTML代码、数据库安全处理函数"><strong>7.HTML代码、数据库安全处理函数</strong></a>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">如果不小心 单双引号 标签 容易被注入</span></strong>
+</p>
+
+<p>
+	<strong>（1）addslashes &nbsp;- &nbsp;单引号双引号 转义</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;addslashes&nbsp;(&nbsp;string&nbsp;$str&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.addslashes.html">docs/php/zh/function.addslashes.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	返回字符串，该字符串为了数据库查询语句等的需要在某些字符前加上了反斜线。这些字符是单引号（&#39;）、双引号（&quot;）、反斜线（\）与 NUL（NULL&nbsp;字符）。
+</p>
+
+<p>
+	<strong>（2）stripslashes &nbsp;- &nbsp;把转义的单双引号 转义回去</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;stripslashes&nbsp;(&nbsp;string&nbsp;$str&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.stripslashes.html">docs/php/zh/function.stripslashes.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<strike>反引用一个引用字符串。</strike>
+</p>
+
+<p>
+	<strong>（3）get_magic_quotes_gpc <span style="color:#FF0000;">[?]</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;get_magic_quotes_gpc&nbsp;(&nbsp;void&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.get-magic-quotes-gpc.html">docs/php/zh/function.get-magic-quotes-gpc.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	返回当前&nbsp;magic_quotes_gpc&nbsp;配置选项的设置
+</p>
+
+<p style="margin-left: 40px;">
+	记住，尝试在运行时设置&nbsp;magic_quotes_gpc&nbsp;将不会生效。
+</p>
+
+<p style="margin-left: 40px;">
+	更多关于 magic_quotes 的信息参见安全一章。
+</p>
+
+<p>
+	<strong>（4）htmlspecialchars &nbsp;- &nbsp;html 转 实体</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	&#39;&amp;&#39; (ampersand) becomes &#39;&amp;amp;&#39;<br />
+	<span style="line-height: 1.6em;">&#39;&quot;&#39; (double quote) becomes &#39;&amp;quot;&#39; when&nbsp;</span><span style="line-height: 1.6em;">ENT_NOQUOTES</span><span style="line-height: 1.6em;">&nbsp;is not set.</span><br />
+	<span style="line-height: 1.6em;">&quot;&#39;&quot; (single quote) becomes &#39;&amp;#039;&#39; (or &amp;apos;) only when&nbsp;</span><span style="line-height: 1.6em;">ENT_QUOTES</span><span style="line-height: 1.6em;">&nbsp;is set.</span><br />
+	<span style="line-height: 1.6em;">&#39;&lt;&#39; (less than) becomes &#39;&amp;lt;&#39;</span><br />
+	<span style="line-height: 1.6em;">&#39;&gt;&#39; (greater than) becomes &#39;&amp;gt;&#39;</span>
+</p>
+
+<p style="margin-left: 40px;">
+	转实体字符 将标签转换为 &amp;lt; &amp;gt;
+</p>
+
+<p>
+	<strong>（5）htmlspecialchars_decode &nbsp;- &nbsp;实体 转 html</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	html实体转成符号
+</p>
+
+<p>
+	<strong>（6）htmlentities</strong><strong style="font-size: 13px;">&nbsp;<span style="color: rgb(255, 0, 0);">[?]</span></strong>
+</p>
+
+<p>
+	<strong style="line-height: 1.6em;">（7）html_entity_decode</strong><strong style="font-size: 13px;">&nbsp;<span style="color: rgb(255, 0, 0);">[?]</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a id="8.比较字符函数" name="8.比较字符函数"><strong>8.比较字符函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）strcmp&nbsp; - &nbsp;比较字符串</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;strcmp&nbsp;(&nbsp;string&nbsp;$str1&nbsp;,&nbsp;string&nbsp;$str2&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.strcmp.html">docs/php/zh/function.strcmp.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	二进制安全字符串比较
+</p>
+
+<p style="margin-left: 40px;">
+	如果&nbsp;str1&nbsp;小于&nbsp;str2，返回负数；如果&nbsp;str1&nbsp;大于&nbsp;str2，返回正数；二者相等则返回 0。
+</p>
+
+<p>
+	<strong>（2）strcasecmp</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	不区分大小写版本的（1）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a id="9.字符大小写转换函数" name="9.字符大小写转换函数"><strong>9.字符大小写转换函数</strong></a>
+</p>
+
+<p>
+	<strong>（1）strtolower&nbsp; - &nbsp;转小写</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;strtolower&nbsp;(&nbsp;string&nbsp;$str&nbsp;)
+</p>
+
+<div>
+	<p>
+		<strong>（2）strtoupper &nbsp;- &nbsp;转大写</strong>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">string</span><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">strtoupper</span><span style="line-height: 1.6em;">&nbsp;(&nbsp;</span><span style="line-height: 1.6em;">string</span><span style="line-height: 1.6em;">&nbsp;</span><span style="line-height: 1.6em;">$string</span><span style="line-height: 1.6em;">&nbsp;)</span>
+	</p>
+</div>
+
+<p>
+	<strong>（3）ucfirst &nbsp;- &nbsp;第一个字符转大写</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;ucfirst&nbsp;(&nbsp;string&nbsp;$str&nbsp;)
+</p>
+
+<p>
+	<strong>（4）unwords &nbsp;- &nbsp;每个单词首字母大写</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	string&nbsp;ucwords&nbsp;(&nbsp;string&nbsp;$str&nbsp;)
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、面试题</strong>
+</h5>
+
+<p>
+	1.strlen 和 mb_strlen 区别
+</p>
+
+<p>
+	2.打印字符串的第一个字符
+</p>
+
+<blockquote>
+	<p>
+		$str = &#39;yutou&#39;;
+	</p>
+
+	<p>
+		echo $str[0];
+	</p>
+</blockquote>
+
+<p>
+	3.字符串反转
+</p>
+
+<blockquote>
+	<p>
+		echo strrev(&quot;yutou&quot;);
+	</p>
+</blockquote>
+
+<p>
+	4.1234567890 转成 1,234,567,890
+</p>
+
+<blockquote>
+	<p>
+		strrev(implode(&#39;,&#39;, str_split(strrev($num), 3)));
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		echo&nbsp;ltrim(strrev(chunk_split(strrev($num), 3, &#39;,&#39;)), &#39;,&#39;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	系统函数 转换为千的格式
+</p>
+
+<blockquote>
+	<p>
+		echo number_format($num);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

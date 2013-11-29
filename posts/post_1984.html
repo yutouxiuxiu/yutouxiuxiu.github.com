@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>AOP应用 - 为方法运行时间记录日志</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					AOP应用 - 为方法运行时间记录日志
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	使用AOP制作切面 作为<span style="font-size: 13px;">环绕通知</span>
+</p>
+
+<p>
+	log4j记录所有方法的运行时间
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、关于Spring的AOP</strong>
+</h5>
+
+<p>
+	几点需要说明的
+</p>
+
+<p>
+	<strong>1.Spring内置两套AOP</strong>
+</p>
+
+<p>
+	一套是spring1.2 &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	spring实现了AOP联盟的advice接口 通过ProxyFactoryBean为目标对象生成代理
+</p>
+
+<p style="margin-left: 40px;">
+	事务管理用1.2的
+</p>
+
+<p>
+	一套是spring2.x &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	引入第三方AOP框架 AspectJ 相当于AOP整合了AspectJ
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.aop标签</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;aop:config&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:pointcut&gt;&lt;/ &nbsp;- &nbsp;切点
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 两个切面的标签&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">advisor只能有一个切点 只能有一个advice（1.2版本的AOP联盟定义的advice）</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">aspect可以配多个切点 多个advice（AspectJ定义的）</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:advisor&gt;&lt;/&nbsp; - &nbsp;spring1.2版本的切面
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:aspect&gt;&lt;/ &nbsp;- &nbsp;spring2+的AspectJ的切面
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	1.2版本的advice 内部已经提供了事务管理的切面 所以使用这个
+</p>
+
+<blockquote>
+	<p>
+		&lt;tx:advice id=&quot;transactionAdvice&quot;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;aop:config&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:pointcut expression=&quot;所有service&quot; id=&quot;my&quot;/&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:advisor advice-ref=&quot;&quot; pointcut-ref=&quot;&quot;/&gt;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;aop:config&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、实现</strong>
+</h5>
+
+<p>
+	<strong>1.做自己的切面</strong>
+</p>
+
+<blockquote>
+	<p>
+		public MyAspect {
+	</p>
+
+	<p>
+		private static final Logger LOGGER = Logger.getLogger(MyAspect.class);
+	</p>
+
+	<p style="margin-left: 40px;">
+		public Object around(ProceedingJoinPoint&nbsp;<span style="font-size: 13px;">proceedingJoinPoint</span>) throws Throwable { &nbsp;//环绕切面的方法签名是固定的
+	</p>
+
+	<p style="margin-left: 80px;">
+		long begin = sys.curr...;
+	</p>
+
+	<p style="margin-left: 80px;">
+		Object result =&nbsp;&nbsp;<span style="font-size: 13px;">proceedingJoinPoint.proceed();</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">long end =&nbsp;sys.curr...;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">LOGGER.debug(proceedingJoinPoint.toShortString() + &quot; &nbsp;&quot; + (end - begin));</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		}&nbsp;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<h5>
+	<strong>2.配置切面</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&lt;!-- 注册切面 --&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;myAspect&quot; class=&quot;...&quot;
+	</p>
+
+	<p>
+		&lt;!-- 配置aop&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;aop:config&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 配置AspectJ的aspect --&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:aspect ref=&quot;myAdvice&quot;&gt; &nbsp;切面
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;aop:around method=&quot;around&quot; point-cut=&quot;myponitcut&quot;/&gt; &nbsp;切入点
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

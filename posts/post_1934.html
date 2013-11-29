@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础 - 错误报告级别设置</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础 - 错误报告级别设置
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、错误级别</strong>
+</h5>
+
+<table id="errorfunc.constants.errorlevels">
+	<caption>
+		错误和日志记录
+	</caption>
+	<thead>
+		<tr>
+			<th>
+				值
+			</th>
+			<th>
+				常量
+			</th>
+			<th>
+				说明
+			</th>
+			<th>
+				备注
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="errorfunc.constants.errorlevels.e-error">
+			<td>
+				1
+			</td>
+			<td>
+				<strong>E_ERROR&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)</strong>
+			</td>
+			<td>
+				致命的运行时错误。这类错误一般是不可恢复的情况，例如内存分配导致的问题。后果是导致脚本终止不再继续运行。
+			</td>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-warning">
+			<td>
+				2
+			</td>
+			<td>
+				<strong>E_WARNING&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)</strong>
+			</td>
+			<td>
+				运行时警告 (非致命错误)。仅给出提示信息，但是脚本不会终止运行。
+			</td>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-parse">
+			<td>
+				4
+			</td>
+			<td>
+				E_PARSE&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				编译时语法解析错误。解析错误仅仅由分析器产生。
+			</td>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-notice">
+			<td>
+				8
+			</td>
+			<td>
+				<strong>E_NOTICE&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)</strong>
+			</td>
+			<td>
+				运行时通知。表示脚本遇到可能会表现为错误的情况，但是在可以正常运行的脚本里面也可能会有类似的通知。
+			</td>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-core-error">
+			<td>
+				16
+			</td>
+			<td>
+				E_CORE_ERROR(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				在PHP初始化启动过程中发生的致命错误。该错误类似&nbsp;E_ERROR，但是是由PHP引擎核心产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-core-warning">
+			<td>
+				32
+			</td>
+			<td>
+				E_CORE_WARNING(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				PHP初始化启动过程中发生的警告 (非致命错误) 。类似&nbsp;E_WARNING，但是是由PHP引擎核心产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-compile-error">
+			<td>
+				64
+			</td>
+			<td>
+				E_COMPILE_ERROR(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				致命编译时错误。类似E_ERROR, 但是是由Zend脚本引擎产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-compile-warning">
+			<td>
+				128
+			</td>
+			<td>
+				E_COMPILE_WARNING(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				编译时警告 (非致命错误)。类似&nbsp;E_WARNING，但是是由Zend脚本引擎产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-user-error">
+			<td>
+				256
+			</td>
+			<td>
+				E_USER_ERROR(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				用户产生的错误信息。类似&nbsp;E_ERROR, 但是是由用户自己在代码中使用PHP函数<a href="http://localhost:8080/docs/php/zh/function.trigger-error.html">trigger_error()</a>来产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-user-warning">
+			<td>
+				512
+			</td>
+			<td>
+				E_USER_WARNING(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				用户产生的警告信息。类似&nbsp;E_WARNING, 但是是由用户自己在代码中使用PHP函数<a href="http://localhost:8080/docs/php/zh/function.trigger-error.html">trigger_error()</a>来产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-user-notice">
+			<td>
+				1024
+			</td>
+			<td>
+				E_USER_NOTICE(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				用户产生的通知信息。类似&nbsp;E_NOTICE, 但是是由用户自己在代码中使用PHP函数<a href="http://localhost:8080/docs/php/zh/function.trigger-error.html">trigger_error()</a>来产生的。
+			</td>
+			<td>
+				since PHP 4
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-strict">
+			<td>
+				2048
+			</td>
+			<td>
+				<strong>E_STRICT&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)</strong>
+			</td>
+			<td>
+				启用 PHP 对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性。
+			</td>
+			<td>
+				since PHP 5
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-recoverable-error">
+			<td>
+				4096
+			</td>
+			<td>
+				E_RECOVERABLE_ERROR(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				可被捕捉的致命错误。 它表示发生了一个可能非常危险的错误，但是还没有导致PHP引擎处于不稳定的状态。 如果该错误没有被用户自定义句柄捕获 (参见&nbsp;<a href="http://localhost:8080/docs/php/zh/function.set-error-handler.html">set_error_handler()</a>)，将成为一个&nbsp;E_ERROR　从而脚本会终止运行。
+			</td>
+			<td>
+				since PHP 5.2.0
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-deprecated-error">
+			<td>
+				8192
+			</td>
+			<td>
+				E_DEPRECATED(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				运行时通知。启用后将会对在未来版本中可能无法正常工作的代码给出警告。
+			</td>
+			<td>
+				since PHP 5.3.0
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-user-deprecated">
+			<td>
+				16384
+			</td>
+			<td>
+				E_USER_DEPRECATED(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)
+			</td>
+			<td>
+				用户产少的警告信息。 类似&nbsp;E_DEPRECATED, 但是是由用户自己在代码中使用PHP函数<a href="http://localhost:8080/docs/php/zh/function.trigger-error.html">trigger_error()</a>来产生的。
+			</td>
+			<td>
+				since PHP 5.3.0
+			</td>
+		</tr>
+		<tr id="errorfunc.constants.errorlevels.e-all">
+			<td>
+				30719
+			</td>
+			<td>
+				<strong>E_ALL&nbsp;(<a href="http://localhost:8080/docs/php/zh/language.types.integer.html">integer</a>)</strong>
+			</td>
+			<td>
+				E_STRICT出外的所有错误和警告信息。
+			</td>
+			<td>
+				30719 in PHP 5.3.x, 6143 in PHP 5.2.x, 2047 previously
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	<strong>错误级别常量的值</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/errpt.jpg" rel="" style="" target="" title=""><img alt="errpt" class="alignnone size-full wp-image-1935" height="124" src="http://localhost:8080/wp-content/uploads/2013/11/errpt.jpg" style="" title="" width="215" /></a>
+</p>
+
+<p>
+	用二进制表示错误级别的目的是 用户可以自由定制 让它报哪个级别的错误 不报哪个级别的错误 只需要使用按位运算符来组合这些值或者屏蔽某些类型的错误。请注意，在&nbsp;php.ini&nbsp;之中，只有&#39;|&#39;, &#39;~&#39;, &#39;!&#39;, &#39;^&#39; 和 &#39;&amp;&#39; 会正确解析。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、错误级别的选择</strong>
+</h5>
+
+<p>
+	在开发中 为了程序的规范性 把错误报告级别 设的比较低
+</p>
+
+<p>
+	有助于我们快速定位错误和代码的规范性
+</p>
+
+<p>
+	但是在产品上线后 就不宜报这么多错
+</p>
+
+<p>
+	且 把php文件的绝对路径都爆出了 容易增加被攻击的风险
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、如何设置错误报告级别</strong>
+</h5>
+
+<p>
+	<strong>1.在配置文件中修改</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">php.ini</span>
+</p>
+
+<blockquote>
+	<p>
+		error_reporting &nbsp;= &nbsp;E_ALL &amp; ~E_NOTICE
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.在页面中修改</strong>
+</p>
+
+<p>
+	<strong>（1）error_reporting &nbsp;- &nbsp;设置错误报告级别</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;error_reporting&nbsp;([&nbsp;int&nbsp;$level&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.error-reporting.html">docs/php/zh/function.error-reporting.html</a>
+</p>
+
+<p>
+	<strong>（2）常见设置</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>屏蔽所有</strong>
+</p>
+
+<blockquote>
+	<p>
+		error_reporting(0);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>报告所有</strong>
+</p>
+
+<blockquote>
+	<p>
+		error_reporting(-1);
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">error_reporting(E_ALL);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>不报NOTICE</strong>
+</p>
+
+<blockquote>
+	<p>
+		error_reporting(3);
+	</p>
+
+	<p>
+		error_reporting(E_ALL ^&nbsp;E_NOTICE);
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">error_reporting(E_ALL &amp; ~</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">E_NOTICE</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">);</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.DEBUG模式</strong>
+</p>
+
+<blockquote>
+	<p>
+		define(&#39;DEBUG&#39;, true);
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		if (DEBUGE) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		error_reporting(E_ALL);
+	</p>
+
+	<p>
+		} else {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">error_reporting(0);</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

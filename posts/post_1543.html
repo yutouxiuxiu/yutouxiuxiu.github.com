@@ -1,0 +1,1407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 基础数据模块</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 基础数据模块
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	1.Maven项目的断点调试
+</p>
+
+<p>
+	2.需求分析
+</p>
+
+<p>
+	3.数据库设计
+</p>
+
+<p>
+	4.收派标准数据表 数据表格datagrid 分页组件
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、<span style="font-size: 13px;">Maven项目的断点调试</span></strong>
+</h5>
+
+<p>
+	Debug As -&gt; Configuration -&gt; Debug
+</p>
+
+<p>
+	执行断点的时候
+</p>
+
+<p>
+	Source not found
+</p>
+
+<p>
+	Add -&gt; Project -&gt; mvnbos -&gt; OK
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、基础设置模块 需求分析</strong>
+</h5>
+
+<p>
+	<span style="color:#EE82EE;"><strong>写简历的时候 都写进去</strong></span>
+</p>
+
+<p>
+	<strike><strong>1.基础档案设置（数据字典）</strong></strike>
+</p>
+
+<p>
+	很多项目中都有 也有叫做数据字典的 很多自定义项 需要参照录入的 支持多级定义
+</p>
+
+<p>
+	比如说 线路类型 取派员类型 保险类型 返货原因 清单原因
+</p>
+
+<p>
+	比如说 商品分类
+</p>
+
+<p>
+	将添加东西的时候出现的选择类型的下拉列表 放在数据库里
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>表结构</strong>
+</p>
+
+<p>
+	很多基础档案 通常两张表就可以了
+</p>
+
+<p>
+	一张主表 一张从表 一对多
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/12.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-1546" height="111" src="http://localhost:8080/wp-content/uploads/2013/10/12.jpg" style="" title="" width="291" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/28.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-1547" height="141" src="http://localhost:8080/wp-content/uploads/2013/10/28.jpg" style="" title="" width="148" /></a>
+</p>
+
+<p>
+	它可以结合二级缓存进行优化 因为它不是经常变化的 不用每次都去数据库里查
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.收派标准</strong>
+</p>
+
+<p>
+	将承接的货物按照重量和体积两个标准 双维度定义货物的标准 以便将不同标准的货物分给不同收取派送能力的人员
+</p>
+
+<p>
+	<strong>3.班车设置</strong>
+</p>
+
+<p>
+	将设置的线路和车辆对应关系
+</p>
+
+<p>
+	<strike><strong>4.取派设置排班</strong></strike>
+</p>
+
+<p>
+	新增修改查询作废取派员
+</p>
+
+<p>
+	进行排班换班管理
+</p>
+
+<p>
+	<strong>5.区域设置</strong>
+</p>
+
+<p>
+	行政区域列表 为价格、商务网站、工作单始发站、目的站等来源的基础数据
+</p>
+
+<p>
+	<strong>6.管理分区</strong>
+</p>
+
+<p>
+	对管理分区进行维护 为<u>定区管理</u> <u>自动下单</u>等后续操作提供技术支持
+</p>
+
+<p>
+	因为行政区可能很大 所以一个行政区要分成很多小的区域
+</p>
+
+<p>
+	管理定区的划分 分区的数据是不会经常修改的
+</p>
+
+<p>
+	<strong>7.定区管理</strong>
+</p>
+
+<p>
+	管理具体的定区
+</p>
+
+<p>
+	管理分区中的取派员等 这些是可能会经常调整的
+</p>
+
+<p>
+	将分区、客户、取派员联系在一起
+</p>
+
+<p>
+	<strong>8.收派时间管理</strong>
+</p>
+
+<p>
+	收取派送时间
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、数据表设计</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/33.jpg"><img alt="3" class="alignnone size-full wp-image-1548" height="370" src="http://localhost:8080/wp-content/uploads/2013/10/33.jpg" width="1040" /></a>
+</p>
+
+<p>
+	反转的时候可以设置类名
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/4.jpg" rel="" style="" target="" title=""><img alt="4" class="alignnone size-full wp-image-1549" height="301" src="http://localhost:8080/wp-content/uploads/2013/10/4.jpg" style="" title="" width="263" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、收派标准</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/112.jpg"><img alt="11" class="alignnone size-full wp-image-1551" height="150" src="http://localhost:8080/wp-content/uploads/2013/10/112.jpg" width="447" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.添加窗口</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;div id=&quot;addStandardWindow&quot; class=&quot;easyui-window&quot;&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$(&quot;#<span style="font-size: 13px;">addStandardWindow</span>&quot;).window(&#39;open&#39;);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.EasyUI 校验</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;input ... class=&quot;easyui-validatebox&quot; date-options=&quot;required: true&quot;/&gt;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		if ($(&quot;#form&quot;).form(&#39;validate&#39;)) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">$(&quot;#form</span><span style="font-size: 13px;">&quot;).submit();</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.数字框</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;input ...&nbsp;class=&quot;easyui-numberbox&quot;&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">date-options=&quot;required: true&quot;/&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.数据表格</strong>
+</p>
+
+<p>
+	前端UI中 通常都继承了数据表格（Grid）
+</p>
+
+<p>
+	EasyUI中的datagrid
+</p>
+
+<p>
+	<strong>（1）渲染table标签</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	如果以前是用table写的 想加上效果
+</p>
+
+<blockquote>
+	<p>
+		&lt;table class=&quot;easyui-datagrid&quot; data-options=&quot;rownumbers:true&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 标题列 必须用field属性 --&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;thead&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;tr&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;th data-options=&quot;field:&#39;id&#39;&quot;&gt;编号&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">&lt;th data-options=&quot;field:&#39;name</span><span style="font-size: 13px;">&#39;</span><span style="font-size: 13px;">&quot;&gt;姓名&lt;/</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;tbody&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;tr&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;td&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;td&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）加载远程JSON</strong>
+</p>
+
+<p>
+	在页面加载后 自动发送ajax请求 取JSON
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;table class=&quot;easyui-datagrid&quot; data-options=&quot;rownumbers: true, pagination: true, url:&#39;data.json&#39;&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;!-- 标题列 必须用field属性 --&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;thead&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;tr&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;th data-options=&quot;field:&#39;id&#39;&quot;&gt;编号&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;th data-options=&quot;field:&#39;name&#39;&quot;&gt;姓名&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">data.json</span>
+</p>
+
+<p>
+	数据和field属性对应就行了
+</p>
+
+<blockquote>
+	<p>
+		[
+	</p>
+
+	<p style="margin-left: 40px;">
+		{&quot;id&quot;:&quot;001&quot;, &quot;name&quot;:&quot;芋头&quot;},
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">{&quot;id&quot;:&quot;002&quot;, &quot;name&quot;:&quot;修修&quot;},</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		]
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（3）表格的属性 都用js代码定义</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;table id=&quot;grid&quot;&gt;&lt;/
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$(function() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#grid&quot;).datagrid({
+	</p>
+
+	<p style="margin-left: 80px;">
+		columns: [
+	</p>
+
+	<p style="margin-left: 120px;">
+		[
+	</p>
+
+	<p style="margin-left: 160px;">
+		{
+	</p>
+
+	<p style="margin-left: 200px;">
+		field : &#39;id&#39;,
+	</p>
+
+	<p style="margin-left: 200px;">
+		title : &#39;编号&#39;,
+	</p>
+
+	<p style="margin-left: 200px;">
+		width : 200
+	</p>
+
+	<p style="margin-left: 160px;">
+		},
+	</p>
+
+	<p style="font-size: 13px; margin-left: 160px;">
+		{
+	</p>
+
+	<p style="font-size: 13px; margin-left: 200px;">
+		field : &#39;name&#39;,
+	</p>
+
+	<p style="font-size: 13px; margin-left: 200px;">
+		<span style="font-size: 13px;">title&nbsp;</span>: &#39;姓名&#39;,
+	</p>
+
+	<p style="font-size: 13px; margin-left: 200px;">
+		width : 200
+	</p>
+
+	<p style="font-size: 13px; margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 120px;">
+		]
+	</p>
+
+	<p style="margin-left: 80px;">
+		],
+	</p>
+
+	<p style="margin-left: 80px;">
+		url : &#39;data.json&#39;,
+	</p>
+
+	<p style="margin-left: 80px;">
+		rownumbers : true,
+	</p>
+
+	<p style="margin-left: 80px;">
+		pagination : true, &nbsp;//是否有分页条 如果显示 就会发送分页请求参数（page, rows） 如果不显示 就没有分页请求参数
+	</p>
+
+	<p style="margin-left: 80px;">
+		striped : true,&nbsp; //条纹背景
+	</p>
+
+	<p style="margin-left: 80px;">
+		pageList : [10,20,30], &nbsp;//每页可以有多少条数据 的下拉列表
+	</p>
+
+	<p style="margin-left: 80px;">
+		idField : &#39;id&#39;; &nbsp;//哪个是唯一标识
+	</p>
+
+	<p style="margin-left: 80px;">
+		onDblClickRow : function() {}
+	</p>
+
+	<p style="margin-left: 80px;">
+		toolbar : [
+	</p>
+
+	<p style="margin-left: 120px;">
+		{
+	</p>
+
+	<p style="margin-left: 160px;">
+		id : &#39;add&#39;,
+	</p>
+
+	<p style="margin-left: 160px;">
+		text : &#39;添加&#39;,
+	</p>
+
+	<p style="margin-left: 160px;">
+		iconCls : &#39;icon-add&#39;,
+	</p>
+
+	<p style="margin-left: 160px;">
+		handler : function() {
+	</p>
+
+	<p style="margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		]
+	</p>
+
+	<p style="margin-left: 40px;">
+		});
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">});</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>分页原理</strong>
+</p>
+
+<p>
+	页面加载后 会自动发起ajax请求 访问url获取json
+</p>
+
+<p>
+	然后根据定义的信息来显示
+</p>
+
+<p>
+	datagrid 分页查询的时候 datagrid都是基于ajax和服务器交互的 请求中有参数：page（页数） rows（每页显示个数）
+</p>
+
+<p>
+	如果分页的话 还需要告诉控件 总记录数有多少 它才知道总共有多少页
+</p>
+
+<blockquote>
+	<p>
+		{
+	</p>
+
+	<p style="margin-left: 40px;">
+		&quot;total&quot; : 总记录数,
+	</p>
+
+	<p style="margin-left: 40px;">
+		&quot;rows&quot; : [
+	</p>
+
+	<p style="margin-left: 80px;">
+		{},
+	</p>
+
+	<p style="margin-left: 80px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		]
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>编写Action</strong>
+</p>
+
+<p>
+	条件查询的时候&nbsp;Hibernate提供了一个叫做Criteria接口&nbsp;离线查询<br />
+	（QBC查询 Query By Criteria） 不用拼接SQL 提出了面向对象的方式
+</p>
+
+<p>
+	比如criteria.add(Restrictions.gt(&quot;minweight&quot;, 100)); 对应的条件就是 minweight &gt; 100
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>通用分页查询组件的设计</strong>
+</p>
+
+<p>
+	封装分页请求的参数
+</p>
+
+<p>
+	<span style="color:#0000FF;">com.yutouxiuxiu.bos.page.PageRequestBean</span>
+</p>
+
+<blockquote>
+	<p>
+		public class&nbsp;<span style="font-size: 13px;">PageRequestBean {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		private int page;
+	</p>
+
+	<p style="margin-left: 40px;">
+		private int rows;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		// Hibernate QBC 离线条件查询
+	</p>
+
+	<p style="margin-left: 40px;">
+		private DetachedCriteria detachedCriteria;
+	</p>
+
+	<p style="margin-left: 40px;">
+		getter...
+	</p>
+
+	<p style="margin-left: 40px;">
+		setter...
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	封装分页查询结果数据
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">com.yutouxiuxiu.bos.page.PageResponseBean</span></span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">public class&nbsp;</span><span style="font-size: 13px;">PageResponseBean {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		private Long total; &nbsp;//总记录数
+	</p>
+
+	<p style="margin-left: 40px;">
+		private List rows; &nbsp;//当页记录
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		getter...
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		setter...
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	其实在分页查询的时候有一个隐含的条件 deltag=0 未被删除的
+</p>
+
+<p>
+	<span style="color:#0000FF;">StandardAvtion</span>
+</p>
+
+<blockquote>
+	<p>
+		public String pageQuery() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		PageRequestBean pageRequestBean = new&nbsp;<span style="font-size: 13px;">PageRequestBean();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">pageRequestBean.setPage(page);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">pageRequestBean.setRows(rows);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">DetachedCriteria detachedCriteria =&nbsp;DetachedCriteria.forClass(Standard.class);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">d</span><span style="font-size: 13px;">etachedCriteria.add(Restrictions.eq(&quot;deltag&quot;, &quot;0&quot;));</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">pageRequestBean.setDetachedCriteria(d</span><span style="font-size: 13px;">etachedCriteria);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		PageResponseBean pageResponseBean = standardService.pageQuery(pageRequestBean);
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		ActionContext.getContext().put(&quot;json&quot;, pageRequestBean);
+	</p>
+
+	<p style="margin-left: 40px;">
+		return &quot;success-pagequery&quot;;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">StandardService</span>
+</p>
+
+<blockquote>
+	<p>
+		public&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">PageResponseBean&nbsp;</span>pageQuery(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">PageRequestBean pageRequestBean</span>) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">PageResponseBean&nbsp;pageResponseBean = new PageResponseBean();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		//查询total
+	</p>
+
+	<p style="margin-left: 40px;">
+		Long total = standardDao.findTotalCount(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">pageRequestBean.getDetachedCriteria()</span>);
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">pageResponseBean.setTotal(total);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		//因为是同一个Criteria 上面经过了投影 它已经是在查count了 要清空它
+	</p>
+
+	<p style="margin-left: 40px;">
+		pageRequestBean.<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">getDetachedCriteria()</span>.setProjection(null);
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		// 查询rows
+	</p>
+
+	<p style="margin-left: 40px;">
+		int firstResult = (pageRquestBean.getPage() - 1) *&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">pageRquestBean.getRows();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">List&lt;Standard&gt; list = standardDao.pageQuery(pageRequestBean.getDetachedCriteria(), firstResult,&nbsp;pageRquestBean.getRows());</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">pageResponseBean.setRows(list);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">return&nbsp;pageResponseBean;</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">GenericDaoImpl</span>
+</p>
+
+<blockquote>
+	<p>
+		public Long findTotalCount(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">DetachedCriteria detachedCriteria</span>) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		// QBC投影查询
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">detachedCriteria.setProjection(Projections.rowCount());</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		return (Long) this.getHibernateTemplate().findByCriteria(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">detachedCriteria</span>).get(0);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		public List&lt;T&gt; pageQuery(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">DetachedCriteria detachedCriteria</span>, int firstResult, int maxResult) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		return this.getHibernateTemplate().findByCriteria(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">detachedCriteria,&nbsp;</span><span style="font-size: 13px;">firstResult,&nbsp;maxResult</span>);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;result name=&quot;success-pagequery&quot; type=&quot;json&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;param name=&quot;root&quot;&gt;json&lt;/
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">懒加载问题</span></strong>
+</p>
+
+<p>
+	这里边有一个问题&nbsp;<span style="font-size: 13px;">Standard对象里有一个关联的取派员 它会有懒加载异常 怎么办</span>
+</p>
+
+<p>
+	解决 OpenSessionInViewFilter
+</p>
+
+<p>
+	web.xml
+</p>
+
+<p>
+	<span style="font-size: 13px;">OpenSessionInViewFilter 必须配置在 StrutsPrepareAndExecuteFilter之前</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">&lt;filter&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;filter-name&gt;open<span style="font-size: 13px;">SessionInViewFilter</span>&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;filter-class&gt;ctrl+shift+t(<span style="font-size: 13px;">OpenSessionInViewFilter</span>)&lt;/
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;/</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;filter-mapping&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;filter-name&gt;open</span><span style="font-size: 13px;">SessionInViewFilter</span><span style="font-size: 13px;">&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;url-pattern&gt;/*&lt;/</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">死循环问题</span></strong>
+</p>
+
+<p>
+	还有一个问题 Standard对象里有一个关联的取派员 关联的取派员 又关联了Standard 这样会内存溢出
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">数据显示问题</span></strong>
+</p>
+
+<p>
+	返回的json的rows的数据 要和datagrid定义的columns中的field匹配 才能显示
+</p>
+
+<p>
+	但是有特殊的数据 比如说封装在对象里的数据 比如User对象中的username
+</p>
+
+<p>
+	&quot;user&quot; : {&quot;username&quot; : &quot;..&quot; ...}
+</p>
+
+<p>
+	在EasyUI中 在columns里的
+</p>
+
+<blockquote>
+	<p>
+		{
+	</p>
+
+	<p style="margin-left: 40px;">
+		field : &#39;user.username&#39;
+	</p>
+
+	<p style="margin-left: 40px;">
+		title : &#39;操作人&#39;
+	</p>
+
+	<p style="margin-left: 40px;">
+		formatter : function(value, rowData, rowIndex) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (rowData.user != null) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		return <span style="font-size: 13px;">rowData.</span>user.username;
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">页面</span>
+</p>
+
+<blockquote>
+	<p>
+		function doDblClickRow(rowIndex, rowData) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#editStandardWindow&quot;).window(&quot;open&quot;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#name&quot;).val(<span style="font-size: 13px;">rowData.name</span>);
+	</p>
+
+	<p style="margin-left: 40px;">
+		// numberbox回显要使用setValue方法 否则一点击就没了
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">$(&quot;#minWeight&quot;)</span>.numberbox(&#39;setValue&#39;, rowData.minWeight);
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		//还需要设置id隐藏域
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	也可以和添加共用一个窗口和action里的方法 然后通过有没有id值来判断是添加新的 还是修改
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>批量删除</strong>
+</p>
+
+<p>
+	页面上加上勾选删除的勾选框
+</p>
+
+<blockquote>
+	<p>
+		{
+	</p>
+
+	<p style="margin-left: 40px;">
+		field : &#39;id&#39;
+	</p>
+
+	<p style="margin-left: 40px;">
+		checkbox : true;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	客户端提交多个id 服务器可以用String[]来接收
+</p>
+
+<p>
+	也可以用String来接收 它就会接收成用&ldquo;, &rdquo;（逗号加空格）分割的样子 这是Struts来帮我们做的
+</p>
+
+<p>
+	<span style="color:#0000FF;">StandardService</span>
+</p>
+
+<blockquote>
+	<p>
+		public void delBatch(String ids) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (ids != null) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		String[] idArray = ids.split(&quot;, &quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		for (String id : idArray) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		Standard standard = standardDao.getById(id);
+	</p>
+
+	<p style="margin-left: 120px;">
+		standard.setDeltag(&quot;1&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

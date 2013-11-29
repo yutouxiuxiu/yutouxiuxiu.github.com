@@ -14,7 +14,7 @@
 		
 	</div>
 	<div class="logo">
-		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
 	</div>
 	<div class="description">
 		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
@@ -36,7 +36,7 @@
 			</span>
 		</div>
 		<div class="post-content">
-			<h5><font style="font-weight: bold">零、JavaMail简介</font></h5>  <p><strong>1.核心包</strong></p>  <blockquote>   <p>mail.jar</p>    <p>activation.jar（辅助包）</p> </blockquote>  <p>mail其实是Java EE中的东西 但是Java EE只给出了接口 没有直接给实现 就像JDBC</p>  <p>但是Java EE给了实现 不过实现不在Java EE的jar包中 必须自己下载</p>  <p><strong>2.核心类</strong></p>  <blockquote>   <p>Session&#160; -&#160; 可以把它理解为JDBC中的Connection 获取到这个 就说明和邮件服务器产生了连接</p>    <p>&#160;&#160;&#160; 得到她很麻烦…</p>    <p>MimeMessage&#160; -&#160; 邮件类</p>    <p>&#160;&#160;&#160; 收件人、发件人、主题、正文</p>    <p>Transport&#160; -&#160; 发邮件</p> </blockquote>  <h5><font style="font-weight: bold">一、一个简单的实例</font></h5>  <blockquote>   <p>//1.获取session     <br />//1.1.设置邮件主机      <br />Properties prop = new Properties();      <br />prop.setProperty(&quot;mail.host&quot;, &quot;smtp.163.com&quot;);&#160;&#160;&#160;&#160; //设置主机      <br />prop.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);&#160;&#160;&#160; //设置邮件服务器需要登录 </p>    <p>//1.2.设置用户名密码     <br />Authenticator auth = new Authenticator() {      <br />&#160;&#160;&#160; public PasswordAuthentication getPasswordAuthentication() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return new PasswordAuthentication(&quot;发送邮件的邮箱用户名（不带@...）&quot;, &quot;邮箱密码&quot;);      <br />&#160;&#160;&#160; }      <br />};</p>    <p>Session session = Session.getInstance(prop, auth);</p>    <p>//2.创建并设置MimeMesage     <br />MimeMessage msg = new MimeMessage(session);</p>    <p>try {     <br />&#160;&#160;&#160; msg.setFrom(new InternetAddress(&quot;xxxx@xxx.com&quot;));&#160;&#160;&#160; //设置发件人      <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.TO, &quot;xxxx@xxx.com,xxxx@xxx.com&quot;);&#160;&#160;&#160; //收件人&#160;&#160; 发给他 里边也可以写多个      <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.CC, &quot;xxxx@xxx.com&quot;);&#160;&#160;&#160; //抄送&#160;&#160; 也发给了他      <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.BCC, &quot;xxxx@xxx.com&quot;);&#160;&#160;&#160; //暗送&#160;&#160; 也发给了他 但别的收件人不知道也送给了他      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; msg.setSubject(&quot;标题&quot;);      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; msg.setContent(&quot;内容&quot;, &quot;text/html;charst=utf-8&quot;);      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; Transport.send(msg);      <br />} catch (AddressException e) {      <br />&#160;&#160;&#160; e.printStackTrace();      <br />} catch (MessagingException e) {      <br />&#160;&#160;&#160; e.printStackTrace();      <br />}      <br /></p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、怎么发送带附件的邮件</font></h5>  <p><strong>只是邮件的内容有区别</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/fujian.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="fujian" border="0" alt="fujian" src="http://localhost:8080/wp-content/uploads/2013/09/fujian_thumb.jpg" width="557" height="331" /></a></p>  <p><strong>这样弄</strong></p>  <blockquote>   <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeMultipart partList = new MimeMultipart();&#160;&#160;&#160; //创建多部件集合     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeBodyPart part1 = new MimeBodyPart();&#160;&#160;&#160; //创建部件      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part1.setContent(&quot;正文&quot;, &quot;text/html;charset=utf-8&quot;);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; partList.addBodyPart(part1);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeBodyPart part2 = new MimeBodyPart();      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part2.attachFile(new File(&quot;文件路径&quot;));      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part2.setFileName(MimeUtility.encodeText(&quot;附件名称&quot;));&#160;&#160;&#160; //处理中文编码      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; partList.addBodyPart(part2);      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; msg.setContent(partList);&#160;&#160;&#160; //设置邮件内容为多部件</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、使用老师写的工具类</font></h5>  <blockquote>   <p>Session session = MailUtils.createSession(&quot;smtp.163.com&quot;, &quot;用户名&quot;, &quot;密码&quot;);     <br />Mail mail = new Mail(&quot;from@126.com&quot;, &quot;to@126.com&quot;, &quot;主题&quot;, &quot;正文&quot;);</p>    <p>mail.addAttach(new AttachBean(new File(“文件路径”) ,”附件名”))；     <br />MailUtils.send(session, mail);</p></blockquote>
+			<h5><font style="font-weight: bold">零、JavaMail简介</font></h5>  <p><strong>1.核心包</strong></p>  <blockquote>   <p>mail.jar</p>    <p>activation.jar（辅助包）</p> </blockquote>  <p>mail其实是Java EE中的东西 但是Java EE只给出了接口 没有直接给实现 就像JDBC</p>  <p>但是Java EE给了实现 不过实现不在Java EE的jar包中 必须自己下载</p>  <p><strong>2.核心类</strong></p>  <blockquote>   <p>Session&#160; -&#160; 可以把它理解为JDBC中的Connection 获取到这个 就说明和邮件服务器产生了连接</p>    <p>&#160;&#160;&#160; 得到她很麻烦…</p>    <p>MimeMessage&#160; -&#160; 邮件类</p>    <p>&#160;&#160;&#160; 收件人、发件人、主题、正文</p>    <p>Transport&#160; -&#160; 发邮件</p> </blockquote>  <h5><font style="font-weight: bold">一、一个简单的实例</font></h5>  <blockquote>   <p>//1.获取session      <br />//1.1.设置邮件主机       <br />Properties prop = new Properties(); </p>    <p>prop.put(&quot;mail.host&quot;, sender.getSmtp());&#160;&#160;&#160; //设置主机      <br />prop.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);&#160;&#160;&#160; //设置邮件服务器需要登录 </p>    <p>     <br /></p>    <p>//1.2.设置用户名密码      <br />Authenticator auth = new Authenticator() {       <br />&#160;&#160;&#160; public PasswordAuthentication getPasswordAuthentication() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return new PasswordAuthentication(&quot;发送邮件的邮箱用户名（不带@...）&quot;, &quot;邮箱密码&quot;);       <br />&#160;&#160;&#160; }       <br />};</p>    <p>Session session = Session.getInstance(prop, auth);</p>    <p>//2.创建并设置MimeMesage      <br />MimeMessage msg = new MimeMessage(session);</p>    <p>try {      <br />&#160;&#160;&#160; msg.setFrom(new InternetAddress(&quot;xxxx@xxx.com&quot;));&#160;&#160;&#160; //设置发件人       <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.TO, &quot;xxxx@xxx.com,xxxx@xxx.com&quot;);&#160;&#160;&#160; //收件人&#160;&#160; 发给他 里边也可以写多个       <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.CC, &quot;xxxx@xxx.com&quot;);&#160;&#160;&#160; //抄送&#160;&#160; 也发给了他       <br />&#160;&#160;&#160; msg.addRecipients(RecipientType.BCC, &quot;xxxx@xxx.com&quot;);&#160;&#160;&#160; //暗送&#160;&#160; 也发给了他 但别的收件人不知道也送给了他       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; msg.setSubject(&quot;标题&quot;);       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; msg.setContent(&quot;内容&quot;, &quot;text/html;charset=utf-8&quot;);       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; Transport.send(msg);       <br />} catch (AddressException e) {       <br />&#160;&#160;&#160; e.printStackTrace();       <br />} catch (MessagingException e) {       <br />&#160;&#160;&#160; e.printStackTrace();       <br />}       <br /></p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、怎么发送带附件的邮件</font></h5>  <p><strong>只是邮件的内容有区别</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/fujian11.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="fujian" border="0" alt="fujian" src="http://localhost:8080/wp-content/uploads/2013/09/fujian1_thumb11.jpg" width="557" height="331" /></a></p>  <p><strong>这样弄</strong></p>  <blockquote>   <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeMultipart partList = new MimeMultipart();&#160;&#160;&#160; //创建多部件集合      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeBodyPart part1 = new MimeBodyPart();&#160;&#160;&#160; //创建部件       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part1.setContent(&quot;正文&quot;, &quot;text/html;charset=utf-8&quot;);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; partList.addBodyPart(part1);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; MimeBodyPart part2 = new MimeBodyPart();       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part2.attachFile(new File(&quot;文件路径&quot;));       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; part2.setFileName(MimeUtility.encodeText(&quot;附件名称&quot;));&#160;&#160;&#160; //处理中文编码       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; partList.addBodyPart(part2);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; msg.setContent(partList);&#160;&#160;&#160; //设置邮件内容为多部件</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、使用老师写的工具类</font></h5>  <blockquote>   <p>Session session = MailUtils.createSession(&quot;smtp.163.com&quot;, &quot;用户名&quot;, &quot;密码&quot;);      <br />Mail mail = new Mail(&quot;from@126.com&quot;, &quot;to@126.com&quot;, &quot;主题&quot;, &quot;正文&quot;);</p>    <p>mail.addAttach(new AttachBean(new File(“文件路径”) ,”附件名”))；      <br />MailUtils.send(session, mail);</p></blockquote>
 		</div>
 	</div>
 </div>
@@ -51,53 +51,81 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
 				
 			</ul>
 		</li>

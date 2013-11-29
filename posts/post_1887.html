@@ -1,0 +1,858 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java通用权限控制模型</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java通用权限控制模型
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>目录</strong>
+</p>
+
+<p>
+	<a href="#一、权限模型分析">#一、权限模型分析</a>
+</p>
+
+<p>
+	<a href="#二、权限管理界面设计">#二、权限管理界面设计</a>
+</p>
+
+<p>
+	<a href="#三、权限控制的实现">#三、权限控制的实现</a>
+</p>
+
+<p>
+	<a href="#四、权限页面显示控制">#四、权限页面显示控制</a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a id="一、权限模型分析" name="一、权限模型分析">一、权限模型分析</a>
+</p>
+
+<p>
+	权限（what can you do?）都是基于认证（who arw you?）的
+</p>
+
+<p>
+	<strong>0.企业中如何实现</strong>
+</p>
+
+<p>
+	<strong>（1）使用开源权限控制技术</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	spring security &nbsp;- &nbsp;基于spring的企业应用系统提供<u><strong>声明式</strong></u>的安全访问控制解决方案的安全框架 基于AOP代理
+</p>
+
+<p style="margin-left: 40px;">
+	apache shiro &nbsp;- &nbsp;易用的java安全框架 蛮看好这个东西的 旨在简化认证和授权
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">（2）自定义权限控制模型</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.自定<span style="font-size: 13px;">义</span>权限模型分析设计</strong>
+</p>
+
+<p>
+	<strong>（1）分析</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	细粒度的权限控制模型：访问一个路径 会执行服务器的业务方法 针对不同用户角色 对其进行能够访问的方法的权限控制
+</p>
+
+<p style="margin-left: 40px;">
+	系统模块：系统的模块 和系统功能是一对多的关系
+</p>
+
+<p style="margin-left: 40px;">
+	系统功能：系统的功能 比如说 添加用户 删除用户 修改用户 和菜单和按钮关联起来
+</p>
+
+<p style="margin-left: 40px;">
+	系统权限：描述可以访问哪些功能 和系统功能是多对多的关系 比如说 管理用户权限
+</p>
+
+<p style="margin-left: 40px;">
+	系统角色：一个权限的集合 和系统权限是多对多的关系 比如 管理员
+</p>
+
+<p style="margin-left: 40px;">
+	用户：和角色也是多对多的关系
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/qxmx.jpg" rel="" style="" target="" title=""><img alt="qxmx" class="alignnone size-full wp-image-1888" height="228" src="http://localhost:8080/wp-content/uploads/2013/11/qxmx.jpg" style="" title="" width="439" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	动态树形菜单（在系统功能表中）问题：
+</p>
+
+<p style="margin-left: 80px;">
+	在系统功能表 进行<span style="color:#FF0000;"><strong>自关联</strong></span> 利用parent_id指定父级
+</p>
+
+<p style="margin-left: 80px;">
+	菜单项需要有顺序 按照zindex进行排序
+</p>
+
+<p style="margin-left: 80px;">
+	点击菜单要跳转到对应的页面 要存储页面路径
+</p>
+
+<p style="margin-left: 80px;">
+	并非所有的功能都要生成菜单 有的功能是页面内部的 并不需要生成菜单 利用is_menu区分
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">（2）数据表的设计</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">2.系统功能表&nbsp;id, name, description, parent_id, zindex, is_menu, uri</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">3.系统权限_系统功能&nbsp;关系表</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">4.系统权限表</span>
+</p>
+
+<p style="margin-left: 80px;">
+	5.系统角色_<span style="font-size: 13px;">系统权限</span>&nbsp;关系表
+</p>
+
+<p style="margin-left: 40px;">
+	6.系统角色表
+</p>
+
+<p style="margin-left: 80px;">
+	7.系统角色_用户/用户组 关系表
+</p>
+
+<p style="margin-left: 40px;">
+	8.用户表
+</p>
+
+<p style="margin-left: 80px;">
+	9.用户_用户组 关系表
+</p>
+
+<p style="margin-left: 40px;">
+	10.用户组表
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>简化版</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	1.功能权限表 functions
+</p>
+
+<p style="margin-left: 80px;">
+	2.功能权限_角色 关系表 role_function
+</p>
+
+<p style="margin-left: 40px;">
+	3.角色表 roles
+</p>
+
+<p style="margin-left: 40px;">
+	4.用户表 user
+</p>
+
+<p>
+	<strong>（3）控制原理</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">使用 代理、反射、自定义注解技术 可以用于任何java程序</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">可以选择 使用 Struts2 ActionProxy（Interceptor增强</span><span style="line-height: 1.6em;">） / SpringAOP（around advice增强） / 自定义代理（jdk / cglib）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">&darr; 在代理方法 获得目标方法需要权限（使用反射获得注解信息）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">&darr; 根据当前user 关联role 关联function 获取当前用户具有的权限 作比较</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">满足权限 允许访问 否则抛出异常</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/sx.jpg" rel="" style="" target="" title=""><img alt="sx" class="alignnone size-full wp-image-1889" height="173" src="http://localhost:8080/wp-content/uploads/2013/11/sx.jpg" style="" title="" width="480" /></a>
+</p>
+
+<h5>
+	<a id="二、权限管理界面设计" name="二、权限管理界面设计"><strong>二、权限管理界面设计</strong></a>
+</h5>
+
+<p>
+	<strong>1.系统功能设置</strong>
+</p>
+
+<p>
+	动态编辑树&nbsp;<span style="font-size: 13px;">然后可以拖动&nbsp;显示的顺序就是zindex</span> 类似这种&nbsp;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/tree.jpg" rel="" style="" target="" title=""><img alt="tree" class="alignnone size-full wp-image-1896" height="163" src="http://localhost:8080/wp-content/uploads/2013/11/tree.jpg" style="" title="" width="365" /></a>
+</p>
+
+<p>
+	<strong>2.角色设置</strong>
+</p>
+
+<p>
+	授权 用勾选树
+</p>
+
+<p>
+	。。。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a id="三、权限控制的实现" name="三、权限控制的实现"><strong>三、权限控制的实现</strong></a>
+</h5>
+
+<p>
+	对于ssh整合的项目 本身就存在两种代理 一种是SpringAOP的代理 另一种是Struts2的Action代理
+</p>
+
+<p>
+	本例使用Struts2 Action代理
+</p>
+
+<p>
+	<strong>1.自定义注解</strong>
+</p>
+
+<p>
+	用于在方法上面 描述访问方法所需要的权限
+</p>
+
+<blockquote>
+	<p>
+		@Retention(RetentionPolicy.RUNTIME) &nbsp;//运行时使用
+	</p>
+
+	<p>
+		@Target(value=ElementType.METHOD) &nbsp;//作用于方法
+	</p>
+
+	<p>
+		@Inherited &nbsp;//接口里定义的方法使用这个注解 它的实现类也会继承该注解
+	</p>
+
+	<p>
+		public @interface&nbsp;Privilege {
+	</p>
+
+	<p style="margin-left: 40px;">
+		String value();
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.在需要权限控制的方法上添加注解</strong>
+</p>
+
+<blockquote>
+	<p>
+		@Privilege(&quot;user_add&quot;)
+	</p>
+
+	<p>
+		public String save() {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.为目标业务方法创建代理</strong>
+</p>
+
+<p>
+	Strtuts2拦截器 已经有了
+</p>
+
+<p>
+	<strong>4.编写拦截器</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">PrivilegeInterceptor</span>&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		public class PrivilegeInterceptor extends AbstractInterceptor {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String intercept(ActionInvocation invocation) throw Exeception {
+	</p>
+
+	<p style="margin-left: 80px;">
+		Class actionClass = invocation.getAction().getClass(); &nbsp;//目标Action的字节码对象
+	</p>
+
+	<p style="margin-left: 80px;">
+		String methodName = invocation.getProxy().getMethod(); &nbsp;//目标Action的目标方法名
+	</p>
+
+	<p style="margin-left: 80px;">
+		Method method = actionClass.getDeclaredMethod(methodName); &nbsp;//获取目标方法的反射对象
+	</p>
+
+	<p style="margin-left: 80px;">
+		//判断目标方法上是否应用注解
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (!method.isAnnocationPresent(Privilege.class)) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		return invocation.invoke();
+	</p>
+
+	<p style="margin-left: 80px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 120px;">
+		Privilege privilege = method.getAnnocation(Privilege.class); &nbsp;//获得注解
+	</p>
+
+	<p style="margin-left: 120px;">
+		String needPrivilege = privilege.value(); &nbsp;//获得需要的权限
+	</p>
+
+	<p style="margin-left: 120px;">
+		//获取当前用户已经具有的权限
+	</p>
+
+	<p style="margin-left: 120px;">
+		User user = ServletActionContext.getRequest().getSession().getAttribute(&quot;user&quot;);
+	</p>
+
+	<p style="margin-left: 120px;">
+		if (user.getRole() == null) {
+	</p>
+
+	<p style="margin-left: 160px;">
+		throw new RuntimeException(&quot;没有权限...&quot;);
+	</p>
+
+	<p style="margin-left: 120px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 160px;">
+		Set&lt;Function&gt; funcions = user.getRole().getFunctions(); &nbsp;//<span style="color:#FF0000;">会发生懒加载异常 因为user在登录之后 就变成了托管对象了 这里再要它的数据 就发生懒加载异常 可以在登录的时候 手动加载一下functions的数据（下方解决）</span>
+	</p>
+
+	<p style="margin-left: 160px;">
+		for (Function function : functions) {
+	</p>
+
+	<p style="margin-left: 200px;">
+		if (function.getName().equals(needPrivilege)) {
+	</p>
+
+	<p style="margin-left: 240px;">
+		<span style="font-size: 13px;">return invocation.invoke();</span>
+	</p>
+
+	<p style="margin-left: 200px;">
+		}
+	</p>
+
+	<p style="margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 160px;">
+		<span style="font-size: 13px;">throw new RuntimeException(&quot;没有权限...</span><span style="font-size: 13px;">&quot;);</span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>懒加载异常的解决</strong></span>
+</p>
+
+<p>
+	<span style="color:#0000FF;">LoginAction</span>
+</p>
+
+<blockquote>
+	<p>
+		if (loginUser.getRole != null) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">Hibernate.initialize(loginUser.getRole().getFunctions(</span><span style="line-height: 1.6em;">));</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">别忘了注册拦截器</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong><a id="四、权限页面显示控制" name="四、权限页面显示控制">四、权限页面显示控制</a></strong>
+</h5>
+
+<p>
+	不显示用户没有权限的部分
+</p>
+
+<p>
+	<strong>1.动态功能菜单</strong>
+</p>
+
+<p>
+	三表关联查询
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">DetachedCriteria&nbsp;detachedCriteria = DetachedCriteria.forClass(Function.class);</span>
+	</p>
+
+	<p>
+		detachedCriteria.createAlias(&quot;roles&quot;, &quot;r&quot;);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">detachedCriteria.createAlias(&quot;r.uers&quot;, &quot;u&quot;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">detachedCriteria.add(Restrictions.eq(&quot;u.id&quot;, user.getId()));</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">detachedCriteria.add(Restrictions.eq(&quot;generateMenu&quot;, &quot;1&quot;</span><span style="font-size: 13px;">)</span><span style="font-size: 13px;">);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">detachedCriteria.addOrder(Order.asc(&quot;zindex&quot;)</span><span style="font-size: 13px;">);</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.页面内部功能按钮</strong>
+</p>
+
+<p>
+	有这样一种不太好的思路...
+</p>
+
+<p>
+	使用自定义标签控制
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/kongzhi.jpg"><img alt="kongzhi" class="alignnone size-full wp-image-1902" height="249" src="http://localhost:8080/wp-content/uploads/2013/11/kongzhi.jpg" width="258" /></a>
+</p>
+
+<p>
+	在页面需要控制显示代码的两端 使用自定义标签 判断用户是否具有相应的权限 具有权限才显示标签体
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		public class PrivilegeTag extends SimpleTagSupport {
+	</p>
+
+	<p style="margin-left: 40px;">
+		private String value;
+	</p>
+
+	<p style="margin-left: 40px;">
+		setter...
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void doTag() throw... {
+	</p>
+
+	<p style="margin-left: 80px;">
+		User user = ServletActionContext().getRequest().getSession().getAttribute(&quot;user&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		boolean hasPrivilege = false;
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (user.getRole() != null) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		Set&lt;Function&gt; functions = user.getRole().getFuncitons();
+	</p>
+
+	<p style="margin-left: 120px;">
+		for (Function function : funcitons) {
+	</p>
+
+	<p style="margin-left: 160px;">
+		if (function.getName().equals(value)) {
+	</p>
+
+	<p style="margin-left: 200px;">
+		hasPrivilege = ture;
+	</p>
+
+	<p style="margin-left: 200px;">
+		break;
+	</p>
+
+	<p style="margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (<span style="font-size: 13px;">hasPrivilege</span>) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		this.getJspBody().invoke(this.getJspContext().getOut());
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	建立.tld文件到WEB-INF下
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/itcast.jpg"><img alt="itcast" class="alignnone size-full wp-image-1903" height="181" src="http://localhost:8080/wp-content/uploads/2013/11/itcast.jpg" width="429" /></a>
+</p>
+
+<p>
+	shortname &nbsp;- &nbsp;标签前缀 &lt;itcast:privilege&gt;
+</p>
+
+<p>
+	uri &nbsp;- &nbsp;名称空间 在页面上部引用
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/tou.jpg" rel="" style="" target="" title=""><img alt="tou" class="alignnone size-full wp-image-1904" height="120" src="http://localhost:8080/wp-content/uploads/2013/11/tou.jpg" style="" title="" width="255" /></a>
+</p>
+
+<p>
+	修改成这样 才能让它有提示
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&lt;tag&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;name&gt;privilege&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;tag-class&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;body-content&gt;scriptless&lt;/ &nbsp;无脚本 就说不能在标签体内写&nbsp;%
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;attribute&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;name&gt;value&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;required&gt;true&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;rtexprvalue&gt;true&lt;/ &nbsp;里面可以写EL表达式
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&lt;%@taglib uri=&quot;&quot; prefix=&quot;itcast&quot;%&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,2028 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 分层 登录</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 分层 登录
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点内容</strong>
+</h5>
+
+<p>
+	1.数据库设计
+</p>
+
+<p>
+	2.通用DAO组件设计
+</p>
+
+<p>
+	3.登录 进行junit测试
+</p>
+
+<p>
+	4.分层方式实现用户登录
+</p>
+
+<p>
+	5.登录页面完善
+</p>
+
+<p>
+	6.拦截器登录
+</p>
+
+<p>
+	7.ajax用户修改密码
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、数据库设计</strong>
+</h5>
+
+<p>
+	设计：原型界面设计、数据库设计
+</p>
+
+<p>
+	<strong>1.创建数据库</strong>
+</p>
+
+<p>
+	（1）MySQL有数据库的概念 每个项目建一个database 建一个独立用户 只能操作当前数据库
+</p>
+
+<blockquote>
+	<p>
+		create database bos charset utf8;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	如果不指定字符集 会使用character_set_database的字符集
+</p>
+
+<p style="margin-left: 40px;">
+	character_set_server 如果它也设置成utf8 向数据库中插入就不会有乱码 如果是拉丁1 就完了
+</p>
+
+<p style="margin-left: 40px;">
+	my.ini文件中 [mysqld]中有<span style="font-size: 13px;">character_set_server 把它=utf8就行了</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	新建用户
+</p>
+
+<blockquote>
+	<p>
+		create user username[@localhost |&nbsp;@'%'] identified by &#39;password&#39;;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &uarr; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &uarr;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;不能远程连接 &nbsp; &nbsp; 可以远程连接
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	分配权限
+</p>
+
+<blockquote>
+	<p>
+		grant all on bos.* to 用户名
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	（2）Oracle一个库&nbsp;就是一个服务 硬盘分配1G空间 存在table space（表空间）的概念 用户的权限是对应表空间的 每个项目对应一个单独的表空间 创建一个用户 具有表空间的使用权限
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.数据表设计</strong>
+</p>
+
+<p>
+	最专业的数据建模工具
+</p>
+
+<p>
+	PowerDesigner（PD）&nbsp;<span style="line-height: 1.6em;">最经典的版本12.5</span>
+</p>
+
+<p style="margin-left: 40px;">
+	DataArchitect &nbsp;- &nbsp;用E-R图 为系统建立 概念数据模型（CDM）产生物理数据模型（PDM）构建 面向对象模型（OM）
+</p>
+
+<p style="margin-left: 80px;">
+	CDM &nbsp;- &nbsp;用于分析
+</p>
+
+<p style="margin-left: 80px;">
+	PDM &nbsp;- &nbsp;向数据库生成SQL语句 画表结构 生成数据表
+</p>
+
+<p style="margin-left: 80px;">
+	OM &nbsp;- &nbsp;生成java类代码
+</p>
+
+<p style="margin-left: 40px;">
+	ProcessAnalyst
+</p>
+
+<p style="margin-left: 40px;">
+	AppModel
+</p>
+
+<p style="margin-left: 40px;">
+	ODBC Administrator
+</p>
+
+<p>
+	PDM设计
+</p>
+
+<blockquote>
+	<p>
+		新建PDM模型
+	</p>
+
+	<p>
+		画一个表 双击
+	</p>
+
+	<p>
+		name的值给设计人员看 code生成代码用
+	</p>
+
+	<p>
+		Columns选项卡 设计字段 P主键 M非空&nbsp;右键属性 可以identity自增长
+	</p>
+
+	<p>
+		两表关联 refrence 从 有外键的表指向没有外键的表&nbsp;双击线 让它从外键指向主键
+	</p>
+
+	<p>
+		生成SQL语句 database -&gt; generate database
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.生成PO和hbm</strong>
+</p>
+
+<p>
+	用MyEclipse的Hibernate插件
+</p>
+
+<p>
+	一定要新建一个工程弄
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	注意移动到Maven项目中的时候 在src和resource中都建domain包 实体类和hbm分别放到里面
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.搭建三层结构</strong>
+</p>
+
+<p>
+	web、service、dao
+</p>
+
+<p>
+	每层里要按照模块再分包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.配置Spring</strong>
+</p>
+
+<p style="font-size: 13px;">
+	spring配置文件分离
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		&lt;import resource=&quot;applicationContext-common.xml&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;import resource=&quot;applicationContext-dao.xml&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;import resource=&quot;applicationContext-service.xml&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;import resource=&quot;applicationContext-action.xml&quot;/&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	在Spring中配置hibernate的属性和连接参数
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">common</span>.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- 导入配置文件&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;context:property-placeholder location=&quot;classpath:config.properties&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;!-- 连接池 --&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;dataSource&quot; class=&quot;...ComboPooledDataSource&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;driverClass&quot; value=&quot;${jdbc.driver}&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;property name=&quot;jdbcUrl&quot; value=&quot;${jdbc.url}&quot;&gt;&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;property name=&quot;user&quot; value=&quot;${jdbc.user}&quot;&gt;&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot;&gt;&lt;/</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;!-- 整合hibernate&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;sessionFactory&quot; class=&quot;...LocalSessionFactoryBean&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;&gt;&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;property name=&quot;hibernateProperties&quot;&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;props&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;prop key=&quot;<span style="font-size: 13px;">hibernate.dialect</span>&quot;&gt;${<span style="font-size: 13px;">hibernate.dialect</span>}&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">&lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;&gt;${hibernate.hbm2ddl.auto}&lt;/</span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">&lt;prop key=&quot;hibernate.show_sql&quot;&gt;${hibernate.show_sql}&lt;/</span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">&lt;prop key=&quot;hibernate.format_sql&quot;&quot;&gt;${hibernate.format_sql}&lt;/</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;!-- 加载hbm映射&nbsp;--&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!--&lt;property name=&quot;mappingResource&quot;&gt; 这样很麻烦 得一个一个引
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;list&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;value&gt;<span style="font-size: 13px;">com/</span><span style="font-size: 13px;">yutouxiuxiu/</span><span style="font-size: 13px;">bos/domain/user/User.hbm.xml</span>&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		--&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;property name=&quot;mappingDirectoryLocations&quot;&gt; &lt;!-- 用目录管理 很方便 --&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&lt;list&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 120px;">
+		&lt;value&gt;classpath:com/yutouxiuxiu/bos/domain&lt;/
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;!-- 事务管理 --&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;transactionManager&quot; class=&quot;....HibernateTransactionManager&quot;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;&gt;&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;tx:advice id=&quot;transactionAdice&quot; transacation-manager=&quot;<span style="font-size: 13px;">transactionManager</span>&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;tx:attributes&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;tx:mathod name=&quot;save*&quot; propagation=&quot;REQUIRED&quot;/&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;add*&quot; propagation=&quot;REQUIRED&quot;/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;update*&quot; propagation=&quot;REQUIRED&quot;/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;edit*&quot; propagation=&quot;REQUIRED&quot;/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot;/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;query*&quot; propagation=&quot;REQUIRED&quot; read-only=&quot;true&quot;/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;find</span><span style="font-size: 13px;">*&quot; propagation=&quot;REQUIRED&quot; read-only=&quot;true&quot;</span><span style="font-size: 13px;">/&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;tx:mathod name=&quot;list</span><span style="font-size: 13px;">*&quot; propagation=&quot;REQUIRED&quot; read-only=&quot;true&quot;</span><span style="font-size: 13px;">/&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;aop:config&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:advisor advice-ref=&quot;transactionManager&quot; pointcut=&quot;execution(* com.yutouxiuxiu.bos.service..*.*(..))&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">config.properties</span>
+</p>
+
+<blockquote>
+	<p>
+		# jdbc connnection arguments
+	</p>
+
+	<p>
+		jdbc.driver = com.mysql.jdbc.Driver
+	</p>
+
+	<p>
+		jdbc.url = jdbc:mysql:///bos
+	</p>
+
+	<p>
+		jdbc.user = root
+	</p>
+
+	<p>
+		jdbc.pasword = root
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		# hibernate config
+	</p>
+
+	<p>
+		hibernate.dialect = org.hibernate.dialect.My
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">hibernate.hbm2ddl.auto = update</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">hibernate.show_sql = true</span>
+	</p>
+
+	<p>
+		<span style="font-family: sans-serif, Arial, Verdana, 'Trebuchet MS'; line-height: 1.6em;">hibernate.format_sql = true</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、设计通用DAO组件</strong>
+</h5>
+
+<p>
+	设计dao层 传统方式 是设计一个BaseDao 对每一个表创建一个Dao继承BaseDao
+</p>
+
+<p>
+	在《Spring3.x企业应用开发实战》的 17.2.6持久层设计 里有详细的介绍
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	其实完全可以用一个类就可以完成所有的增删改查
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">com.yutouxiuxiu.bos.dao.GenericDao.class</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public interface GenericDao&lt;T&gt; {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void save(T obj);
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void update(T obj);
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void delete(T obj);
+	</p>
+
+	<p style="margin-left: 40px;">
+		public List&lt;T&gt;&nbsp;findAll();
+	</p>
+
+	<p style="margin-left: 40px;">
+		public T findById(Serializable id);
+	</p>
+
+	<p style="margin-left: 40px;">
+		// <strong>条件查询</strong>
+	</p>
+
+	<p style="margin-left: 40px;">
+		public List&lt;T&gt; findByNamedQuery(String queryName, Object... args<span style="line-height: 1.6em;">); &nbsp;//</span><strong style="line-height: 1.6em;"><span style="color:#FF0000;">命名查询</span></strong><span style="line-height: 1.6em;"> 把HQL语句放到配置文件中 然后service通过配置文件中HQL语句的命名进行查询</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		public List&lt;T&gt; dindByCriterial(DetachedCriterial <span style="font-size: 13px;">detachedCriterial</span>); &nbsp;//<strong><span style="color:#FF0000;">离线对象查询</span></strong> 通过面向对象的方式写条件 然后通过对象产生SQL语句
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color: rgb(0, 0, 255); font-size: 13px;">com.yutouxiuxiu.bos.dao.impl.GenericDaoImpl.class</span>
+</p>
+
+<blockquote>
+	<p>
+		public class GenericDaoImpl&lt;T&gt; extends HibernateDaoSupport&nbsp;impelements&nbsp;<span style="font-size: 13px;">GenericDao&lt;T&gt; {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">private Class clazz;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">public&nbsp;GenericDaoImpl(Class&lt;T&gt; clazz) { &nbsp;//为了查询的时候 能按照对应的类进行查询 因为泛型只在编译时期 泛型之后就擦除了 所以要传进class</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.clazz = clazz;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">}</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">@Override</span>
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void save(T obj) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.getHibernateTemplate().save(obj); &nbsp;//spring提供的模板工具类简化写法
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		//this.getSession().save(obj); &nbsp;//hibernate原始写法
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void update(T obj) { ...&nbsp;<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void delete(T obj)<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;{ ...&nbsp;</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public List&lt;T&gt;&nbsp;findAll()<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;{</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		return this.getHibernateTemplate().find(&quot;FROM &quot; + clazz.getName());
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public T findById(Serializable id) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.getHibernateTemplate().get</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">(clazz, id</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public List&lt;T&gt; findByNamedQuery(String queryName<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">, Object... args</span>) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.getHibernateTemplate().findByNamedQuery(queryName, args);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">​@Override</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public List&lt;T&gt; dindByCriterial(DetachedCriterial&nbsp;detachedCriterial) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.getHibernateTemplate().dindByCriterial(detachedCriterial);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、配置Dao 使用junit进行测试</strong>
+</h5>
+
+<p>
+	<b>1.配置Dao</b>
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-dao.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- 用户管理 --&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;userDao&quot; class=&quot;....GenericDaoImpl&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;constructor-arg index=&quot;0&quot; value=&quot;....User&quot; /&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.配置命名查询</strong>
+</p>
+
+<p>
+	HQL.hbm.xml
+</p>
+
+<blockquote>
+	<p>
+		&lt;hibernate-mapping ...&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 命名查询&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		name &nbsp;- &nbsp;查询命名 前面加类名 减少同名冲突--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;query name=&quot;User.login&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		FROM User WHERE username=? AND password=?
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="font-size: 13px;">3.测试</span></strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">com.yutouxiuxiu.bos.dao.test.UserDaoTest</span>
+</p>
+
+<blockquote>
+	<p>
+		@RunWith(SpringJUnit4ClassRunner.class) &nbsp;//和spring整合
+	</p>
+
+	<p>
+		@ContextConfiguration(locations = &quot;classpath:applicationContext.xml&quot;)
+	</p>
+
+	<p>
+		public class UserDaoTest {
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Autovired
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Qualifier(name = &quot;userDao&quot;）
+	</p>
+
+	<p style="margin-left: 40px;">
+		private GenericDao&lt;User&gt; userDao;
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Test
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void testLogin() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		String uername = &quot;admin&quot;;
+	</p>
+
+	<p style="margin-left: 80px;">
+		String password = &quot;123&quot;;
+	</p>
+
+	<p style="margin-left: 80px;">
+		List&lt;User&gt; user =&nbsp;userDao.findByNamedQuery(&quot;User.login&quot;, username, password);
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(user.size());
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、用户登录功能</strong>
+</h5>
+
+<p>
+	<strong>1.登录页面</strong>
+</p>
+
+<p>
+	<u>用户登录的action要和用户的其他操作的action分开 这样便于拦截器拦截</u>
+</p>
+
+<p>
+	<span style="font-size: 13px;">&lt;s:form&gt; 只是能值栈数据的回显 其实用的并不多 不是很好用</span>
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">login.jsp</span></span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:form action=&quot;&quot; namespace=&quot;/&quot; method=&quot;...&quot; name=&quot;loginForm&quot; id=&quot;...&quot;&nbsp;<span style="color:#FF0000;">cssClass</span>=&quot;&quot; theme=&quot;simple&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;s:textfield id=&quot;...&quot; name=&quot;username&quot; ...&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;s:password id=&quot;...&quot; name=&quot;password</span><span style="font-size: 13px;">&quot; ...&gt;&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;a href=&quot;javascript:$(&#39;#loginForm&#39;).submit();&quot;&gt;&lt;/</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.服务器端</strong>
+</p>
+
+<p>
+	各层之间面向接口整合
+</p>
+
+<p>
+	每层内部做一个抽象类 用于代码的复用
+</p>
+
+<p>
+	web层有很多东西 有action filter listener 很多很多 要按技术进行分包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-common.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- 允许使用注解注入 --&gt;
+	</p>
+
+	<p>
+		&lt;context:annotation-config /&gt;
+	</p>
+</blockquote>
+
+<p>
+	在BaseAction中注入UserService
+</p>
+
+<p>
+	在BaseService中注入UserDao
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="font-size: 13px;">BaseAction 用于Action的代码复用 <span style="color:#FF0000;">很多Action公共的代码就写在这里面</span></span>
+</p>
+
+<p>
+	<span style="color:#0000FF;">com.yutouxiuxiu.bos.web.action.base.BaseAction</span>
+</p>
+
+<blockquote>
+	<p>
+		public abstract class BaseAction extends ActionSupport {
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Resource(name=&quot;userService&quot;)
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">protected UserService userService;</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color: rgb(0, 0, 255); font-size: 13px;">com.yutouxiuxiu.bos.web.action.user.LoginAction</span>
+</p>
+
+<blockquote>
+	<p>
+		public class LoginAction extends BaseAction implements ModelDriven&lt;User&gt; {
+	</p>
+
+	<p style="margin-left: 40px;">
+		priavte User user = new User();
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String execute() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		public User getModel() {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		return user;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	业务层的代码复用
+</p>
+
+<p>
+	<span style="color:#0000FF;">bos.service.base.BaseService</span>
+</p>
+
+<blockquote>
+	<p>
+		public abstract class BaseService {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		@Resource(name=&quot;userDao&quot;)
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		protected GenericDao&lt;User&gt; userDao;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">bos.<span style="font-size: 13px;">service.user.UserService</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public interface&nbsp;<span style="font-size: 13px;">UserService {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		public User login(User user);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">bos.service.user.impl.UserServiceImpl&nbsp;</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public class UserServiceImpl extends BaseService impelements UserService {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">public User login(User user) {</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		return&nbsp;userDao.findByNamedQuery(&quot;User.login&quot;, user.getUsername(), user.getPassword());
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">}</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;action name=&quot;login&quot; class=&quot;loginAction&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;result name=&quot;input&quot;&gt;/login.jsp&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;result&gt;/index.jsp&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;"><span style="font-size: 13px;">applicationContext-action.xml</span></span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;loginAction&quot; class=&quot;....LoginAction&quot; <strong><span style="color:#FF0000;">scope=&quot;prototype&quot;</span></strong>&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-service.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;bean id=&quot;userService&quot; class=&quot;....UserServiceImpl&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.表单校验</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">com.yutouxiuxiu.bos.web.action.user.LoginAction-login-validation.xml</span>
+</p>
+
+<p>
+	注意 其中login是action的name名
+</p>
+
+<p>
+	xwork-validator-1.0.3.dtd里有约束
+</p>
+
+<blockquote>
+	<p>
+		&lt;field name=&quot;username&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;field-validator type=&quot;requiredstring&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;message key=&quot;username.required&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		...
+	</p>
+</blockquote>
+
+<p>
+	...validator/default.xml 中可以找到所有的校验器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">resources/messages.properties</span>
+</p>
+
+<blockquote>
+	<p>
+		username.required = 用户名不能为空
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;constant name=&quot;struts.custom.i18n.resources&quot; value=&quot;messges&quot;&gt;&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">login.jsp</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:fielderror/&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.登录失败</strong>
+</p>
+
+<p>
+	addFieldError 某个字段错误&nbsp;需要fieldName
+</p>
+
+<p>
+	<span style="font-size: 13px;">&lt;s:fielderror&gt;</span>
+</p>
+
+<p>
+	addActionError Action的运行错误
+</p>
+
+<p>
+	&lt;s:actionerror&gt;
+</p>
+
+<p>
+	addActionMessage 信息 不一定是错误信息
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		if (验证码错) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.addFieldError(&quot;checkcode&quot;, this.getText(&quot;checkcodeerror&quot;));
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		if (用户名/密码错) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.<span style="font-size: 13px;">addActionError(this.getText(&quot;loginerror&quot;));</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.登录结果</strong>
+</p>
+
+<blockquote>
+	<p>
+		用户名：${ user.username } IP：${ pageContext.request.remoteAddr }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	右下角是EasyUI的 messager组件
+</p>
+
+<p>
+	提示框
+</p>
+
+<blockquote>
+	<p>
+		$.message.show({
+	</p>
+
+	<p style="margin-left: 40px;">
+		title: &#39;标题&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		msg: &#39;内容&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		timeout: 3000
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">警告框</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">$.message</span>.alert(&#39;标题&#39;, &#39;内容&#39;, &#39;图标error/question/info/warning&#39;,&nbsp;function() {//点确定的回调函数});
+	</p>
+</blockquote>
+
+<p>
+	确认框
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">$.message</span>.confirm(<span style="font-size: 13px;">&#39;标题&#39;, &#39;内容</span><span style="font-size: 13px;">&#39;,</span><span style="font-size: 13px;">&nbsp;</span><span style="font-size: 13px;">function(isConfirm) {//点确定的回调函数});</span>
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">$.message</span>.prompt &nbsp;- &nbsp;<span style="font-size: 13px;">输入框</span>
+</p>
+
+<p>
+	<span style="font-size: 13px;">$.message</span>.progress &nbsp;- &nbsp;进度框
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.退出</strong>
+</p>
+
+<blockquote>
+	<p>
+		session.invalidate();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、拦截器控制登录</strong>
+</h5>
+
+<p>
+	<span style="color:#0000FF;">com.yutouxiuxiu.web.interceptor.LoginInterceptor</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">public class LoginInterceptor extends AbstractIntercaptor {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String intercept(ActionInvocation invocation) thr... {
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (ServletActionContext.getRequest().getSession().getAttribute(&quot;user&quot;) == null) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		ActionSupport action = (ActionSupport) invocation.getAction();
+	</p>
+
+	<p style="margin-left: 120px;">
+		action.addActionError(action.getText(&quot;nologin&quot;));
+	</p>
+
+	<p style="margin-left: 120px;">
+		return &quot;login&quot;;
+	</p>
+
+	<p style="margin-left: 80px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 120px;">
+		return invaction.invoke();
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/sts.jpg" rel="" style="" target="" title=""><img alt="sts" class="alignnone size-full wp-image-1533" height="280" src="http://localhost:8080/wp-content/uploads/2013/10/sts.jpg" style="" title="" width="513" /></a>
+</p>
+
+<blockquote>
+	<p>
+		&lt;package name=&quot;noneedlogin&quot; ...&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;action name=&quot;login&quot; ...
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">问题：因为使用了ifreme 当session过期之后 会出现页面嵌套</span></strong>
+</p>
+
+<p>
+	在登录的form标签中&nbsp;添加 target=&quot;_top&quot;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>七、ajax修改密码</strong>
+</h5>
+
+<p>
+	<strong>1.弹出窗口</strong>
+</p>
+
+<p>
+	EasyUI 的 window组件&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">closed &nbsp;- &nbsp;初始化关闭否</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">modal &nbsp;- &nbsp;遮罩</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;div id=&quot;window&quot; class=&quot;easyui-window&quot; style=&quot;width: 400px; height: 200px&quot;
+	</p>
+
+	<p style="margin-left: 40px;">
+		data-option=&quot;title: &#39;修改密码&#39;, minimizable: false, maximizable: false,&nbsp;collapsible: false, modal: true, closed: true&quot;&gt;
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$(&quot;#window&quot;).window(&#39;open&#39;);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.js校验</strong>
+</p>
+
+<p>
+	<strong>3.提交ajax请求</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/ajax.jpg" rel="" style="" target="" title=""><img alt="ajax" class="alignnone size-full wp-image-1537" height="313" src="http://localhost:8080/wp-content/uploads/2013/10/ajax.jpg" style="" title="" width="653" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		$.post(&quot;${ pageContext.request.contextPath} / user_editpassword.action&quot;, {password: newPassword}, function(data) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (data.success == &quot;true&quot;) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 80px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		//关闭修改密码框
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.处理ajax请求</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">UserAction</span>
+</p>
+
+<blockquote>
+	<p>
+		public class UserAction extends BaseAction implements ModelDriven&lt;User&gt; {
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p style="margin-left: 40px;">
+		public String editpassword() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		User loginUser = ServletActionContext.getResult().getSession().getAttribute(&quot;user&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		user.setId(loginUser.getId());
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">Map&lt;String, String&gt; map = HashMap&lt;String, String</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&gt;();</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		try {
+	</p>
+
+	<p style="margin-left: 120px;">
+		userService.editPassword(user);
+	</p>
+
+	<p style="margin-left: 120px;">
+		map.put(&quot;success&quot;, &quot;true&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		} catch (Exception e) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">map.put(&quot;success</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;, &quot;false&quot;);</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		//把结果map压入值栈
+	</p>
+
+	<p style="margin-left: 80px;">
+		ActionContext.getContext().put(&quot;result&quot;, map); &nbsp;//会被压入值栈ognlMap中 值栈有名字
+	</p>
+
+	<p style="margin-left: 80px;">
+		return &quot;<span style="font-size: 13px;">editpasswordsuccess</span>&quot;;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">UserServiceImpl</span>
+</p>
+
+<blockquote>
+	<p>
+		public void editPassword(User user) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		//不能用update！直接用 就把所有的都改了 先把它查出来 再设置密码
+	</p>
+
+	<p style="margin-left: 40px;">
+		User persistUser = userDao.findById(user.getId());
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">persistUser.setPassword(user.getPassword());</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		//这个方法被事务管理了 事务提交 就改成功了
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.将请求结果转为JSON</strong>
+</p>
+
+<p>
+	struts2-json-plugin 插件 它可以将值栈中的结果转为json
+</p>
+
+<p>
+	或者用flexjson开源jar包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	在pom.xml中导入<span style="font-size: 13px;">struts2-json-plugin包</span>
+</p>
+
+<p>
+	<span style="color:#0000FF;">struts.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;package ... extends=&quot;json-default&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;action name=&quot;user_*&quot; class=&quot;userAction&quot; method=&quot;{1}&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;result name=&quot;&quot; type=&quot;json&quot;&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;!-- 用root属性指定将值栈中的哪个属性转换为json --&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;param name=&quot;root&quot;&gt;result&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-action.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;userAction&quot; ...
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

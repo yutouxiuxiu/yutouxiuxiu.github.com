@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2文件上传</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2文件上传
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、Struts2的上传</font></h5>  <p><strong>1.fileUpload拦截器</strong></p>  <p>它会帮助我们获取 上传文件的数据、文件名、文件MIME类型</p>  <p>它会把这三样保存到Action中 也就说明Action中需要给出三个固定名称的属性</p>  <p><strong>2.struts2上传组件</strong></p>  <p>Struts2没有上传组件</p>  <p>它有三个上传组件</p>  <blockquote>   <p>jakarta（commons-fileupload）&#160; -&#160; 默认使用的是这个</p>    <p>pell</p>    <p>cos&#160; -&#160; 比较出名 这个东西已经多年没有更新过了</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、如何上传</font></h5>  <p><strong>1.对上传表单的要求</strong></p>  <blockquote>   <p>&lt;form method=”POST”</p>    <p>enctype=”multipart/form-data”… /&gt;</p>    <p>&lt;input type=”file” name=”名字”/&gt;</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↙↗</p>  <p><strong>2.对Action的要求</strong>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ↙↗&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 对应的</p>  <blockquote>   <p>private File 名字;</p>    <p>private String 名字FileName;</p>    <p>private String 名字ContentType;</p> </blockquote>  <p>fileupload拦截器会为三个属性赋值</p>  <p>上传文件可以和普通表单项搀在一起 不会出现问题</p>  <p>&#160;</p>  <p><strong>3.在配置文件中定义保存的路径</strong></p>  <p><strong>struts.xml</strong></p>  <blockquote>   <p>&lt;action…&gt;</p>    <p>&#160;&#160;&#160; &lt;param name=”uploadPath”&gt;/WEB-INF/uploads&lt;/</p>    <p>&lt;/action&gt;</p> </blockquote>  <p><strong>Action</strong></p>  <blockquote>   <p>private String uploadPath;</p>    <p>setter…</p> </blockquote>  <p><strong>[execute]</strong></p>  <blockquote>   <p>uploadPath = ServletActionContext.getServletContext().getRealPat(uploadPath);</p> </blockquote>  <p>&#160;</p>  <p><strong>4.如何保存文件</strong></p>  <blockquote>   <p>File destFile = new File(uploadPath, filename);</p>    <p>FileUtils.copyFile(file, destFile);</p> </blockquote>  <p><strong>5.其他</strong></p>  <p>对于文件名和目录打散等问题 此处不再赘述 请详见Servlet的文件上传</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、上传配置</font></h5>  <p><strong>1.三常量</strong></p>  <p><strong>（1）struts.multipart.parser</strong></p>  <p>指定上传组件</p>  <blockquote>   <p>jakarta</p>    <p>pell</p>    <p>cos</p> </blockquote>  <p>切换上传组件 任何代码都不用更改 只是底层实现接口更换了而已</p>  <blockquote>   <p>&lt;constance name=”” value=””/&gt;</p> </blockquote>  <p><strong>（2）struts.multipart.saveDir</strong></p>  <p>指定临时文件目录</p>  <p><strong>（3）struts.multipart.maxSize</strong></p>  <p>整个请求大小限制（单位：字节）</p>  <p>&#160;</p>  <p><strong>2.拦截器3参数</strong></p>  <p><strong>（1）maximumSize</strong></p>  <p>当个文件大小限制</p>  <p><strong>（2）allowedTypes</strong></p>  <p>允许的MIME类型</p>  <p><strong>（3）allowedExtensions</strong></p>  <p>允许的扩展名</p>  <p>&#160;</p>  <p><strong>怎么传递进去？</strong></p>  <p>这个拦截器是默认拦截器栈中的 那怎么传参？自己引一下就好了</p>  <blockquote>   <p>&lt;interceptor-ref name=”fileUpload”&gt;</p>    <p>&#160;&#160;&#160; &lt;param name=”allowedExtensions”&gt;jpg,png,bmp&lt;/parma&gt;</p>    <p>&lt;/interceptor-ref/&gt;</p> </blockquote>  <p>这样是不行的 默认拦截器栈就不执行了</p>  <blockquote>   <p>&lt;interceptor-ref name=”defaultStack”/&gt;</p>    <p>&lt;interceptor-ref name=”fileUpload”&gt;</p>    <p>&#160;&#160;&#160; &lt;param name=”allowedExtensions”&gt;jpg,png,bmp&lt;/parma&gt;</p>    <p>&lt;/interceptor-ref/&gt;</p> </blockquote>  <p>这样也不行 fileUpload就被执行了两次</p>  <p>所以可以这样：</p>  <p><font color="#ff0000">重新引用defaultStack栈 指定fileUpload这个拦截器的allowedExtensions参数</font></p>  <blockquote>   <p>&lt;interceptor-ref name=”defaultStack”&gt;</p>    <p>&#160;&#160;&#160; &lt;param name=”fileUpload.allowedExtensions”&gt;jpg,png,bmp&lt;/parma&gt;</p>    <p>&lt;/interceptor-ref/&gt;</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、上传的错误信息key</font></h5>  <p><strong>（用于国际化错误消息）</strong></p>  <p>fielderror</p>  <p><strong>1.struts.message.error.uploading</strong></p>  <p>上传出错</p>  <p><strong>2.struts.message.error.file.too.large</strong></p>  <p>文件太大</p>  <blockquote>   <p>{0}&#160; -&#160; 字段名</p>    <p>{1}&#160; -&#160; 文件名</p>    <p>{2}&#160; -&#160; 临时文件名</p>    <p>{3}&#160; -&#160; 大小</p> </blockquote>  <p>在国际化中这样使用</p>  <blockquote>   <p>您上传的文件”{1}”大小为{3}，超出限制</p> </blockquote>  <p><strong>3.struts.message.error.content.type.not.allowed</strong></p>  <p>文件类型不允许</p>  <p><strong>4.struts.message.error.file.extension.not.allowed</strong></p>  <p>文件扩展名不允许</p>  <p>5.struts.message.error.sizeLimit</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、多文件上传</font></h5>  <p><strong>对表单的要求还有</strong></p>  <p>表单中给出多个file的input 其name必须都相同</p>  <blockquote>   <p>&lt;input type=”file” name=”名字”/&gt;</p>    <p>&lt;input type=”file” name=”名字”/&gt;</p>    <p>…</p> </blockquote>  <p><strong>对Action的要求</strong></p>  <p>在Action中还是3个属性 但是是List的</p>  <blockquote>   <p>List&lt;File&gt; 名字;</p>    <p>List&lt;String&gt; 名字FileName;</p>    <p>List&lt;String&gt; 名字ContentType;</p>    <p>setters…</p> </blockquote>  <p><strong>然后就循环操作吧！</strong></p>  <p>略了就</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

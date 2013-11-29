@@ -1,0 +1,620 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MySQL优化 - 使用小技巧</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL优化 - 使用小技巧
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、MySQL管理员 导入大量数据时</strong>
+</h5>
+
+<p>
+	<strong>1.对于MyISAM</strong>
+</p>
+
+<p>
+	先禁用索引 省着边导入数据 边修改索引 很慢
+</p>
+
+<blockquote>
+	<p>
+		ALTER TABLE 表名 DISABLE KEYS;
+	</p>
+
+	<p>
+		导入表...
+	</p>
+
+	<p>
+		ALTER TABLE 表名 ENABLE KEYS;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.对于Innodb</strong>
+</p>
+
+<p>
+	关闭唯一性检查 否则每插入一条都要检查一下 很慢
+</p>
+
+<blockquote>
+	<p>
+		SET UNIQUE_CHECKS=0;
+	</p>
+</blockquote>
+
+<p>
+	关闭自动提交
+</p>
+
+<blockquote>
+	<p>
+		SET AUTOCOMMIT=0;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、SQL语句小技巧</strong>
+</h5>
+
+<p>
+	<strong>1.让 GROUP BY 不自动配需</strong>
+</p>
+
+<p>
+	默认它会对分组后的结果再进行排序 如果只需要分组不需要排序 就显得效率降低了
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/grpb.jpg" rel="" style="" target="" title=""><img alt="grpb" class="alignnone size-full wp-image-1676" height="112" src="http://localhost:8080/wp-content/uploads/2013/11/grpb.jpg" style="" title="" width="308" /></a>
+</p>
+
+<p>
+	解释它 发现 Extra：Using filesort
+</p>
+
+<p>
+	可以这样让它不进行排序：
+</p>
+
+<blockquote>
+	<p>
+		... GROUP BY 字段<strong><span style="color:#FF0000;"> ORDER BY NULL</span></strong>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.尽量使用JOIN代替子查询&amp;简单连接方式</strong>
+</p>
+
+<p>
+	例如
+</p>
+
+<blockquote>
+	<p>
+		SELECT * FROM dept, emp WHERE dept.deptno=emp.deptno;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		SELECT * FROM dept LEFT JOIN ON dept.deptno=emp.deptno
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>三、选择合适的存储引擎</strong>
+</p>
+
+<p>
+	<strong>1.MyISAM</strong>
+</p>
+
+<p>
+	如果表对事务要求不高 同时查询和添加为主 考虑使用这个
+</p>
+
+<p>
+	比如BBS中的帖子表
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	插入快 放在表的最后
+</p>
+
+<p>
+	不支持回滚 可能有一句话执行成功 另一句执行不成功
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">不支持外键</span></strong><span style="font-size: 13px;">（</span><strong style="font-size: 13px;"><span style="color: rgb(255, 0, 0);">在php开发中 通常不设置外键 它在程序中保证数据关联正确 java开发中 必须要外键</span></strong><span style="font-size: 13px;">） &nbsp; 比如ECShop 就没用外键</span>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">一定记住 要定时进行碎片整理</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		OPTIMIZE TABLE 表名;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	为什么呢？让我们来做个测试吧
+</p>
+
+<blockquote>
+	<p>
+		INSERT INTO test VALUES (1, &#39;aaa&#39;);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">INSERT INTO test VALUES (2, &#39;aaa&#39;</span><span style="font-size: 13px;">);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">INSERT INTO test VALUES (3, &#39;aaa&#39;</span><span style="font-size: 13px;">);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">INSERT INTO test SELECT id, name FROM test;//多次执行这个 表的数据会急剧增多</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">数据达到一百万以上 这样表的数据文件.myd已经变到了60MB左右</span>
+</p>
+
+<blockquote>
+	<p>
+		DELETE FROM test WHERE id=3;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	理论上大小会变成40MB左右 可是实际上它还是60MB
+</p>
+
+<p style="margin-left: 40px;">
+	MyISAM引擎的表 它的数据文件会一直增长 永远不会变小
+</p>
+
+<p style="margin-left: 40px;">
+	我们应该定时对这样的表进行整理
+</p>
+
+<p>
+	<strong>2.InnoDB</strong>
+</p>
+
+<p>
+	对事务要求高 保存的数据都是重要数据 建议使用这个
+</p>
+
+<p>
+	比如订单表 账户表
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	插入较慢 会进行事务安全检查 进行适当的排序
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>两者的区别</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	事务安全
+</p>
+
+<p style="margin-left: 40px;">
+	查询和添加速度
+</p>
+
+<p style="margin-left: 40px;">
+	全文索引
+</p>
+
+<p style="margin-left: 40px;">
+	锁机制
+</p>
+
+<p style="margin-left: 40px;">
+	外键支持&nbsp;
+</p>
+
+<p>
+	<strong>3.Memory</strong>
+</p>
+
+<p>
+	数据查询和修改非常频繁 不需要入库 丢不丢无所谓 放在内存中 速度极快
+</p>
+
+<p>
+	如果重启MySQL数据库 数据就没有了
+</p>
+
+<p>
+	案例：
+</p>
+
+<p>
+	有些数据 不需要永久存储 但是还会操作机器频繁 比如说用户的在线状态 是在线 忙碌 发呆 还是吃饭 客户端每隔5s就会把自己的状态通知给服务器 服务器还要将你的状态通知给你的好友们 操作机器频繁 而且这些永久存下来没意义 只要服务器开着的时候 能记录就行了 所以用内存表再合适不过了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/yinqing.jpg" rel="" style="" target="" title=""><img alt="yinqing" class="alignnone size-full wp-image-1685" height="248" src="http://localhost:8080/wp-content/uploads/2013/11/yinqing.jpg" style="" title="" width="404" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、选择合适的数据类型</strong>
+</h5>
+
+<p>
+	<strong>1.在进度要求高的地方</strong>
+</p>
+
+<p>
+	尽量用定点数decimal 不用float
+</p>
+
+<p>
+	<strong>2.保小不保大</strong>
+</p>
+
+<p>
+	能使用占用字节小的字段 就不用大的 节省空间对效率很有提高的
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/int.jpg" rel="" style="" target="" title=""><img alt="int" class="alignnone size-full wp-image-1709" height="143" src="http://localhost:8080/wp-content/uploads/2013/11/int.jpg" style="" title="" width="235" /></a>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">数值类型后的括号</span></strong>
+</p>
+
+<p>
+	TINYINT(2)，<span style="line-height: 1.6em;">TINYINT(3</span><span style="line-height: 1.6em;">)这1,3是什么含义？</span>
+</p>
+
+<p>
+	并不是像很多人想的那样 能存2位/3位数字 这个和VARCHAR不一样
+</p>
+
+<p>
+	小括号里的值代表0填充 3就是存成3位数字 如果不足3位 前面用0填充 但是得定义ZEROFILL才有效
+</p>
+
+<p>
+	例如：
+</p>
+
+<blockquote>
+	<p>
+		CREATE TABLE test (a TINYINT(2) ZEROFILL, b TINYINT(3) ZEROFILL);
+	</p>
+
+	<p>
+		INSERT INTO test VALUES(2, 3);
+	</p>
+</blockquote>
+
+<p>
+	结果是
+</p>
+
+<blockquote>
+	<p>
+		02
+	</p>
+
+	<p>
+		003
+	</p>
+</blockquote>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>+.大数据排序</strong>
+</h5>
+
+<p>
+	如果给极其多的数据进行排序 内存里都装不下 就一部分一部分排
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>+.图片和视频</strong>
+</p>
+
+<p>
+	一般都放到单独的服务器上 图床
+</p>
+
+<p>
+	因为图片和视频太占带宽
+</p>
+
+<p>
+	和数据库不要放在同一个服务器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、数据库参数配置</strong>
+</h5>
+
+<p>
+	<span style="color:#0000FF;">my.ini</span>
+</p>
+
+<p>
+	端口
+</p>
+
+<p>
+	port=3306 &nbsp;如果想要启动两个MySQL 就要改这个
+</p>
+
+<p>
+	最大连接数
+</p>
+
+<p>
+	max_connections=100 &nbsp;最大不要高于2000 2000的话加上页面静态化支撑10w访问量是没问题的
+</p>
+
+<p>
+	缓存 在原先上增加10倍 就有明显提升 当然这要看内存
+</p>
+
+<p style="margin-left: 40px;">
+	查询缓存大小
+</p>
+
+<p style="margin-left: 40px;">
+	query_max_size=15M &nbsp;可以改大一些
+</p>
+
+<p style="margin-left: 40px;">
+	对于InnoDB
+</p>
+
+<p style="margin-left: 40px;">
+	innodb_additional_mem_pool_size=64M
+</p>
+
+<p style="margin-left: 40px;">
+	innodb_buffer_pool_size=1G &nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	对于MyISAM
+</p>
+
+<p style="margin-left: 40px;">
+	key_buffer_size
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	如果操作系统是64位的 请使用64位的MySQL
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>+.读写分离</strong>
+</p>
+
+<p>
+	如果服务器压力很大 可以使用MySQL复制 分散到多台服务器
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/jq.jpg" rel="" style="" target="" title=""><img alt="jq" class="alignnone size-full wp-image-1714" height="203" src="http://localhost:8080/wp-content/uploads/2013/11/jq.jpg" style="" title="" width="456" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

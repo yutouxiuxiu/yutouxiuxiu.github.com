@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - Module</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - Module
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、语法规范</strong>
+</h5>
+
+<blockquote>
+	<p>
+		XxxAction extends Action {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	首字母大写
+</p>
+
+<p>
+	在APP_DEBUG模式下 windows下开发 也强制区分大小写
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、空操作</strong>
+</h5>
+
+<p>
+	当访问存在Module中不存在的方法时 则执行_empty方法（如果存在）
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Core/Action.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* ThinkPHP Action控制器基类 抽象类<br />
+		&nbsp;* @category &nbsp; Think<br />
+		&nbsp;* @package &nbsp;Think<br />
+		&nbsp;* @subpackage &nbsp;Core<br />
+		&nbsp;* @author &nbsp; liu21st &lt;liu21st@gmail.com&gt;<br />
+		&nbsp;*/<br />
+		abstract class Action {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 魔术方法 <strong><span style="color:#FF0000;">有不存在的操作的时候执行</span></strong><br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $method 方法名<br />
+		&nbsp; &nbsp; &nbsp;* @param array $args 参数<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">__call</span></strong>($method,$args) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if( 0 === strcasecmp($method,ACTION_NAME.C(&#39;ACTION_SUFFIX&#39;))) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(method_exists($this,&#39;_empty&#39;)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">如果定义了_empty操作 则调用</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_empty($method,$args);
+	</p>
+
+	<p>
+		。。。。。。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、前置、后置操作</strong>
+</h5>
+
+<p>
+	如果存在的话 调用方法之前会调用前置操作 调用方法之后会调用后置操作
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Core/App.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //执行当前操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method = &nbsp; new ReflectionMethod($module, $action);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ ReflectionMethod 类报告了一个方法的有关信息。<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* ~<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;public __construct ( mixed $class , string $name )<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;class &nbsp;- &nbsp;Classname or object (instance of the class) that contains the method.<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;name &nbsp;- &nbsp;Name of the method.<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($method-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $class &nbsp;= &nbsp; new ReflectionClass($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">前置操作</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(&#39;_before_&#39;.$action)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $before = &nbsp; $class-&gt;getMethod(<span style="color:#FF0000;"><strong>&#39;_before_&#39;.$action</strong></span>);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 比如说要调用index方法 _before_index方法就会在这里执行<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($before-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$before-&gt;invoke($module);</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* ~<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;public mixed invoke ( object $object [, mixed $parameter [, mixed $... ]] )<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Invokes a reflected method.<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;object &nbsp;- &nbsp;The object to invoke the method on. For static methods, pass null to this parameter.<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parameter &nbsp;- &nbsp;Zero or more parameters to be passed to the method. It accepts a variable number of parameters which are passed to the method.<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // URL参数绑定检测<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(C(&#39;URL_PARAMS_BIND&#39;) &amp;&amp; $method-&gt;getNumberOfParameters()&gt;0){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; switch($_SERVER['REQUEST_METHOD']) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;POST&#39;:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp; &nbsp;= &nbsp;array_merge($_GET,$_POST);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;PUT&#39;:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_str(file_get_contents(&#39;php://input&#39;), $vars);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; default:<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp;= &nbsp;$_GET;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $params = &nbsp;$method-&gt;getParameters();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($params as $param){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $name = $param-&gt;getName();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($vars[$name])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = &nbsp;$vars[$name];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif($param-&gt;isDefaultValueAvailable()){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = $param-&gt;getDefaultValue();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw_exception(L(&#39;_PARAM_ERROR_&#39;).&#39;:&#39;.$name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invokeArgs($module,$args);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ Invokes the reflected method and pass its arguments as array.<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invoke($module);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <span style="color:#FF0000;"><strong>后置操作</strong></span><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(<strong><span style="color:#FF0000;">&#39;_after_&#39;.$action</span></strong>)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $after = &nbsp; $class-&gt;getMethod(&#39;_after_&#39;.$action);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($after-&gt;isPublic()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$after-&gt;invoke($module);</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 操作方法不是Public 抛出异常<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw new ReflectionException();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、空模块</strong>
+</h5>
+
+<p>
+	如果要访问的模块不存在
+</p>
+
+<p>
+	先判断__hack_module()函数是否存在 则使用该函数返回的Action对象作为$module
+</p>
+
+<p>
+	<span style="color: rgb(0, 0, 255); font-size: 13px;">ThinkPHP/Lib/Core/App.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!$module) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(&#39;4e5e5d7364f443e28fbf0d3ae744a59a&#39; == MODULE_NAME) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; header(&quot;Content-type:image/png&quot;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exit(base64_decode(App::logo()));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong><span style="color:#FF0000;"> if(function_exists(&#39;__hack_module&#39;))</span></strong> {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // hack 方式定义扩展模块 返回Action对象<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$module = __hack_module();</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!is_object($module)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 不再继续执行 直接返回<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 是否定义Empty模块<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$module = A($group.&#39;Empty&#39;);</span></strong>&nbsp;&nbsp; &nbsp;// ~ 如果定义了<strong><span style="color:#FF0000;">EmptyAction</span></strong>.class.php 就执行 空模块 可以定制错误页面和进行URL优化<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!$module){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _404(L(&#39;_MODULE_NOT_EXIST_&#39;).&#39;:&#39;.MODULE_NAME);&nbsp;&nbsp; &nbsp;// ~ 如果连EmptyAction也没有 就进行报错<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、跨模块调用</strong>
+</h5>
+
+<p>
+	使用快捷函数A 如果已经实例化了 则获取已经实例化的对象 没有才创建
+</p>
+
+<blockquote>
+	<p>
+		$other = A(&#39;Other&#39;);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Common/common.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* A函数用于实例化Action 格式：[项目://][分组/]模块<br />
+		&nbsp;* @param string $name Action资源地址<br />
+		&nbsp;* @param string $layer 控制层名称<br />
+		&nbsp;* @param boolean $common 是否公共目录<br />
+		&nbsp;* @return Action|false<br />
+		&nbsp;*/<br />
+		function A($name,$layer=&#39;&#39;,$common=false) {<br />
+		&nbsp; &nbsp;<strong><span style="color:#FF0000;"> static $_action = array();&nbsp;&nbsp; &nbsp;// ~ 静态数组存储已经实例化的action 用注册模式实现action的单例</span></strong><br />
+		&nbsp; &nbsp; $layer &nbsp; &nbsp; &nbsp;= &nbsp; $layer?$layer:C(&#39;DEFAULT_C_LAYER&#39;);<br />
+		&nbsp; &nbsp; if(strpos($name,&#39;://&#39;)) {// 指定项目<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; list($app) &nbsp;= &nbsp; explode(&#39;://&#39;,$name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $name &nbsp; = &nbsp;str_replace(&#39;://&#39;,&#39;/&#39;.$layer.&#39;/&#39;,$name);<br />
+		&nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $app &nbsp; &nbsp;= &nbsp; &#39;@&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $name &nbsp; = &nbsp;&#39;@/&#39;.$layer.&#39;/&#39;.$name;<br />
+		&nbsp; &nbsp; }<br />
+		&nbsp; &nbsp;<strong><span style="color:#FF0000;"> if(isset($_action[$name])) &nbsp;return $_action[$name];&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果已经注册了该action的实例就直接返回</span></strong><br />
+		&nbsp; &nbsp; $path &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; explode(&#39;/&#39;,$name);<br />
+		&nbsp; &nbsp; if($list = C(&#39;EXTEND_GROUP_LIST&#39;) &amp;&amp; isset($list[$app])){ // 扩展分组<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $list[$app];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);<br />
+		&nbsp; &nbsp; }elseif(count($path)&gt;3 &amp;&amp; 1 == C(&#39;APP_GROUP_MODE&#39;)) { // 独立分组<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $path[0]== '@' ? dirname(BASE_LIB_PATH) : APP_PATH.'../'.$path[0].&#39;/&#39;.C(&#39;APP_GROUP_PATH&#39;).&#39;/&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);<br />
+		&nbsp; &nbsp; }elseif($common) { // 加载公共类库目录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; import(str_replace(&#39;@/&#39;,&#39;&#39;,$name).$layer,LIB_PATH);<br />
+		&nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; import($name.$layer);<br />
+		&nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; $class &nbsp; &nbsp; &nbsp;= &nbsp; basename($name.$layer);<br />
+		&nbsp; &nbsp; if(class_exists($class,false)) {<br />
+		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; $action &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; new $class();&nbsp;&nbsp; &nbsp;// ~ 如果action未被注册到静态数组 也就是没有实例化 则实例化并注册</span></strong><br />
+		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; $_action[$name] &nbsp; &nbsp; = &nbsp; $action;</span></strong><br />
+		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; return $action;</span></strong><br />
+		&nbsp; &nbsp; }else {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; }<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、远程调用</strong>
+</h5>
+
+<p>
+	直接调用某个Module中的Action方法
+</p>
+
+<blockquote>
+	<p>
+		R(&#39;Module/action&#39;);
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Common/common.php</span>
+</p>
+
+<blockquote>
+	<p>
+		/**<br />
+		&nbsp;* 远程调用模块的操作方法 URL 参数格式 [项目://][分组/]模块/操作<br />
+		&nbsp;* @param string $url 调用地址<br />
+		&nbsp;* @param string|array $vars 调用参数 支持字符串和数组&nbsp;<br />
+		&nbsp;* @param string $layer 要调用的控制层名称<br />
+		&nbsp;* @return mixed<br />
+		&nbsp;*/<br />
+		function R($url,$vars=array(),$layer=&#39;&#39;) {<br />
+		&nbsp; &nbsp; $info &nbsp; = &nbsp; pathinfo($url);<br />
+		&nbsp; &nbsp; $action = &nbsp; $info['basename'];<br />
+		&nbsp; &nbsp; $module = &nbsp; $info['dirname'];<br />
+		&nbsp; &nbsp; $class &nbsp;= &nbsp; A($module,$layer);<br />
+		&nbsp; &nbsp; if($class){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_string($vars)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_str($vars,$vars);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return call_user_func_array(array(&amp;$class,$action.C(&#39;ACTION_SUFFIX&#39;)),$vars);<br />
+		&nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; }<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>七、跨项目调用</strong>
+</h5>
+
+<blockquote>
+	<p>
+		项目目录名://Module/action
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

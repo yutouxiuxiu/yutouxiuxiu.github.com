@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate复制粘贴</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate复制粘贴
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>配置文件</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;<br />
+		&lt;!DOCTYPE hibernate-configuration PUBLIC<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd&quot;&gt;
+	</p>
+
+	<p>
+		&lt;hibernate-configuration&gt;<br />
+		&lt;session-factory&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.username&quot;&gt;数据库用户名&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.password&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 数据库密码<br />
+		&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;com.mysql.jdbc.Driver<br />
+		&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.url&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;jdbc:mysql://localhost:3306/数据库名<br />
+		&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;dialect&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;org.hibernate.dialect.MySQLDialect<br />
+		&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;format_sql&quot;&gt;true&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hbm2ddl.auto&quot;&gt;update&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 允许使用getCurrentSession --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;current_session_context_class&quot;&gt;thread&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 配置二级缓存 已经注释掉 需要使用请打开注释--&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!--<br />
+		&nbsp;&nbsp;&nbsp; &lt;property name=&quot;cache.use_second_level_cache&quot;&gt;true&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;cache.provider_class&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;org.hibernate.cache.EhCacheProvider<br />
+		&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp; --&gt;<br />
+		&nbsp;&nbsp; &nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 打开统计机制 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;property name=&quot;generate_statistics&quot;&gt;true&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp;&nbsp; &lt;!-- 配置查询缓存 已经注释掉 需要使用请打开注释 --&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;!--<br />
+		&nbsp;&nbsp;&nbsp; &lt;property name=&quot;cache.use_query_cache&quot;&gt;true&lt;/property&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;mapping<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;resource=&quot;映射文件路径.hbm.xml&quot; /&gt;<br />
+		&lt;/session-factory&gt;<br />
+		&lt;/hibernate-configuration&gt;
+	</p>
+</blockquote>
+
+<p>
+	一对多 一的一方
+</p>
+
+<blockquote>
+	<p>
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br />
+		&lt;!DOCTYPE hibernate-mapping PUBLIC &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;<br />
+		&quot;http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;&gt;<br />
+		&lt;hibernate-mapping&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;class name=&quot;类全路径名&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id name=&quot;主键&quot; length=&quot;32&quot; type=&quot;java.lang.String&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;generator class=&quot;uuid&quot;&gt;&lt;/generator&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/id&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;属性&quot; length=&quot;20&quot; type=&quot;java.lang.String&quot;&gt;&lt;/property&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;set name=&quot;多的集合&quot; cascade=&quot;级联策略&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;key&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;column name=&quot;本类主键&quot;&gt;&lt;/column&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/key&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;one-to-many class=&quot;多的一方全路径名&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/set&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/class&gt;<br />
+		&lt;/hibernate-mapping&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

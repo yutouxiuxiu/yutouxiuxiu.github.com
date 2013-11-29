@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>jBPM - 流程任务管理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					jBPM - 流程任务管理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	在实际的开发中 对于流程中的task节点 通常不会使用singalExecutionById
+</p>
+
+<p>
+	任务节点 实际上是需要人工参与来办理完成的 通常需要在页面上提交表单
+</p>
+
+<p>
+	可以使用 TaskService提供的API
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	在设计业务流程时 为流程中的任务节点指定办理人
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ren.jpg"><img alt="ren" class="alignnone size-full wp-image-1786" height="72" src="http://localhost:8080/wp-content/uploads/2013/11/ren.jpg" width="154" /></a>
+</p>
+
+<p>
+	先采用assignee 单一负责人
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/xml2.jpg" rel="" style="" target="" title=""><img alt="xml" class="alignnone size-full wp-image-1787" height="89" src="http://localhost:8080/wp-content/uploads/2013/11/xml2.jpg" style="" title="" width="388" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、查询任务</strong>
+</h5>
+
+<blockquote>
+	<p>
+		@Test
+	</p>
+
+	<p>
+		public void chaxun(){
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		//使用 <span style="font-size: 13px;">TaskService</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="font-size: 13px;">TaskService&nbsp;</span><span style="font-size: 13px;">taskService</span><span style="margin: 0px; padding: 0px;">=&nbsp;processEngine.get</span><span style="font-size: 13px;">TaskService</span><span style="margin: 0px; padding: 0px;">();</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		&nbsp;
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		//使用TaskQuery <strong>查询所有任务</strong>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">TaskQuery&nbsp;taskQuery =&nbsp;taskService.createTaskQuery();</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">List&lt;Task&gt; list =&nbsp;​taskQuery.list();</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">for (Task task : list) {</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 80px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		task.getId();
+	</p>
+
+	<p style="margin: 0px 0px 10px 80px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		task.getName();
+	</p>
+
+	<p style="margin: 0px 0px 10px 80px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		task.getAssignee();
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">}</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		&nbsp;
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">//<strong>查询个人任务</strong></span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">List&lt;Task&gt; list =&nbsp;</span><span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">​taskService.findPersonalTask(&quot;销售人员&quot;); &nbsp;//传入的是负责人名 和xml中assignee对应</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、办理任务</strong>
+</h5>
+
+<p>
+	其实和流程向后流转效果一样 但是任务处理只能让任务向后流转 任务办理更强调是人来参与 向后流转是通用的一种东西 比如state节点 就不需要人来参与 就用signalExectionById来流转
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>四种ID</strong>
+</p>
+
+<blockquote>
+	<p>
+		发布编号 jbpm4_deployment 的 dbid
+	</p>
+
+	<p>
+		流程定义编号 jbpm4_
+	</p>
+
+	<p>
+		流程实例编号 jbpm4_
+	</p>
+
+	<p>
+		任务编号 <span style="font-size: 13px;">jbpm4_</span>task 的&nbsp;dbid
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.办理任务</strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@Test
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public void (){
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		//使用&nbsp;TaskService
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		TaskService&nbsp;taskService<span style="margin: 0px; padding: 0px;">=&nbsp;processEngine.get</span>TaskService<span style="margin: 0px; padding: 0px;">();</span>
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		//办理任务
+	</p>
+
+	<p style="margin-left: 40px;">
+		taskService.completeTask(&quot;60009&quot;); &nbsp; &nbsp;<span style="font-size: 13px;">//jbpm4_task 表中的DBID</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

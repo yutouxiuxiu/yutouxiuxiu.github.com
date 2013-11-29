@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 jBPM整合</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 jBPM整合
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、jar包和配置文件导入</strong>
+</h5>
+
+<p>
+	<strong>1.导入jar包</strong>
+</p>
+
+<p>
+	注意重复的jar包 和冲突jar包不要导入
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/jar.jpg" rel="" style="" target="" title=""><img alt="jar" class="alignnone size-full wp-image-1859" height="176" src="http://localhost:8080/wp-content/uploads/2013/11/jar.jpg" style="" title="" width="325" /></a>
+</p>
+
+<p>
+	Maven项目<span style="line-height: 1.6em;">需要5个坐标</span>
+</p>
+
+<p>
+	<span style="font-size: 13px;">中央仓库里没有 得<strong>先引用第三放仓库</strong></span>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ck.jpg" rel="" style="" target="" title=""><img alt="ck" class="alignnone size-full wp-image-1860" height="108" src="http://localhost:8080/wp-content/uploads/2013/11/ck.jpg" style="" title="" width="449" /></a>
+</p>
+
+<p>
+	<strong>添加依赖</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;org.jbpm.jbpm4&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;jbpm-api&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;4.4&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;org.jbpm.jbpm4&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;jbpm-jpdl&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;4.4&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;org.jbpm.jbpm4&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;jbpm-pvm&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;4.4&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;org.jbpm.jbpm4&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;jbpm-log&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;4.4&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;org.jbpm.jbpm4&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;jbpm-bpmn&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;4.4&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;&nbsp;
+	</p>
+</blockquote>
+
+<p>
+	<strong>还需要javamail的依赖</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">&nbsp; &nbsp; &nbsp; &nbsp;&lt;dependency&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;javax.mail&lt;/groupId&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;mail&lt;/artifactId&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;1.4&lt;/version&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.导入配置文件</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm.cfg.xml</span>
+</p>
+
+<p>
+	将hibernate的配置文件 换为spring的配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;import resource=&quot;jbpm.tx.hibernate.cfg.xml&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	换为
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">&lt;import resource=&quot;jbpm.tx.spring.cfg.xml&quot; /&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">config.properties</span>
+</p>
+
+<p>
+	修改mysql数据库方言为
+</p>
+
+<blockquote>
+	<p>
+		org.hibernate.dialect.MySQL5InnoDBDialect
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-common.xml</span>
+</p>
+
+<p>
+	引入hbm文件
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/YYY.jpg"><img alt="YYY" class="alignnone size-full wp-image-1863" height="167" src="http://localhost:8080/wp-content/uploads/2013/11/YYY.jpg" width="342" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、和spring整合</strong>
+</h5>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-jbpm.xml</span>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/bean.jpg" rel="" style="" target="" title=""><img alt="bean" class="alignnone size-full wp-image-1862" height="82" src="http://localhost:8080/wp-content/uploads/2013/11/bean.jpg" style="" title="" width="405" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、处理jbpm整合后的运行问题</strong>
+</h5>
+
+<p>
+	<strong>1.LinkageError</strong>
+</p>
+
+<p>
+	在内置的tomcat中运行的时候
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/c1.jpg" rel="" style="" target="" title=""><img alt="c1" class="alignnone size-full wp-image-1866" height="335" src="http://localhost:8080/wp-content/uploads/2013/11/c1.jpg" style="" title="" width="755" /></a>
+</p>
+
+<p>
+	由EL的类冲突导致
+</p>
+
+<p>
+	jbpm中依赖的juel-api-2.2.1.jar 中 javax.el 和tomcat中的el-api的jar冲突
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	在发布项目时 将 juel-*.jar的3个jar包 移动到tomcat的lib目录下
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>如何解决maven运行tomcat:run的问题</strong>
+</p>
+
+<p>
+	打包的时候 不要对其进行打包&nbsp;
+</p>
+
+<p>
+	将这3个jar包锁定 进行单独配置
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/lock.jpg" rel="" style="" target="" title=""><img alt="lock" class="alignnone size-full wp-image-1869" height="109" src="http://localhost:8080/wp-content/uploads/2013/11/lock.jpg" style="" title="" width="250" /></a>
+</p>
+
+<p>
+	配置它们的作用范围
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/prv.jpg" rel="" target="" title=""><img alt="prv" class="alignnone size-full wp-image-1868" height="28" src="http://localhost:8080/wp-content/uploads/2013/11/prv.jpg" style="opacity: 0.9;" title="" width="459" /></a>
+</p>
+
+<p>
+	还要在内置tomcat插件中引入jar包
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/tmct.jpg" rel="" style="" target="" title=""><img alt="tmct" class="alignnone size-full wp-image-1870" height="187" src="http://localhost:8080/wp-content/uploads/2013/11/tmct.jpg" style="" title="" width="421" /></a>
+</p>
+
+<p>
+	<strong>2.slf4j冲突</strong>
+</p>
+
+<p>
+	在外部的tomcat启动时
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/c2.jpg" rel="" style="" target="" title=""><img alt="c2" class="alignnone size-full wp-image-1867" height="240" src="http://localhost:8080/wp-content/uploads/2013/11/c2.jpg" style="" title="" width="383" /></a>
+</p>
+
+<p>
+	项目同时存在 slf4j-log4j sel4j-jdk 两种实现
+</p>
+
+<p>
+	删除&nbsp;<span style="font-size: 13px;">sel4j-jdk 即可</span>
+</p>
+
+<p>
+	<span style="color:#0000FF;">pom.xml</span> 用pom editor打开
+</p>
+
+<p>
+	找到它 右键 exclude maven aritif...
+</p>
+
+<p>
+	它在配置文件中就生成了exclude标签
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

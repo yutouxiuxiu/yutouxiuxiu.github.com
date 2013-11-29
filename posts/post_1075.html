@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2下载</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2下载
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<font style="font-weight: bold">零、Struts2的下载</font>
+</h5>
+
+<p>
+	响应和result相关 干脆就没用过response
+</p>
+
+<p>
+	execute方法内没什么可做的
+</p>
+
+<p>
+	主要看&lt;result&gt;
+</p>
+
+<blockquote>
+	<p>
+		&lt;result type=&rdquo;stream&rdquo;&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; 两个头一个流
+	</p>
+
+	<p>
+		&lt;/result&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<font style="font-weight: bold">一、如何弄下载</font>
+</h5>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>struts.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;result type=&rdquo;stream&rdquo;&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;param name=&rdquo;contentType&rdquo;&gt;写死的文件MIME类型/${ mimeType }&lt;/param&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;param name=&rdquo;contentDisposition&rdquo;&gt;attachment;filename=写死的下载框文件名/${ filename }&lt;/param&gt;
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;param name=&rdquo;inputName&rdquo;&gt;InputStream类型的属性名&lt;/param&gt;&nbsp;&nbsp;&nbsp; //如果类型的属性名是&rdquo;inputStream&ldquo;可以不写这个参数 因为它默认是这个 可以省略 但是不建议省略
+	</p>
+
+	<p>
+		&lt;/result&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>Action</strong>
+</p>
+
+<blockquote>
+	<p>
+		<font color="#ff0000">这个属性可以省了 真正要的是get方法</font>
+	</p>
+
+	<p>
+		public InputStream get属性名() {&nbsp;&nbsp; <font color="#ff0000">//属性名不可以叫 &rdquo;in&ldquo; 它不可用 它是一个关键字！</font>
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return new FileInputStream(new File(&ldquo;路径&rdquo;， &rdquo;文件名&ldquo;));&nbsp;&nbsp;&nbsp; //可以通过文件new
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; //return new FileInputStream(&ldquo;文件路径&ldquo;));&nbsp;&nbsp;&nbsp; //或者直接给
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		public String getFilename() {&nbsp;&nbsp; //这个属性名其实也可以改的 但是要注意和配置文件中对应
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return new String(filename.getBytes(&rdquo;GBK&rdquo;), &ldquo;ISO-8859-1&rdquo;);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		public String getMimeType() {&nbsp;&nbsp;&nbsp; //这个属性名其实也可以改的 但是要注意和配置文件中对应
+	</p>
+
+	<p>
+		&nbsp;&nbsp;&nbsp; return ServletActionContext.getServletContext().getMimeType(filename);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<font color="#dd8484"><strong>execute返回结果之后 才会在解析struts.xml时调用这三个方法</strong></font>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	如何动态获取文件路径文件名 以及中文乱码等问题 就不再赘述&hellip;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>示例代码</strong>
+</p>
+
+<p>
+	<strong>Download1Action.java</strong>
+</p>
+
+<blockquote>
+	<p>
+		public class Download1Action extends ActionSupport {<br />
+		&nbsp;&nbsp; &nbsp;private String filename;// 链接中给传递要下载的文件名称<br />
+		&nbsp;&nbsp; &nbsp;private String downloadPath;// 下载文件的保存目录
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;// 把下载路径转换成真实路径<br />
+		&nbsp;&nbsp; &nbsp;public void setDownloadPath(String downloadPath) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;this.downloadPath = ServletActionContext.getServletContext().getRealPath(downloadPath);<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;// 获取链接的参数<br />
+		&nbsp;&nbsp; &nbsp;// 因为是GET请求，所以需要自己处理编码问题！<br />
+		&nbsp;&nbsp; &nbsp;public void setFilename(String filename)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;throws UnsupportedEncodingException {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;this.filename = new String(filename.getBytes(&quot;ISO-8859-1&quot;), &quot;utf-8&quot;);<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;// 这是传递给result的参数，这是一个流<br />
+		&nbsp;&nbsp; &nbsp;public InputStream getInputStream() throws FileNotFoundException {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return new FileInputStream(new File(downloadPath, filename));<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 通过文件名返回该文件的MIME类型<br />
+		&nbsp;&nbsp; &nbsp;public String getType() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return ServletActionContext.getServletContext().getMimeType(this.filename);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 下载框中显示的文件名<br />
+		&nbsp;&nbsp; &nbsp;public String getFrameName() throws UnsupportedEncodingException {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return new String(this.filename.getBytes(&quot;GBK&quot;), &quot;ISO-8859-1&quot;);<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;// 当它返回之后，才会执行结果，执行结果才会调用getType()、getFrameName()，以及getInputStream()<br />
+		&nbsp;&nbsp; &nbsp;// 这三个get方法，不会在setFilename()之前被调用。<br />
+		&nbsp;&nbsp; &nbsp;public String execute() throws Exception {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return SUCCESS;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>struts.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp;&nbsp; &lt;package name=&quot;day03_2&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;action name=&quot;download1&quot; class=&quot;cn.itcast.action.Download1Action&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;param name=&quot;downloadPath&quot;&gt;/WEB-INF/downloads&lt;/param&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result type=&quot;stream&quot; name=&quot;success&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- ${a}表示调用当前action的getA()方法 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;param name=&quot;contentType&quot;&gt;${type}&lt;/param&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- attachment;filename=${frameName}，表示&quot;attachment;filename=&quot; + getFrameName()&nbsp; --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;param name=&quot;contentDisposition&quot;&gt;attachment;filename=${frameName}&lt;/param&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;param name=&quot;inputName&quot;&gt;inputStream&lt;/param&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/result&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/action&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/package&gt;
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

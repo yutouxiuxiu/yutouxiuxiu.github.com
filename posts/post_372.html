@@ -14,7 +14,7 @@
 		
 	</div>
 	<div class="logo">
-		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
 	</div>
 	<div class="description">
 		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
@@ -36,7 +36,7 @@
 			</span>
 		</div>
 		<div class="post-content">
-			<ul>   <li><strong>边框</strong></li> </ul>  <p>老是看到 style=&quot;border: 3px solid red&quot;这样的语句，可是不知道究竟是什么意思。solid?是什么呢，趁着任务刚结束上网学习了一下，嘿嘿，又自己亲自做了一遍，终于wakalimasita!</p>  <p>&#160;&#160;&#160;&#160; style=&quot;border: thin solid red&quot;; 搞清楚&quot;border&quot;后面的三个参数的含义，对理解非常重要。</p>  <p><strong>边框线的宽度</strong>是：thin（细线）；</p>  <p><strong>边框线的类型</strong>是：solid（实线）；</p>  <p><strong>边框线的颜色</strong>是：red（红色）； （PS:我们定义边框，实际上就是设定这三个参数值。）</p>  <p>&#160;&#160;&#160;&#160; 边框线的宽度有三个标准值：thin（细线）、medium（中粗线）和thick（粗线），此外，也可以自定义宽度，如：1pt、5px、2cm等。</p>  <p>&#160;&#160;&#160;&#160; 边框线的类型有九个确定值：none（无边框线）、 dotted（由点组成的虚线）、 dashed（由短线组成的虚线）、 solid（实线）、 double（双线，双线宽度加上它们之间的空白部分的宽度就等于border-width定义的宽度）、 groove（3D沟槽状的边框）、 ridge（3D脊状的边框）、 inset（3D内嵌边框，颜色较深）、 outset（3D外嵌边框，颜色较浅）。（注意：如果系统不支持这些边框的属性值，那么除了none, solid外的其它七个都会被solid代替。）</p>  <p>&#160;&#160;&#160;&#160;&#160; 边框线的颜色：可以用十六进制的颜色代码，如#00ffcc。</p>  <p>&#160;</p>  <ul>   <li><strong>超链接的样式</strong></li> </ul>  <p>这是针对于class=no_change的a标签的样式 注意链接文字的颜色<font color="#ff0000">要用color来定义 不能用font-color</font></p>  <p><font color="#ff0000">（注意！！！）</font><font color="#000000">link visited hover active 这几个的顺序千万不能变 LVHA （有了驴牌的包 就哈哈乐）</font></p>  <blockquote>   <p>a.no_change:link {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:visited {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:hover {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:active {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p> </blockquote>  <p>如果不针对某class 通用的设置方法如下</p>  <blockquote>   <p>a:link {     <br />color: #663300;      <br />}</p>    <p>a:visited {     <br />color: #663300;      <br />}</p>    <p>a:hover {     <br />color: #663300;      <br />}</p>    <p>a:active {     <br />color: #663300;      <br />}</p> </blockquote>  <ul>   <li><font style="background-color: #f6f6f6" color="#545454"><strong>文字粗体</strong></font></li> </ul>  <blockquote>   <p>font-weight: bold;</p> </blockquote>  <ul>   <li><font style="background-color: #f6f6f6" color="#545454"><strong>margin 和 padding 和 border</strong></font></li> </ul>  <p><font style="background-color: #f6f6f6" color="#545454"><a href="http://localhost:8080/wp-content/uploads/2013/08/3044cb13c6dc5721dc5401e4.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="3044cb13c6dc5721dc5401e4" border="0" alt="3044cb13c6dc5721dc5401e4" src="http://localhost:8080/wp-content/uploads/2013/08/3044cb13c6dc5721dc5401e4_thumb.jpg" width="244" height="158" /></a></font></p>
+			<ul>   <li><strong>边框</strong></li> </ul>  <p>老是看到 style=&quot;border: 3px solid red&quot;这样的语句，可是不知道究竟是什么意思。solid?是什么呢，趁着任务刚结束上网学习了一下，嘿嘿，又自己亲自做了一遍，终于wakalimasita!</p>  <p>&#160;&#160;&#160;&#160; style=&quot;border: thin solid red&quot;; 搞清楚&quot;border&quot;后面的三个参数的含义，对理解非常重要。</p>  <p><strong>边框线的宽度</strong>是：thin（细线）；</p>  <p><strong>边框线的类型</strong>是：solid（实线）；</p>  <p><strong>边框线的颜色</strong>是：red（红色）； （PS:我们定义边框，实际上就是设定这三个参数值。）</p>  <p>&#160;&#160;&#160;&#160; 边框线的宽度有三个标准值：thin（细线）、medium（中粗线）和thick（粗线），此外，也可以自定义宽度，如：1pt、5px、2cm等。</p>  <p>&#160;&#160;&#160;&#160; 边框线的类型有九个确定值：none（无边框线）、 dotted（由点组成的虚线）、 dashed（由短线组成的虚线）、 solid（实线）、 double（双线，双线宽度加上它们之间的空白部分的宽度就等于border-width定义的宽度）、 groove（3D沟槽状的边框）、 ridge（3D脊状的边框）、 inset（3D内嵌边框，颜色较深）、 outset（3D外嵌边框，颜色较浅）。（注意：如果系统不支持这些边框的属性值，那么除了none, solid外的其它七个都会被solid代替。）</p>  <p>&#160;&#160;&#160;&#160;&#160; 边框线的颜色：可以用十六进制的颜色代码，如#00ffcc。</p>  <p>&#160;</p>  <ul>   <li><strong>超链接的样式</strong></li> </ul>  <p>这是针对于class=no_change的a标签的样式 注意链接文字的颜色<font color="#ff0000">要用color来定义 不能用font-color</font></p>  <p><font color="#ff0000">（注意！！！）</font><font color="#000000">link visited hover active 这几个的顺序千万不能变 LVHA （有了驴牌的包 就哈哈乐）</font></p>  <blockquote>   <p>a.no_change:link {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:visited {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:hover {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p>    <p>a.no_change:active {     <br />&#160;&#160;&#160; color: #663300;      <br />}</p> </blockquote>  <p>如果不针对某class 通用的设置方法如下</p>  <blockquote>   <p>a:link {     <br />color: #663300;      <br />}</p>    <p>a:visited {     <br />color: #663300;      <br />}</p>    <p>a:hover {     <br />color: #663300;      <br />}</p>    <p>a:active {     <br />color: #663300;      <br />}</p> </blockquote>  <ul>   <li><font style="background-color: #f6f6f6" color="#545454"><strong>文字粗体</strong></font></li> </ul>  <blockquote>   <p>font-weight: bold;</p> </blockquote>  <ul>   <li><font style="background-color: #f6f6f6" color="#545454"><strong>margin 和 padding 和 border</strong></font></li> </ul>  <p><font style="background-color: #f6f6f6" color="#545454"><a href="http://localhost:8080/wp-content/uploads/2013/08/31044cb13c6dc5721dc5401e411.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="3044cb13c6dc5721dc5401e4" border="0" alt="3044cb13c6dc5721dc5401e4" src="http://localhost:8080/wp-content/uploads/2013/08/31044cb13c6dc5721dc5401e41_thumb11.jpg" width="244" height="158" /></a></font></p>
 		</div>
 	</div>
 </div>
@@ -51,53 +51,81 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
 				
 			</ul>
 		</li>

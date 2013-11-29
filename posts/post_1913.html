@@ -1,0 +1,932 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础 - 操作mysql</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础 - 操作mysql
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、如何连接</strong>
+</h5>
+
+<p>
+	<strong>1.mysql_connect函数</strong>
+</p>
+
+<p>
+	resource&nbsp;mysql_connect&nbsp;([&nbsp;string&nbsp;$server&nbsp;[,&nbsp;string&nbsp;$username&nbsp;[,&nbsp;string&nbsp;$password[,&nbsp;bool&nbsp;$new_link&nbsp;[,&nbsp;int&nbsp;$client_flags&nbsp;]]]]] )
+</p>
+
+<p>
+	<a href="docs/php/zh/function.mysql-connect.html">docs/php/zh/function.mysql-connect.html</a>
+</p>
+
+<p>
+	打开或重复使用一个到 MySQL 服务器的连接。
+</p>
+
+<p>
+	返回的是一个资源型的数据
+</p>
+
+<p>
+	<span style="font-size: 13px;">new_link &nbsp;- &nbsp;是否创建新的连接</span>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">出于减少连接的目的 对于同样参数的mysql_connect调用 返回同一个资源</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		$conn1 = mysql_connect(&#39;localhost:3306&#39;, &#39;root&#39;, &#39;root&#39;);
+	</p>
+
+	<p>
+		var_dump($conn1);
+	</p>
+
+	<p>
+		//结果：resource(2) of type (mysql link)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		$conn2 = mysql_connect(&#39;localhost:3306&#39;, &#39;root&#39;, &#39;root&#39;);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		var_dump($conn2);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//结果：</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">resource(2) of type (mysql link) &nbsp;- &nbsp;其实这两个连接 是一个资源</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		$conn3 = mysql_connect(&#39;localhost:3306&#39;, &#39;root&#39;, &#39;root&#39;, true);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		var_dump($conn3);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//结果：</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">resource(3) of type (mysql link) &nbsp;- &nbsp;强制创建新连接</span>
+	</p>
+</blockquote>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	<br />
+	如果提示 undefined function 说明php.ini中没有引入mysql的扩展
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	<span style="color:#0000FF;"><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">php.ini</span></span>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">extendion=php_mysql.dll</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.其他的连接方式</strong>
+</p>
+
+<p>
+	<strong>mysql_connect</strong> &nbsp;- &nbsp;系列函数 是面向过程的写法
+</p>
+
+<p>
+	mysqli &nbsp;- &nbsp;是把连接mysql的功能封装成类 是面向对象的写法
+</p>
+
+<p style="font-size: 13px;">
+	oci &nbsp;- &nbsp;连接oracle
+</p>
+
+<p style="font-size: 13px;">
+	mssql &nbsp;- &nbsp;连接sql server
+</p>
+
+<p>
+	<strong>pdo</strong> &nbsp;- &nbsp;要换数据库了 岂不是程序要重写 pdo是一个统一的数据库接口 对于程序员 屏蔽了数据库间的不一致 pdo也是面向对象的用法
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、资源型变量</strong>
+</h5>
+
+<p>
+	就是一个管道
+</p>
+
+<p>
+	打了一口井 就有了一个通道 就能沿着这个通道吸出水来
+</p>
+
+<p>
+	php和mysql打通了一个通道 沿着这个通道就能读出数据来
+</p>
+
+<p>
+	<strong>Resource 资源类型</strong>
+</p>
+
+<p>
+	资源&nbsp;<a href="http://localhost:8080/docs/php/zh/language.types.resource.html">resource</a>&nbsp;是一种特殊变量，保存了到外部资源的一个引用。资源是通过专门的函数来建立和使用的。所有这些函数及其相应资源类型见<a href="http://localhost:8080/docs/php/zh/resource.html">附录</a>。
+</p>
+
+<p>
+	参见&nbsp;<a href="http://localhost:8080/docs/php/zh/function.get-resource-type.html">get_resource_type()</a>。
+</p>
+
+<div id="language.types.resource.casting">
+	<p>
+		转换为资源
+	</p>
+
+	<p>
+		由于资源类型变量保存有为打开文件、数据库连接、图形画布区域等的特殊句柄，因此将其它类型的值转换为资源没有意义。
+	</p>
+</div>
+
+<div id="language.types.resource.self-destruct">
+	<p>
+		&nbsp;
+	</p>
+</div>
+
+<h5>
+	<strong>三、进行查询</strong>
+</h5>
+
+<p>
+	<strong>1.mysql_query函数</strong>
+</p>
+
+<p>
+	resource&nbsp;mysql_query&nbsp;(&nbsp;string&nbsp;$query&nbsp;[,&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p>
+	<a href="docs/php/zh/function.mysql-query.html">docs/php/zh/function.mysql-query.html</a>
+</p>
+
+<p>
+	如果没有指定&nbsp;link_identifier，则使用上一个打开的连接。如果没有打开的连接，本函数会尝试无参数调用&nbsp;<a href="http://localhost:8080/docs/php/zh/function.mysql-connect.html">mysql_connect()</a>&nbsp;函数来建立一个连接并使用之。查询结果会被缓存。
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>只有在执行查询失败 才返回FALSE</strong></span>&nbsp;非&nbsp;FALSE&nbsp;的返回值意味着查询是合法的并能够被服务器执行。这并不说明任何有关影响到的或返回的行数。 很有可能<span style="color:#FF0000;"><strong>一条查询执行成功了但并未影响到或并未返回任何行</strong></span>。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ok.jpg"><img alt="ok" class="alignnone size-full wp-image-1921" height="13" src="http://localhost:8080/wp-content/uploads/2013/11/ok.jpg" width="249" /></a>
+</p>
+
+<p>
+	<strong>2.增删改</strong>
+</p>
+
+<blockquote>
+	<p>
+		$conn = mysql_connect(&#39;localhost&#39;, &#39;root&#39;, &#39;root&#39;);
+	</p>
+
+	<p>
+		if (! $conn) exit;
+	</p>
+
+	<p>
+		$sql = &#39;use test&#39;;
+	</p>
+
+	<p>
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p>
+		$sql = &#39;set names utf8&#39;;
+	</p>
+
+	<p>
+		mysql_query($sql, $conn);
+	</p>
+
+	<p>
+		$id = rand(1, 100);
+	</p>
+
+	<p>
+		$name = substr(str_shuffle(&#39;abcdefghijklmnopqrstuvwxyz&#39;), 0, 6);
+	</p>
+
+	<p>
+		$sql = &quot;INSERT INTO user VALUES ($id, &#39;$name&#39;)&quot;;
+	</p>
+
+	<p>
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p>
+		var_dump($rs);
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>小心sql注入漏洞</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		$id = $_GET['id'];
+	</p>
+
+	<p>
+		$sql = &#39;DELETE FROM user WHERE id=&#39; . $id;
+	</p>
+
+	<p>
+		mysql_query($sql, $conn);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	如果地址栏传入 ?id=1 or 1
+</p>
+
+<p style="margin-left: 40px;">
+	数据全没
+</p>
+
+<p style="margin-left: 40px;">
+	永远不要信任从客户传来的数据
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>数值型的给 + 0</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">$id = $_GET[&#39;id</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&#39;] + 0;</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>转义掉可能传入的单引号</strong>
+</p>
+
+<blockquote>
+	<p>
+		$name = addslashes($name)
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.查</strong>
+</p>
+
+<p>
+	对于增删改 如果执行成功 返回true 执行失败返回false
+</p>
+
+<p>
+	对于查 执行成功 返回mysql result资源型 失败返回false
+</p>
+
+<blockquote>
+	<p>
+		$sql = &#39;SELECT * FROM user&#39;;
+	</p>
+
+	<p>
+		$rs = mysql_query($sql, $conn);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（1）mysql_fetch_assoc &nbsp;- &nbsp;取一行关联数组&nbsp;并向后移动</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;mysql_fetch_assoc&nbsp;(&nbsp;resource&nbsp;$result&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-fetch-assoc.html">docs/php/zh/function.mysql-fetch-assoc.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	取当前行数据 字段名作为key 值作为value 返回为数组 并且游标都向后移动一行&nbsp;如果没有更多行则返回&nbsp;FALSE。
+</p>
+
+<p class="para rdfs-comment" style="color: rgb(0, 0, 0); font-family: Simsun; font-size: medium; line-height: normal; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/mysql.jpg"><img alt="mysql" class="alignnone size-full wp-image-1914" height="120" src="http://localhost:8080/wp-content/uploads/2013/11/mysql.jpg" width="188" /></a>
+</p>
+
+<blockquote>
+	<p>
+		$sql = &#39;SELECT * FROM user&#39;;<br />
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p>
+		while ($row = mysql_fetch_assoc($rs)) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		print_r($row);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		/*
+	</p>
+
+	<p>
+		Array<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; <strong><span style="color:#FF0000;">[id]</span></strong> =&gt; 41 &nbsp;- &nbsp;关联 数组的key为 字段名<br />
+		&nbsp;&nbsp;&nbsp;<strong><span style="color:#FF0000;"> [name]</span></strong> =&gt; yhnved<br />
+		)<br />
+		Array<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [id] =&gt; 44<br />
+		&nbsp;&nbsp;&nbsp; [name] =&gt; rnoawg<br />
+		)<br />
+		Array<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [id] =&gt; 64<br />
+		&nbsp;&nbsp;&nbsp; [name] =&gt; ihrdkp<br />
+		)<br />
+		Array<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [id] =&gt; 95<br />
+		&nbsp;&nbsp;&nbsp; [name] =&gt; idueyw<br />
+		)
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">*/</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="font-size: 13px;">（2）mysql_fetch_row &nbsp;- &nbsp;取一行索引数组 并向后移动</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;mysql_fetch_row&nbsp;(&nbsp;resource&nbsp;$result&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-fetch-row.html">docs/php/zh/function.mysql-fetch-row.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">取当前行数据&nbsp;值作为value 返回字段从左到右&nbsp;key递增的索引数组&nbsp;并且游标都向后移动一行&nbsp;如果没有更多行则返回&nbsp;FALSE。</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;">Array</span><br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [0] =&gt; 41<br />
+		&nbsp;&nbsp;&nbsp; [1] =&gt; yhnved<br />
+		)
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="font-size: 13px;">（3）mysql_fetch_array &nbsp;- &nbsp;取一行数据 既有索引 也有关联 并向后移动</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;mysql_fetch_row&nbsp;(&nbsp;resource&nbsp;$result&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-fetch-row.html">docs/php/zh/function.mysql-fetch-row.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	取出的结果 既有数字索引 也有字段索引 是前两者的组合
+</p>
+
+<blockquote>
+	<p>
+		Array<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [0] =&gt; 41<br />
+		&nbsp;&nbsp;&nbsp; [id] =&gt; 41<br />
+		&nbsp;&nbsp;&nbsp; [1] =&gt; yhnved<br />
+		&nbsp;&nbsp;&nbsp; [name] =&gt; yhnved<br />
+		)
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="font-size: 13px;">（4）mysql_fetch_object &nbsp;- &nbsp;取一行数据 作为对象 并向后移动</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	object&nbsp;mysql_fetch_object&nbsp;(&nbsp;resource&nbsp;$result&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-fetch-object.html">docs/php/zh/function.mysql-fetch-object.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	返回的是对象
+</p>
+
+<blockquote>
+	<p>
+		stdClass Object<br />
+		(<br />
+		&nbsp;&nbsp;&nbsp; [id] =&gt; 41<br />
+		&nbsp;&nbsp;&nbsp; [name] =&gt; yhnved<br />
+		)
+	</p>
+</blockquote>
+
+<pre style="color: rgb(0, 0, 0); line-height: normal; margin-left: 40px;">
+对象要用 &ldquo;-&gt;&rdquo; 来取值</pre>
+
+<blockquote>
+	<p>
+		$obj = mysql_fetch_object($rs);
+	</p>
+
+	<p>
+		echo $obj-&gt;id,&#39; &#39;,$obj-&gt;name,&#39;&lt;br/&gt;&#39;; &nbsp;//结果：<span style="color: rgb(0, 0, 0); line-height: normal;">41 yhnved</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>我们可以把所有的结果再封装成数组</strong>
+</p>
+
+<blockquote>
+	<p>
+		$list = array();
+	</p>
+
+	<p>
+		while ($row = mysql_fetch_assoc($rs)) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$list[] = $row;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.其他函数</strong>
+</p>
+
+<p>
+	<strong>（1）mysql_affected_rows &nbsp;- &nbsp;返回增删改&nbsp;影响行数</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;mysql_affected_rows&nbsp;([&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-affected-rows.html">docs/php/zh/function.mysql-affected-rows.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	取得最近一次与&nbsp;link_identifier&nbsp;关联的 <strong><span style="color:#FF0000;">INSERT，UPDATE 或 DELETE 查询所影响的记录行数。</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	在执行 INSERT UPDATE DELETE 之后立即调用&nbsp;<span style="color:#FF0000;"><strong>传入 $conn</strong></span> 可获得
+</p>
+
+<p>
+	<strong>（2）mysql_num_rows &nbsp;- &nbsp;返回SELECT语句结果行数</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;mysql_num_rows&nbsp;(&nbsp;resource&nbsp;$result&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-num-rows.html">docs/php/zh/function.mysql-num-rows.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	在执行 SELECT 之后立即调用 <strong><span style="color:#FF0000;">传入 $rs</span></strong>&nbsp;可获得
+</p>
+
+<p>
+	<strong>（3）mysql_select_db &nbsp;- &nbsp;选择数据库</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;mysql_select_db&nbsp;(&nbsp;string&nbsp;$database_name&nbsp;[,&nbsp;resource&nbsp;$ link_identifier&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-select-db.html">docs/php/zh/function.mysql-select-db.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	成功时返回&nbsp;TRUE， 或者在失败时返回&nbsp;FALSE。
+</p>
+
+<p style="margin-left: 40px;">
+	其实就是用mysql_query发送use语句 还不如自己写 调用函数效率比较低
+</p>
+
+<p>
+	<strong>（4）mysql_insert_id &nbsp;- &nbsp;刚才INSERT语句产生的自增长的id</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;mysql_insert_id&nbsp;([&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.mysql-insert-id.html">docs/php/zh/function.mysql-insert-id.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	mysql_insert_id()&nbsp;返回给定的&nbsp;link_identifier&nbsp;中上一步 INSERT 查询中产生的 AUTO_INCREMENT 的 ID 号。如果没有指定&nbsp;link_identifier，则使用上一个打开的连接。
+</p>
+
+<p style="margin-left: 40px;">
+	如果上一查询没有产生 AUTO_INCREMENT 的值，则&nbsp;mysql_insert_id()&nbsp;返回 0。如果需要保存该值以后使用，要确保在产生了值的查询之后立即调用&nbsp;mysql_insert_id()。
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">插入后立即调用 否则会产生意想不到的效果</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">必须是<strong style="font-size: 13px;">AUTO_INCREMENT的才行 其他的都不行</strong></span></strong>
+</p>
+
+<h5>
+	<strong>四、调错</strong>
+</h5>
+
+<p>
+	<strong>1.mysql_errno &nbsp;- &nbsp;错误号</strong>
+</p>
+
+<p>
+	int&nbsp;mysql_errno&nbsp;([&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p>
+	<a href="docs/php/zh/function.mysql-errno.html">docs/php/zh/function.mysql-errno.html</a>
+</p>
+
+<p>
+	返回上一个 MySQL 函数的错误号码，如果没有出错则返回&nbsp;0（零）。
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>从 MySQL 数据库后端来的错误不再发出警告</strong></span>，要用&nbsp;mysql_errno()&nbsp;来提取错误代码。注意本函数仅返回<strong><span style="color:#FF0000;">最近一次</span></strong> MySQL 函数的执行（不包括&nbsp;<a href="http://localhost:8080/docs/php/zh/function.mysql-error.html">mysql_error()</a>&nbsp;和mysql_errno()）的错误代码，因此如果要使用此函数，确保在调用另一个 MySQL 函数之前检查它的值。
+</p>
+
+<p>
+	<strong>2.mysql_error &nbsp;- &nbsp;错误信息</strong>
+</p>
+
+<p>
+	string&nbsp;mysql_error&nbsp;([&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p>
+	<a href="docs/php/zh/function.mysql-error.html">docs/php/zh/function.mysql-error.html</a>
+</p>
+
+<p>
+	返回上一个 MySQL 函数的错误文本，如果没有出错则返回&nbsp;&#39;&#39;（空字符串）。如果没有指定连接资源号，则使用上一个成功打开的连接从 MySQL 服务器提取错误信息。
+</p>
+
+<p>
+	从 MySQL 数据库后端来的错误不再发出警告，要用&nbsp;mysql_error()&nbsp;来提取错误文本。注意本函数仅返回最近一次 MySQL 函数的执行（不包括&nbsp;mysql_error()&nbsp;和<a href="http://localhost:8080/docs/php/zh/function.mysql-errno.html">mysql_errno()</a>）的错误文本，因此如果要使用此函数，确保在调用另一个 MySQL 函数之前检查它的值。
+</p>
+
+<p>
+	<strong>3.mysql_close &nbsp;- &nbsp;释放连接资源</strong>
+</p>
+
+<p>
+	bool&nbsp;mysql_close&nbsp;([&nbsp;resource&nbsp;$link_identifier&nbsp;] )
+</p>
+
+<p>
+	<a href="docs/php/zh/function.mysql-close.html">docs/php/zh/function.mysql-close.html</a>
+</p>
+
+<p>
+	mysql_close()&nbsp;关闭指定的连接标识所关联的到 MySQL 服务器的非持久连接。如果没有指定&nbsp;link_identifier，则关闭上一个打开的连接。
+</p>
+
+<p>
+	<strike>通常不需要使用&nbsp;mysql_close()，因为已打开的非持久连接会在脚本执行完毕后自动关闭。参见<a href="http://localhost:8080/docs/php/zh/language.types.resource.html#language.types.resource.self-destruct">释放资源</a>。</strike>
+</p>
+
+<div id="language.types.resource.self-destruct" style="font-size: 13px;">
+	<p>
+		<strong>释放资源</strong>
+	</p>
+
+	<p>
+		由于 PHP 4 Zend 引擎引进了引用计数系统，可以自动检测到一个资源不再被引用了（和 Java 一样）。这种情况下此资源使用的所有外部资源都会被垃圾回收系统释放。<strike>因此，很少需要手工释放内存。</strike>
+	</p>
+
+	<blockquote>
+		<p>
+			Note:&nbsp;持久数据库连接比较特殊，它们不会被垃圾回收系统销毁。参见<a href="http://localhost:8080/docs/php/zh/features.persistent-connections.html">数据库永久连接</a>一章。
+		</p>
+
+		<div>
+			&nbsp;
+		</div>
+	</blockquote>
+</div>
+
+<p>
+	<strong><span style="color:#FF0000;">（注意！！！）需要手动释放资源</span></strong>&nbsp;对于小网站 不关闭没有太大关系 因为它会在php脚本解释之后自动释放一切资源 但是 对于大型网站 这样就不是很好了 比如说处理一个业务需要1s 这1s可能发生很多次新的连接请求 就有可能受到影响 所以对于大型网站 我们需要尽早的释放资源
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、方法封装</strong>
+</h5>
+
+<blockquote>
+	<p>
+		$conn = mysql_connect(&#39;localhost&#39;, &#39;root&#39;, &#39;root&#39;);
+	</p>
+
+	<p>
+		$conn or exit(&#39;数据库连接失败...&#39;);
+	</p>
+
+	<p>
+		/* 返回所有 二维数组 */
+	</p>
+
+	<p>
+		function get_all($sql, $conn) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p style="margin-left: 40px;">
+		$rs or return false;
+	</p>
+
+	<p style="margin-left: 40px;">
+		$res = array();
+	</p>
+
+	<p style="margin-left: 40px;">
+		while ($row = mysql_fetch_assoc($rs)) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		$res[] = $row;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		return $res;
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		/* 返回单行 一维数组 */
+	</p>
+
+	<p>
+		function get_row($sql, $conn) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		<span style="font-size: 13px;">return mysql_fetch_assoc($rs);</span>
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		/* 返回单个值 */
+	</p>
+
+	<p>
+		function get_one($sql, $conn) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$rs = mysql_query($sql, $conn);
+	</p>
+
+	<p style="margin-left: 40px;">
+		$row = mysql_fetch_row($rs);
+	</p>
+
+	<p style="margin-left: 40px;">
+		return $row[0];
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<h5>
+	<strong>六、面向对象封装</strong>
+</h5>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

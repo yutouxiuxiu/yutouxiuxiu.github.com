@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>jBPM - 流程实例管理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					jBPM - 流程实例管理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">流程实例管理 使用 ExecutionService</span>
+</p>
+
+<h5>
+	<strong>一、启动流程实例</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	对于采购流程
+</p>
+
+<p style="font-size: 13px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/caigou.jpg" rel="" target="" title=""><img alt="caigou" class="alignnone size-full wp-image-1779" height="203" src="http://localhost:8080/wp-content/uploads/2013/11/caigou.jpg" title="" width="164" /></a>
+</p>
+
+<p>
+	<strong>1.启动实例</strong>
+</p>
+
+<blockquote>
+	<p>
+		@Test
+	</p>
+
+	<p>
+		public void qidong() {
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		//流程实例管理 使用 ExecutionService
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">ExecutionService executionService&nbsp;</span><span style="margin: 0px; padding: 0px;">=&nbsp;processEngine.get</span><span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">ExecutionService</span><span style="margin: 0px; padding: 0px;">();</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		&nbsp;
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		//<strong>根据pdid启动</strong>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">e</span><span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">xecutionService.startProcessInstanceById(&quot;caigou-1&quot;);</span>
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		&nbsp;
+	</p>
+
+	<p style="margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">//<strong>根据pdkey启动 如果有相同key&nbsp;启动最新版本流程的实例</strong></span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">e</span><span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px;">xecutionService.startProcessInstanceByKey(&quot;caigou&quot;);</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.启动实例之后数据表的变化</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm4_execution</span> 正在运行的流程实例表
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/e1.jpg" rel="" style="" target="" title=""><img alt="e1" class="alignnone size-full wp-image-1772" height="25" src="http://localhost:8080/wp-content/uploads/2013/11/e1.jpg" style="" title="" width="762" /></a>
+</p>
+
+<p>
+	每启动一个实例 当这个实例正在运行中 就对应execution表的一行数据
+</p>
+
+<p>
+	pid 流程实例id 对应表中的ID属性
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/e2.jpg"><img alt="e2" class="alignnone size-full wp-image-1773" height="62" src="http://localhost:8080/wp-content/uploads/2013/11/e2.jpg" width="103" /></a>
+</p>
+
+<p>
+	如果实例结束了 就被从这个表中移除了
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm4_hist_procinst</span> 流程实例历史记录表
+</p>
+
+<p>
+	启动实例的同时 会在这里也插入一条记录
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm4_task</span> 正在运行的任务表
+</p>
+
+<p>
+	流程已启动 就马上进入了第一个任务节点 流程实例启动 就会把第一个任务创建在这里
+</p>
+
+<p>
+	如果第一个活动节点 不是任务 就只会在活动节点表中创建记录 不会在任务表中创建记录
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/111111111111.jpg"><img alt="111111111111" class="alignnone size-full wp-image-1774" height="49" src="http://localhost:8080/wp-content/uploads/2013/11/111111111111.jpg" width="382" /></a>
+</p>
+
+<p>
+	任务执行完毕就会被删除
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm4_hist_task</span> 任务历史记录表
+</p>
+
+<p>
+	和流程实例历史表类似 这个是存历史任务的
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/222222222222222222222.jpg"><img alt="222222222222222222222" class="alignnone size-full wp-image-1775" height="43" src="http://localhost:8080/wp-content/uploads/2013/11/222222222222222222222.jpg" width="482" /></a>
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm4_hist_actinst</span> 活动历史记录表
+</p>
+
+<p>
+	jBPM流程中有多重活动节点 任务是活动的一种&nbsp;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/3333333333333333333333333333.jpg" rel="" style="" target="" title=""><img alt="3333333333333333333333333333" class="alignnone size-full wp-image-1776" height="30" src="http://localhost:8080/wp-content/uploads/2013/11/3333333333333333333333333333.jpg" style="" title="" width="742" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.控制流程实例向后流转</strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@Test
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public void liuzhuan() {
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		//流程实例管理 使用 ExecutionService
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		ExecutionService executionService&nbsp;<span style="margin: 0px; padding: 0px;">=&nbsp;processEngine.get</span>ExecutionService<span style="margin: 0px; padding: 0px;">();</span>
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		<span style="margin: 0px; padding: 0px;">//流程实例的ID</span>
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		<span style="margin: 0px; padding: 0px;">//流转的name属性（xml文件的transition标签的name属性 如果没有name属性 才不用指定）</span>
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		<a href="http://localhost:8080/wp-content/uploads/2013/11/xml1.jpg" rel="" style="" target="" title=""><img alt="xml" class="alignnone size-full wp-image-1781" height="145" src="http://localhost:8080/wp-content/uploads/2013/11/xml1.jpg" style="" title="" width="371" /></a>
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		<span style="margin: 0px; padding: 0px;">signalExecutionById(&quot;caigou.3001&quot;, &quot;to 总经理审批&quot;);</span>
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; font-style: italic; line-height: 20px;">//signalExecutionById(&quot;caigou.3001&quot;</span><span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; font-style: italic; line-height: 20px;">, &quot;to end1&quot;);</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.中止流程</strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@Test
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public void liuzhuan() {
+	</p>
+
+	<p style="font-size: 13px; font-style: italic; margin: 0px 0px 10px 40px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; line-height: 20px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="margin-left: 40px;">
+		processEngine.getExecutionService().endProcessInstance(&quot;caigou.40001&quot;, ProcessInstance.STATE_ENDED);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/END.jpg"><img alt="END" class="alignnone size-full wp-image-1782" height="46" src="http://localhost:8080/wp-content/uploads/2013/11/END.jpg" width="716" /></a>
+</p>
+
+<p>
+	可以从该属性看出 这个流程实例是在半路上结束的
+</p>
+
+<p>
+	<strong>5.查询所有正在运行的流程实例</strong>
+</p>
+
+<blockquote>
+	<p>
+		createProcessInstanceQuery().list();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

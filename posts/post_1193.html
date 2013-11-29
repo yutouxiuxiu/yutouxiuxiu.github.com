@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Javascript基础</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Javascript基础
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、函数</font></h5>  <p><strong>1.定义函数的三种方式</strong></p>  <p><strong>（1）普通方式</strong></p>  <blockquote>   <p>function 方法名(参数名[, 参数名]) {</p>    <p>&#160;&#160;&#160; 方法体</p>    <p>}</p> </blockquote>  <p><strong>（2）构造函数方式</strong></p>  <blockquote>   <p>var 变量名 = new <font color="#ff0000"><strong>F</strong></font>unction(‘a’, ’b’, r)</p> </blockquote>  <p>js中有Function对象</p>  <p>ECMAScript</p>  <p><strong>（3）直接量方式</strong></p>  <blockquote>   <p>var 变量名 = function(参数…) {</p>    <p>&#160;&#160;&#160; 方法体</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>eg.</p>  <blockquote>   <p>getElementById(”“).onclick = function() {};</p> </blockquote>  <p>&#160;</p>  <p><strong>this</strong></p>  <p>建议不会的情况下不用 因为经常用错</p>  <p>this需要明确指代页面元素</p>  <p>&#160;</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、BOM</font></h5>  <p><strong>1.window对象</strong></p>  <p><u>window对象下的所有对象 都是以属性存在的</u></p>  <p>navigator对象也在window对象的属性中</p>  <p>所以说window对象是浏览器最顶层对象</p>  <p><u>调用window对象的属性和方法时 可以省略“window.”</u></p>  <ul>   <li><strong>方法</strong> </li> </ul>  <p><strong>提示框</strong></p>  <blockquote>   <p>alert(”“);</p> </blockquote>  <p><strong>确认框</strong></p>  <blockquote>   <p>var flag = confirm(”你确认要…？“);</p> </blockquote>  <p>确认&#160; -&#160; true</p>  <p>取消&#160; -&#160; false</p>  <p><strong>标准输入框&#160; -&#160; 基本不用</strong></p>  <blockquote>   <p>var content = prompt(”请输入…“, “框中默认值”);</p> </blockquote>  <blockquote>   <p>脚本提示：</p>    <p>请输入…</p>    <p>[框中默认值]</p> </blockquote>  <p><strong></strong></p>  <p><strong>打开新窗口</strong></p>  <blockquote>   <p>open(sUrl, sName, sFeatures, bReplace);</p> </blockquote>  <p>&#160;&#160;&#160; sName 打开目标</p>  <blockquote>   <p>_blank&#160; -&#160; 新窗口中打开</p>    <p>_parent&#160; -&#160; 当前框架的父框架中打开（无框架时=_self）</p>    <p>_self&#160; -&#160; 在当前窗口打开</p>    <p>_top&#160; -&#160; 在最顶层框架中打开（无框架时=_self）</p> </blockquote>  <p>&#160;&#160;&#160; sFeatures 窗口样式</p>  <blockquote>   <p>height=,width=,status=状态栏（yes/no）,toolbar=工具类,menu=菜单栏,location=地址栏</p> </blockquote>  <p>&#160;&#160;&#160; bReplace 替换</p>  <blockquote>   <p>false&#160; -&#160; 历史记录中的当前文档被覆盖掉了 无法后退回刚才的</p>    <p>true&#160; -&#160; 添加历史记录 可以后退回去（默认，多用）</p> </blockquote>  <p>&#160;&#160;&#160; 案例 弹出窗口选择</p>  <p>&#160;</p>  <p><strong>跨窗口操作页面内容</strong></p>  <p>因为window.document的window对象是自己窗口的window对象</p>  <p>在b页面中能获取a页面中的window对象就行了</p>  <p>&#160;&#160;&#160; a</p>  <blockquote>   <p>打开b窗口</p> </blockquote>  <p>&#160;&#160;&#160; b</p>  <blockquote>   <p>window.opener;&#160;&#160; //这就获取到了a的window对象</p> </blockquote>  <p>&#160;</p>  <p><strong>用对话框方式打开</strong></p>  <p><strong><font color="#ff0000">打开对话框时 原来的窗口会被禁用 无法操作</font></strong></p>  <blockquote>   <p>showModelDialog(sURL, vArguments, sFeatures);</p> </blockquote>  <p>&#160;&#160;&#160; vArguments 请求参数</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 可以进行传参 比如说window对象 可以传任意类型 数组 函数都行</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 其实window对象里就有里面的函数</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 为什么不能用opener属性 它只能接收弹出它</p>  <p>&#160;&#160;&#160; sFeatures 样式</p>  <blockquote>   <p>resizeable,dialogHeight=px,dialogWidth=px</p> </blockquote>  <p>&#160;</p>  <p>&#160;&#160;&#160; 新窗口中如何接收请求参数</p>  <blockquote>   <p><font style="background-color: #ffffff" color="#373933">window.dialogArguments;&#160;&#160; //传的是什么 收的就直接是什么</font></p> </blockquote>  <p><strong>&#160;&#160;&#160; 还想让原来的窗口能操作怎么弄</strong></p>  <blockquote>   <p>showLessModelDialog(sURL, vArguments, sFeatures);</p> </blockquote>  <p>&#160;</p>  <p><strong>关闭窗口</strong></p>  <blockquote>   <p>close();</p> </blockquote>  <p>&#160;</p>  <p>延时调用</p>  <p>setTimeout();</p>  <p>&#160;</p>  <p>clearTimeout();</p>  <p>按照周期调用</p>  <p>setInterval();</p>  <p>&#160;</p>  <p>clearInterval();</p>  <p>&#160;</p>  <p><strong>2.history对象</strong></p>  <p><strong>后退</strong></p>  <p>back</p>  <p><strong>前进</strong></p>  <p>forward</p>  <p><strong>跳到指定页面</strong></p>  <p>go</p>  <p>&#160;</p>  <p><strong>3.form对象</strong></p>  <p><strong>获取到所有form</strong></p>  <p>document.forms</p>  <p><strong>获取单个form</strong></p>  <p>document.forms[0]</p>  <p>document.表单的name</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、DOM</font></h5>  <p><strong>1.节点</strong></p>  <p>元素节点</p>  <p>属性节点</p>  <p>文本节点</p>  <p><strong>2.节点间关系</strong></p>  <p>父节点、子节点（<font color="#ff0000"><strong>属性节点不是子节点</strong></font>）</p>  <p>祖先节点、后代节点</p>  <p>兄弟节点</p>  <p><strong>3.如何解析</strong></p>  <p><strong>（1）document对象</strong></p>  <p>node对象解析时比较麻烦时用element对象</p>  <p><strong>根节点的快捷方式</strong></p>  <blockquote>   <p>document.documentElement</p> </blockquote>  <p><strong>查找页面标签</strong></p>  <p><strong>&#160;&#160;&#160; ①获取指定id的标签</strong></p>  <blockquote>   <p>document.getElementById(“”)</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; eg. 获取id=”username1”标签的value属性值</p>  <blockquote>   <p>var username = document.getElementById(“username1”).value;</p> </blockquote>  <p><strong>&#160;&#160;&#160; ②获取指定name的标签</strong></p>  <blockquote>   <p>var usernames = document.getElement<font color="#ff0000"><strong>s</strong></font>ByName(“”);</p> </blockquote>  <p>&#160;&#160;&#160; ③<strong>获取指定标签</strong></p>  <blockquote>   <p>document.getElement<font color="#ff0000"><strong>s</strong></font>ByTagName(“”);</p> </blockquote>  <p><strong>创建页面标签</strong></p>  <p>&#160;&#160;&#160; <strong>①创建元素</strong></p>  <blockquote>   <p>document.createElement(“标签名”);</p> </blockquote>  <p>&#160;&#160;&#160; <strong>②创建文本</strong></p>  <blockquote>   <p>document.createTextNode(“文本内容”);</p> </blockquote>  <p>&#160;&#160;&#160; <strong>③添加子节点</strong></p>  <blockquote>   <p>父节点.appendChild(子节点);</p> </blockquote>  <p>&#160;&#160;&#160; <strong>④设置属性</strong></p>  <blockquote>   <p>setAtrribute(“属性名”, “属性值”);</p> </blockquote>  <p>&#160;&#160;&#160; eg.</p>  <blockquote>   <p>&lt;ul id=”city”&gt;</p>    <p>&#160;&#160;&#160; &lt;li id=”bj” name=”beijing”&gt;北京&lt;/li&gt;</p>    <p>&lt;/ul&gt;</p> </blockquote>  <p>&#160;&#160;&#160; 创建&lt;li id=”sh” name=”shanghai”&gt;上海&lt;/li&gt;放在id=”city“下</p>  <blockquote>   <p>//创建&lt;li&gt;</p>    <p>var liElement = document.createElement(“li”);</p>    <p>//创建文本节点</p>    <p>var text = document.createTextNode(“上海”);</p>    <p>//添加文本节点（使用element对象下的方法 用document的太麻烦）</p>    <p>liElement.appendChild(text);</p>    <p>liElement.setAtrribute(“id”, “sh”);</p>    <p>liElement.setAttribute(“name”, “shanghai”);</p>    <p>//获取id=”city”标签</p>    <p>var city = document.getElementById(“city”);</p>    <p>city.appendChild(liElement);</p> </blockquote>  <p><strong>（2）element对象</strong></p>  <p><strong>获取属性值</strong></p>  <blockquote>   <p>标签.getAtribute(“属性名”)</p> </blockquote>  <p>&#160;&#160; 有两种方式</p>  <blockquote>   <p>标签.属性名&#160; -&#160; 有些游览器不支持</p>    <p>标签.getAttribute&#160; -&#160; 几乎所有浏览器都支持</p> </blockquote>  <p>&#160;&#160;&#160; eg.</p>  <blockquote>   <p>var username = document.getElementById(“username”);</p>    <p>//username.name;</p>    <p>username.getAtribute(“name”);</p> </blockquote>  <p><strong>设置属性值</strong></p>  <blockquote>   <p>标签.setAttribute(“属性名”, “属性值”);</p> </blockquote>  <p><strong>删除属性</strong></p>  <blockquote>   <p>标签.removeAttribute(”标签名“);</p> </blockquote>  <p>&#160;</p>  <p><strong>在标签中查找标签</strong></p>  <p><font color="#ff0000">只有一个方法有效</font></p>  <blockquote>   <p>getElementsByTagName();</p> </blockquote>  <p>&#160;</p>  <p>&#160;&#160;&#160; eg.无效的示例</p>  <blockquote>   <p>&lt;ul id=”city”&gt;</p>    <p>&#160;&#160;&#160; &lt;li id=”bj” name=”beijing”&gt;北京&lt;/li&gt;</p>    <p>&#160;&#160;&#160; &lt;li id=”tj” name=”tianjin”&gt;天津&lt;/li&gt;</p>    <p>&#160;&#160;&#160; &lt;li id=”nj” name=”nanjing”&gt;南京&lt;/li&gt;</p>    <p>&lt;/ul&gt;</p> </blockquote>  <p>&#160;&#160;&#160; 获取id=”city”标签的所有子节点</p>  <blockquote>   <p>var cityElement = document.getElementById(“city”);</p>    <p>var children = cityElement.childNodes;</p>    <p>alert(children.length);</p> </blockquote>  <p>&#160;&#160;&#160; 结果是7！（IE6/7结果是3）</p>  <p>&#160;&#160;&#160; js中 语法、逻辑正确 <font color="#ff0000"><strong>结果不一定正确</strong></font></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ∵ 浏览器解析不同</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 因为有回车符 有的浏览器也算在内了</p>  <p><strong><font color="#ff0000">&#160;&#160;&#160;&#160;&#160;&#160;&#160; （注意！！！）语法、逻辑、浏览器解析（结果）</font></strong></p>  <p>&#160;</p>  <p><strong>（3）node对象</strong></p>  <p><strong>节点名称、值、类型</strong></p>  <p>&#160;&#160;&#160; <strong>nodeName</strong></p>  <blockquote>   <p>元素节点：元素名</p>    <p>属性节点：属性名</p>    <p>文本节点：#text （是这个固定的值）</p> </blockquote>  <p>&#160;&#160;&#160; <strong>nodeType</strong></p>  <blockquote>   <p>元素节点：1</p>    <p>属性节点：2</p>    <p>文本节点：3</p> </blockquote>  <p>&#160;&#160;&#160; <strong>nodeValue</strong></p>  <blockquote>   <p>元素节点：null</p>    <p>属性节点：属性值</p>    <p>文本节点：文本内容</p> </blockquote>  <p>&#160;&#160;&#160; eg.</p>  <blockquote>   <p>&lt;input type=”text” id=”username” value=”username”&gt;</p>    <p>&lt;p&gt;芋头&lt;/p&gt;</p> </blockquote>  <blockquote>   <p>var username = document.getElementById(“username”);</p>    <p>username.nodeName</p>    <p>username.nodeType</p>    <p>username.nodeValue</p>    <p>var idAttr = username.getAttributeNode(“id”);</p>    <p>idAttr.nodeName</p>    <p>idAttr.nodeType</p>    <p>idAttr.nodeValue</p>    <p>var pElement = document.getElementsByTagName(“p”)[0]</p>    <p>var text = pElement.childNodes[0];</p>    <p>text.nodeName</p>    <p>text.nodeType</p>    <p>text.nodeValue</p> </blockquote>  <p><strong>&#160;&#160;&#160; 作用</strong></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 用nodeType来判断获取当前的节点是什么节点</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 可以获取文本节点的文本</p>  <p><strong>父节点、子节点、兄弟节点</strong></p>  <p><strong>&#160;&#160;&#160; 获取子节点</strong></p>  <blockquote>   <p>节点.childNodes[n];</p>    <p>节点.firstChild;</p>    <p>节点.lastChild;</p> </blockquote>  <p>&#160;&#160;&#160; eg.</p>  <blockquote>   <p>var pElement = document.getElementByTagName(“p”)[0];</p>    <p>pElement.childNodes[0];</p>    <p>pElement.firstChild.nodeValue;</p>    <p>pElement.lastChild.nodeValue;</p> </blockquote>  <p><strong>&#160;&#160;&#160; 获取父节点</strong></p>  <blockquote>   <p>节点.parentNode;&#160; -&#160; 兼容所有浏览器</p>    <p>不用 节点.parentElement;&#160; -&#160; 只有IE支持 新版火狐支持</p> </blockquote>  <p>&#160;&#160;&#160; <strong>获取兄弟节点</strong></p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 上一个兄弟节点</p>  <blockquote>   <p>节点.previousSibling;</p>    <p>节点.previousSibling.previousSibling;&#160;&#160;&#160; //因为回车符也算成节点了 所以要两次才行</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 下一个兄弟节点</p>  <blockquote>   <p>节点.nextSibling;</p>    <p>节点.nextSibling.nextSibling;</p> </blockquote>  <p><strong>节点属性</strong></p>  <p>&#160;&#160;&#160; attributes</p>  <blockquote>   <p>节点.attributes.getNameItem()</p> </blockquote>  <p>&#160;&#160;&#160; 这个麻烦 一般用不上</p>  <p><strong>检测子节点和属性</strong></p>  <p>&#160;&#160;&#160; <strong>判断标签里有没有子节点</strong> </p>  <blockquote>   <p>节点.hasChildNodes();</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 有&#160; -&#160; true</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 无&#160; -&#160; false</p>  <p>&#160;&#160;&#160; <strong>判断有没有属性</strong></p>  <blockquote>   <p>节点.hasAttributes();&#160; -&#160; IE低版本不支持</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 有 - true</p>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 无 - false</p>  <p><strong>操作DOM节点树</strong></p>  <p><strong>&#160;&#160;&#160; 插入节点</strong></p>  <blockquote>   <p>父节点.appendChild(新节点);&#160;&#160;&#160; //插入到最后</p>    <p>父节点.insertBefore(新节点, 指定节点);&#160;&#160;&#160; //插入到指定节点之前</p>    <p>没有提供insertAfter方法</p> </blockquote>  <p>&#160;&#160;&#160; <strong>删除节点</strong></p>  <blockquote>   <p>要删除的节点 = 先获取;</p>    <p>父节点.removeChild(要删除的节点);</p> </blockquote>  <p>&#160;&#160;&#160; <strong>替换节点</strong></p>  <blockquote>   <p>父节点.replaceChild(新节点, 以前节点);</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <font color="#ff0000"><strong>如果新节点是其他之前已存在的节点 会消失</strong></font></p>  <p><strong>&#160;&#160;&#160; 复制节点</strong></p>  <blockquote>   <p>cloneNode(是否复制后代节点);</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; eg.</p>  <blockquote>   <p>&lt;button id=”login”&gt;登录&lt;/button&gt;</p>    <p>&lt;p&gt;芋头&lt;/p&gt;</p> </blockquote>  <blockquote>   <p>var button = document.getElementById(“login”);</p>    <p>var p = document.getElementByTageName(“p”)[0];</p>    <p>//var copy = button.cloneNode();</p>    <p>var copy = button.cloneNode(true);</p>    <p>p.appendChild(copy);</p> </blockquote>  <p><strong>innerHTML属性</strong></p>  <p>用来读写某元素中的HTML代码内容</p>  <p>不属于DOM的部分</p>  <p>所有浏览器都支持</p>  <blockquote>   <p>元素.innerHTML = “”;</p> </blockquote>  <p>&#160;&#160;&#160; <strong>多与div和span配合使用</strong></p>  <blockquote>   <p>web1.0 垂直门户网站</p>    <p>&#160;&#160;&#160; 以内容为主</p>    <p>&#160;&#160;&#160; 你需要你就去看 不需要就不看 网站不会预测出什么人在什么时候看什么</p>    <p>web2.0 社交网站</p>    <p>&#160;&#160;&#160; 以人的关系为主</p>    <p>&#160;&#160;&#160; 你看什么比人可以知道 比人也看</p>    <p>&#160;&#160;&#160; 就总用div + css 所以总用innerHTML</p> </blockquote>  <p>&#160;&#160;&#160; <strong>效率高</strong></p>  <p>&#160;&#160;&#160; 一句话搞定</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、DOM操作XML</font></h5>  <p>&#160;</p>  <p><strong>案例、省份城市的二级联动选择</strong></p>  <p><strong>（三级联动 就是两个二级联动拼起来）</strong></p>  <p><strong>&#160;&#160;&#160; XML</strong></p>  <blockquote>   <p>&lt;china&gt;</p>    <p>&#160;&#160;&#160; &lt;province name=”辽宁”&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;city&gt;沈阳&lt;/city&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;city&gt;大连&lt;/city&gt;</p>    <p>&#160;&#160;&#160; &lt;/province&gt;</p>    <p>&lt;china&gt;</p> </blockquote>  <p>&#160;&#160; <strong> HTML</strong></p>  <blockquote>   <p>&lt;select id=”province”&gt;</p>    <p>&#160;&#160;&#160; &lt;option value=””&gt;请选择&lt;/option&gt;</p>    <p>&#160;&#160;&#160; &lt;option value=”ln”&gt;辽宁&lt;/option&gt;</p>    <p>&lt;/select&gt;</p>    <p>&lt;select id=”city”&gt;</p>    <p>&#160;&#160;&#160; &lt;option value=””&gt;请选择&lt;/option&gt;</p>    <p>&lt;/select&gt;</p> </blockquote>  <p><strong>&#160;&#160;&#160; JavaScript</strong></p>  <blockquote>   <p>document.getElementById(“province”).onchange = function() {</p>    <p>&#160;&#160;&#160; //清除以前的</p>    <p><strong><font color="#ff0000">&#160;&#160;&#160; （注意！！！）</font></strong>如果是遍历删除的话 注意删除过程中 它的数量就变化了 如果i &lt; 长度 会出问题</p>    <p>&#160;&#160;&#160; 它是栈的结构</p>    <p>&#160;&#160;&#160; 可以倒叙删除</p>    <p>&#160;&#160;&#160; //获取选择的省份</p>    <p>&#160;&#160;&#160; var provinceValue = document.getElementById(“province”).value;&#160;&#160;&#160; <font color="#ff0000">//select标签 可以通过它的value属性值 直接获取选中的选项</font></p>    <p>&#160;&#160;&#160; //创建XML解析器</p>    <p>&#160;&#160;&#160; var xmlDocument = parseXml(“citys.xml”)</p>    <p>&#160;&#160;&#160; <font color="#ff0000">//利用DOM解析XML时 只有getElementByTagName()方法有效</font></p>    <p>&#160;&#160;&#160; //获取所有province标签</p>    <p>&#160;&#160;&#160; var provinces = xmlDocument.getElementsByTagName(“province”);</p>    <p>&#160;&#160;&#160; //遍历</p>    <p>&#160;&#160;&#160; for (var i = 0; i &lt; provinces.length; i++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; var province = provinces[i];</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //获取name属性</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; provinceName = province.getAttribute(“name”);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //判断选择的省份和XML中的省份相同</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; if (provinceValue == provinceName ) { </p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //获取所有city标签</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; var citys = province.getElementsByTagName(“city”);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //遍历</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; for (var j = 0; j &lt; citys.length; j++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; var city = citys[j];</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //获取所有city名字</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; var cityName = city.firstChild.nodeValue;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //将城市信息添加到页面的第二个下拉列表中</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; var option = document.createElement(“option”);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; option.setAttribute(“value”, cityName);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; var text = document.createTextNode(cityname);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; option.appendChild(text);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; document.getElementById(“city”).appendChild(option);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p>    <p>function parseXML(file) {</p>    <p>&#160;&#160;&#160; //不同浏览器创建解析器不一样</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <p><strong>案例、全选</strong></p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Spring的AOP</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Spring的AOP
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、引出</strong>
+</h5>
+
+<p>
+	jdkproxy的缺陷在于 在实际开发中&nbsp;方法会特别多 比如有800个方法 有80%的方法需要开启事务 有20%不需要 在invoke方法中进行判断 将是个极其繁琐的事情
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">SpringAOP解决了这个问题</span><span style="line-height: 1.6em;">&nbsp;</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、SpringAOP体验</strong>
+</h5>
+
+<p>
+	<strong>1.导包 aspect</strong>
+</p>
+
+<p>
+	<strong>2.Spring配置文件</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="color:#A9A9A9;">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;<br />
+		&nbsp;&nbsp; &nbsp;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&nbsp;</span><br />
+		&nbsp;&nbsp; &nbsp;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;<br />
+		<span style="color:#A9A9A9;">&nbsp;&nbsp; &nbsp;xsi:schemaLocation=&quot;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;http://www.springframework.org/schema/beans&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</span><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;http://www.springframework.org/schema/aop&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;http://www.springframework.org/schema/aop/spring-aop-2.5.xsd&quot;&gt;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		&lt;!-- 目标类 --&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;personDao&quot; class=&quot;....PersonDao&quot;&gt;&lt;/bean&gt;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;!-- 切面 --&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;bean id=&quot;transaction&quot; class=&quot;....Transaction&quot;&gt;&lt;/bean&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;!-- 配置AOP --&gt;</span>
+	</p>
+
+	<p>
+		&lt;aop:config&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 切入点
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">expression &nbsp;- &nbsp;切入点</span>表达式
+	</p>
+
+	<p style="margin-left: 80px;">
+		id &nbsp;- &nbsp;切入点表达式名字
+	</p>
+
+	<p style="margin-left: 40px;">
+		--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:pointcut expression=&quot;&quot; id=&quot;&quot;&gt;&lt;/<span style="font-size: 13px;">aop:pointcut&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;!-- 切面 </span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">ref &nbsp;- &nbsp;引入切面</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">--&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;aop:aspect ref=&quot;transaction&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;!-- 前置、后置通知&nbsp;
+	</p>
+
+	<p style="margin-left: 120px;">
+		在目标方法执行前后的通知
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">method &nbsp;- &nbsp;</span>方法名
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">pointcut-ref &nbsp;- &nbsp;引用切面的id</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		--&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;aop:before method=&quot;beginTransaction&quot; pointcut-ref=&quot;&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;aop:<strong><span style="color:#FF0000;">after-returning</span></strong>&nbsp;method=&quot;commit&quot; pointcut-ref=&quot;&quot;&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/<span style="font-size: 13px;">aop:aspect&gt;</span>
+	</p>
+
+	<p>
+		&lt;/<span style="font-size: 13px;">aop:config&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>切入点表达式</strong>
+</p>
+
+<p>
+	目的：确定目标类 用切入点表达式进行匹配
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/method.jpg"><img alt="method" class="alignnone size-full wp-image-1453" height="130" src="http://localhost:8080/wp-content/uploads/2013/10/method.jpg" width="824" /></a>
+</p>
+
+<p>
+	? &nbsp;- &nbsp;可有可无
+</p>
+
+<p>
+	* &nbsp;- &nbsp;任意
+</p>
+
+<p>
+	.. &nbsp;- &nbsp;任意参数
+</p>
+
+<p>
+	<strong>栗子</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	1.execution (public * * (..)) &nbsp;- &nbsp;任意的public方法
+</p>
+
+<p style="margin-left: 40px;">
+	2.execution (* set* (..)) &nbsp;- &nbsp;任意的set方法
+</p>
+
+<p style="margin-left: 40px;">
+	3.execution (* com.yutouxiuxiu.erotic.service.UserService.* (..)) &nbsp;- &nbsp;<span style="font-size: 13px;">UserService中的所有方法</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">4.execution&nbsp;(* com.yutouxiuxiu.*.service.*.* (..)) &nbsp;- &nbsp;service包中所有类的所有方法</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">5.execution (*&nbsp;</span><span style="font-size: 13px;">com.yutouxiuxiu.*.service..*.* (..)) &nbsp;- &nbsp;service包极其子包中所有类的所有方法</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">6.execution (* * * (String, *, Long)) &nbsp;- &nbsp;第一个参数是String 第二个参数任意类型 第三个参数是Long的所有方法</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.客户端</strong>
+</p>
+
+<blockquote>
+	<p>
+		PsersonDao personDao = (PersonDao) context.getBean(&quot;personDao&quot;);
+	</p>
+
+	<p>
+		personDao.savePerson();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、SpringAOP的原理</strong>
+</h5>
+
+<p>
+	1.当Spring容器启动的时候
+</p>
+
+<p style="margin-left: 40px;">
+	因为配置了目标类和切面的bean 所以要为这些bean创建对象
+</p>
+
+<p>
+	2.解析aop:config的配置
+</p>
+
+<p style="margin-left: 40px;">
+	解析切入点表达式 就会解析出切入点表达式指代的所有类
+</p>
+
+<p style="margin-left: 40px;">
+	根据切入点表达式指定的类 在Spring容器中进行查找
+</p>
+
+<p style="margin-left: 80px;">
+	如果找到 就解析通知 为该类创建代理对象
+</p>
+
+<p style="margin-left: 120px;">
+	（当代理对象执行代理方法的时候 先执行前置通知 然后执行目标方法 然后执行后置通知）
+</p>
+
+<p style="margin-left: 80px;">
+	如果找不到（比如说写错了切入点表达式 或者没有写指定的bean） 会报错
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/err.jpg"><img alt="err" class="alignnone size-full wp-image-1456" height="19" src="http://localhost:8080/wp-content/uploads/2013/10/err.jpg" width="506" /></a>
+</p>
+
+<p>
+	3.当客户端执行context.getBean时
+</p>
+
+<p style="margin-left: 40px;">
+	如果有代理对象 则返回代理对象
+</p>
+
+<p style="margin-left: 40px;">
+	如果没有代理对象 则返回对象本身
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>（注意！！！）</strong></span>
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>Spring容器会根据目标对象有没有实现接口 来选择返回对象的样子</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	实现了接口 使用jdkproxy 返回实现的同样接口的代理对象
+</p>
+
+<p style="margin-left: 40px;">
+	没有实现接口 使用clibproxy 返回该类的子类对象
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、SpringAOP的通知</strong>
+</h5>
+
+<ul>
+	<li style="font-size: 13px;">
+		<strong>在通知中获取目标方法的信息</strong>
+	</li>
+</ul>
+
+<p style="font-size: 13px;">
+	切面中的每个方法&nbsp;都可以有一个参数（要是有 要放在参数列表的第一个位置） 可以获取目标方法的信息
+</p>
+
+<p style="font-size: 13px;">
+	<span style="font-size: 13px;">（作为环绕通知的方法可以是ProceedingJoinPoint</span><span style="font-size: 13px;">）</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		...(JoinPoint joinPoing) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		joinPoint.getSignature().getName(); &nbsp;//目标方法的名称
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		joinPoint.getSignature().getArgs(); &nbsp;//目标方法的所有参数
+	</p>
+
+	<p style="font-size: 13px;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>前置通知 before</strong>
+	</li>
+</ul>
+
+<p>
+	目标方法执行之前
+</p>
+
+<ul>
+	<li>
+		<strong>后置通知 after-returning</strong>
+	</li>
+</ul>
+
+<p>
+	目标方法执行之后
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>在后置通知中获得目标方法的返回值</strong>
+</p>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- <span style="font-size: 13px;">returning &nbsp;- &nbsp;接收目标方法的返回值</span>&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;aop:after-returning ... returning=&quot;val&quot; ...
+	</p>
+</blockquote>
+
+<p>
+	切面中作为后置通知的方法
+</p>
+
+<blockquote>
+	<p>
+		...(Object val) { &nbsp;//<strong><span style="color:#FF0000;">（注意！！！）需要和配置文件中后置通知中定义的returning的名字一样</span></strong>
+	</p>
+
+	<p>
+		&nbsp; &nbsp; syso(val.toString());
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>如果在目标方法中抛出了异常 后置通知将无法执行</strong></span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>最终通知 after</strong>
+	</li>
+</ul>
+
+<p>
+	一定会执行 不管有没有抛出异常
+</p>
+
+<blockquote>
+	<p>
+		&lt;aop:after method=&quot;&quot; pointcut-ref=&quot;&quot;&gt;&lt;/aop:after&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>异常通知 after-throwing</strong>
+	</li>
+</ul>
+
+<p>
+	获取目标方法抛出的异常信息
+</p>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">throwing &nbsp;- &nbsp;获取到目标方法抛出的异常</span>&nbsp;--&gt;
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;aop:after-throwing method=&quot;&quot; pointcut-ref=&quot;&quot; throwing=&quot;e&quot;&gt;&lt;/aop:after&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	在切面中作为异常通知的方法
+</p>
+
+<blockquote>
+	<p>
+		...(Throwable e) {
+	</p>
+
+	<p>
+		&nbsp; &nbsp; syso(e.getMessage());
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>环绕通知 around<strong>​</strong></strong>
+	</li>
+</ul>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;aop:around ...
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>权限控制</strong>
+</p>
+
+<p>
+	比如说要做添加用户的service 要判断全选 如果是管理员 可以添加 如果不是 不能添加
+</p>
+
+<p>
+	把判断权限
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">...(ProceedingJoinPoint joinPoint) {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (有权限) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		joinPoing.proceed(); //执行目标方法
+	</p>
+
+	<p style="margin-left: 40px;">
+		} else&nbsp;{
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(&quot;没权限&quot;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>权限和业务逻辑松耦合</strong>
+</p>
+
+<p>
+	<strong style="font-size: 13px;"><span style="color: rgb(255, 0, 0);">有环绕通知 就不要有前置通知和后置通知了？？？</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、SpringAOP的应用</strong>
+</h5>
+
+<p>
+	<strong>1.权限控制</strong>
+</p>
+
+<h5>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/qx.jpg" rel="" style="font-size: 13px;" target="" title=""><img alt="qx" class="alignnone size-full wp-image-1460" height="205" src="http://localhost:8080/wp-content/uploads/2013/10/qx.jpg" style="opacity: 0.9;" title="" width="494" /></a>
+</h5>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		public class PrivilegeAspect {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;private List&lt;Privilege&gt; privilegeList; //该用户可以访问的权限集合<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;/**<br />
+		&nbsp;&nbsp; &nbsp; * 1.在客户端把该用户能访问到的权限加载进来List&lt;Privilege&gt;<br />
+		&nbsp;&nbsp; &nbsp; * 2.获取目标方法 进行解析 把@PrivilegeInfo的name属性解析出来<br />
+		&nbsp;&nbsp; &nbsp; * 3.遍历用户能访问到的集合 看是否有&quot;保存用户&quot;的权限 有则访问 没有则提示<br />
+		&nbsp;&nbsp; &nbsp; */<br />
+		&nbsp;&nbsp; &nbsp;public void privilege(ProceedingJoinPoint joinPoint) throws Throwable {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/**<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; * 1.得到savePerson方法的Method 才能得到上面的注解<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; * 2.得到该注解的name属性的值<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; * 3.遍历集合 看集合中是否存在和注解name属性相同的选项<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;boolean flag = false;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Method method = joinPoint.getTarget().getClass().getMethod(joinPoint.getSignature().getName());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//目标方法标注有PrivilegeInfo注解<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (method.isAnnotationPresent(PrivilegeInfo.class)) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PrivilegeInfo privilegeInfo = method.getAnnotation(PrivilegeInfo.class);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;String privilegeName = privilegeInfo.name();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (!privilegeName.equals(&quot;&quot;)) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Privilege privilege : privilegeList) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (privilege.getName().equals(privilegeName)) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;flag = true;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;joinPoint.proceed();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;break;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (!flag) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(&quot;没有访问权限&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} else {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//没有写注解的name属性 按照需求来<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;joinPoint.proceed();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} else {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//没有写注解 按照需求来<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;joinPoint.proceed();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public List&lt;Privilege&gt; getPrivilegeList() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return privilegeList;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;public void setPrivilegeList(List&lt;Privilege&gt; privilegeList) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;this.privilegeList = privilegeList;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+</blockquote>
+
+<p>
+	这是权限控制的切面 在每个service方法上放一个PrivilegeInfo注解 name属性是它的权限名称 从session/数据库中获取该用户的权限列表 set到权限控制的切面中 配置该切面的privilege方法为环绕通知 即可对权限进行控制
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.异常的处理</strong>
+</p>
+
+<p>
+	SpringAOP可以在一处来捕获所有的目标方法抛出的异常信息 这样的代码结构是很好的
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/qx1.jpg" rel="" style="" target="" title=""><img alt="qx" class="alignnone size-full wp-image-1462" height="205" src="http://localhost:8080/wp-content/uploads/2013/10/qx1.jpg" style="" title="" width="494" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、注解配置AOP（比较少用）</strong>
+</h5>
+
+<p>
+	切面
+</p>
+
+<blockquote>
+	<p>
+		@Component(&quot;transaction&quot;)
+	</p>
+
+	<p>
+		@Aspect &nbsp; &nbsp;//相当于&lt;aop:config...
+	</p>
+
+	<p>
+		public class Transaction{
+	</p>
+
+	<p>
+		&nbsp; &nbsp; @Pointcut(&quot;execution ...&quot;) &nbsp; &nbsp;//相当于&lt;aop:pointcut...
+	</p>
+
+	<p>
+		&nbsp; &nbsp; private void a(){} &nbsp; &nbsp;//方法签名 由于注解必须要标注在一个东西上 就定义一个方法 标识一下而已 让它的id为a() 是没有实际的意义的
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; @Before(&quot;<span style="font-size: 13px;">a()</span>&quot;)
+	</p>
+
+	<p>
+		&nbsp; &nbsp; public void before(){}
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; @AfterRunning(&quot;a()&quot;)
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; public void afterRunning(){}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;!-- 启动AOP注解解析器&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;aop:aspectj-autoproxy&gt;&lt;/<span style="font-size: 13px;">aop:aspectj-autoproxy&gt;</span>
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

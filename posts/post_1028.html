@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2拦截器</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2拦截器
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是拦截器</font></h5>  <p>与过滤器比较相似</p>  <p>但是Intercttor只拦截Action 不拦截其他资源</p>  <h5><font style="font-weight: bold">一、defaultStack</font></h5>  <p>struts-default.xml中的defaultStack中定义了默认访问所有Action都要走的拦截器</p>  <blockquote>   <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-stack name=&quot;defaultStack&quot;&gt;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;exception&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;alias&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;servletConfig&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;i18n&quot;/&gt;&#160;&#160;&#160; 国际化       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;prepare&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;chain&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;scopedModelDriven&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;modelDriven&quot;/&gt;&#160;&#160;&#160; 模型驱动       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;fileUpload&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;checkbox&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;multiselect&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;staticParams&quot;/&gt;&#160;&#160;&#160; 静态参数       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;actionMappingParams&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;params&quot;&gt;&#160;&#160;&#160; 属性驱动       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;excludeParams&quot;&gt;dojo..*,^struts..*,^session..*,^request..*,^application..*,^servlet(Request|Response)..*,parameters...*&lt;/param&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/interceptor-ref&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;conversionError&quot;/&gt;&#160;&#160;&#160;&#160; 类型转换错误       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;validation&quot;&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;excludeMethods&quot;&gt;input,back,cancel,browse&lt;/param&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/interceptor-ref&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;workflow&quot;&gt;&#160;&#160;&#160;&#160; 看看是否有fieldError和actionError       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;param name=&quot;excludeMethods&quot;&gt;input,back,cancel,browse&lt;/param&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/interceptor-ref&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;debugging&quot;/&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/interceptor-stack&gt;</p> </blockquote>  <p>struts-default.xml中定义了默认包默认执行的拦截器栈</p>  <blockquote>   <p>&lt;default-interceptor-ref name=”defaultStack”/&gt;</p> </blockquote>  <p>也可以在struts.xml中覆盖这个父包中的配置</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、拦截器介绍</font></h5>  <ul>   <li><strong>params拦截器</strong> </li> </ul>  <p><strong>（封装请求参数：属性驱动）</strong></p>  <blockquote>   <p>表单的字段名必须与Action中的属性名相同</p> </blockquote>  <p>Struts2的<strong><font color="#4f81bd">params拦截器</font></strong>会在Action的execute()方法执行之前 把参数封装到Action的属性中</p>  <p>&#160;</p>  <ul>   <li><strong>modelDriven拦截器</strong> </li> </ul>  <p><strong>（封装请求参数：</strong><strong>模型驱动）</strong></p>  <blockquote>   <p>创建模型类</p>    <p>表单中的字段名必须与模型的属性名相同</p>    <p>Action必须实现ModelDriven接口 给出getModel方法 返回一个已经实例化的模型对象</p> </blockquote>  <p>Struts2的<font color="#4f81bd"><strong>modelDriven拦截器</strong></font>会把请求参数封装到模型对象的属性中</p>  <p>modelDriven优先于params拦截器</p>  <p>当模型对象和Action有相同属性时 只会封装到模型中 而不会封装到Action的属性中</p>  <p>如果模型中没有这个属性 Action中有 能够封装到Action的属性中</p>  <p>&#160;</p>  <ul>   <li><strong>staticParams拦截器</strong> </li> </ul>  <p>把&lt;action&gt;中配置的&lt;param name=””&gt;&lt;/param&gt;属性封装到Action的属性中</p>  <p>所谓静态参数 就不是来自请求的参数 一般在上传下载中可以使用 例如文件保存的路径</p>  <p>因为params拦截器定义在staticParams拦截器后面 所以请求参数和静态参数的同名参数 请求参数会覆盖它</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、自定义拦截器</font></h5>  <p><strong>1.写拦截器类</strong></p>  <p>可选方式</p>  <blockquote>   <p>实现Interceptor接口（不方便）</p>    <p>继承AbstractInterceptor类（常用）</p>    <p>继承MethodFilterInterceptor类（有特殊用处）</p> </blockquote>  <p><strong>（1）实现Interceptor接口</strong></p>  <blockquote>   <p>public class MyInterceptor implements Interceptor {      <br />&#160;&#160;&#160; public void destroy() {       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public void init() {      <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public String intercept(ActionInvocation invocation) throws Exception {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>（2）继承AbstractInterceptor类</strong></p>  <blockquote>   <p>public class MyInterceptor extends AbstractInterceptor {      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; /**       <br />&#160;&#160;&#160;&#160; * 拦截方法       <br />&#160;&#160;&#160;&#160; */       <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String intercept(ActionInvocation invocation) throws Exception {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; //<strong>跳到指定的结果</strong></p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return “”;     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; // <strong>放行</strong>（执行下一个拦截器/执行目标Action）       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return invocation.invoke();       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; <br />}</p> </blockquote>  <p>&#160;</p>  <p><strong>（2）继承MethodFilterInterceptor类</strong></p>  <p>方法过滤拦截器 只拦截某些方法</p>  <blockquote>   <p>public class LoginInterceptor<font color="#ff0000"><strong> extends MethodFilterInterceptor</strong></font> {      <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; @Override      <br />&#160;&#160;&#160; public String <font color="#ff0000"><strong>doIntercept</strong></font>(ActionInvocation invocation) throws Exception {&#160;&#160;&#160; //注意方法名和上面的方法名是不一样的      <br />      <br />&#160;&#160;&#160; }      <br />&#160;&#160;&#160; <br />}</p> </blockquote>  <p>当拦截器的父类是MethodFilterInterceptor时</p>  <p>在引用拦截器的时候可以给它传递参数 </p>  <p>excludeMethods：不拦截的方法 </p>  <p>includeMethods：要拦截的方法</p>  <p>多个方法名之间用“,”隔开</p>  <p>&#160;</p>  <p><strong>2.配置</strong></p>  <p><strong>（1）声明拦截器</strong></p>  <blockquote>   <p><font color="#cccccc">&lt;package name=&quot;xxx&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;</font>       <br />&#160;&#160;&#160; &lt;interceptors&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor name=&quot;MyInterceptor&quot; class=&quot;....MyInterceptor&quot; /&gt;       <br />&#160;&#160;&#160; &lt;/interceptors&gt;       <br /></p> </blockquote>  <p>&#160;</p>  <p><strong>（2）引用拦截器</strong></p>  <blockquote>   <p><font color="#cccccc">&lt;action name=&quot;xxx&quot; class=&quot;xxx&quot;&gt;</font>       <br /></p>    <p>&#160;&#160;&#160; &lt;interceptor-ref name=&quot;MyInterceptor&quot; /&gt;</p> </blockquote>  <p><font color="#ff0000"><strong>（注意！！！）</strong>一旦在action中指定了执行的拦截器 就不会再执行默认的拦截器/拦截器栈</font></p>  <p><strong><font color="#ff0000">还需要引用默认拦截器</font></strong></p>  <p><strong>方式1：</strong></p>  <blockquote>   <p><font color="#cccccc">&lt;action name=&quot;xxx&quot; class=&quot;xxx&quot;&gt;</font>       <br />&#160;&#160;&#160; &lt;interceptor-ref name=”defaultStack”/&gt;&#160;&#160;&#160; <strong><font color="#ff0000">//建议先执行默认的</font></strong></p>    <p>&#160;&#160;&#160; &lt;interceptor-ref name=&quot;MyInterceptor&quot; /&gt;</p> </blockquote>  <p><strong>方式2：</strong></p>  <p>声明一个拦截器栈 包含自己的拦截器和默认的拦截器栈 在action中引用自定义的拦截器栈</p>  <blockquote>   <p><font color="#cccccc">&lt;package name=&quot;xxx&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;</font>       <br />&#160;&#160;&#160; &lt;interceptors&gt;       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor name=&quot;MyInterceptor&quot; class=&quot;....MyInterceptor&quot; /&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-stack name=”myStack”&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=”defaultStack”/&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;interceptor-ref name=&quot;MyInterceptor&quot; /&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160; &lt;/interceptor-stack&gt;      <br />&#160; &lt;/interceptors&gt;</p> </blockquote>  <p><strong>方式3：</strong></p>  <p>指定当前包的默认拦截器栈 如果action中没有设置要使用的拦截器 会使用这个默认拦截器栈</p>  <p>（这个不太好 因为如果action中有设置 还得设置成方式2或者方式1那样）</p>  <blockquote>   <p><font color="#cccccc">&lt;package name=&quot;xxx&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;</font></p>    <p>&#160;&#160;&#160; &lt;default-interceptor-ref name=”myStack”/&gt;</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

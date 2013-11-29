@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Action的三种形式</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Action的三种形式
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>Action替代Servlet 是Struts中的请求处理类</p>  <h5><font style="font-weight: bold">一、解耦方式</font></h5>  <p>Action类 不继承也不实现</p>  <p>但是能力太有限了 基本不用…</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、实现Action接口</font></h5>  <p>基本不用…</p>  <p>Action接口中有五个常量和一个方法</p>  <p><strong>五个常量</strong></p>  <blockquote>   <p>SUCCESS = “success”&#160;&#160; //成功</p>    <p>NONE = “none”&#160; //就表示不转发 返回null也可以表示不跳转</p>    <p>ERROE = “error”&#160;&#160; //表示错误</p>    <p>INPUT = “input”&#160;&#160; //表示输入错误（表单校验失败的时候） <u>从哪来回哪去</u></p>    <p>LOGIN = “login”&#160;&#160; //表示需要登录错误（访问了受限资源 需要登录时）</p> </blockquote>  <p>（这些常量定义在那了 但这些除了NONE都得在struts.xml的result中配置）</p>  <p><strong>一个方法</strong></p>  <blockquote>   <p>public String execute() throws Exception;</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、继承ActionSupport类</font></h5>  <p><font color="#ff0000"><strong>常用 写的Action都要继承这个</strong></font></p>  <p>ActionSupport类 实现了 Action，</p>  <p>拥有了很多的功能</p>  <p><strong>1.添加信息</strong></p>  <p><strong>设置信息</strong></p>  <blockquote>   <p>@Override</p>    <p>public String execute() throws Exception {</p>    <p>&#160;&#160;&#160; this.addActionError(“用户名/密码错”);&#160;&#160;&#160; //添加Action错误信息</p>    <p>&#160;&#160;&#160; this.addActionMessage(“登录成功”);&#160;&#160;&#160; //添加Action信息</p>    <p>&#160;&#160;&#160; this.addFieldError(“username”, “用户名不能为空”);&#160;&#160; //添加字段错误信息</p>    <p>&#160;&#160;&#160; this.addFieldError(“password”, “密码不能为空”);</p>    <p>}</p> </blockquote>  <p><strong>获取信息</strong></p>  <p>获取Action信息 需要使用Struts2的标签</p>  <blockquote>   <p>&lt;%@ taglib prefix=”s” uri=”/struts-tags”%&gt;</p>    <p>&lt;s:actionerror/&gt;</p>    <p>&lt;s:actionmessage/&gt;</p>    <p>&lt;s:fielderror/&gt;</p>    <p>&lt;s:fielderror fieldName=”username”/&gt;</p>    <p>&lt;s:fielderror fieldName=”password”/&gt;</p> </blockquote>  <p>它会自己加样式</p>  <p>&#160;</p>  <p><strong>2.请求处理方法</strong></p>  <p>一个Action多个请求处理方法</p>  <p>通常一个模块一个Action</p>  <p>所有的请求处理方法的格式都必须与execute方法相同</p>  <p><strong>（1）如何使用</strong></p>  <p><strong>多方法</strong></p>  <blockquote>   <p>public String 方法名1() {</p>    <p>&#160;&#160;&#160; return NONE;</p>    <p>}</p>    <p>public String 方法名2() {</p>    <p>&#160;&#160;&#160; return NONE;</p>    <p>}</p>    <p>…</p> </blockquote>  <p><strong>配置</strong></p>  <blockquote>   <p>&lt;action name=”demo_方法名1” class=”” method=”方法名1”&gt;</p>    <p>&lt;/action&gt;</p>    <p>&lt;action name=”dome_方法名2” class=”” method=”方法名2”&gt;</p>    <p>&lt;/action&gt;</p>    <p>…</p> </blockquote>  <p>但是这样的话配置就太多了</p>  <p><strong>（2）使用通配符简化action的配置</strong></p>  <blockquote>   <p>&lt;action name=”demo_*” class=”” method=”{1}”&gt;</p> </blockquote>  <p>星号就像变量一样 后面的{1}就表示读取访问路径的第1个”*“的值</p>  <p><strong>&#160;&#160;&#160; class可以使用通配</strong></p>  <blockquote>   <p>&lt;action name=”*_*” class=”cn.yutouxiuxiu.home.{1}Action” method=”{2}”&gt;</p> </blockquote>  <p><strong>&#160;&#160;&#160; result可以使用通配</strong></p>  <blockquote>   <p>&lt;action name=”*_*_*” class=”cn.yutouxiuxiu.home.{1}Action” method=”{2}”&gt;</p>    <p>&#160;&#160;&#160; &lt;result&gt;/{3}.jsp&lt;/result&gt;</p> </blockquote>  <p><strong>（3）动态调用方式</strong></p>  <p>不用写method属性 这里是不能决定调用谁的</p>  <p>需要在请求路径中决定</p>  <blockquote>   <p>&lt;action name=”demo” class=””&gt;</p> </blockquote>  <p>可以在请求路径中使用如下方法进行调用</p>  <blockquote>   <p><font color="#ff0000"><strong>demo!方法名.action</strong></font></p> </blockquote>  <p>注意.action的位置不要弄错</p>  <p><strong>这个动态调用可以关闭 怕有坏人捣乱</strong></p>  <p>使用常量进行关闭</p>  <blockquote>   <p>struts.enable.DynamicMethodInvocation=false;</p> </blockquote>  <p>它就会把请求路径看成一个整体 把”!“也算到里面了</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

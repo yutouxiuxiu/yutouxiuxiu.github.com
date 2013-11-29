@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>jQuery - 复习</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					jQuery - 复习
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、选择器</strong>
+</h5>
+
+<p>
+	来源于css
+</p>
+
+<p>
+	<strong>1.基本选择器</strong>
+</p>
+
+<p>
+	xxx 标签选择器
+</p>
+
+<p>
+	#xxx&nbsp;id选择器
+</p>
+
+<p>
+	.xxx class选择器
+</p>
+
+<p>
+	<strong>2.层级选择器</strong>
+</p>
+
+<p>
+	空格 什么里的所有什么
+</p>
+
+<p>
+	<strong>3.属性选择器</strong>
+</p>
+
+<p>
+	[属性=什么]
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、jQuery对象和DOM对象</strong>
+</h5>
+
+<p>
+	jQuery对象本质是DOM对象的数组
+</p>
+
+<p>
+	<strong>1.转换</strong>
+</p>
+
+<p>
+	jQuery转DOM
+</p>
+
+<blockquote>
+	<p>
+		$(&quot;&quot;)[0];
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">$(&quot;&quot;)</span>.get(0);
+	</p>
+</blockquote>
+
+<p>
+	DOM转jQuery
+</p>
+
+<blockquote>
+	<p>
+		var obj = ...;
+	</p>
+
+	<p>
+		var $obj =&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">$(obj</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">);</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、基础API</strong>
+</h5>
+
+<p>
+	.html()
+</p>
+
+<p>
+	.val()
+</p>
+
+<p>
+	.append()
+</p>
+
+<p>
+	.css(name, value)
+</p>
+
+<p>
+	.addClass()
+</p>
+
+<p>
+	.attr(name, value)
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、事件</strong>
+</h5>
+
+<p>
+	解决了浏览器的兼容问题
+</p>
+
+<p>
+	<strong>1.绑定事件</strong>
+</p>
+
+<p>
+	.事件名(<span style="font-size: 13px;">function(){}</span>);
+</p>
+
+<p>
+	.bind(事件类型, function(){}); &nbsp;//针对已经存在的元素
+</p>
+
+<p>
+	<strong>2.取消事件</strong>
+</p>
+
+<p>
+	.unbind(<span style="font-size: 13px;">事件类型</span>);
+</p>
+
+<p>
+	<strong>3.实时追加事件绑定</strong>
+</p>
+
+<p>
+	.live(<span style="font-size: 13px;">事件类型, function(){}</span>);
+</p>
+
+<p>
+	和bind的区别 <span style="color:#FF0000;"><strong>事件委派</strong></span> 给匹配的元素添加事件 <span style="color:#FF0000;"><strong>即使这个元素是以后添加上来的也有效</strong></span>
+</p>
+
+<p>
+	新元素只要符合规则 就具有这个事件
+</p>
+
+<p>
+	.die(事件类型); &nbsp;//解除委派
+</p>
+
+<p>
+	<strong>4.事件触发</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">.trigger(事件类型);</span>
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$(function) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#username&quot;).blur(function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		alert(1);
+	</p>
+
+	<p style="margin-left: 40px;">
+		});
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#button&quot;).click(function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		//<strong><span style="color:#FF0000;">在一个事件中去触发另一个事件</span></strong>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">$(&quot;#username&quot;).trigger(&quot;blur&quot;);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		})
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		。。。
+	</p>
+
+	<p>
+		&lt;input type=&quot;text&quot; id=&quot;username&quot; /&gt;
+	</p>
+
+	<p>
+		&lt;input type=&quot;button&quot; id=&quot;button&quot; value=&quot;按钮&quot;/&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>5.阻止默认事件</strong>
+</p>
+
+<blockquote>
+	<p>
+		$(function(){
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(&quot;#del&quot;).click(function(event) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		var isConfirm = window.confirm(&quot;删除否？&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (!<span style="font-size: 13px;">isConfirm</span>) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		<strong><span style="color:#FF0000;">event.preventDefault(); &nbsp;//阻止默认的href事件</span></strong>
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		});
+	</p>
+
+	<p>
+		})
+	</p>
+
+	<p>
+		。。。
+	</p>
+
+	<p>
+		&lt;a id=&quot;del&quot;&nbsp;href=&quot;del&quot;&gt;删除&lt;/a&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php面向对象 - 继承</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php面向对象 - 继承
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、语法</strong>
+</h5>
+
+<p>
+	<strong>1.继承语法</strong>
+</p>
+
+<blockquote>
+	<p>
+		class 子类 extends 父类 {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="color:#FF0000;">php只支持单继承</span></strong>
+</p>
+
+<p>
+	<strong>2.调用父类方法</strong>
+</p>
+
+<blockquote>
+	<p>
+		parent::方法名();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>二.继承的范围</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/jc.jpg" rel="" style="" target="" title=""><img alt="jc" class="alignnone size-full wp-image-2014" height="184" src="http://localhost:8080/wp-content/uploads/2013/11/jc.jpg" style="" title="" width="272" /></a>
+</p>
+
+<p>
+	对于private来说 可以继承过来 子类无权对其访问和操作 &nbsp;- &nbsp;如果定义同名的成员 将存在两个 一个是父类的 一个是子类的
+</p>
+
+<p>
+	对于public和protected来说 有权进行操作 &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	父类有的 子类能继承
+</p>
+
+<p style="margin-left: 40px;">
+	父类有的 子类如果定义同名的 可以覆盖
+</p>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">但是我亲自试验 发现... [????????????????????????????????????????]</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		class A {<br />
+		&nbsp;&nbsp; &nbsp;public function a() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;A::a()&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		class B extends A {<br />
+		&nbsp;&nbsp; &nbsp;public function a() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;B::a()&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		$b = new B();<br />
+		$b-&gt;a();
+	</p>
+
+	<p>
+		/* &nbsp;结果
+	</p>
+
+	<p>
+		A::a()B::a()
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	父类没有的 子类可以添加
+</p>
+
+<blockquote>
+	<p>
+		error_reporting(E_ALL);<br />
+		class Fu {
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;private $str = &#39;a&#39;;<br />
+		&nbsp;&nbsp; &nbsp;private $prvti = 1;<br />
+		&nbsp;&nbsp; &nbsp;public $i = 1;
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function show_fu() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo $this-&gt;str;<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function show_int_fu() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo $this-&gt;$prvti;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		class Zi extends Fu {
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;private $prvti = 2;<br />
+		&nbsp;&nbsp; &nbsp;public $i = 2;
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function show_zi() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo $this-&gt;str;<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function show_int_zi() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parent::show_int_fu();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo $this-&gt;$prvti;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		$obj = new Zi();<br />
+		$obj-&gt;show_fu();<br />
+		$obj-&gt;show_zi();<br />
+		$obj-&gt;show_int_zi();<br />
+		print_r($obj);
+	</p>
+
+	<p>
+		/* 结果
+	</p>
+
+	<p>
+		a
+	</p>
+
+	<p>
+		Notice: Undefined property: Zi::$str in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends.php&nbsp;on line&nbsp;24
+	</p>
+
+	<p>
+		1<br />
+		2<br />
+		Zi Object ( [prvti:private] => 2 [i] => 2 [str:private] => a [prvti:private] =&gt; 1 )
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>如果把Fu类中的$prvti去掉</strong>
+</p>
+
+<p>
+	Fu层面的$prvti就不存在了 但是还有Zi层面的 它就会说不能访问Zi的私有属性
+</p>
+
+<blockquote>
+	<p>
+		a
+	</p>
+
+	<p>
+		Notice: Undefined property: Zi::$str in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends.php&nbsp;on line&nbsp;24
+	</p>
+
+	<p>
+		Fatal error: Cannot access private property Zi::$prvti in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends.php&nbsp;on line&nbsp;14
+	</p>
+</blockquote>
+
+<p>
+	<strong>如果把Zi类中的$prvti去掉</strong>
+</p>
+
+<blockquote>
+	<p>
+		a
+	</p>
+
+	<p>
+		Notice: Undefined property: Zi::$str in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends.php&nbsp;on line&nbsp;24
+	</p>
+
+	<p>
+		1
+	</p>
+
+	<p>
+		Notice: Undefined property: Zi::$prvti in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends.php&nbsp;on line&nbsp;29
+	</p>
+
+	<p>
+		Zi Object ( [i] => 2 [str:private] => a [prvti:private] =&gt; 1 )
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、继承时的权限变化</strong>
+</h5>
+
+<p>
+	继承时 权限只能越来越宽松/不变 不能越来越严格
+</p>
+
+<blockquote>
+	<p>
+		class Fu {<br />
+		&nbsp;&nbsp; &nbsp;public $str = &#39;a&#39;;<br />
+		}
+	</p>
+
+	<p>
+		class Zi extends Fu {<br />
+		&nbsp;&nbsp; &nbsp;protected $str = &#39;b&#39;;<br />
+		}
+	</p>
+
+	<p>
+		/* &nbsp;结果<br />
+		Fatal error: Access level to Zi::$str must be public (as in class Fu) in D:\APMServ5.2.6\www\htdocs\study\phpbasic\extends2.php on line 8<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、构造方法的继承</strong>
+</h5>
+
+<p>
+	<strong>1.构造函数是可以继承的</strong>
+</p>
+
+<blockquote>
+	<p>
+		class Fu {<br />
+		&nbsp;&nbsp; &nbsp;public function __construct() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;构造函数&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		class Zi extends Fu {<br />
+		}
+	</p>
+
+	<p>
+		new Zi();
+	</p>
+
+	<p>
+		/* 结果<br />
+		构造函数<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.构造函数的继承特点 和普通函数一样</strong>
+</p>
+
+<p>
+	如果再写一遍 则会覆盖
+</p>
+
+<p>
+	<strong>3.调用父类的构造函数</strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">必须手动调用父类的构造函数 才能执行父类的构造函数 &nbsp;- &nbsp;和java不同 java实例化子类时 会先执行父类的构造函数 再执行子类的</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		parent::__construct();
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/java.jpg"><img alt="java" class="alignnone size-full wp-image-2015" height="226" src="http://localhost:8080/wp-content/uploads/2013/11/java.jpg" width="261" /></a>
+</p>
+
+<p>
+	java中子类构造函数第一行隐式调用super();
+</p>
+
+<p>
+	php4中的构造函数名是与类名相同的 php5中不要这样做！
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

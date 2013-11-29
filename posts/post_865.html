@@ -14,7 +14,7 @@
 		
 	</div>
 	<div class="logo">
-		<a href="/"><img src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
 	</div>
 	<div class="description">
 		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
@@ -36,7 +36,7 @@
 			</span>
 		</div>
 		<div class="post-content">
-			<h5><font style="font-weight: bold">一、邮件协议</font></h5>  <p>163邮件服务器</p>  <p><strong>1.SMTP简单的邮件传输协议</strong></p>  <p>SMTP服务器 发送邮件的</p>  <p>smtp.163.com（必须按照这个命名规范命名 否则发送方会找不到它）</p>  <p>端口：25</p>  <p><strong>2.POP3邮局协议第三版</strong></p>  <p>POP3服务器 用户收邮件的</p>  <p>pop3.126.com</p>  <p>端口：110</p>  <p><strong>3.IMAP 既能收又能发</strong></p>  <p>现在也有很多用这个的</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail_thumb2.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail_thumb[2]" border="0" alt="mail_thumb[2]" src="http://localhost:8080/wp-content/uploads/2013/09/mail_thumb2_thumb.jpg" width="433" height="292" /></a></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail2_thumb1.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail2_thumb" border="0" alt="mail2_thumb" src="http://localhost:8080/wp-content/uploads/2013/09/mail2_thumb_thumb.jpg" width="431" height="175" /></a></p>  <p>&#160;</p>  <p>所有的邮件发送信息的时候 都采用了BASE64加密 这个加密是可逆的</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、telnet发送邮件</font></h5>  <p>连接</p>  <blockquote>   <p>telnet smtp.163.com 25</p> </blockquote>  <p>说hello</p>  <blockquote>   <p>ehlo xxx</p> </blockquote>  <p>出一堆250就说明行了</p>  <p>登录</p>  <blockquote>   <p>auth login</p>    <p>BASE64加密的用户名</p>    <p>BASE64加密的密码</p> </blockquote>  <p>设置发送和接收者</p>  <blockquote>   <p>mail from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>rcpt to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p> </blockquote>  <p>设置内容</p>  <blockquote>   <p>data</p>    <p>from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p>    <p>subject:标题</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //空行</p>    <p>正文</p>    <p>.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //·表示结束</p></blockquote>
+			<h5><font style="font-weight: bold">一、邮件协议</font></h5>  <p>163邮件服务器</p>  <p><strong>1.SMTP简单的邮件传输协议</strong></p>  <p>SMTP服务器 发送邮件的</p>  <p>smtp.163.com（必须按照这个命名规范命名 否则发送方会找不到它）</p>  <p>端口：25</p>  <p><strong>2.POP3邮局协议第三版</strong></p>  <p>POP3服务器 用户收邮件的</p>  <p>pop3.126.com</p>  <p>端口：110</p>  <p><strong>3.IMAP 既能收又能发</strong></p>  <p>现在也有很多用这个的</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail1_thumb1211.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail_thumb[2]" border="0" alt="mail_thumb[2]" src="http://localhost:8080/wp-content/uploads/2013/09/mail1_thumb121_thumb11.jpg" width="433" height="292" /></a></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/mail121_thumb2111.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="mail2_thumb" border="0" alt="mail2_thumb" src="http://localhost:8080/wp-content/uploads/2013/09/mail121_thumb2_thumb11.jpg" width="431" height="175" /></a></p>  <p>&#160;</p>  <p>所有的邮件发送信息的时候 都采用了BASE64加密 这个加密是可逆的</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、telnet发送邮件</font></h5>  <p>连接</p>  <blockquote>   <p>telnet smtp.163.com 25</p> </blockquote>  <p>说hello</p>  <blockquote>   <p>ehlo xxx</p> </blockquote>  <p>出一堆250就说明行了</p>  <p>登录</p>  <blockquote>   <p>auth login</p>    <p>BASE64加密的用户名</p>    <p>BASE64加密的密码</p> </blockquote>  <p>设置发送和接收者</p>  <blockquote>   <p>mail from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>rcpt to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p> </blockquote>  <p>设置内容</p>  <blockquote>   <p>data</p>    <p>from:&lt;<a href="mailto:xxx@163.com">xxx@163.com</a>&gt;</p>    <p>to:&lt;<a href="mailto:xxx@126.com">xxx@126.com</a>&gt;</p>    <p>subject:标题</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //空行</p>    <p>正文</p>    <p>.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //·表示结束</p></blockquote>
 		</div>
 	</div>
 </div>
@@ -51,53 +51,81 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 10px;">集合</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 10px;">XML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 10px;">Servlet</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 10px;">JSP</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 0px;">面试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">软件使用</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 10px;">WordPress</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">HTML</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 10px;">JavaScript</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 10px;">css</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 0px;">小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 10px;">Servlet小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 10px;">HTML小案例</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 0px;">分类总结</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 0px;">项目进度</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 0px;">数据库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">MySQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">JDBC</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 20px;">测试</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">SQL</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 0px;">项目开发经验</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
 				
 			</ul>
 		</li>

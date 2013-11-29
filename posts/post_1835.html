@@ -1,0 +1,1070 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>JPDL流程定义语言</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					JPDL流程定义语言
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/qqq.jpg"><img alt="qqq" class="alignnone size-full wp-image-1836" height="296" src="http://localhost:8080/wp-content/uploads/2013/11/qqq.jpg" width="170" /></a>
+</p>
+
+<p>
+	包括 控制流程活动节点（需要进行任务 流程会停下来） 和 自动化活动节点（程序自动执行一些java代码 执行sql语句 发送邮件等 流程自动进行 不会停下来）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、<span style="font-size: 13px;">控制流程活动节点</span></strong>
+</h5>
+
+<p style="font-size: 13px;">
+	<b>先建表</b>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		new Confguration().buildProcessEngine();
+	</p>
+</blockquote>
+
+<p>
+	<strong>1.process根节点</strong>
+</p>
+
+<p>
+	必须有开始和结束节点 才能发布
+</p>
+
+<blockquote>
+	<p>
+		&lt;process name=&quot;&quot; xmlns=&quot;http://jbpm.org/4.4/jpdl&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>属性</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	name &nbsp;- &nbsp;流程名称（必须 用于页面显示 可能是中文的）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	key &nbsp;- &nbsp;关键字（可选 用于查询 不写默认=name 一般用英文）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	version &nbsp;- &nbsp;版本（可选 不写就自动+1）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<strong><span style="color:#FF0000;">（注意！！！）</span></strong> 如果发布两个name相同的流程&nbsp;这两个流程的key也必须相同 否则报错
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<span style="font-size: 13px;">如果发布两个key相同的流程&nbsp;这两个流程的name也必须相同 否则报错</span>
+</p>
+
+<p>
+	发布之后的pdid（流程定义编号）=pdkey+pdversion
+</p>
+
+<p>
+	不能发布pdid相同的两个流程（版本冲突）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.transition节点</strong> 连线 转移 流转
+</p>
+
+<p>
+	开始节点有且仅有一个transation节点
+</p>
+
+<p>
+	结束节点不能有transition节点
+</p>
+
+<p>
+	其他节点可以有多个transition节点
+</p>
+
+<blockquote>
+	<p>
+		&lt;节点...
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;transition name=&quot;&quot; to=&quot;&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;transition to=&quot;&quot;&gt;&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">...</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	在哪个节点标签中 连线就是从哪个节点开始
+</p>
+
+<p>
+	<strong>属性</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	name &nbsp;- &nbsp;节点本身名称（唯一） 在一个节点标签的多个transition中 可以有一个没有name属性是默认的transition节点（在流程流转时 如果不指定transition节点 将使用默认的）
+</p>
+
+<p style="margin-left: 40px;">
+	to &nbsp;- &nbsp;流转目标 指向节点的名称
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		// 发布
+	</p>
+
+	<p>
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p>
+		RepositoryService r<span style="font-size: 13px;">epositoryService =&nbsp;processEngine.getR</span><span style="font-size: 13px;">epositoryService();</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">r</span><span style="font-size: 13px;">epositoryService.createDeployment().addResourceFromClasspath(&quot;.jpdl.xml&quot;);</span>
+	</p>
+
+	<p>
+		// 开始
+	</p>
+
+	<p>
+		ExecutionService executionService =&nbsp;<span style="font-size: 13px;">processEngine.getExecution</span><span style="font-size: 13px;">Service();</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">executionService.startProcessInstanceByKey(&quot;&quot;);</span>
+	</p>
+
+	<p>
+		// 流转
+	</p>
+
+	<p>
+		executionService.signalExecutionById(&quot;&quot;); &nbsp;//使用当前节点的默认transition进行流转 如果没有无名称的transition 就不能这么用
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">executionService.signalExecutionById(&quot;&quot;, &quot;&quot;); &nbsp;//使用特定名称的transition进行流转</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.start，end开始结束节点</strong>
+</p>
+
+<p>
+	在一个流程里 只能有一个开始节点 但可以有多个结束节点
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.state等待节点</strong>
+</p>
+
+<p>
+	流转到这个节点 会停下来 等待一个信号 等有了信号 就会自动触发它向下流转 不像task需要人工去办理
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.decision判断节点</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ggg.jpg" rel="" style="" target="" title=""><img alt="ggg" class="alignnone size-full wp-image-1840" height="214" src="http://localhost:8080/wp-content/uploads/2013/11/ggg.jpg" style="" title="" width="272" /></a>
+</p>
+
+<p>
+	<strong>（1）使用变量表达式（更加简单）</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;desision name=&quot;&quot; expr=&quot;${condition}&quot;&gt; &nbsp;使用condition变量和里面的transition的name进行匹配 匹配哪个执行哪个
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;transition name=&quot;&quot; to=&quot;&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>示例</strong>
+</p>
+
+<blockquote>
+	<p>
+		String condition = &quot;军人免票&quot;;
+	</p>
+
+	<p>
+		Map&lt;String, Object&gt; vars = new HashMap&lt;String, Object&gt;();
+	</p>
+
+	<p>
+		vars.put(&quot;condition&quot;, &quot;to &quot; + condition);
+	</p>
+
+	<p>
+		taskService.setVariables(&quot;&quot;, vars);
+	</p>
+
+	<p>
+		taskService.completeTask(&quot;&quot;);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）使用handler程序（更加灵活）</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;decision name=&quot;&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;handler class=&quot;&quot;&gt;&lt;/ &nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;transition name=&quot;&quot; to=&quot;&quot;&gt;&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">执行decision节点 会调用handler的class执行的类的decide的方法 用返回值去匹配transition的name 来决定执行哪个</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>示例</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;"><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">M</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">y</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">DecisionHandler&nbsp;</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public class My<span style="font-size: 13px;">DecisionHandler&nbsp;</span>implements DecisionHandler {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public decide(OpenExecution openExecution) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">//DecisionHandler&nbsp;</span>用于获取流程变量
+	</p>
+
+	<p style="margin-left: 80px;">
+		String params = (String) openExecution.getVariable(&quot;params&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		return <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">params</span>;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">test</span>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		String params&nbsp;= &quot;军人免票&quot;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Map&lt;String, Object&gt; vars = new HashMap&lt;String, Object&gt;();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		vars.put(&quot;params&quot;, &quot;to&nbsp;&quot; + <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">params</span>);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		taskService.setVariables(&quot;&quot;, vars);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		taskService.completeTask(&quot;&quot;);
+	</p>
+</blockquote>
+
+<p>
+	如果同时配置 handler会被忽略
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.fork/join节点</strong> 分支 聚合
+</p>
+
+<p>
+	主要解决并发操作问题 有的业务可以先做这个 也可以先做哪个 什么顺序都行 就是并发操作
+</p>
+
+<p>
+	在企业流程中主要解决 <span style="color:#FF0000;"><strong>会签</strong></span> 问题 办一个事需要很多领导签字 哪个领导先签都行
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	fork和join必须同时存在 但不一定是成对儿的
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/fj.jpg" rel="" style="" target="" title=""><img alt="fj" class="alignnone size-full wp-image-1842" height="155" src="http://localhost:8080/wp-content/uploads/2013/11/fj.jpg" style="" title="" width="172" /></a>
+</p>
+
+<p>
+	在fork&nbsp;每一个分支相当于一个子流程
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/zlc.jpg" rel="" style="" target="" title=""><img alt="zlc" class="alignnone size-full wp-image-1843" height="47" src="http://localhost:8080/wp-content/uploads/2013/11/zlc.jpg" style="" title="" width="750" /></a>
+</p>
+
+<p>
+	然后在任务表里 就会有两个任务
+</p>
+
+<p>
+	在所有的活动节点中 只有fork可以使流程当前任务节点变成多个 是并行的 如果两个都完成了 就会汇聚到join节点并继续向下流转
+</p>
+
+<p>
+	在历史记录表中 只能查看到主流程实例的历史 无法查看子流程实例的历史记录
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	这样只能解决固定的分支 画好了 分支就是固定的
+</p>
+
+<p style="font-size: 13px;">
+	如果是动态会签（不确定分支） 就要动态创建子流程 请看这个
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/du.jpg" rel="" style="" target="" title=""><img alt="du" class="alignnone size-full wp-image-1844" height="119" src="http://localhost:8080/wp-content/uploads/2013/11/du.jpg" style="" title="" width="207" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>7.task任务节点</strong>&nbsp;
+</p>
+
+<p>
+	<strong>（1）个人任务</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	属于某一个人的任务
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>从配置文件指定</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;task name=&quot;&quot; assignee=&quot;张三&quot;&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>属性</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	assignee &nbsp;- &nbsp;所属人 可以从配置文件中指定 也可以从程序中指定
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<strong>从变量指定</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		&lt;task name=&quot;&quot; assignee=&quot;#{manager}&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>从程序中指定</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;task name=&quot;&quot;&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;assignee-handler class=&quot;&quot;&gt;&lt;/</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;"><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">PersonalTaskHandler&nbsp;</span></span>
+</p>
+
+<blockquote>
+	<p>
+		public class PersonalTaskHandler implements AssignmentHandler {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void assign(Assignable assignable, OpenExecution openExecution) throws Exception {
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//assignable &nbsp;- &nbsp;指定负责人</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//openExecution &nbsp;- &nbsp;获取流程变量</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">assignable.setAssignee(&quot;老黎&quot;);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>查看我的个人任务</strong>
+</p>
+
+<blockquote>
+	<p>
+		List&lt;Task&gt; tasks =&nbsp;taskService.findPersonalTask(&quot;张三&quot;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>办理个人任务（固定配置）</strong>
+</p>
+
+<blockquote>
+	<p>
+		taskService.completeTask(&quot;&quot;); &nbsp;//任务id
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>办理个人任务（变量）</strong>
+</p>
+
+<blockquote>
+	<p>
+		Map&lt;String, Object&gt; vars = new HashMap&lt;String, Object&gt;();
+	</p>
+
+	<p>
+		vars.put(&quot;manager&quot;, &quot;李四&quot;);
+	</p>
+
+	<p>
+		taskService.setVariable(&quot;&quot;, vars);
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">taskService.completeTask(&quot;&quot;); &nbsp;//任务id</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#EE82EE;"><strong>面试题</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	制作请假系统 如何做到部门员工请假由本部门的部门主管审批
+</p>
+
+<p style="margin-left: 40px;">
+	把主管做成变量 就可以了
+</p>
+
+<p style="margin-left: 40px;">
+	在员工办理请假任务的时候 就把自己的部门主管作为变量 然后流程流转到部门主管审批的时候 就有了
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>更换负责人</strong>
+</p>
+
+<blockquote>
+	<p>
+		taskService.assignTask(&quot;&quot;, &quot;新负责人&quot;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）组任务</strong>（<strong><span style="color:#FF0000;">重要</span></strong>）
+</p>
+
+<p style="margin-left: 40px;">
+	属于一组人 这一组人都可以做这个任务
+</p>
+
+<p style="margin-left: 40px;">
+	比如说 公司员工都有请假的权利 是一组人
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>通过candidate-users指派</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	将一个任务 指定给多个用户（用用户id）
+</p>
+
+<blockquote>
+	<p>
+		&lt;task name=&quot;&quot; candidate-users=&quot;user1,user2,user3...&quot;&gt;&lt;
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ass.jpg"><img alt="ass" class="alignnone size-full wp-image-1848" height="42" src="http://localhost:8080/wp-content/uploads/2013/11/ass.jpg" width="454" /></a>
+</p>
+
+<p style="margin-left: 80px;">
+	它没有具体的负责人 assignee为null 会保存在<span style="color:#0000FF;">jbpm4_participation</span>里
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/uuuu.jpg"><img alt="uuuu" class="alignnone size-full wp-image-1849" height="47" src="http://localhost:8080/wp-content/uploads/2013/11/uuuu.jpg" width="633" /></a>
+</p>
+
+<p style="margin-left: 80px;">
+	GROUPID 是给组用的 USERID 是用户的ID &nbsp;TASK 是他们所属的任务 最后一列是放泳道的
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>通过candidate-groups指派</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	将一个任务 指定给多个组（的id）&nbsp;在组合用户间 是多对多的关系
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">&lt;task name=&quot;&quot; candidate-groups=&quot;group1,group2,group3...&quot;&gt;&lt;/</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	我们还需要创建组 和组内的用户
+</p>
+
+<p style="margin-left: 80px;">
+	在<span style="color:#0000FF;">jbpm4_id_group</span> &nbsp;- &nbsp;存放组
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="color:#0000FF;">jbpm4_id_membership</span> &nbsp;- &nbsp;存放关系信息
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="color:#0000FF;">jbpm4_id_user</span> &nbsp;- &nbsp;存放用户信息
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>根据userid查询组任务</strong>
+</p>
+
+<blockquote>
+	<p>
+		taskService.findPersonalTasks(&quot;张三&quot;); &nbsp;//<strong><span style="color:#FF0000;">（注意！！！） 通过组任务定义的 用个人任务的方式查不到 查的表不一样</span></strong>
+	</p>
+
+	<p>
+		taskService.findGroupTasks(&quot;张三&quot;); &nbsp;//<strong><span style="color:#FF0000;">还是根据人来查</span></strong> 但是方法不一样 这个是先去jbpm4_participation表中查询 然后再查任务
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<strong><span style="color:#FF0000;">其实在开发中 都写用户id 而不是人名</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>拾取任务</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	先将组任务 变为个人任务 再办
+</p>
+
+<blockquote>
+	<p>
+		taskService.takeTask(&quot;taskid&quot;, &quot;userid&quot;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<strong><span style="color:#FF0000;">执行之后 任务表里的assignee一列 就有了这个userid 然后再用这个组里的别人查它他们的组任务 就查不到了 这个运行中的任务 已经从组任务变为了个人任务</span></strong>
+</p>
+
+<p style="margin-left: 80px;">
+	然后个人任务 就按照个人任务操作就行了
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>将个人任务回归组任务</strong>
+</p>
+
+<blockquote>
+	<p>
+		taskService.assignTask(&quot;taskid&quot;, null);
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	就是把任务表里的ASSIGNEE字段置为空 它就成了组任务 也就是更改任务的负责人为null
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>IdentityService 组和用户管理服务</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	<strong>创建组</strong>
+</p>
+
+<blockquote>
+	<p>
+		identityService.createGroup(&quot;groupid&quot;); &nbsp;//它创建出来的 id和name一样 就这样的
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">identityService.createGroup(&quot;部门主管&quot;);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 120px;">
+	可以多级创建
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">id</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">entityService.createG</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">roup(&quot;groupid&quot;, &quot;parentGroupId&quot;);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<strong>创建用户</strong>
+</p>
+
+<blockquote>
+	<p>
+		identityService.createUser(&quot;userid&quot;, &quot;givenName&quot;, &quot;familyName&quot;);
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">givenName &nbsp;- &nbsp;名</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">familyName &nbsp;- &nbsp;姓</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">identityService.createUser</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">(&quot;1&quot;, &quot;三&quot;, &quot;张&quot;);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 80px;">
+	<strong>建立关系</strong>
+</p>
+
+<blockquote>
+	<p>
+		identityService.createMembership(&quot;userid&quot;,&quot;groupid&quot;);
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">identityService.createMembership(&quot;1&quot;,&quot;部门主管</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>在已经存在的任务中 </strong><strong style="font-size: 13px;">临时</strong><strong>添加一个用户</strong>
+</p>
+
+<blockquote>
+	<p>
+		taskService.addTaskPaticipationUser(&quot;taskid&quot;, &quot;userid&quot;, Paticipation.CANDIDATE);
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	比如说总经理生病了 可以临时指派其他不在这个组中的负责人负责这个任务
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、任务泳道 task swimlanes</strong>
+</h5>
+
+<p>
+	使用率很高
+</p>
+
+<p>
+	<strong>1.什么是泳道</strong>
+</p>
+
+<p>
+	在流程中存在很多活动节点 可以将活动节点的办理人进行分类 用泳道来描述
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/yongdao.jpg" rel="" style="" target="" title=""><img alt="yongdao" class="alignnone size-full wp-image-1853" height="236" src="http://localhost:8080/wp-content/uploads/2013/11/yongdao.jpg" style="" title="" width="248" /></a>
+</p>
+
+<p>
+	这就是泳道 用于描述一类活动节点由谁完成
+</p>
+
+<p>
+	<strong>泳道为了解决这样一个问题：</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/zu.jpg" rel="" style="" target="" title=""><img alt="zu" class="alignnone size-full wp-image-1854" height="64" src="http://localhost:8080/wp-content/uploads/2013/11/zu.jpg" style="" title="" width="287" /></a>
+</p>
+
+<p>
+	<span style="font-size: 13px;">比如&nbsp;</span>小王小李小张都能申请 都能领钱 现在小王申请了 然后小王小李小张都可以领钱 然后小李就去领钱 就出问题了
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/swm.jpg" rel="" style="" target="" title=""><img alt="swm" class="alignnone size-full wp-image-1855" height="83" src="http://localhost:8080/wp-content/uploads/2013/11/swm.jpg" style="" title="" width="284" /></a>
+</p>
+
+<p>
+	定义了一个泳道 然后把申请和领钱使用这个泳道 如果小王申请了领钱 当流程流转到领钱的时候 就会自动将其变为小王的个人任务 这就是泳道的作用
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/14.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-1856" height="57" src="http://localhost:8080/wp-content/uploads/2013/11/14.jpg" style="" title="" width="440" /></a>
+</p>
+
+<p>
+	现在申请还没和某一个人关联 当一个人拾取了这个任务之后 任务就变成了个人任务
+</p>
+
+<p>
+	当办理完任务 这个任务就不会是组任务 就直接成为了之前拾取人的个人任务了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

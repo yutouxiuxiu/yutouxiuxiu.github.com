@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2的六大配置文件</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2的六大配置文件
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、Struts2的基本配置文件</font></h5>  <p>&#160;</p>  <p>六大配置文件 优先级别按照从低到高排列</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、default.properties</font></h5>  <p>一般不用自己配置 但是要经常看 如果需要修改 请到别的配置文件里覆盖</p>  <p>位置：struts-core….jar/org.apache.struts2/default.properties</p>  <p>里面有许多常量 </p>  <p>POST请求的编码</p>  <p>struts.i18n.encoding=UTF-8</p>  <p>上传最大</p>  <p>struts.multipart.maxSize=2097152</p>  <p>扩展名</p>  <p>struts.action.extension=action,,</p>  <p>浏览器支持缓存</p>  <p>struts.serve.static.browserCache=true</p>  <p>……</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、struts-default.xml</font></h5>  <p>一般不用自己配置 但是要经常看</p>  <p>bean 不动它</p>  <p>result-type 结果类型</p>  <p>interceptor 拦截器</p>  <p>interceptor-stack 拦截器栈（一堆拦截器的集合 也可以集合里有集合）</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、struts-plugin.xml</font></h5>  <p>插件的配置文件 每个插件里都有这个配置文件 不用自己写</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、struts.xml</font></h5>  <p>需要自己写</p>  <blockquote>   <p>package</p>    <p>&#160; | - action</p>    <p>&#160;&#160;&#160; | – result 局部</p>    <p>result 全局</p>    <p>constant</p>    <p>include</p> </blockquote>  <ul>   <li><strong>package</strong> </li> </ul>  <p>对所有action的统一配置 在package里的配置 会对其下的所有action都生效</p>  <p><strong>1.name</strong></p>  <p>主键</p>  <p>只要不重复就OK 可以写好几个包 通常一个package对应一个模块（例如user模块）</p>  <p><strong>2.namespace</strong></p>  <p>访问路径的前缀</p>  <p>一般是”/”</p>  <p>或者可以写模块的名字（例如”/user“）</p>  <p>另：默认名称空间””：如果在路径指定的位置找不到 会到这里面找</p>  <p><strong>3.extends</strong></p>  <p>父包名</p>  <p>一般是”struts-default”（在struts-default.xml中 写在父包中的会直接继承过来）</p>  <p><strong>4.abstract</strong></p>  <p>如果是true 就表示可以让别人继承 抽象的话 就里边不能有action</p>  <p>&#160;</p>  <ul>   <li><strong>action</strong> </li> </ul>  <p><strong>1.name</strong></p>  <p>它和namespace加在一起决定了访问路径</p>  <p><strong>2.class</strong></p>  <p>处理类</p>  <p>可选属性 默认为ActionSupport（在struts-default.xml中的父包中 有一个default-class-ref里配置的）</p>  <p>也可以在自己的包里 指定当前包action元素的class属性的默认值</p>  <p><strong>&#160;&#160;&#160; ActionSupport</strong></p>  <blockquote>   <p>public String execute() {</p>    <p>&#160;&#160;&#160; return “success”;</p>    <p>}</p> </blockquote>  <p>它就会直接去找result里配置的name=success的元素 如果找不到的话 就报错了</p>  <p><strong>默认action</strong></p>  <p>当访问的action不存在时 访问这个action</p>  <blockquote>   <p>&lt;default-action-ref name=”error”/&gt;</p>    <p>&lt;action name=”error”&gt;</p>    <p>&#160;&#160;&#160; &lt;result name=”success”&gt;/error.jsp&lt;/result&gt;</p>    <p>&lt;/action&gt;</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>局部result</strong> </li> </ul>  <p><strong>1.name</strong></p>  <p>可选属性 默认值是success</p>  <p>和execute中的return对应</p>  <p><strong>2.子元素</strong></p>  <p>结果页面路径</p>  <p><strong>3.type</strong></p>  <p>跳转的方式</p>  <blockquote>   <p>dispatcher 转发到JSP（默认）</p>    <p>chain 转发到Action</p>    <p>redirect 重定向到JSP</p>    <p>redirectAction 重定向到Action</p>    <p>stream 下载</p> </blockquote>  <p>&#160;</p>  <p><strong>局部结果和全局结果</strong></p>  <p>在某个action标签内定义的是局部结构</p>  <p>在package中的global-results元素中定义的result</p>  <p>可以供当前package中的所有action使用</p>  <p>&#160;</p>  <ul>   <li><strong>constant</strong> </li> </ul>  <p>配置常量 通常在struts.xml中配置</p>  <p><strong>1.name</strong></p>  <p>常量名</p>  <p><strong>2.value</strong></p>  <p>常量值</p>  <p>&#160;</p>  <ul>   <li><strong>include</strong> </li> </ul>  <p>Struts配置文件分离</p>  <p>在实际开发的时候 多人开发一个项目 每个人可以写一个配置文件 然后都导入到一起</p>  <p>可以用include 合并</p>  <blockquote>   <p>&lt;include file=”.xml”/&gt;</p> </blockquote>  <p>&#160;</p>  <p><strong>常用常量</strong></p>  <p><strong>1.struts.i18n.encoding=UTF-8</strong></p>  <p>相当于调用request.setCharacterEncoding(“utf-8”)，<font color="#ff0000">只对POST请求做编码处理</font>，但不包括GET请求；</p>  <p><strong>2.struts.action.extension=action,,</strong></p>  <p>前端控制器会接收所有请求，但只有action后缀的请求才会分发给Action来处理，这时因为struts.action.extension指定了分发给action的后缀为action。也可以指定多种后缀名，然后用逗号分隔！</p>  <p>大家仔细观察，struts.action.extension常量的值是“action,,”，后面有两个逗号，这表示后缀为action的请求，以及没有后缀的请求都会分发给action！</p>  <p><font color="#ff0000">通常需要配置不可以用不带扩展名访问</font></p>  <blockquote>   <p>&lt;constant name=” struts.action.extension” value=”action”/&gt;</p> </blockquote>  <p>那么无后缀的请求就不会分发给actoin了</p>  <p><strong>3.struts.serve.static.browserCache=false</strong></p>  <p>该常量的值为false时，表示让浏览器不缓存，如果为true表示让浏览器缓存</p>  <p><font color="#ff0000">在开发阶段，该常量通常设置为false</font></p>  <p><strong>4.struts.devMode=true</strong></p>  <p>该常量为true时，表示为开发模式，开发模式下Struts2会在修改了配置文件后<font color="#ff0000">无需重启Tomcat</font>，而是自动加载，而且还会在出错时在页面提供详细的错误信息。</p>  <p>但是它会乱加一些信息 <font color="#ff0000">不喜欢用</font></p>  <p><strong>5.struts.configuration.xml.reload=true</strong></p>  <p>如果设为true 修改了xml文件之后 不用重启Tomcat就能生效</p>  <p>一般用这个 不用4那个</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、struts.properties</font></h5>  <p>放常量 可以用来覆盖default.properties中的常量 但是<strong>很少使用</strong></p>  <p>&#160;</p>  <h5><font style="font-weight: bold">六、web.xml</font></h5>  <p>也可以覆盖default.properties中的常量 <strong>根本不用</strong></p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

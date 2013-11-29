@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate关系操作 一对多 多对一</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate关系操作 一对多 多对一
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、One-to-Many的单向关联</strong>
+</h5>
+
+<p>
+	一对多：一个班级里有多个学生 可以从班级找到学生 从学生找不到班级
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/31.jpg"><img alt="31" class="alignnone size-medium wp-image-1297" height="64" src="http://localhost:8080/wp-content/uploads/2013/10/31-300x64.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>Classes.hbm.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;!--
+	</p>
+
+	<p>
+		set 用于描述集合
+	</p>
+
+	<p>
+		1.描述了表与表间的关联
+	</p>
+
+	<p>
+		2.描述了类与类间的关联
+	</p>
+
+	<p style="margin-left: 40px;">
+		name&nbsp; -&nbsp; 集合的名称
+	</p>
+
+	<p style="margin-left: 40px;">
+		cascade&nbsp; -&nbsp; 级联
+	</p>
+
+	<p style="margin-left: 80px;">
+		针对两个/两个以上对象 对一个对象进行操作的时候由hibernate内部对关联对象进行级联操作
+	</p>
+
+	<p style="margin-left: 80px;">
+		save-update&nbsp; -&nbsp; 当session.save/update一个对象的时候 由hibernate内部操作关联对象（对关联对象的操作有seve/update）
+	</p>
+
+	<p style="margin-left: 80px;">
+		delete&nbsp; -&nbsp; 当session.delete一个对象的时候 hibernate内部操作关联对象 关联对象全部删除
+	</p>
+
+	<p style="margin-left: 80px;">
+		all&nbsp; -&nbsp; 既能sava、update也能delete
+	</p>
+
+	<p style="margin-left: 40px;">
+		inverse&nbsp; -&nbsp; 关系
+	</p>
+
+	<p style="margin-left: 80px;">
+		true&nbsp; -&nbsp; 不维护关系
+	</p>
+
+	<p style="margin-left: 80px;">
+		false&nbsp; -&nbsp; 维护关系（对外键操作）
+	</p>
+
+	<p style="margin-left: 80px;">
+		default&nbsp; -&nbsp; false
+	</p>
+
+	<p>
+		--&gt;
+	</p>
+
+	<p>
+		&lt;set name=&quot;students&quot; cascade=&quot;save-update/delete/all&quot; inverse=&quot;false&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- key&nbsp; -&nbsp; 通过哪个字段来建立两者的关联（外键）--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;key&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;column name=&quot;cid&quot;&gt;&lt;/column&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/key&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 建立对象和对象间的关联 通过外键得到的对象 是什么对象 --&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;one-to-many class=&quot;....Student&quot;&gt;
+	</p>
+
+	<p>
+		&lt;/set&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>1.级联操作</strong>
+</p>
+
+<blockquote>
+	<p>
+		/* 保存班级 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = new Classes();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;classes.setCname(&quot;班级&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 保存学生 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student.setSname(&quot;学生&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//发现student的cid为null<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 保存班级和学生 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = new Classes();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;classes.setCname(&quot;班级&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student1 = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student1.setSname(&quot;学生1&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student2 = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student2.setSname(&quot;学生2&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;...<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.save(classes);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.save(student1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.save(student2);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;...<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//一个一个保存很麻烦<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 级联（Cascade）保存 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = new Classes();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;classes.setCname(&quot;班级&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student1 = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student1.setSname(&quot;学生1&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student2 = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student2.setSname(&quot;学生2&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//建立classes对象和student对象之间的关联<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; students = new HashSet&lt;Student&gt;();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;students.add(student1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;students.add(student2);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.save(classes);&nbsp;&nbsp; &nbsp;//没有保存student们 但是它自己就保存了<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//保存classes的时候 hibernate会检查classes的映射文件<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//如果cascade为save-update（在保存/更新班级的时候 级联对student集合进行操作）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//就会在save操作的时候 由于学生是一个临时状态的对象 所以就会把级联的学生也都保存了<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//学生的cid中也有值了<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 级联（Cascade）更新 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = new Classes();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;classes.setCname(&quot;班级&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student1 = (Student)session.get(Student.class, 1L);&nbsp;&nbsp; &nbsp;//已经存在的学生<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; students = new HashSet&lt;Student&gt;();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;students.add(student1);&nbsp;&nbsp; &nbsp;//把已经存在的学生 放到班级中<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.update(classes);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//由于学生是一个持久化对象 原来在数据库里有 而且他所属的班级也改变了 所以hibernate会给它更新<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 更新班级时 级联保存学生<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; * 在已存在班级中加入新学生<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = (Classes) session.get(Classes.class, 1L);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Student student = new Student();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;student.setSname(&quot;学生&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//获取cid=1的所有学生<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; students = classes.getStudents();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;students.add(student);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//session.update(classes); //无需执行update 只要commit 因为班级是持久化对象<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//没有发出更新班级的语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//发出了插入学生的语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 级联删除 */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Classes classes = (Classes) session.get(Classes.class, 1L);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.delete(classes);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	显示操作
+</p>
+
+<p style="margin-left: 40px;">
+	调用 session.save/update 方法 把一个对象进行insert/update操作
+</p>
+
+<p>
+	隐式操作
+</p>
+
+<p style="margin-left: 40px;">
+	当执行 session.save/update 方法时 级联操作的对象 成为隐式操作
+</p>
+
+<p style="margin-left: 40px;">
+	在级联操作时 如果在代码中建立了两者之间的级联关系（Classes与Student） 但是在映射文件中却没有级联 隐式对象成了临时状态对象 hibernate不允许这种情况出现 所以报错
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/41.jpg"><img alt="41" class="alignnone size-medium wp-image-1300" height="4" src="http://localhost:8080/wp-content/uploads/2013/10/41-300x4.jpg" width="300" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.关系操作</strong>
+</p>
+
+<p>
+	建立关系
+</p>
+
+<p style="margin-left: 40px;">
+	从数据库的角度 外键从null变成一个值
+</p>
+
+<p>
+	解除关系
+</p>
+
+<p style="margin-left: 40px;">
+	从数据库的角度 外键从一个值变成null
+</p>
+
+<p>
+	重新建立关系
+</p>
+
+<p style="margin-left: 40px;">
+	从数据库的角度 外键从一个值变成另一个值
+</p>
+
+<p>
+	在执行维护关系的操作的时候 会专门发出维护关系的update语句
+</p>
+
+<p>
+	该update语句是针对外键的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>级联&amp;关系操作</strong>
+</p>
+
+<p>
+	级联是对象之间的操作 和外键没有关系不设置级联 不会产生外键值
+</p>
+
+<p>
+	关系和外键有关
+</p>
+
+<p>
+	1.当代码中建立了两者之间的关联 如果映射文件中有csdcade 就会执行级联操作（而操作出来的东西 并没有关系 只是级联操作而已）
+</p>
+
+<p>
+	2.当代码中建立了两者之间的关系 如果映射文件中有inverse=&quot;false&quot; 就会维护关系（发出针对外键的update语句 所以效率低）
+</p>
+
+<p>
+	级联和关系和外键的设置都在&ldquo;一&rdquo;的映射文件中设置
+</p>
+
+<p>
+	而&ldquo;多&rdquo;的映射文件中 不用设置外键
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、One-to-Many &amp; Many-to-One 双向关联</strong>
+</h5>
+
+<p>
+	<strong>Student.hbm.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;many-to-one name=&quot;classes&quot; class=&quot;....Classes&quot; column=&quot;cid&quot; cascade=&quot;save-update&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>级联操作</strong>
+</p>
+
+<blockquote>
+	<p>
+		/* 通过学生建立学生和班级之间的关系 */<br />
+		Classes classes = new Classes();<br />
+		classes.setCname(&quot;班级&quot;);<br />
+		Student student = new Student();<br />
+		student.setSname(&quot;学生&quot;);<br />
+		student.setClasses(classes);&nbsp;&nbsp; &nbsp;//通过谁来建立关系 就看谁的映射文件<br />
+		session.save(student);&nbsp;&nbsp; &nbsp;//也要用它来save<br />
+		//级联操作的时候看的是Student.hbm.xml中的cascade
+	</p>
+</blockquote>
+
+<p>
+	<strong>双向关联的级联操作和维护关系</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/511.jpg"><img alt="51" class="alignnone size-medium wp-image-1305" height="107" src="http://localhost:8080/wp-content/uploads/2013/10/511-300x107.jpg" width="300" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/52.jpg"><img alt="52" class="alignnone size-medium wp-image-1306" height="52" src="http://localhost:8080/wp-content/uploads/2013/10/52-300x52.jpg" width="300" /></a>
+</p>
+
+<p>
+	1.一对多的情况下 <span style="color:#FF0000;">多的一方维护关系效率比较高</span> 因为不会单独发出维护关系的update语句 也不用再查出整个集合
+</p>
+
+<p>
+	2.如果一的一方维护关系
+</p>
+
+<p style="margin-left: 40px;">
+	建立关系
+</p>
+
+<p style="margin-left: 80px;">
+	外键 null -&gt; 一个值
+</p>
+
+<p style="margin-left: 40px;">
+	解除关系
+</p>
+
+<p style="margin-left: 80px;">
+	外键 一个值 -&gt; null
+</p>
+
+<p style="margin-left: 40px;">
+	重新建立关系
+</p>
+
+<p style="margin-left: 80px;">
+	外键 一个值 -&gt; 另一个值
+</p>
+
+<p>
+	3.如果多的一方维护关系
+</p>
+
+<p style="margin-left: 40px;">
+	建立关系
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;多&quot;.set&quot;一&quot;(&quot;一&quot;)
+</p>
+
+<p style="margin-left: 40px;">
+	解除关系
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;多&quot;.set&quot;一&quot;(null)
+</p>
+
+<p style="margin-left: 40px;">
+	重新建立关系
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;多&quot;.set&quot;一&quot;(&quot;一&quot;)
+</p>
+
+<p>
+	（注意！！！）从classes中得到的student 想要删除 要先解除关系 才能删除 否则会报错
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/11.jpg"><img alt="1" class="alignnone size-medium wp-image-1328" height="183" src="http://localhost:8080/wp-content/uploads/2013/10/11-300x183.jpg" width="300" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	一对多操作的总结
+</p>
+
+<p>
+	1.涉及到很多查询
+</p>
+
+<p>
+	2.当事务提交的时候
+</p>
+
+<p>
+	（1）hibernate会检查session中所有的持久化状态的值
+</p>
+
+<p style="margin-left: 40px;">
+	如果该对象在数据库中没有对应的语句 发出save语句
+</p>
+
+<p style="margin-left: 40px;">
+	如果该对象在数据库中有对应记录
+</p>
+
+<p style="margin-left: 80px;">
+	如果属性和快照没有区别 不做
+</p>
+
+<p style="margin-left: 80px;">
+	如果有区别发出update语句
+</p>
+
+<p style="margin-left: 40px;">
+	检查所有持久化对象的关联对象 看是否发生级联操作 进行相应的操作
+</p>
+
+<p style="margin-left: 40px;">
+	检查所有持久化对象的关联对象 看是否有维护关系的操作 进行相应的操作
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

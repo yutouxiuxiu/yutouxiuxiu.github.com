@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate二级缓存的应用</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate二级缓存的应用
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、用二级缓存干嘛</strong>
+</h5>
+
+<p>
+	SessionFactory 级别的缓存的 因为在一个项目中 SessionFactory是唯一的
+</p>
+
+<p>
+	SessionFactory 缓存业务数据 实现多用户之间共享
+</p>
+
+<p>
+	而 Session 级别的缓存 一级缓存 是与当前线程绑定的 每次客户端请求 服务器就分配一个线程进行处理 session属于request范围的 当一次请求之后 session的数据就已经没有了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	当我们查询的信息量非常大的时候 或者查询数据的时候 存在大量的重复 可以使用二级缓存进行优化
+</p>
+
+<p>
+	在有的项目中 可以把功能分离开 搭建单独的数据库的服务器 单独的缓存服务器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	缓存不是使用一定就好的 缓存有一些时候的限制
+</p>
+
+<p>
+	如果数据经常更新 就不适合使用缓存
+</p>
+
+<p>
+	如果缓存中的数据很少是引用 就不适合使用缓存
+</p>
+
+<p>
+	缓存会有一部分的内存开销
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、二级缓存的原理</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ccyl.jpg" rel="" style="" target="" title=""><img alt="ccyl" class="alignnone size-full wp-image-1964" height="322" src="http://localhost:8080/wp-content/uploads/2013/11/ccyl.jpg" style="" title="" width="647" /></a>
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>只能缓存where子句的条件是id的查询结构</strong></span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、案例</strong>
+</h5>
+
+<p>
+	在权限管理系统中&nbsp;在用户登录的时候 可以把角色和权限进行缓存
+</p>
+
+<p>
+	比如 张三登录了&nbsp;它是员工角色（role表） 然后查询员工对应的功能权限（function表）
+</p>
+
+<p>
+	然后 李四登录了 它也是员工角色（role表）<span style="font-size: 13px;">&nbsp;然后查询员工</span><span style="font-size: 13px;">对应的功能权限（function表）</span>
+</p>
+
+<p>
+	这样就有了很多重复
+</p>
+
+<p>
+	可以在张三登录之后 将员工角色的对应功能权限 放入二级缓存
+</p>
+
+<p>
+	这样 其他员工登录之后 就不用去查找数据库了 直接在二级缓存中读取
+</p>
+
+<p>
+	员工很多的情况下 就大大地节省了资源
+</p>
+
+<p>
+	<strong>1.导入jar包</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/jar1.jpg" rel="" style="" target="" title=""><img alt="jar" class="alignnone size-full wp-image-1965" height="42" src="http://localhost:8080/wp-content/uploads/2013/11/jar1.jpg" style="" title="" width="157" /></a>
+</p>
+
+<p>
+	如果是Maven项目
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ech.jpg" rel="" style="" target="" title=""><img alt="ech" class="alignnone size-full wp-image-1966" height="137" src="http://localhost:8080/wp-content/uploads/2013/11/ech.jpg" style="" title="" width="280" /></a>
+</p>
+
+<p>
+	<strong>2.二级缓存框架配置</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">ehcacahe.xml</span>
+</p>
+
+<p>
+	将<span style="color:#0000FF;">ehcache....jar</span>中的<span style="color:#0000FF;">ehcache-failsafe.xml</span>改名复制到resource目录中
+</p>
+
+<p>
+	<strong>3.对需要缓存的数据 配置缓存策略</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">Function.hbm.xml</span>
+</p>
+
+<p>
+	配置类级别的缓存
+</p>
+
+<blockquote>
+	<p>
+		&lt;class...
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;cache usage=&quot;read-write&quot;/&gt; &nbsp;- &nbsp;read-write &nbsp;数据还可以改动&nbsp;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">Role.hbm.xml</span>
+</p>
+
+<p>
+	集合级别的缓存
+</p>
+
+<blockquote>
+	<p>
+		&lt;set name=&quot;functions&quot; ...
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;cache usage=&quot;read-write&quot;/&gt;</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	集合级别的缓存 指向类级别的缓存 缓存的数据 还是放在类级别的里
+</p>
+
+<p>
+	<strong>4.配置开启二级缓存</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-common.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		...
+	</p>
+
+	<p>
+		&lt;property name=&quot;hibernateProperties&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;props&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;prop key=&quot;hibernate.cache.provide_class&quot;&gt;org.hibernate.cache.EhCacheProvider&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">&lt;prop key=&quot;hibernate.cache.user_second_level_cache</span><span style="font-size: 13px;">&quot;&gt;true&lt;/</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		...
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、二级缓存性能监控</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/jk.jpg"><img alt="jk" class="alignnone size-full wp-image-1972" height="86" src="http://localhost:8080/wp-content/uploads/2013/11/jk.jpg" width="453" /></a>
+</p>
+
+<p>
+	SessionFactory
+</p>
+
+<p>
+	get.Statistics()
+</p>
+
+<p>
+	<strong>1.启动性能检测</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">applicationContext-common.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;prop key=&quot;hibernate.generate_statistics&quot;&gt;true&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.通过测试用例 模拟监控功能</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		@RunWith(SpringJUnit4ClassRunner.class)
+	</p>
+
+	<p>
+		@ContextConfiguration(locations=&quot;classpath:applicationContext.xml&quot;);
+	</p>
+
+	<p>
+		public class CacheTest {
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Autowired
+	</p>
+
+	<p style="margin-left: 40px;">
+		private SessionFactory sessionFactory;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Test
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void testLogin() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		//对二级缓存性能监控
+	</p>
+
+	<p style="margin-left: 80px;">
+		Statistics statistics = sessionFactory.get<span style="font-size: 13px;">Statistics();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		Session session1 = sessionFactory.openSession();
+	</p>
+
+	<p style="margin-left: 80px;">
+		Transaction transaction1 = session.beginTransition();
+	</p>
+
+	<p style="margin-left: 80px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		User user1 = (User)session1.getNamedQuery(&quot;User.login&quot;).setParameter(0, &#39;user1&#39;).setParameter(1, &#39;123&#39;).uniqueResult();
+	</p>
+
+	<p style="margin-left: 80px;">
+		Hibernate.initialize(user1.getRole().getFunctions()); &nbsp;//手动加载functions
+	</p>
+
+	<p style="margin-left: 80px;">
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 80px;">
+		transaction1.commit();
+	</p>
+
+	<p style="margin-left: 80px;">
+		session1.close();
+	</p>
+
+	<p style="margin-left: 80px;">
+		//去二级缓存找 找到了 命中次数+1 找不到 丢失次数+1
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(&quot;二级缓存命中次数&quot;+<span style="font-size: 13px;">statistics.getSecondLevelCacheHitCount</span>); &nbsp;//0
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-size: 13px;">syso(&quot;二级缓存丢失次数&quot;+</span><span style="font-size: 13px;">statistics.getSecondLevelCacheHitCount</span><span style="font-size: 13px;">); &nbsp;//2</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(&quot;===============================================================&quot;);
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		Session session2 = sessionFactory.openSession();
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		Transaction transaction2 = session.beginTransition();
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		User user2 = (User)session2.getNamedQuery(&quot;User.login&quot;).setParameter(0, &#39;user2&#39;).setParameter(1, &#39;123&#39;).uniqueResult();
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		Hibernate.initialize(user2.getRole().getFunctions());
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		transaction2.commit();
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		session2.close();
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		//这个数值接着累加
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		syso(&quot;二级缓存命中次数&quot;+statistics.getSecondLevelCacheHitCount); &nbsp;//6
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		syso(&quot;二级缓存丢失次数&quot;+statistics.getSecondLevelCacheHitCount); &nbsp;//2
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	横线之上 有三条sql语句 登录、查询role、查询functions
+</p>
+
+<p>
+	横线之下 有一条sql语句 登录
+</p>
+
+<p>
+	<strong>3.开启日志 查看缓存的执行过程</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">log4j.properties</span>
+</p>
+
+<blockquote>
+	<p>
+		log4j.rootLoger = OFF...
+	</p>
+
+	<p>
+		log4j.logger.org.hibernate.cache&nbsp;= debug
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/log.jpg" rel="" style="" target="" title=""><img alt="log" class="alignnone size-full wp-image-1973" height="77" src="http://localhost:8080/wp-content/uploads/2013/11/log.jpg" style="" title="" width="634" /></a><a href="http://localhost:8080/wp-content/uploads/2013/11/log2.jpg" rel="" style="" target="" title=""><img alt="log2" class="alignnone size-full wp-image-1974" height="187" src="http://localhost:8080/wp-content/uploads/2013/11/log2.jpg" style="" title="" width="635" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/log3.jpg" rel="" style="" target="" title=""><img alt="log3" class="alignnone size-full wp-image-1975" height="106" src="http://localhost:8080/wp-content/uploads/2013/11/log3.jpg" style="" title="" width="613" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/log4.jpg" rel="" style="" target="" title=""><img alt="log4" class="alignnone size-full wp-image-1976" height="68" src="http://localhost:8080/wp-content/uploads/2013/11/log4.jpg" style="" title="" width="551" /></a>
+</p>
+
+<p>
+	<strong>4.分析命中率</strong>
+</p>
+
+<p>
+	让程序跑一天 让它性能监测 之后计算命中率（= 命中次数 / (命中次数 + 丢失次数)）
+</p>
+
+<p>
+	如果命中率很高 就说明二级缓存的优化效果很好
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

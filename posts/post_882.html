@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>老师写的jar包</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					老师写的jar包
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>1.把map的数据封装到指定的JavaBean中</strong></p>  <blockquote>   <p>Person person = CommonUtils.toBean(map, Person.class);</p> </blockquote>  <p>底层使用commons-beanutils</p>  <p>&#160;</p>  <p><strong>2.产生没有短横线的32位uuid</strong></p>  <p>为什么有时候不用数据库的自增长：群集数据库！同一个表 放在多个数据库里</p>  <blockquote>   <p>String uuid = CommonUtils.uuid();</p> </blockquote>  <p><strong></strong></p>  <p><strong>3.让一个Servlet有多个处理方法</strong></p>  <p>以前一个Servlet只能处理一个请求 当网站功能很多的时候 Servlet会暴增</p>  <p><strong>编写方式</strong></p>  <blockquote>   <p>public class UserServlet extends BaseServlet {&#160;&#160;&#160; //<strong>1.继承BaseServlet</strong> </p>    <p>&#160;&#160;&#160; //不再需要doPost，doGet</p>    <p>&#160;&#160;&#160; //<strong>2.返回值用String</strong></p>    <p>&#160;&#160;&#160; //<strong>3.方法名写成具体功能的名称</strong></p>    <p>&#160;&#160;&#160; public String add(HttpServletRequest request, HttpServletResponse) throws ServletException, IOException {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //<strong>4.返回值为转发到的位置</strong></p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return “/index.jsp”;</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public String edit(HttpServletRequest request, HttpServletResponse) throws ServletException, IOException {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //这里可以手动重定向</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;&#160;&#160;&#160; //<strong>4.不想转发请返回null</strong></p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><strong>访问方式</strong></p>  <p>访问的时候需要传递参数</p>  <blockquote>   <p>UserServlet ?method=add</p> </blockquote>  <p><strong>原理</strong></p>  <p>BaseServlet</p>  <p>先获取参数method的值</p>  <p>按照method查找本类中对应的方法</p>  <p>不存在则抛异常</p>  <p>然后用反射invoke调用该方法 得到返回值</p>  <p>返回值不null不空 就转发</p>  <p>&#160;</p>  <p><strong>4.获取数据库连接池</strong></p>  <p>依赖c3p0连接池 它是单例的 调用多次返回的都是相同的对象</p>  <p>用c3p0要用3个jar包 1个xml文件</p>  <p><strong>获取连接池</strong></p>  <blockquote>   <p>DataSource dataSource = JdbcUtils.getDataSource();</p> </blockquote>  <p><strong>获取连接</strong></p>  <blockquote>   <p>dataSource.getConnection();</p> </blockquote>  <p>&#160;</p>  <p><strong>5.发邮件</strong></p>  <blockquote>   <p>Session session = MailUtils.createSession(“stmp服务器”, “用户名”, “密码”);</p>    <p>Mail mail = new Mail(<a href="mailto:&ldquo;from@from.com">“from@from.com</a>”, <a href="mailto:&ldquo;to@to.com">“to@to.com</a>”, “主题”, “内容”);</p>    <p>MailUtils.send(session, mail);</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

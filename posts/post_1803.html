@@ -1,0 +1,570 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Javascript - 复习</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Javascript - 复习
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、数据类型</strong>
+</h5>
+
+<p>
+	Undefined &nbsp;- &nbsp;没有定义
+</p>
+
+<p>
+	Null &nbsp;- &nbsp;有定义 但引用为空
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		var n1 = 10; &nbsp;//基本类型
+	</p>
+
+	<p>
+		var n2 = new Number(10); &nbsp;//引用数据类型（Object）
+	</p>
+
+	<p>
+		var s1 = &quot;a&quot;;<span style="font-size: 13px;">&nbsp;&nbsp;//基本类型</span>
+	</p>
+
+	<p>
+		var s2 = new String(&quot;a&quot;) //<span style="font-size: 13px;">引用数据类型（Object）</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、内置对象</strong>
+</h5>
+
+<p>
+	<strong>1.Array</strong>
+</p>
+
+<p>
+	（1）定义数组
+</p>
+
+<blockquote>
+	<p>
+		var arr1 = [];
+	</p>
+
+	<p>
+		var arr2 = new Array();
+	</p>
+</blockquote>
+
+<p>
+	（2）操作数组
+</p>
+
+<blockquote>
+	<p>
+		arr1.push(&quot;a&quot;); &nbsp;//添加内容
+	</p>
+
+	<p>
+		arr1.push(&quot;b&quot;);
+	</p>
+
+	<p>
+		alert(arr1.join(&quot;,&quot;)); &nbsp;//用&ldquo;,&rdquo;分割输出内容
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.String</strong>
+</p>
+
+<blockquote>
+	<p>
+		&quot;&quot;.substr(m, n);
+	</p>
+
+	<p>
+		&quot;&quot;.substring(m, n);
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.RegExp</strong>
+</p>
+
+<blockquote>
+	<p>
+		var regex = /^\d+$/;
+	</p>
+
+	<p>
+		alert(regex.test(&quot;12345&quot;));
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.Functions</strong>
+</p>
+
+<p>
+	（1）定义函数
+</p>
+
+<blockquote>
+	<p>
+		function a() { alert(1);&nbsp;<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">a(); &nbsp;//输出2 它是先编译函数</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		function a() { alert(2);&nbsp;<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="line-height: 1.6em;">a(); &nbsp;//输出2</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">var b = function() {</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;alert(1);&nbsp;</span><span style="line-height: 1.6em;">};</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">b(); &nbsp;//输出1</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="line-height: 1.6em;">b = function() {</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;alert(2);&nbsp;</span><span style="line-height: 1.6em;">};</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="line-height: 1.6em;">b(); &nbsp;//输出2</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">var c = new Function(arg1, arg2, ..., &quot;alert(1);&quot;);</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">c(...);</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、全局函数</strong>
+</h5>
+
+<p>
+	eval(); &nbsp;//执行字符串
+</p>
+
+<p>
+	isNaN(); &nbsp;//是否是数字
+</p>
+
+<p>
+	encodeURI(); &nbsp;//不编码的字符有82个 不编码&ldquo;&amp;&rdquo;
+</p>
+
+<p>
+	encodeURIComponent(); &nbsp;//不编码的字符有71个&nbsp;编码&ldquo;&amp;&rdquo;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/bm.jpg"><img alt="bm" class="alignnone size-full wp-image-1804" height="65" src="http://localhost:8080/wp-content/uploads/2013/11/bm.jpg" width="404" /></a>
+</p>
+
+<p>
+	parseInt();
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>四、BOM对象</strong>
+</p>
+
+<p>
+	浏览器内置对象
+</p>
+
+<p>
+	<strong>1.windows</strong>
+</p>
+
+<p>
+	setTimeout(function(){}, milli);
+</p>
+
+<p>
+	setInterval
+</p>
+
+<p>
+	showModalDialog&nbsp; 弹窗 弹出之后地址不能改 但是会被浏览器拦截
+</p>
+
+<p>
+	alert
+</p>
+
+<p>
+	confirm &nbsp;确认框
+</p>
+
+<p>
+	<strong>2.location</strong>
+</p>
+
+<p>
+	location.href &nbsp;页面跳转
+</p>
+
+<p>
+	<strong>3.history</strong>
+</p>
+
+<p>
+	history.go(-1); &nbsp;后退
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、DOM对象</strong>
+</h5>
+
+<p>
+	<strong>1.获取内容</strong>
+</p>
+
+<p>
+	document.getElementById(&#39;&#39;).value();
+</p>
+
+<p>
+	document.getElementById(&#39;&#39;).innerHTML();
+</p>
+
+<p>
+	要写在DOM元素的下面 因为是按顺序执行的 要不然就放在onload里
+</p>
+
+<p>
+	window.onload = function() {};
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.向select添加option</strong>
+</p>
+
+<p>
+	<strong>（1）XMLDOM方法（通用的 重点学）</strong>
+</p>
+
+<blockquote>
+	<p>
+		var option = document.createElement(&quot;option&quot;);
+	</p>
+
+	<p>
+		option.innerHTML = &quot;yutou&quot;;
+	</p>
+
+	<p>
+		document.getElementById(&quot;&quot;).appendChild(option);
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）HTMLDOM方法</strong>
+</p>
+
+<blockquote>
+	<p>
+		var option = new Option();
+	</p>
+
+	<p>
+		option.text = &quot;yutou&quot;;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">document.getElementById(&quot;&quot;).add(option);</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.加属性</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">document.getElementById(&quot;&quot;)</span>.setAttribute(&quot;&quot;, &quot;&quot;);
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.添加style</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">document.getElementById(&quot;&quot;).style.color = &quot;red&quot;;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、javascript的高级课程</strong>
+</h5>
+
+<p>
+	<strong>1.创建对象</strong>
+</p>
+
+<p>
+	对象结构 就是Map
+</p>
+
+<blockquote>
+	<p>
+		var obj = {}; &nbsp;//Object类型
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		var obj = {
+	</p>
+
+	<p style="margin-left: 40px;">
+		name : &quot;&quot;;
+	</p>
+
+	<p style="margin-left: 40px;">
+		getName : function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		return this.name;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		};
+	</p>
+
+	<p>
+		<span style="font-family: sans-serif, Arial, Verdana, 'Trebuchet MS'; line-height: 1.6em;">alert(obj.getName());</span>
+	</p>
+</blockquote>
+
+<p>
+	类结构 函数的对象
+</p>
+
+<blockquote>
+	<p>
+		var Person = function() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.age = 20;
+	</p>
+
+	<p>
+		};
+	</p>
+
+	<p>
+		var p = new Person();
+	</p>
+
+	<p>
+		alert(p.age);
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.JSON可以转为对象</strong>
+</p>
+
+<blockquote>
+	<p>
+		var json = &#39;{&quot;name&quot;:&quot;芋头&quot;,&quot;age&quot;:&quot;20&quot;}&#39;;
+	</p>
+
+	<p>
+		var obj = eval(&quot;(&quot; + json + &quot;)&quot;);
+	</p>
+
+	<p>
+		alert(obj.name);
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

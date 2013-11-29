@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>jBPM - 概述</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					jBPM - 概述
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	1.jBPM4.4入门
+</p>
+
+<p>
+	2.环境搭建
+</p>
+
+<p>
+	3.流程设计
+</p>
+
+<p>
+	4.流程定义管理
+</p>
+
+<p>
+	5.流程实例管理
+</p>
+
+<p>
+	6.任务操作
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、什么是</strong><strong style="font-size: 13px;">工作流（Workflow）</strong>
+</h5>
+
+<p>
+	业务过程的部分/整体 在计算机环境下的自动化 就是将业务流程进行自动化
+</p>
+
+<p>
+	把工作中的业务流程交给程序管理 以&nbsp;表单审核 任务办理 为主体 实现办公自动化
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	一套能管理业务流程的框架
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/lc.jpg" rel="" style="" target="" title=""><img alt="lc" class="alignnone size-full wp-image-1743" height="125" src="http://localhost:8080/wp-content/uploads/2013/11/lc.jpg" style="" title="" width="344" /></a>
+</p>
+
+<p>
+	<strong>1.问题：</strong>
+</p>
+
+<p>
+	如果流程非常的多 流程节点之间的衔接 是通过代码进行逻辑的连接 如果流程改变了 就要改变代码 原来是员工请假 经理审批 现在要改成员工请假之后 小组长先批准 就要加一个节点 就要改代码 就很麻烦 那要是北京的请假 经理批 上海的请假 先小组长批 太麻烦了 永无止境的修改
+</p>
+
+<p>
+	<strong>2.解决：</strong>
+</p>
+
+<p>
+	使用工作流框架 解决很多业务流程的管理、开发、维护
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.特点</strong>
+</p>
+
+<p>
+	将做所的业务流程管理起来
+</p>
+
+<p>
+	流程的流转是基于表单提交和任务办理
+</p>
+
+<p>
+	流程是在后台里用户自己定制流程&nbsp;不用改代码
+</p>
+
+<p>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;--------------- 业务流程的定制 无需修改代码
+</p>
+
+<p>
+	<strong>4.体验</strong>
+</p>
+
+<p>
+	<strong>（1）通过流程设计器设计流程</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/sjq.jpg" rel="" style="" target="" title=""><img alt="sjq" class="alignnone size-full wp-image-1745" height="196" src="http://localhost:8080/wp-content/uploads/2013/11/sjq.jpg" style="" title="" width="298" /></a>
+</p>
+
+<p>
+	会产生一个.zip里面有一个xml文件
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/xml.jpg" rel="" style="" target="" title=""><img alt="xml" class="alignnone size-full wp-image-1746" height="110" src="http://localhost:8080/wp-content/uploads/2013/11/xml.jpg" style="" title="" width="336" /></a>
+</p>
+
+<p>
+	<strong>（2）运行演示程序</strong>
+</p>
+
+<p>
+	创建空的数据库
+</p>
+
+<p>
+	<span style="font-size: 13px;">配置hibernate配置文件</span>
+</p>
+
+<p>
+	<span style="color:#0000FF;">jbpm.hibernate.cfg.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		url
+	</p>
+
+	<p>
+		username
+	</p>
+
+	<p>
+		password
+	</p>
+</blockquote>
+
+<p>
+	启动tomcat
+</p>
+
+<p>
+	用&ldquo;admin&rdquo;没密码登陆
+</p>
+
+<p>
+	导入流程 上传并部署
+</p>
+
+<p>
+	启动流程实例
+</p>
+
+<p>
+	退出 用&ldquo;员工&rdquo;登陆（画图里画的是&ldquo;员工&rdquo;）没密码
+</p>
+
+<p>
+	我的个人任务 用谁登陆 就可以看到谁可以办理的业务
+</p>
+
+<p>
+	里面有员工请假 点办理
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/tj.jpg" rel="" style="" target="" title=""><img alt="tj" class="alignnone size-full wp-image-1747" height="84" src="http://localhost:8080/wp-content/uploads/2013/11/tj.jpg" style="" title="" width="284" /></a>
+</p>
+
+<p>
+	退出 用&ldquo;经理&rdquo;登陆
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/heihei.jpg" rel="" style="" target="" title=""><img alt="heihei" class="alignnone size-full wp-image-1748" height="89" src="http://localhost:8080/wp-content/uploads/2013/11/heihei.jpg" style="" title="" width="200" /></a>
+</p>
+
+<p>
+	可以在正在执行和已完成里看到流程的流转信息
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、环境搭建</strong>
+</h5>
+
+<p>
+	<strong>1.什么是jBPM</strong>
+</p>
+
+<p>
+	是一个灵活可扩展的工作流管理系统 包括一个web程序 和一个日常安排程序
+</p>
+
+<p>
+	除了jBPM还有
+</p>
+
+<p style="margin-left: 40px;">
+	OSWorkflow
+</p>
+
+<p style="margin-left: 40px;">
+	OFBiz 非常著名的开源项目（太复杂了）
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/31.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-1749" height="185" src="http://localhost:8080/wp-content/uploads/2013/11/31.jpg" style="" title="" width="415" /></a>
+</p>
+
+<p>
+	<strong>2.主流版本</strong>
+</p>
+
+<p>
+	jBPM在企业中 主流的版本
+</p>
+
+<p>
+	3.x, 4.x &nbsp;- &nbsp;jBoss中开发的 hibernate也是jBoss的 所以内嵌的是hibernate
+</p>
+
+<p>
+	Activity &nbsp;- &nbsp;创始人离开了jBoss 然后发布的 内嵌的是MyBatis
+</p>
+
+<p>
+	5.x &nbsp;- &nbsp;和4没关系 是另一伙人开发的
+</p>
+
+<p>
+	3、4、Activity、5 区别非常大
+</p>
+
+<p>
+	我们来学习4.4
+</p>
+
+<p>
+	<strong>3.压缩包目录结构</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ml.jpg" rel="" style="" target="" title=""><img alt="ml" class="alignnone size-full wp-image-1750" height="134" src="http://localhost:8080/wp-content/uploads/2013/11/ml.jpg" style="" title="" width="155" /></a>
+</p>
+
+<p>
+	<strong>4.jBPM流程设计器</strong>
+</p>
+
+<p>
+	官方zip包中 提供了两种设计器 一种是线下设计器（好用） 一种是在线设计器（不好用 不支持IE 中文乱码问题 不过可以解决）
+</p>
+
+<p>
+	<strong>（1）线下设计器的安装</strong>
+</p>
+
+<p>
+	Eclipse的GPD的设计插件&nbsp;
+</p>
+
+<p>
+	/install/src/gpd/jbpm-gpd-site.zip
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">请先断网！</span></strong>
+</p>
+
+<p>
+	Help -&gt; MyEclipse Configuration Center -&gt; Software
+</p>
+
+<p>
+	Add Site -&gt; 输入jbpm 选择上面那个.zip文件 -&gt; OK
+</p>
+
+<p>
+	点开jbpm -&gt; 八项分别右键 -&gt; add to profile 千万别着急 慢慢来 很卡 添加完一个 右下角的数字会加1 等加1了 再安下一个
+</p>
+
+<p>
+	然后Apply 8 Changes
+</p>
+
+<p>
+	下一步 下一步 ...
+</p>
+
+<p>
+	然后就安好了
+</p>
+
+<p>
+	发现在new 菜单中other里有jbpm就好了
+</p>
+
+<p>
+	<strong>（2）创建jbpm项目</strong>
+</p>
+
+<p>
+	创建一个source folder 叫 jpdl/xml
+</p>
+
+<p>
+	在里面新建 jPDL4 File caigou.jpdl.xml
+</p>
+
+<p>
+	用jBPM jPDL4 Editor打开
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/h.jpg" rel="" style="" target="" title=""><img alt="h" class="alignnone size-full wp-image-1751" height="248" src="http://localhost:8080/wp-content/uploads/2013/11/h.jpg" style="" title="" width="413" /></a>
+</p>
+
+<p>
+	在Source视图里 添加DTD约束 解压目录/src中就有jpdl-4.4.xsd
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/hhhhhh.jpg"><img alt="hhhhhh" class="alignnone size-full wp-image-1752" height="113" src="http://localhost:8080/wp-content/uploads/2013/11/hhhhhh.jpg" width="319" /></a>
+</p>
+
+<p>
+	<strong>（3）安装线上设计器</strong>
+</p>
+
+<p>
+	install/src/signavio/jbpmeditor.war
+</p>
+
+<p>
+	放到tomcat里
+</p>
+
+<p>
+	修改web.xml
+</p>
+
+<p>
+	修改默认保存jpdl.xml文件的位置
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/g1.jpg"><img alt="g1" class="alignnone size-full wp-image-1753" height="67" src="http://localhost:8080/wp-content/uploads/2013/11/g1.jpg" width="440" /></a>
+</p>
+
+<p>
+	修改支持的浏览器
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/g2.jpg" rel="" style="" target="" title=""><img alt="g2" class="alignnone size-full wp-image-1754" height="43" src="http://localhost:8080/wp-content/uploads/2013/11/g2.jpg" style="" title="" width="387" /></a>
+</p>
+
+<p>
+	访问 jpbmeditor/p/explorer 页面
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/huatu.jpg" rel="" style="" target="" title=""><img alt="huatu" class="alignnone size-full wp-image-1755" height="244" src="http://localhost:8080/wp-content/uploads/2013/11/huatu.jpg" style="" title="" width="419" /></a>
+</p>
+
+<p>
+	但是会有乱码 用记事本打开 然后复制粘贴到别的地方
+</p>
+
+<p>
+	在jBPM5和Activity版本 的在线设计器就非常完善了 不过有的公司还在用jBPM3/4 所以很多公司还自己写设计器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	在商业化的开发中 肯定得用在线设计器 设计完了 直接发布到应用中了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.写jBPM项目</strong>
+</p>
+
+<p>
+	<strong>（1）导入jar包</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	解压包/jbpm.jar
+</p>
+
+<p style="margin-left: 40px;">
+	解压包/lib/ 里面 除了 servlert-api.jar, junit.jar, slf4j*.jar 的jar包 都要
+</p>
+
+<p style="margin-left: 40px;">
+	导入slf4j的替换jar包 2个
+</p>
+
+<p>
+	<strong>（2）导入配置文件</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	log4j.properties
+</p>
+
+<p style="margin-left: 40px;">
+	解压包/examples/src/jbpm.cfg.xml &nbsp;- &nbsp;核心配置文件（其中引入了<span style="font-size: 13px;">jbpm.hibernate.cfg.xml</span>）
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">解压包/examples/src/jbpm.hibernate.cfg.xml &nbsp;- &nbsp;hibernate的核心配置文件</span>
+</p>
+
+<p style="margin-left: 40px;">
+	修改
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;"><span style="font-size: 13px;">jbpm.hibernate.cfg.xml</span></span>
+</p>
+
+<blockquote>
+	<p>
+		url
+	</p>
+
+	<p>
+		username
+	</p>
+
+	<p>
+		password
+	</p>
+
+	<p>
+		dialect &nbsp;- &nbsp;org.hibernate.dialect.MySQL5InnoDBDialect &nbsp;<strong><span style="color:#FF0000;">必须用这个方言 否则会在流程结束时发生异常</span></strong>
+	</p>
+
+	<p>
+		driver_class &nbsp;- &nbsp;com.mysql.jdbc.Driver
+	</p>
+
+	<p>
+		hbm2ddl.auto &nbsp;- &nbsp;update
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（3）创建表</strong>
+</p>
+
+<blockquote>
+	<p>
+		@Test
+	</p>
+
+	<p>
+		public void createTable() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		//创建核心的配置对象
+	</p>
+
+	<p style="margin-left: 40px;">
+		Configuration conf = new&nbsp;<span style="font-size: 13px;">Configuration();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		//由配置对象加载核心的配置文件 获得流程引擎对象
+	</p>
+
+	<p style="margin-left: 40px;">
+		conf.buildProcessEngine();
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	会自动创建18张表
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

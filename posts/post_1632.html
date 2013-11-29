@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MySQL优化 海量数据统计处理 模拟物化视图</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL优化 海量数据统计处理 模拟物化视图
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	<strong>一 物化视图</strong>&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 物化视图，它是用于预先计算并保存表连接或聚集等耗时较多的操作的结果，这样，在执行查询时，就可以避免进行这些耗时的操作，而从快速的得到结果。&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 只有大型数据库oracle10g,db2才支持这个功能,而MySQL5.1暂时还没有这个功能。本人通过事件调度和存储过程模拟了物化视图。下面大家一起来讨论吧。^-^&nbsp;
+</p>
+
+<p>
+	<strong>二 准备知识</strong>&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 1)存储过程:玩过数据库的人，都知道他是啥~，~&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 2)事件调度:在MySQL5.1开始才有的新功能。说白了就是个定时器。跟java里的timer差不多。
+</p>
+
+<div class="dp-highlighter" id="" style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; background-color: rgb(239, 239, 239); width: 766.296875px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word; color: rgb(0, 0, 0); line-height: 25.1875px;">
+	<div class="bar">
+		<div class="tools" style="padding: 3px; margin: 0px; font-weight: bold;">
+			Sql代码&nbsp;&nbsp;<a style="color: rgb(0, 102, 153); text-decoration: underline;" title="收藏这段代码"><img alt="收藏代码" class="star" src="http://www.iteye.com/images/icon_star.png" style="border: 0px;" /></a>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<ol class="dp-sql" start="1" style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">show&nbsp;processlist;&nbsp;<span class="comment" style="color: rgb(0, 130, 0); padding: 0px; margin: 0px; width: auto; border: 0px;">--这个命令能是查看线程，如果启动了时间调度器，则会多个event_scheduler</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">set</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">global</span>&nbsp;event_scheduler&nbsp;=&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">on</span>;&nbsp;<span class="comment" style="color: rgb(0, 130, 0); padding: 0px; margin: 0px; width: auto; border: 0px;">--启动时间调度器，关闭就不用我说了吧，off就可以了</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">show&nbsp;processlist\G;<span class="comment" style="color: rgb(0, 130, 0); padding: 0px; margin: 0px; width: auto; border: 0px;">--查看线程，是不是多了个&nbsp;User:&nbsp;event_scheduler</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="comment" style="color: rgb(0, 130, 0); padding: 0px; margin: 0px; width: auto; border: 0px;">--如果想启动单个事件，则执行下面命令</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ALTER</span>&nbsp;EVENT&nbsp;`myEvent`&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ON</span>&nbsp;COMPLETION&nbsp;PRESERVE&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">ENABLE;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="comment" style="color: rgb(0, 130, 0); padding: 0px; margin: 0px; width: auto; border: 0px;">--关闭</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ALTER</span>&nbsp;EVENT&nbsp;`myEvent`&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ON</span>&nbsp;COMPLETION&nbsp;PRESERVE&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">DISABLE;&nbsp;&nbsp;</span>
+		</li>
+	</ol>
+</div>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	mysql默认不会启动event,所以需要修改你的my.ini或my.cnf[mysqld]的下面加入如下行
+</p>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	event_scheduler=1
+</p>
+
+<p>
+	<strong>三 模拟物化视图</strong>&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 1)先建个基表吧。
+</p>
+
+<div class="dp-highlighter" id="" style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; background-color: rgb(239, 239, 239); width: 766.296875px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word; color: rgb(0, 0, 0); line-height: 25.1875px;">
+	<div class="bar">
+		<div class="tools" style="padding: 3px; margin: 0px; font-weight: bold;">
+			Sql代码&nbsp;&nbsp;<a style="color: rgb(0, 102, 153); text-decoration: underline;" title="收藏这段代码"><img alt="收藏代码" class="star" src="http://www.iteye.com/images/icon_star.png" style="border: 0px;" /></a>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<ol class="dp-sql" start="1" style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">CREATE</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">TABLE</span>&nbsp;`<span class="func" style="color: rgb(255, 20, 147);">user</span>`&nbsp;(&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;`Id`&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">int</span>(11)&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NOT</span>&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NULL</span>&nbsp;AUTO_INCREMENT,&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;`<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">name</span>`&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">varchar</span>(255)&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">DEFAULT</span>&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NULL</span>,&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;`age`&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">int</span>(11)&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">DEFAULT</span>&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NULL</span>,&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">PRIMARY</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">KEY</span>&nbsp;(`Id`)&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">);&nbsp;&nbsp;</span>
+		</li>
+	</ol>
+</div>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 2)设计视图&nbsp;<br />
+	我想查询所有18岁员工的数量。&nbsp;<br />
+	很简单，select count(*) from user where age=18;&nbsp;<br />
+	如果是传统概念的视图，在MySQL中，每次访问视图的时候，他都会创建个临时表，然后执行一次。在海量数据的情况下，这样的效率是非常低的。而物化视图，则他会定时去刷新这个临时表，而不是你在用的时候才会去刷新。并且物化视图的&quot;临时表&quot;是一直存在的。所以效率高出非常多。拿空间换时间^-^&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 3)创建&quot;物化视图&quot;的表
+</p>
+
+<div class="dp-highlighter" id="" style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; background-color: rgb(239, 239, 239); width: 766.296875px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word; color: rgb(0, 0, 0); line-height: 25.1875px;">
+	<div class="bar">
+		<div class="tools" style="padding: 3px; margin: 0px; font-weight: bold;">
+			Sql代码&nbsp;&nbsp;<a style="color: rgb(0, 102, 153); text-decoration: underline;" title="收藏这段代码"><img alt="收藏代码" class="star" src="http://www.iteye.com/images/icon_star.png" style="border: 0px;" /></a>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<ol class="dp-sql" start="1" style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">CREATE</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">TABLE</span>&nbsp;`user_view`&nbsp;(&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;`Id`&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">int</span>(11)&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NOT</span>&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NULL</span>&nbsp;AUTO_INCREMENT,&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;`c`&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">int</span>(11)&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">DEFAULT</span>&nbsp;<span class="op" style="color: rgb(128, 128, 128);">NULL</span>,&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">PRIMARY</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">KEY</span>&nbsp;(`Id`)&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">);&nbsp;&nbsp;</span>
+		</li>
+	</ol>
+</div>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	<br />
+	&nbsp;&nbsp;&nbsp; 4)设计存储过程
+</p>
+
+<div class="dp-highlighter" id="" style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; background-color: rgb(239, 239, 239); width: 766.296875px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word; color: rgb(0, 0, 0); line-height: 25.1875px;">
+	<div class="bar">
+		<div class="tools" style="padding: 3px; margin: 0px; font-weight: bold;">
+			Sql代码&nbsp;&nbsp;<a style="color: rgb(0, 102, 153); text-decoration: underline;" title="收藏这段代码"><img alt="收藏代码" class="star" src="http://www.iteye.com/images/icon_star.png" style="border: 0px;" /></a>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<ol class="dp-sql" start="1" style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">CREATE</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">PROCEDURE</span>&nbsp;demoSp()&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">BEGIN</span>&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">DECLARE</span>&nbsp;z&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">INT</span>;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">SELECT</span>&nbsp;<span class="func" style="color: rgb(255, 20, 147);">COUNT</span>(*)&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">INTO</span>&nbsp;z&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">FROM</span>&nbsp;<span class="func" style="color: rgb(255, 20, 147);">user</span>;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">delete</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">from</span>&nbsp;user_view;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">insert</span>&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">into</span>&nbsp;user_view(c)&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">values</span>(z);&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">END</span>;&nbsp;&nbsp;</span>
+		</li>
+	</ol>
+</div>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 5)设计调度并执行，为了使实验明显，我就把调度设置成5秒一次吧。周期可以自己调节。
+</p>
+
+<div class="dp-highlighter" id="" style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; background-color: rgb(239, 239, 239); width: 766.296875px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word; color: rgb(0, 0, 0); line-height: 25.1875px;">
+	<div class="bar">
+		<div class="tools" style="padding: 3px; margin: 0px; font-weight: bold;">
+			Sql代码&nbsp;&nbsp;<a style="color: rgb(0, 102, 153); text-decoration: underline;" title="收藏这段代码"><img alt="收藏代码" class="star" src="http://www.iteye.com/images/icon_star.png" style="border: 0px;" /></a>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<ol class="dp-sql" start="1" style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">CREATE</span>&nbsp;EVENT&nbsp;`myEvent`&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ON</span>&nbsp;SCHEDULE&nbsp;EVERY&nbsp;5&nbsp;<span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">SECOND</span>&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;"><span class="keyword" style="color: rgb(127, 0, 85); font-weight: bold;">ON</span>&nbsp;COMPLETION&nbsp;PRESERVE&nbsp;&nbsp;&nbsp;</span>
+		</li>
+		<li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+			<span style="color: black;">DO&nbsp;call&nbsp;demoSp();&nbsp;&nbsp;</span>
+		</li>
+	</ol>
+</div>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	&nbsp;
+</p>
+
+<p>
+	<strong>四 总结</strong>&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 上面的实现，可能不太明显，但在海量数据处理的时候进行统计，性能有明显的提升。大家做实验的时候，可以增加一个insert语句，方便观察。在更新数据的时候，如果数据量大，则需要按下面步骤来处理&nbsp;<br />
+	1)delete 1条记录&nbsp;<br />
+	2)insert 1条记录&nbsp;<br />
+	3)提交&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 如果一次性把数据全部删除，在查询的时候，有可能会出现空表的现象。而且会影响统计使用。&nbsp;<br />
+	&nbsp;&nbsp;&nbsp; 通过利用这个事件调度，定时备份的事情也同时解决了.
+</p>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	&nbsp;&nbsp;&nbsp; 建议大家配合表分区,索引同时使用,这样可以提高性能.
+</p>
+
+<p style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 14px; line-height: 25.1875px; background-color: rgb(239, 239, 239);">
+	未完成:在更新表的时候，需要采用某种算法来执行，这样才能提高性能，而不是单纯的删除再插入.
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

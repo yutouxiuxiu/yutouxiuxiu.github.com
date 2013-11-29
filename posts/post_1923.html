@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础 - 包含文件</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础 - 包含文件
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、包含的方法</strong>
+</h5>
+
+<p>
+	<strong>1.include</strong>
+</p>
+
+<p>
+	以下文档也适用于&nbsp;<a href="http://localhost:8080/docs/php/zh/function.require.html">require</a>。
+</p>
+
+<p>
+	被包含文件先按参数给出的路径寻找，如果没有给出目录（只有文件名）时则按照<a href="http://localhost:8080/docs/php/zh/ini.core.html#ini.include-path">include_path</a>&nbsp;指定的目录寻找。如果在&nbsp;<a href="http://localhost:8080/docs/php/zh/ini.core.html#ini.include-path">include_path</a>&nbsp;下没找到该文件则&nbsp;include&nbsp;最后才在调用脚本文件所在的目录和当前工作目录下寻找。如果最后仍未找到文件则&nbsp;include结构会发出一条<a href="http://localhost:8080/docs/php/zh/errorfunc.constants.html#errorfunc.constants.errorlevels">警告</a>；这一点和&nbsp;<a href="http://localhost:8080/docs/php/zh/function.require.html">require</a>&nbsp;不同，后者会发出一个<a href="http://localhost:8080/docs/php/zh/errorfunc.constants.html#errorfunc.constants.errorlevels">致命错误</a>。
+</p>
+
+<p>
+	如果定义了路径&mdash;&mdash;不管是绝对路径（在 Windows 下以盘符或者&nbsp;\&nbsp;开头，在 Unix/Linux 下以&nbsp;/&nbsp;开头）还是当前目录的相对路径（以&nbsp;.&nbsp;或者&nbsp;..&nbsp;开头）&mdash;&mdash;<a href="http://localhost:8080/docs/php/zh/ini.core.html#ini.include-path">include_path</a>&nbsp;都会被完全忽略。例如一个文件以&nbsp;../&nbsp;开头，则解析器会在当前目录的父目录下寻找该文件。
+</p>
+
+<p>
+	有关 PHP 怎样处理包含文件和包含路径的更多信息参见&nbsp;<a href="http://localhost:8080/docs/php/zh/ini.core.html#ini.include-path">include_path</a>&nbsp;部分的文档。
+</p>
+
+<p>
+	当一个文件被包含时，其中所包含的代码继承了 include 所在行的<a href="http://localhost:8080/docs/php/zh/language.variables.scope.html">变量范围</a>。从该处开始，调用文件在该行处可用的任何变量在被调用的文件中也都可用。不过所有在包含文件中定义的函数和类都具有全局作用域。
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>找不到文件时 报warning 然后还试着接着解释</strong></span>
+</p>
+
+<p>
+	<strong>在 包含时 会这样包含进来</strong>
+</p>
+
+<blockquote>
+	<p>
+		?&gt;包含文件的内容&lt;?php
+	</p>
+</blockquote>
+
+<p>
+	<strong>路径</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	windows下 正反斜线都可以
+</p>
+
+<p style="margin-left: 40px;">
+	linux下 只能正斜线
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>所以 只能用正斜线</strong></span>
+</p>
+
+<p>
+	<strong>2.include_once</strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">只加载一次</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		$i = 1;<br />
+		include(&#39;includefile.php&#39;);<br />
+		echo $i,&#39;&lt;br/&gt;&#39;;<br />
+		include(&#39;includefile.php&#39;);<br />
+		echo $i,&#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		/*
+	</p>
+
+	<p>
+		includefile: $i++<br />
+		2<br />
+		includefile: $i++<br />
+		3
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$i = 1;<br />
+		include_once(&#39;includefile.php&#39;);<br />
+		echo $i,&#39;&lt;br/&gt;&#39;;<br />
+		include_once(&#39;includefile.php&#39;);<br />
+		echo $i,&#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		/*
+	</p>
+
+	<p>
+		includefile: $i++<br />
+		2<br />
+		2
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.require</strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">找不到文件会报 Fatal Error 然后就不继续解析了</span></strong>
+</p>
+
+<p>
+	<strong>4.require_once</strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">只加载一次</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、路径问题</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	<span style="color: rgb(0, 0, 255);">index.php</span>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		require(&#39;./include/init.php&#39;);
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<span style="color: rgb(0, 0, 255);">include/init.php</span>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		require(&#39;./config.inc.php&#39;);
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<span style="color: rgb(0, 0, 255);">include/config.inc.php</span>
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	此时访问index.php 会发现找不到&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">./</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">config.inc.php 的问题</span>
+</p>
+
+<p style="font-size: 13px;">
+	<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">因为在index.php包含include/init.php之后 init.php的内容就跑到index.php中了 就相当于在index.php中包含./config.inc.php 它就在index当前目录下找 于是不存在</span>
+</p>
+
+<p style="font-size: 13px;">
+	所以可以在init中定义ROOT
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		define(&#39;ROOT&#39;, &#39;...&#39;);
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	然后使用ROOT常量来包含就可
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、使用技巧</strong>
+</h5>
+
+<p>
+	<strong>1.尽量不使用加once的</strong>
+</p>
+
+<p>
+	设计好目录结构 尽量不加once 加了会降低效率
+</p>
+
+<p>
+	<strong>2.使用被包含页面中return的值</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">1.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php
+	</p>
+
+	<p>
+		renturn array(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;);
+	</p>
+
+	<p>
+		?&gt;
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">2.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php
+	</p>
+
+	<p>
+		$array = include(&#39;./1.php&#39;);
+	</p>
+
+	<p>
+		print_r($array);
+	</p>
+
+	<p>
+		?<span style="line-height: 1.6em;">&gt;</span>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	在网站做配置文件时 有时会用到 比如 ThinkPHP
+</p>
+
+<p style="font-size: 13px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/return.jpg" rel="" target="" title=""><img alt="return" class="alignnone size-full wp-image-1924" height="242" src="http://localhost:8080/wp-content/uploads/2013/11/return.jpg" title="" width="382" /></a>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

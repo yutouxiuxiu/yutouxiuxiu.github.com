@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 重点回顾</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 重点回顾
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、环境搭建</strong>
+</h5>
+
+<p>
+	<strong>1.Maven项目环境搭建</strong>
+</p>
+
+<p>
+	<strong>（1）建立Maven工程</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	elipse的m2eclipse插件，myeclipse自带 &nbsp;- &nbsp;新建Maven项目 -&gt;&nbsp;Create a Simple Project
+</p>
+
+<p style="margin-left: 40px;">
+	项目坐标 &nbsp;- &nbsp;groupId，artifactId，version
+</p>
+
+<p style="margin-left: 40px;">
+	项目打包方式 &nbsp;- &nbsp;jar（被别的项目引用的）,&nbsp;pom（被别的项目依赖的）,&nbsp;war（可被部署的ee项目）
+</p>
+
+<p style="margin-left: 40px;">
+	编译版本 &nbsp;- &nbsp;1.6
+</p>
+
+<p style="margin-left: 40px;">
+	目录结构 &nbsp;- &nbsp;src/main/java，src/main/resources，src/test/java，src/test/resources，src/main/webapp
+</p>
+
+<p>
+	<strong>（2）使用坐标导入依赖</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://search.maven.org">http://<span style="line-height: 1.6em;">search.maven.org</span></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://mvnrepository.com">http://mvnrepository.com</a>
+</p>
+
+<p style="margin-left: 40px;">
+	struts2 15.2, hibernate 3.6.10, spring 3.2, jpa（java持久化接口 hibernate是jpa的实现）, log4j, c3p0, mysql, junit, poi, pinyin4j, hessian, hibernate search(lucene), ik分词器, jbpm, javamail, ehcache
+</p>
+
+<p>
+	<strong>（3）常用命令</strong>
+</p>
+
+<blockquote>
+	<p>
+		mvn clean
+	</p>
+
+	<p>
+		mvn package
+	</p>
+
+	<p>
+		mvn test
+	</p>
+
+	<p>
+		mvn build
+	</p>
+
+	<p>
+		mvn tomcat:run &nbsp;内嵌
+	</p>
+
+	<p>
+		mvn tomcat:deploy &nbsp;部署到外部
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	tomcat-maven-plugin 插件
+</p>
+
+<p>
+	<strong>（4）项目分解</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	很多企业中按照表现层、业务层、持久层 进行项目分解
+</p>
+
+<p style="margin-left: 40px;">
+	通过依赖的方式来引用和运行
+</p>
+
+<p>
+	<strong>2.SVN版本控制</strong>
+</p>
+
+<p>
+	<strong>（1）服务器的安装配置</strong>
+</p>
+
+<p>
+	<strong>（2）常见命令</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	import, export, checkout,&nbsp;commit,&nbsp;update
+</p>
+
+<p>
+	<strong>（3）手动解决冲突</strong>
+</p>
+
+<p>
+	<strong>（4）恢复项目到历史版本</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	项目上右键 -&gt; team -&gt; 切换到版本
+</p>
+
+<p>
+	<strong>3.系统主页设计</strong>
+</p>
+
+<p>
+	layout &nbsp;- &nbsp;页面布局 东南西北中
+</p>
+
+<p>
+	accordion &nbsp;- &nbsp;折叠面板
+</p>
+
+<p>
+	tabs &nbsp;- &nbsp;选项卡
+</p>
+
+<p>
+	ztree &nbsp;- &nbsp;数据树
+</p>
+
+<p>
+	window &nbsp;- &nbsp;隐显 遮罩窗口
+</p>
+
+<p>
+	datagrid &nbsp;- &nbsp;数据表格
+</p>
+
+<p>
+	validatebox &nbsp;- &nbsp;校验框
+</p>
+
+<p>
+	combobox &nbsp;- &nbsp;下拉框
+</p>
+
+<p>
+	numberbox &nbsp;- &nbsp;数字框
+</p>
+
+<p>
+	datebox &nbsp;- &nbsp;日期框
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、完整流程</strong>
+</h5>
+
+<p>
+	<strong>1.搭建开发流程规范</strong>
+</p>
+
+<p>
+	<strong>（1）使用经典三层结构</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	每层之间面向接口整合 层内部公用重复代码 使用抽象类进行抽取和复用
+</p>
+
+<p style="margin-left: 40px;">
+	Action extend BaseAction -&gt; Service接口 -&gt; ServiceImpl extends BaseService implements 业务接口 -&gt; GenericDao接口
+</p>
+
+<p style="margin-left: 40px;">
+	使用xml配置 使用注解注入
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>现在企业中使用注解进行配置的越来越多 提高效率</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	applicationContext按照三层分解
+</p>
+
+<p>
+	<strong>（2）通用Dao组件 <span style="color:#EE82EE;">面试说</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	基于反射和泛型 通用增删改查接口 分页查询接口 索引库查询接口
+</p>
+
+<p style="margin-left: 40px;">
+	QBC 命名查询（HQL，SQL）
+</p>
+
+<p>
+	<strong>2.登录</strong>
+</p>
+
+<p>
+	验证码
+</p>
+
+<p>
+	struts2 表单校验
+</p>
+
+<p>
+	国际化信息显示
+</p>
+
+<p>
+	登录拦截器
+</p>
+
+<p>
+	<strong>3.将页面放在WEB-INF下</strong>
+</p>
+
+<p>
+	通过Action来访问 以便于拦截器进行拦截
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、取派标准</strong>
+</h5>
+
+<p>
+	一套完整的增删改查
+</p>
+
+<p>
+	<strong>1.数据表格分页查询</strong>
+</p>
+
+<p>
+	将页码 每页记录 查询条件 都保存到客户端的js对象中
+</p>
+
+<p>
+	当执行分页的时候 采用ajax的方式 把这些数据发送到服务器的
+</p>
+
+<p>
+	然后服务器使用json进行返回
+</p>
+
+<p>
+	<strong>2.分页请求和结果封装</strong>
+</p>
+
+<p>
+	<strong>3.结果json数据的序列化</strong>
+</p>
+
+<p>
+	struts2-json-plugin
+</p>
+
+<p>
+	<span style="color:#FF0000;">flexjson</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、取派员、区域</strong>
+</h5>
+
+<p>
+	<strong>1.区域导入</strong>
+</p>
+
+<p>
+	<strong>（1）一键上传</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	jquery ocupload插件
+</p>
+
+<p>
+	<strong>（2）POI解析Excel</strong>
+</p>
+
+<p>
+	<strong>2.log4j日志记录</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>五、分区管理</strong>
+</p>
+
+<p>
+	<strong>1.多条件组合查询</strong>
+</p>
+
+<p>
+	多表关联 使用创建别名来关联的
+</p>
+
+<p>
+	createAlias
+</p>
+
+<p>
+	<strong>2.查询结果导出</strong>
+</p>
+
+<p>
+	<strong>（1）Excel的生成</strong>
+</p>
+
+<p>
+	<strong>（2）下载中文乱码工具类</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	六、
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

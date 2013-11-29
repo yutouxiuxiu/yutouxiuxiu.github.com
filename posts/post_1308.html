@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate基础部分总结</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate基础部分总结
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	1、jdbc的缺点：<br />
+	&nbsp;&nbsp; &nbsp;1、代码比较麻烦<br />
+	&nbsp;&nbsp; &nbsp;2、不是面向对象编程<br />
+	&nbsp;&nbsp; &nbsp;3、如果碰到一个很复杂的需求分析，需要很次很数据库交互，这样效率比较低<br />
+	&nbsp;&nbsp; &nbsp;4、jdbc技术没有做到数据的缓存<br />
+	2、hibenrnate<br />
+	&nbsp;&nbsp; &nbsp;1、面向对象的编程<br />
+	&nbsp;&nbsp; &nbsp;2、缓存<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;一级缓存&nbsp;&nbsp;&nbsp; 二级缓存&nbsp;&nbsp;&nbsp;&nbsp; 查询缓存<br />
+	&nbsp;&nbsp; &nbsp;3、代码操作比较简单<br />
+	&nbsp;&nbsp; &nbsp;4、如果该项目对sql的优化要求特别高，不适合用hibernate<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 如果数据库的数据量特别大，也不适合用hibernate<br />
+	3、hibernate的三大要素<br />
+	&nbsp;&nbsp; &nbsp;1、配置文件<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、数据库的链接信息<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.username&quot;&gt;root&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.password&quot;&gt;123456&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.connection.url&quot;&gt;jdbc:mysql://localhost:3306/privatesecretary&lt;/hibernate&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、动态生成表<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hbm2ddl.auto&quot;&gt;update&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、引入映射文件<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;mapping resource=&quot;com/voole/vo/Role.hbm.xml&quot; /&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、输出SQL语句<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;5、格式化SQL语句<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;format_sql&quot;&gt;true&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;6、方言<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;6、关于二级缓存的配置<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;cache.use_second_level_cache&quot;&gt;true&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;cache.provider_class&quot;&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;org.hibernate.cache.EhCacheProvider<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;7、关于查询缓存的配置<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;cache.use_query_cache&quot;&gt;true&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;8、统计机制<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;hibernate.generate_statistics&quot;&gt;true&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;9、从当前线程中产生session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;current_session_context_class&quot;&gt;thread&lt;/property&gt;<br />
+	&nbsp;&nbsp; &nbsp;2、持久化类<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、必须有默认的构造函数<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、标示符属性为基本类型的包装类或者String类型<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、一般属性<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、集合属性<br />
+	&nbsp;&nbsp; &nbsp;3、映射文件<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、类与表的对应关系<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、类中的属性名称和表中的字段名称的对应关系<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、类中的属性类型和表中的字段类型的对应关系<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、一对多和多对多的对应关系<br />
+	3、执行过程：<br />
+	&nbsp;&nbsp; &nbsp;1、创建Configuration对象<br />
+	&nbsp;&nbsp; &nbsp;2、利用Configuration对象的config方法加载配置文件<br />
+	&nbsp;&nbsp; &nbsp;3、config.buildSessionFactory方法产生SessionFactory<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sessionFactory<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、包含了数据库的链接信息<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、配置文件的信息<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、映射文件的信息<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、持久化类的信息<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;5、一个sessionFactory表明链接了一个数据库<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;6、sessionFactory是一个单例的对象<br />
+	&nbsp;&nbsp; &nbsp;4、sessionFactory产生session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、创建一次session,就打开数据库的链路一次<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、session的打开和关闭的次数越多，效率越低<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、session中的一级缓存缓存了数据<br />
+	&nbsp;&nbsp; &nbsp;5、由session创建事务<br />
+	&nbsp;&nbsp; &nbsp;6、进行crud的操作<br />
+	&nbsp;&nbsp; &nbsp;7、提交事务<br />
+	&nbsp;&nbsp; &nbsp;8、关闭session<br />
+	3、主键的产生机制<br />
+	&nbsp;&nbsp; &nbsp;1、uuid<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、必须是varchar类型<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、是由hibernate内部产生的<br />
+	&nbsp;&nbsp; &nbsp;2、assigned<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、主键可以是任何类型<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、必须在程序中手动赋值<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、一般不推荐使用<br />
+	&nbsp;&nbsp; &nbsp;3、increment<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、主键必须是数字类型<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、由hibernate操作数据库<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、先获取主键的最大值<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、最大值加1<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、效率不是很高，会发出max语句<br />
+	&nbsp;&nbsp; &nbsp;4、identity<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、主键 必须是数字类型<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、表支持自动增长<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、主键是由数据库生成的<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、效率比较高，但是数字不是很连贯<br />
+	4、类型&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;hibernate类型<br />
+	&nbsp;&nbsp; &nbsp;java类型<br />
+	&nbsp;&nbsp; &nbsp;一般用java类型<br />
+	5、对象的状态<br />
+	&nbsp;&nbsp; &nbsp;在hibernate中，对象的状态分为几种：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;临时状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;刚刚创建的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;持久化状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;经过session.load,session.get,session.save,session.update方法都可以把一个对象变成持久化状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;脱管状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;经过session.clear,session.evict,session.close方法可以把一个对象变成脱管状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;例子：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、临时状态的对象通过save方法变成持久化状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、步骤<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、临时状态的对象先通过save方法变成持久化状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、把该对象的属性值改变<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、调用update方法进行更新&nbsp; //没有发出任何sql语句,所以这步可以不写<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;说明：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、save方法可以把一个对象变成持久化对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、这个时候调用session.update方法不起作用，因为已经是持久化对象了<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、步骤<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、执行session.get方法，把一个持久化对象提取出来<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、执行session.evict方法把一个持久化状态的对象变成托管状态的对象(这个时候，该对象脱离session的管理)<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、执行session.update方法把处于脱离状态的session变成持久化状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;说明：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、session.evict方法可以把一个对象变成托管对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、session.update方法可以把已经是托管状态的对象变成持久化状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、步骤<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、执行session.get方法，把一个持久化对象提取出来<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、执行session.clear方法，把session中所有的对象变成托管状态的对象(这个时候，session中已经没有对象了)<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、执行session.update方法把处于托管状态的对象再次变成持久化状态的对象
+</p>
+
+<p>
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;说明：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.clear方法可以把session中的所有的对象变成托管状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;5、步骤<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、执行session.get方法，把一个持久化对象提取出来<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、执行session.close方法，关闭session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、调用sessionFactory.openSession方法重新打开一个session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、执行session.update方法，让该对象对于新的session变成持久化对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;说明：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;一个对象是不是持久化状态的对象有参照物，该参照物就是session<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;6、步骤<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、新创建一个对象，利用session.save方法把该对象变成持久化状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、再创建一个对象，利用session.save方法把该对象变成持久化状态的对象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;3、利用session.get方法把从数据库提取出一行数据，封装到一个对象中<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4、改变第三步产生对象的属性<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;5、事务提交<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;6、session关闭<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;说明：<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;1、现象<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;执行了两个save语句，一个update语句<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;2、原理<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;在执行事务提交的时候，hibernate容器会去检查session中所有的持久化对象的状态<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;如果没有ID值，则进行save操作，如果有ID值，进行update操作
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

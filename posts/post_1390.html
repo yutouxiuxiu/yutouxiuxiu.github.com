@@ -1,0 +1,1000 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Spring DI 依赖注入</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Spring DI 依赖注入
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是依赖注入</strong>
+</h5>
+
+<p>
+	依赖注入 就是给属性赋值
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、set方法给属性赋值</strong>
+</h5>
+
+<p>
+	<strong>属性的类型</strong>
+</p>
+
+<p>
+	基本类型
+</p>
+
+<p>
+	字符串类型
+</p>
+
+<p>
+	自定义类类型
+</p>
+
+<p>
+	集合类型
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>栗子</strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public class Student&nbsp;{
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Long sid;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private String sname;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private School school;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private List list;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Set set;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Map map;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Properties prop;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;student&quot; class=&quot;....Student&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- 给属性赋值
+	</p>
+
+	<p style="margin-left: 40px;">
+		name是根据set的名称来的
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;pname&quot; value=&quot;yutou&quot;&gt;&lt;/property&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;property name=&quot;student</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot; ref=&quot;school&quot;&gt;&lt;/p</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">roperty&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;property name=&quot;list/set</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;list/set&gt;</span>
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;value&gt;heihei&lt;/value&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;ref bean=&quot;school&quot;/&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;/list&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;/p</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">roperty&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;property name=&quot;map&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;map&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;entry key=&quot;&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		&lt;value&gt;&lt;/value&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;/entry&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;entry key=&quot;&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;ref bean=&quot;school&quot;/&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;/entry&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;/map&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;/property&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;property name=&quot;prop&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;props&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;prop key=&quot;prop1key&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		prop1value
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		&lt;/entry&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		&lt;/props&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;/property&gt;
+	</p>
+
+	<p>
+		&lt;/bean&gt;
+	</p>
+
+	<p>
+		&lt;bean id=&quot;school&quot; class=&quot;....School&quot;&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>Spring创建对象的过程</strong>
+</p>
+
+<p>
+	1.创建对象
+</p>
+
+<p>
+	2.进行初始化
+</p>
+
+<p>
+	3.给属性赋值（装配）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、构造函数给属性赋值</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&lt;bean...
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!-- <span style="font-size: 13px;">constructor-arg 构造函数参数</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		index &nbsp;- &nbsp;构造函数的参数的下标
+	</p>
+
+	<p style="margin-left: 80px;">
+		ref &nbsp;- &nbsp;如果参数是引用类型 则用这个赋值
+	</p>
+
+	<p style="margin-left: 80px;">
+		type &nbsp;- &nbsp;如果参数是基本类型 参数的类型（写java类型的权限定名）
+	</p>
+
+	<p style="margin-left: 80px;">
+		value &nbsp;- &nbsp;如果参数是基本类型 给参数赋值
+	</p>
+
+	<p style="margin-left: 80px;">
+		<strong><span style="color:#FF0000;">它会根据参数的个数和类型来匹配对应的构造函数</span></strong>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;constructor-arg index=&quot;0&quot; ref=&quot;&quot;&gt;&lt;/<span style="font-size: 13px;">constructor-arg&gt;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">&lt;constructor-arg index=&quot;1&quot; ref=&quot;&quot;&gt;&lt;/</span><span style="font-size: 13px;">constructor-arg&gt;</span>
+	</p>
+
+	<p>
+		&lt;/bean&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	如果同时利用构造函数和set方法注入 它会先用构造函数赋值 再用set方法赋值
+</p>
+
+<p>
+	所以 会被set方法赋值覆盖
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、注解注入</strong>
+</h5>
+
+<ul>
+	<li>
+		<strong><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@Resource</span></strong>
+	</li>
+</ul>
+
+<p>
+	JavaBean
+</p>
+
+<blockquote>
+	<p>
+		...
+	</p>
+
+	<p>
+		@Resource
+	</p>
+
+	<p>
+		private String sname;
+	</p>
+</blockquote>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean ...
+	</p>
+
+	<p>
+		&lt;!-- 引入依赖注入的注解解析器 Spring容器就能认识@Resource注解了&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;context:annotation-config&gt;&lt;/<span style="font-size: 13px;">context:annotation-config&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>Spring容器内部的执行步骤</strong>
+</p>
+
+<p>
+	1.当Spring容器启动的时候 为bean创建对象
+</p>
+
+<p>
+	2.当Spring容器解析到依赖注入注解解析器的时候
+</p>
+
+<p style="margin-left: 40px;">
+	Spring容器会在纳入Spring管理的bean的范围内查找 所有的属性和方法上是否有@Resource注解
+</p>
+
+<p>
+	3.如果存在该注解
+</p>
+
+<p style="margin-left: 40px;">
+	如果该注解的name属性为空（默认为空 不加就是空）
+</p>
+
+<p style="margin-left: 80px;">
+	会按照属性的名称和bean的id进行匹配
+</p>
+
+<p style="margin-left: 120px;">
+	如果匹配成功 则把bean的对象赋值给它
+</p>
+
+<p style="margin-left: 120px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/pipei.jpg" rel="" style="" target="" title=""><img alt="pipei" class="alignnone size-full wp-image-1415" height="140" src="http://localhost:8080/wp-content/uploads/2013/10/pipei.jpg" style="" title="" width="260" /></a>
+</p>
+
+<p style="margin-left: 120px;">
+	如果匹配不成功 按照类型进行匹配
+</p>
+
+<p style="margin-left: 120px;">
+	如果还匹配不成功 报错
+</p>
+
+<p style="margin-left: 40px;">
+	如果该注解的name属性不为空（@Resource(name=&quot;...&quot;)）
+</p>
+
+<p style="margin-left: 80px;">
+	会按照name属性的值和容器中的bean的id进行匹配
+</p>
+
+<p style="margin-left: 120px;">
+	成功直接赋值 不成功报错
+</p>
+
+<p style="margin-left: 120px;">
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>@Autowired</strong>
+	</li>
+</ul>
+
+<p>
+	按照类型匹配
+</p>
+
+<ul>
+	<li>
+		<strong>@Qualifier(&quot;...&quot;)</strong>
+	</li>
+</ul>
+
+<p>
+	按照id匹配
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>问题</strong>
+</p>
+
+<p>
+	不可以给基本类型赋值？
+</p>
+
+<p>
+	多例的bean怎么办？
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>类扫描注解解析器<strong>​<strong>​</strong></strong></strong>
+	</li>
+</ul>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		<span style="color:#FF0000;"><strong>没有bean...！</strong></span>
+	</p>
+
+	<p>
+		&lt;!--&nbsp;类扫描的注解解析器
+	</p>
+
+	<p style="margin-left: 40px;">
+		component-scan &nbsp;- &nbsp;组件扫描 Spring容器中的类就是组件 就是扫描类
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">base-package &nbsp;- &nbsp;在指定的包及子包下扫描</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">它不仅是类扫描的注解解析器 它还包括了依赖注入的注解解析器</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">--&gt;</span>
+	</p>
+
+	<p>
+		&lt;context:component-scan base-package=&quot;包名&quot;&gt;<span style="font-size: 13px;">&lt;/context:component-scan&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	JavaBean
+</p>
+
+<blockquote>
+	<p>
+		@Component
+	</p>
+
+	<p>
+		public class Person {
+	</p>
+
+	<p>
+		...
+	</p>
+</blockquote>
+
+<h5>
+	<strong style="font-size: 13px;">Spring容器内部的执行步骤</strong>
+</h5>
+
+<p>
+	1.启动Spring容器时 解析<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">context:component-scan配置</span>
+</p>
+
+<p>
+	2.会在 指定的包及子包下扫描所有的类
+</p>
+
+<p>
+	3.看类上是否有@Component注解
+</p>
+
+<p style="margin-left: 40px;">
+	存在则看注解的value属性
+</p>
+
+<p style="margin-left: 80px;">
+	value为空
+</p>
+
+<p style="margin-left: 120px;">
+	把类的第一个字母变成小写 作为id值<span style="font-size: 13px;">&nbsp;加入Spring容器</span>
+</p>
+
+<p style="margin-left: 80px;">
+	value不为空&nbsp;<span style="line-height: 1.2em;">@Component(&quot;...</span><span style="line-height: 1.2em;">&quot;)</span>
+</p>
+
+<p style="margin-left: 120px;">
+	就把value的值作为id 加入Spring容器
+</p>
+
+<p>
+	4.执行@Resource注解的规则
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<b>更多典型化注解</b>
+	</li>
+</ul>
+
+<p>
+	<b>​在MVC中用</b>
+</p>
+
+<p>
+	Dao
+</p>
+
+<blockquote>
+	<p>
+		@Repository(&quot;personDao&quot;)
+	</p>
+
+	<p>
+		public class ...DaoImpl
+	</p>
+</blockquote>
+
+<p>
+	Service
+</p>
+
+<blockquote>
+	<p>
+		@Service(&quot;personService&quot;)
+	</p>
+
+	<p>
+		public class ...ServiceImpl
+	</p>
+</blockquote>
+
+<p>
+	Controller
+</p>
+
+<blockquote>
+	<p>
+		@Controller(&quot;personAction&quot;)
+	</p>
+
+	<p>
+		public class ...ActionImpl
+	</p>
+</blockquote>
+
+<p>
+	这些注解叫典型化注解 <span style="color:#FF0000;"><u>和Component的功能是一模一样的</u></span> 只是为了好看而已
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>XML的形式和注解的形式</strong>
+</p>
+
+<p>
+	XML
+</p>
+
+<p style="margin-left: 40px;">
+	优点：效率高
+</p>
+
+<p style="margin-left: 40px;">
+	缺点：书写麻烦
+</p>
+
+<p>
+	注解
+</p>
+
+<h5 style="margin-left: 40px;">
+	优点：书写简单
+</h5>
+
+<p style="margin-left: 40px;">
+	缺点：效率低 <span style="color:#FF0000;"><strong>只能赋值引用类型</strong></span>
+</p>
+
+<h5>
+	企业里用哪种 就用哪种 没有哪个常用不常用的
+</h5>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>四、为什么要有IoC和DI 意义？</strong>
+</h5>
+
+<p>
+	为了解耦 松耦合
+</p>
+
+<ul>
+	<li>
+		<strong>Document的栗子</strong>
+	</li>
+</ul>
+
+<p>
+	<strong>传统结构</strong>
+</p>
+
+<p>
+	Document接口
+</p>
+
+<blockquote>
+	<p>
+		public interface Document {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void write();
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void read();
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	WordDocument实现类
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/word.jpg" rel="" style="font-size: 13px;" target="" title=""><img alt="word" class="alignnone size-full wp-image-1395" height="127" src="http://localhost:8080/wp-content/uploads/2013/10/word.jpg" style="opacity: 0.9;" title="" width="435" /></a>
+</p>
+
+<p>
+	DocumentManager
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/manager.jpg" rel="" style="" target="" title=""><img alt="manager" class="alignnone size-full wp-image-1393" height="282" src="http://localhost:8080/wp-content/uploads/2013/10/manager.jpg" style="" title="" width="414" /></a>
+</p>
+
+<p>
+	客户端
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/nospring1.jpg" rel="" style="" target="" title=""><img alt="nospring1" class="alignnone size-full wp-image-1394" height="79" src="http://localhost:8080/wp-content/uploads/2013/10/nospring1.jpg" style="" title="" width="510" /></a>
+</p>
+
+<p>
+	优点 在DocumentManager中有一个引用Document是一个接口
+</p>
+
+<p>
+	缺点 如果要切换文档&nbsp;客户端的代码还要变
+</p>
+
+<p>
+	<strong>Spring容器</strong>
+</p>
+
+<p>
+	客户端
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/spring1.jpg" rel="" style="" target="" title=""><img alt="spring1" class="alignnone size-full wp-image-1396" height="48" src="http://localhost:8080/wp-content/uploads/2013/10/spring1.jpg" style="" title="" width="708" /></a>
+</p>
+
+<p>
+	配置文件
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;documentManager&quot; class=&quot;....DocumentManager&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;document&quot; ref=&quot;wordDocument&quot;/&gt;
+	</p>
+
+	<p>
+		&lt;/bean&gt;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;bean id=&quot;wordDocument</span><span style="font-size: 13px;">&quot; class=&quot;....WordDocument</span><span style="font-size: 13px;">&quot;&gt;&lt;/bean&gt;</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;bean id=&quot;pdfDocument</span><span style="font-size: 13px;">&quot; class=&quot;....PdfDocument</span><span style="font-size: 13px;">&quot;&gt;&lt;/bean&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	DocumentManager中的document是由Spring容器赋值的 配置文件由程序员配置
+</p>
+
+<p>
+	客户端无需关注Document是由哪个类来实现的
+</p>
+
+<p>
+	从Spring容器中把DocumentManager提取出来就行了
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">就完全地面向接口编程了 松耦合</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>MVC的栗子</strong>
+	</li>
+</ul>
+
+<p>
+	Dao
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/dao.jpg" rel="" style="" target="" title=""><img alt="dao" class="alignnone size-full wp-image-1402" height="40" src="http://localhost:8080/wp-content/uploads/2013/10/dao.jpg" style="" title="" width="230" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/daoimpl.jpg" rel="" style="" target="" title=""><img alt="daoimpl" class="alignnone size-full wp-image-1403" height="67" src="http://localhost:8080/wp-content/uploads/2013/10/daoimpl.jpg" style="" title="" width="374" /></a>
+</p>
+
+<p>
+	Service
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/service.jpg" rel="" style="" target="" title=""><img alt="service" class="alignnone size-full wp-image-1404" height="40" src="http://localhost:8080/wp-content/uploads/2013/10/service.jpg" style="" title="" width="254" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/serviceimpl.jpg" rel="" style="" target="" title=""><img alt="serviceimpl" class="alignnone size-full wp-image-1405" height="120" src="http://localhost:8080/wp-content/uploads/2013/10/serviceimpl.jpg" style="" title="" width="430" /></a>
+</p>
+
+<p>
+	Action
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/action.jpg" rel="" style="" target="" title=""><img alt="action" class="alignnone size-full wp-image-1400" height="37" src="http://localhost:8080/wp-content/uploads/2013/10/action.jpg" style="" title="" width="246" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/actionimpl.jpg" rel="" style="" target="" title=""><img alt="actionimpl" class="alignnone size-full wp-image-1401" height="115" src="http://localhost:8080/wp-content/uploads/2013/10/actionimpl.jpg" style="" title="" width="340" /></a>
+</p>
+
+<p>
+	配置文件
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/spring.jpg" rel="" style="" target="" title=""><img alt="spring" class="alignnone size-full wp-image-1406" height="179" src="http://localhost:8080/wp-content/uploads/2013/10/spring.jpg" style="" title="" width="593" /></a>
+</p>
+
+<p>
+	客户端
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/kehuduan.jpg" rel="" style="" target="" title=""><img alt="kehuduan" class="alignnone size-full wp-image-1407" height="32" src="http://localhost:8080/wp-content/uploads/2013/10/kehuduan.jpg" style="" title="" width="575" /></a>
+</p>
+
+<p>
+	就是在类里面包含接口的属性 然后这个由Spring对其赋值
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<u>其实Spring最开始只有IoC和DI 这是Spring的精华</u>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php面向对象 - 魔术方法</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php面向对象 - 魔术方法
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	在面向对象操作中&nbsp;某些情况下会自动调用的方法
+</p>
+
+<p>
+	__construct(), __destruct(), __call(), __callStatic(), __get(), __set(), __isset(), __unset(), __sleep(), __wakeup(), __toString(), __invoke(), __set_state(), __clone()
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="font-size: 13px;">__construct() &nbsp;- &nbsp;当对象被创建时</span>
+</p>
+
+<p>
+	<span style="font-size: 13px;">__destruct() &nbsp;- &nbsp;当对象被销毁时</span>
+</p>
+
+<p>
+	__clone() &nbsp;- &nbsp;当对象被克隆时
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、框架中常会用到的方法</strong>
+</h5>
+
+<p>
+	<span style="font-size: 13px;">__call(), __callStatic(), __get(), __set(), __isset(), __unset()</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.__get() &nbsp;- &nbsp;访问权限不允许的属性时</strong>
+</p>
+
+<p>
+	并且会传参 参数为属性的名字
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">调用无权访问的属性时/没有这个属性的时候 调用</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php<br />
+		class Gril {<br />
+		&nbsp;&nbsp; &nbsp;private $age = 18;
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function __get($property) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;你问我&#39;,$property,&#39;? 我不告诉你&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		$gril = new Gril();<br />
+		echo $gril-&gt;age;
+	</p>
+
+	<p>
+		<br />
+		/*<br />
+		你问我age? 我不告诉你<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.__set() &nbsp;- &nbsp;设置无权访问的属性时 拦截</strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">并且会传参 参数为属性的名字 和属性值</span>
+</p>
+
+<p>
+	<strong style="font-size: 13px;"><span style="color: rgb(255, 0, 0);">设置无权访问的属性时/添加不存在的属性的时候 调用</span></strong>
+</p>
+
+<p>
+	当执行下面代码的时候 可以很轻易地给对象加上属性 但是这样会很不好
+</p>
+
+<blockquote>
+	<p>
+		$gril-&gt;name = &#39;yutou&#39;;
+	</p>
+
+	<p>
+		print_r($gril);
+	</p>
+</blockquote>
+
+<p>
+	可以使用__set()魔术方法来阻止
+</p>
+
+<blockquote>
+	<p>
+		class Gril {<br />
+		&nbsp;&nbsp; &nbsp;private $age = 18;
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function __set($property, $value) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;你要让我的&#39;,$property,&#39;为&#39;,$value,&#39;? 那怎么行&lt;br /&gt;&#39;;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		$gril = new Gril();<br />
+		$gril-&gt;name = &#39;yutou&#39;;<br />
+		print_r($gril);
+	</p>
+
+	<p>
+		/*<br />
+		你要让我的name为yutou? 那怎么行<br />
+		Gril Object ( [age:private] =&gt; 18 )&nbsp;<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.__isset() &nbsp;- &nbsp;用isset判断不可访问属性是否存在时</strong>
+</p>
+
+<blockquote>
+	<p>
+		class Gril {<br />
+		&nbsp;&nbsp; &nbsp;private $age = 18;
+	</p>
+
+	<p>
+		&nbsp;&nbsp; &nbsp;public function __isset($property) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo &#39;你要判断我有没有&#39;,$property,&#39;? 我就告诉你假的&lt;br /&gt;&#39;;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return 1;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p>
+		<br />
+		var_dump(isset($girl-&gt;name));
+	</p>
+
+	<p>
+		/*<br />
+		bool(true)&nbsp;<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.__unset() &nbsp;- &nbsp;用unset销毁不可访问属性时</strong>
+</p>
+
+<p>
+	接收参数名
+</p>
+
+<p>
+	<strong>5.__call() &nbsp;- &nbsp;调用不可访问的方法时</strong>
+</p>
+
+<p>
+	接收方法名和参数（以数组的形式）
+</p>
+
+<blockquote>
+	<p>
+		public function __call($method, $args) {}
+	</p>
+</blockquote>
+
+<p>
+	<strong style="font-size: 13px;">6.__callStatic() &nbsp;- &nbsp;调用不可访问的静态方法时</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="color:#FF0000;"><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;"><strong>static</strong>&nbsp;</span></span><span style="line-height: 1.6em; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">public function __call($method, $args</span><span style="line-height: 1.6em; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">) {</span><span style="line-height: 1.6em; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">}</span>
+	</p>
+</blockquote>
+
+<h5>
+	<strong style="line-height: 1.6em;">三、在框架中的应用</strong>
+</h5>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Model {<br />
+		&nbsp;&nbsp; &nbsp;private table;<br />
+		&nbsp;&nbsp; &nbsp;private $data = array();<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function __construct($table) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$this-&gt;table = $table;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function __set($key, $value) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$this-&gt;data[$key] = $value;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function __get($key) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return isset($this-&gt;data[$key]) ? $this->data[$key] : null;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function __unset($key) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;unset($this-&gt;data[$key]);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function __isset($key) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;isset($this-&gt;data[$key]);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;public function add() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$sql = &#39;INSERT INTO &#39; + table + &#39;(&#39;;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$sql .= implode(&#39;,&#39;, array_keys($this-&gt;data));<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$sql .= &quot;) VALUES (&#39;&quot;;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$sql .= implode(&quot;&#39;,&#39;&quot;, array_values($this-&gt;data));<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$sql .= &quot;&#39;)&quot;;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;echo $sql;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//...<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		$userModel = new Model(&#39;user&#39;);<br />
+		$userModel-&gt;username = &#39;&#39;;<br />
+		$userModel-&gt;password = &#39;&#39;;<br />
+		$userModel-&gt;add();
+	</p>
+</blockquote>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	在ThinkPHP的<span style="line-height: 1.6em;">Action中 如果访问Action中没有的方法 就会用这个__call魔术方法来调用_empty方法</span>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/call.jpg"><img alt="call" class="alignnone size-full wp-image-2046" height="262" src="http://localhost:8080/wp-content/uploads/2013/11/call.jpg" width="656" /></a>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

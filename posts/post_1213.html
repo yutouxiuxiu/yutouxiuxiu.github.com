@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Javascript面向对象</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Javascript面向对象
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、函数</font></h5>  <ul>   <li><strong>Arguments对象</strong></li> </ul>  <p><strong>js不存在函数重载</strong></p>  <p>如果写了多个同名的函数 最后一个会覆盖前面的函数</p>  <p>利用Arguments 来模拟函数重载的效果</p>  <blockquote>   <p>function fn() {</p>    <p>&#160;&#160;&#160; alert(arguments.length);</p>    <p>}</p>    <p>fn();&#160; //0</p>    <p>fn(1);&#160; //1</p>    <p>fn(1, 2);&#160; //2</p>    <p>fn(1, 2, 3);&#160; //3</p> </blockquote>  <p>arguments.length&#160; -&#160; 获取参数的个数</p>  <p>arguments[n]&#160; -&#160; 获取参数</p>  <ul>   <li><strong>变量的作用域</strong></li> </ul>  <p>全局域和函数域</p>  <p>定义局部变量没有var修饰时</p>  <p>&#160;</p>  <blockquote>   <p>var a = “a”;&#160; //全局变量 在环境的任意位置都可以访问</p>    <p>var d = “d”;</p>    <p>function fn() {</p>    <p>&#160;&#160;&#160; var b = “b”;&#160; // 局部变量 在对应的环境中访问</p>    <p>&#160;&#160;&#160; c = “c”;&#160; //不报错 语法正确 它会自动将局部变量初始化成全局变量</p>    <p>&#160;&#160;&#160; alert(d);&#160; //调用函数时执行至此 调用的是局部变量d 还没被初始化 在函数域中 只要函数域存在 访问的都是函数域自己的局部变量</p>    <p>&#160;&#160;&#160; var d = “d”;&#160; //调用函数时执行至此 初始化变量d</p>    <p>&#160;&#160;&#160; alert(d);</p>    <p>&#160;&#160;&#160; alert(a);</p>    <p>&#160;&#160;&#160; alert(c);</p>    <p>&#160;&#160;&#160; alert(b);</p>    <p>}</p>    <p>//程序执行至此 会定义出局部变量d 并不初始化</p>    <p>fn();</p>    <p>alert(a);</p>    <p>alert(c);</p>    <p>alert(b);</p>    <p>&#160;</p> </blockquote>  <p>效果</p>  <blockquote>   <p>undefind</p>    <p>d</p>    <p>a</p>    <p>c</p>    <p>b</p>    <p>a</p>    <p>c</p>    <p>未执行</p> </blockquote>  <ul>   <li><strong>特殊函数</strong></li> </ul>  <p><strong>1.匿名函数</strong></p>  <p>没有函数名的函数</p>  <blockquote>   <p>function() {</p>    <p>}</p> </blockquote>  <p>页面加载时 有时需要初始化工作</p>  <p>做页面初始化的函数只用一次 就可以用匿名函数</p>  <p><strong>2.回调函数</strong></p>  <p>可以将匿名函数作为参数传递给其他函数</p>  <p>将one, two作为参数传递给fn() one,two函数就叫做回调函数</p>  <p><font color="#9c85c0"><strong><strong><font color="#9c85c0">&#160;&#160;&#160; 回调函数</font></strong>：</strong></font>将一个函数作为另一个函数的参数传递 作为参数的函数叫回调函数</p>  <blockquote>   <p>function fn(a, b) {</p>    <p>&#160;&#160;&#160; return a() + b();</p>    <p>}</p>    <p>//var one = function(){ return 1; }</p>    <p>//var two = function(){ return 2; }</p>    <p>//fn(one, two);&#160; //<strong><font color="#9c85c0">回调函数</font></strong></p>    <p>fn(function(){ return 1; }, function(){ return 2; });&#160; //<font color="#9c85c0"><strong>匿名回调函数</strong></font></p> </blockquote>  <p><strong>3.自调函数</strong></p>  <p>第一个小括号封装函数 第二个小括号调用函数</p>  <blockquote>   <p>(</p>    <p>&#160;&#160;&#160; function(str) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(str);</p>    <p>&#160;&#160;&#160; }</p>    <p>)(“芋头”);</p> </blockquote>  <p><strong>4.内部函数/私有函数</strong></p>  <p>在一个函数中定义另一个函数</p>  <p><font color="#ff0000"><strong>保证了私有性</strong></font></p>  <blockquote>   <p>function fn(){</p>    <p>&#160;&#160;&#160; var a = “a”;</p>    <p>&#160;&#160;&#160; function n(){</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return a;</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; return n();</p>    <p>}</p>    <p>alert(fn());</p>    <p>alert(n());&#160;&#160;&#160; //私有函数在外部无法访问</p> </blockquote>  <p>结果</p>  <blockquote>   <p>a</p>    <p>没有执行</p> </blockquote>  <p><strong>5.返回函数的函数</strong></p>  <p>定义一个函数的 就定义了两个逻辑体</p>  <p>在外界可以直接执行</p>  <p>但是作为外层的函数 不会有有用的返回值</p>  <blockquote>   <p>function fn() {</p>    <p>&#160;&#160;&#160; var a = “a”;</p>    <p>&#160;&#160;&#160; return function() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return a;</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p>    <p>alert(fn());&#160;&#160;&#160; //返回方法体</p>    <p>alert(fn()());&#160;&#160;&#160; //fn()的返回值是方法体 再再后面加括号进行调用</p> </blockquote>  <p>结果</p>  <blockquote>   <p>return function() {</p>    <p>&#160;&#160;&#160; return a;</p>    <p>}</p>    <p>a</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、闭包</font></h5>  <p><strong>1.作用域链</strong></p>  <blockquote>   <p>var a = “a”;</p>    <p>function fn() {</p>    <p>&#160;&#160;&#160; var b = “b”;</p>    <p>&#160;&#160;&#160; alert(a);&#160;&#160;&#160; //a</p>    <p>&#160;&#160;&#160; alert(b);&#160;&#160;&#160; //b</p>    <p>&#160;&#160;&#160; function n() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; var c = “c”;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(a);&#160;&#160;&#160; //a</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(b);&#160;&#160;&#160; //b</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(c);&#160;&#160;&#160; //c</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; return n();</p>    <p>}</p>    <p>fn();</p>    <p>alert(a);&#160; //a</p>    <p>alert(b);&#160; //没有执行</p>    <p>n();&#160; //没有执行</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/21411.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="2" border="0" alt="2" src="http://localhost:8080/wp-content/uploads/2013/09/21_thumb1411.jpg" width="509" height="219" /></a></p>  <p>外层函数将其访问权限传递给私有函数 这就是作用域链</p>  <p><strong>开放私有函数访问权限</strong></p>  <p>让私有函数能在外部调用</p>  <blockquote>   <p>var n;</p>    <p>function fn() {</p>    <p>&#160;&#160;&#160; n = function(){</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/33111.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="3" border="0" alt="3" src="http://localhost:8080/wp-content/uploads/2013/09/33_thumb3111.jpg" width="514" height="220" /></a></p>  <p><strong>2.闭包结构</strong></p>  <p>指的是词法表示包括不被计算的变量的函数 函数可以使用函数之外定义的变量</p>  <p><strong>闭包结构的作用</strong></p>  <p>开发时经常要实现这种比较茅盾的需求</p>  <blockquote>   <p>要保证代码的安全性 所以使用了局部变量和私有函数</p>    <p>局部变量或者私有函数还需要被其他代码所用</p> </blockquote>  <p>这种需求就是茅盾的</p>  <p>闭包结构就解决了这个问题</p>  <p><strong>闭包的问题</strong></p>  <p>实现闭包的函数还是必须要定义在指定函数中的 耦合性还是不够高</p>  <p>&#160;</p>  <p><strong>循环中的闭包</strong></p>  <blockquote>   <p>function f() {</p>    <p>&#160;&#160;&#160; var a = [];</p>    <p>&#160;&#160;&#160; var i;</p>    <p>&#160;&#160;&#160; for(i = 0; i &lt; 3; i++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; a[i] = function() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; return i;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; return a;</p>    <p>}</p>    <p>var fun = f();</p>    <p>alert(fun[0]());&#160;&#160;&#160; //3</p>    <p>alert(fun[1]());&#160;&#160;&#160; //3</p>    <p>alert(fun[2]());&#160;&#160;&#160; //3</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/44111.jpg"><img style="background-image: none; border-bottom: 0px; border-left: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top: 0px; border-right: 0px; padding-top: 0px" title="4" border="0" alt="4" src="http://localhost:8080/wp-content/uploads/2013/09/44_thumb4111.jpg" width="641" height="179" /></a></p>  <p><strong>怎么输出0,1,2</strong></p>  <blockquote>   <p>function f() {</p>    <p>&#160;&#160;&#160; var a = [];</p>    <p>&#160;&#160;&#160; var i;</p>    <p>&#160;&#160;&#160; for(i = 0; i &lt; 3; i++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; a[i] = (</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; function() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; return i;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; })();</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; return a;</p>    <p>}</p>    <p>var fun = f();</p>    <p>alert(fun[0]);&#160;&#160;&#160; //0</p>    <p>alert(fun[1]);&#160;&#160;&#160; //1</p>    <p>alert(fun[2]);&#160;&#160;&#160; //2</p> </blockquote>  <p>或者</p>  <blockquote>   <p>function f() {</p>    <p>&#160;&#160;&#160; var a = [];</p>    <p>&#160;&#160;&#160; var i;</p>    <p>&#160;&#160;&#160; function n(x) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; return x;</p>    <p>&#160;&#160;&#160; };</p>    <p>&#160;&#160;&#160; for(i = 0; i &lt; 3; i++) {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; a[i] = n(i);</p>    <p>&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; return a;</p>    <p>}</p>    <p>var fun = f();</p>    <p>alert(fun[0]); //0</p>    <p>alert(fun[1]); //1</p>    <p>alert(fun[2]); //2</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、对象</font></h5>  <ul>   <li><strong>定义对象的三种方式</strong></li> </ul>  <p><strong>1.普通方式</strong></p>  <blockquote>   <p>var obj = new Object();</p> </blockquote>  <p>javascript中有Object对象</p>  <p><strong>2.直接量方式</strong></p>  <blockquote>   <p>var obj = {</p>    <p>&#160;&#160;&#160; name : “yutou”;</p>    <p>&#160;&#160;&#160; sayHello : function() {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><strong>3.定义类型</strong></p>  <p><strong>函数对象（函数也是对象）</strong></p>  <blockquote>   <p>function Obj() {</p>    <p>&#160;&#160;&#160; //this代表Obj对象 但是只能使用this.不能使用Obj.</p>    <p>&#160;&#160;&#160; this.name = “yutou”;</p>    <p>&#160;&#160;&#160; this.sayHello = function() {</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <ul>   <li><strong>操作对象的属性和方法</strong></li> </ul>  <blockquote>   <p>var obj = {</p>    <p>&#160;&#160;&#160; name : “芋头”;</p>    <p>&#160;&#160;&#160; sayHello : function() {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(“Hi”);</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><strong>调用属性</strong></p>  <blockquote>   <p>alert(obj.name);</p>    <p>alert(obj[‘name’]);</p> </blockquote>  <p><strong>调用方法</strong></p>  <blockquote>   <p>obj.sayHello();</p>    <p>obj[‘sayHello’]();</p> </blockquote>  <p><strong>修改属性</strong></p>  <blockquote>   <p>obj.name = “修修”;</p>    <p>obj[‘name’] = “修修”;</p> </blockquote>  <p><strong>修改方法</strong></p>  <blockquote>   <p>obj.sayHello = function() {};</p>    <p>obj[‘sayHello’] = function() {};</p> </blockquote>  <p><strong>删除属性</strong></p>  <blockquote>   <p>delete obj.name;</p>    <p>delete obj[‘name’];</p> </blockquote>  <p><strong>删除方法</strong></p>  <blockquote>   <p>delete obj.sayHello;</p>    <p>delete obj[‘sayHello’];</p> </blockquote>  <p><strong><font color="#ff0000">函数对象必须先new才行</font></strong></p>  <blockquote>   <p>function Person() {</p>    <p>&#160;&#160;&#160; this.name = “芋头”;</p>    <p>&#160;&#160;&#160; this.sayHello = function () {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(“Hi”);</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p>    <p>var p = new Person();</p> </blockquote>  <p>就和上面的都一样了 调用修改删除都是对new出来的那个对象操作</p>  <p>&#160;</p>  <ul>   <li><strong>this的用法</strong></li> </ul>  <blockquote>   <p>function Person() {</p>    <p>&#160;&#160;&#160; this.name = “芋头”;</p>    <p>&#160;&#160;&#160; this.sayHello = function () {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; alert(this.name);</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><font color="#ff0000"><strong>this必须指代某个具体的对象</strong></font></p>  <p>另：this必须指代页面中具体的标签</p>  <p>&#160;</p>  <ul>   <li><strong>内建对象</strong></li> </ul>  <p>就是它自带的</p>  <p><strong>1.数据封装类对象</strong></p>  <p><strong>（1）Object</strong></p>  <blockquote>   <p>var obj = new Object();</p>    <p>var obj = new {};&#160; //<strong><font color="#dd8484">面试：</font><font color="#ff0000">两者是等价写法</font></strong></p> </blockquote>  <p><font color="#dd8484"><strong>面试：</strong></font>以下哪个描述错误</p>  <blockquote>   <p>var a = {};&#160; //定义一个空对象</p>    <p>var b = [];&#160; //定义一个空的数组</p>    <p>var c = //;&#160; //定义一个空的正则表达式</p>    <p>var d = ();&#160; //错误！！！</p> </blockquote>  <p><font color="#dd8484"><strong>面试：</strong></font>alert换行</p>  <p>以下三种都行</p>  <blockquote>   <p>r</p>    <p>n</p>    <p>rn</p> </blockquote>  <p>&#160;</p>  <p><strong>（2）Array</strong></p>  <p>属性</p>  <p>length</p>  <p>方法</p>  <p><font color="#dd8484"><strong>面试：</strong></font>反转字符串</p>  <blockquote>   <p>var str = “abc”;</p>    <p>var arr = str.split(“”);&#160; //可以这么切</p>    <p>arr = arr.reverse();</p>    <p>alert(arr.toString());</p> </blockquote>  <p>结果</p>  <blockquote>   <p>c,b,a&#160; //自动加上了“,”</p> </blockquote>  <p><font color="#dd8484"><strong>面试：</strong></font>定义空数组</p>  <blockquote>   <p>var arr1 = [];</p>    <p>var arr2 = new Array();</p>    <p>alert(typeof str1) //Object</p>    <p>alert(typeof str2) //Object</p> </blockquote>  <p>（3）String</p>  <p><font color="#dd8484"><strong>面试：</strong></font>下面两种方式是否一样</p>  <blockquote>   <p>var str1 = “a”;</p>    <p>var str2 = new String(“b”);</p>    <p>alert(typeof str1)&#160; <strong><font color="#ff0000">//string</font></strong></p>    <p>alert(typeof str2)&#160; //Object</p> </blockquote>  <p>不一样</p>  <p><font color="#dd8484"><strong>面试：</strong></font>判断字符串中是否包含指定字符串</p>  <p>方法1</p>  <blockquote>   <p>function contains(substr, str) {</p>    <p>&#160;&#160;&#160; var string = new String(substr);</p>    <p>&#160;&#160;&#160; var result = string.substr(string.indexOf(substr), substr.length);</p>    <p>&#160;&#160;&#160; return result == substr;</p>    <p>}</p> </blockquote>  <p>方法2</p>  <blockquote>   <p>function contains(substr, str) {</p>    <p>&#160;&#160;&#160; return str.indexOf(substr) &gt; 0;</p>    <p>}</p> </blockquote>  <p>方法…</p>  <p>&#160;</p>  <p>（4）Boolean</p>  <p>（5）Number</p>  <p><strong>2.工具类对象</strong></p>  <p>（1）Math</p>  <p>（2）Date</p>  <p>（3）RegExp</p>  <p>test&#160; -&#160; 进行正则匹配</p>  <p><strong>3.错误类对象</strong></p>  <p>（1）Error</p>  <p>（2）异常对象</p>  <p><strong>4.Function</strong></p>  <p>方法</p>  <p><strong>5.Events</strong></p>  <p>事件</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、原</font><font style="font-weight: bold">型</font></h5>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、继承</font></h5>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

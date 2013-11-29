@@ -1,0 +1,596 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>jBPM - 流程定义管理</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					jBPM - 流程定义管理
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、流程定义管理</strong>
+</h5>
+
+<p>
+	<span style="line-height: 1.6em;">来管理业务流程描述文件的（jpdl.xml）</span>
+</p>
+
+<p>
+	可以将业务流程部署到系统中
+</p>
+
+<p>
+	可以查看流程定义属性
+</p>
+
+<p>
+	可以查看流程图
+</p>
+
+<p>
+	可以删除流程
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、部署流程定义</strong>
+</h5>
+
+<p>
+	先得通过流程设计器生成jpdl.xml文件
+</p>
+
+<p>
+	jBPM的编程步骤：
+</p>
+
+<p style="margin-left: 40px;">
+	构建流程引擎 -&gt; 获取对应的Service对象 -&gt; 操作
+</p>
+
+<p style="margin-left: 40px;">
+	有六个获取Service对象的方法
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/service.jpg" rel="" style="" target="" title=""><img alt="service" class="alignnone size-full wp-image-1758" height="178" src="http://localhost:8080/wp-content/uploads/2013/11/service.jpg" style="" title="" width="559" /></a>
+</p>
+
+<p>
+	对于采购流程
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/caigou.jpg" rel="" style="" target="" title=""><img alt="caigou" class="alignnone size-full wp-image-1779" height="203" src="http://localhost:8080/wp-content/uploads/2013/11/caigou.jpg" style="" title="" width="164" /></a>
+</p>
+
+<p>
+	<strong>1.部署</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">ProcessDefinitionTest</span>
+</p>
+
+<blockquote>
+	<p>
+		@Test
+	</p>
+
+	<p>
+		public void bushu{
+	</p>
+
+	<p style="margin-left: 40px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="margin-left: 40px;">
+		//流程定义管理 使用 RepositoryService
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">RepositoryService repositoryService =&nbsp;processEngine.getRepositoryService();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">Deployment&nbsp;deployment =&nbsp;repositoryService.createDeployment();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">//载入流程定义文件 有多种方式</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<a href="http://localhost:8080/wp-content/uploads/2013/11/add.jpg"><img alt="add" class="alignnone size-full wp-image-1759" height="86" src="http://localhost:8080/wp-content/uploads/2013/11/add.jpg" width="175" /></a>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">//deployment.addResourceFromClasspath(&quot;caigou.jpdl.xml&quot;).addResourceFromClasspath(&quot;caigou.png&quot;);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">deployment.addResourceFromZipInputStream(new ZipInputStream(new FileInputStream(&quot;caigou.zip&quot;)));</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">//发布</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">deployment.deploy();</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	开发中如果是线下设计 我们经常是将设计好的流程文件放在.zip文件中 然后上传
+</p>
+
+<p>
+	<strong>2.数据表发生了什么变化？</strong>
+</p>
+
+<p>
+	<strong>（1）当表被创建时</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/biao.jpg"><img alt="biao" class="alignnone size-full wp-image-1797" height="319" src="http://localhost:8080/wp-content/uploads/2013/11/biao.jpg" width="144" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">jbpm4_property</span> 表中插入1条数据
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/13.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-1765" height="39" src="http://localhost:8080/wp-content/uploads/2013/11/13.jpg" style="" title="" width="338" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	它使用的是流水id 将所有表的id保存到这个表中 就说明下一次操作id是从1开始的 每次操作（一个事务 一批插入语句） next.dbid都会自动+10000
+</p>
+
+<p>
+	<strong>（2）新发布一个流程定义时</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">jbpm4_deployment</span> 发布表 插入1条数据 <u>id为1</u>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/22.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-1766" height="26" src="http://localhost:8080/wp-content/uploads/2013/11/22.jpg" style="" title="" width="383" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">jbpm4_lob</span> 二进制数据表 插入2条记录 保存的是发布的xml和png文件 <u>id为2, 3(也可能有多个文件)</u>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/32.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-1767" height="30" src="http://localhost:8080/wp-content/uploads/2013/11/32.jpg" style="" title="" width="451" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">jbpm4_deployprop</span> 流程定义属性表 插入4条记录 jpdl版本, 流程定义编号, 关键字, 流程, 流程定义版本 <u>id为4, 5, 6, 7</u>
+</p>
+
+<p style="margin-left: 40px;">
+	pdid = pdkey + &quot;-&quot; + pdversion 当发布相同key的流程时 pdversion会自动加1
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/4.jpg" rel="" style="" target="" title=""><img alt="4" class="alignnone size-full wp-image-1768" height="47" src="http://localhost:8080/wp-content/uploads/2013/11/4.jpg" style="" title="" width="461" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;"><span style="color:#0000FF;">jbpm4_property</span> 表中的next.dbid会+10000</span>
+</p>
+
+<p style="margin-left: 40px;">
+	下次发布流程 id就从10001开始了
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、流程定义的查看</strong>
+</h5>
+
+<p>
+	<strong>1.属性查询</strong>
+</p>
+
+<p>
+	通过RepositoryService获得
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@Test
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public void shuxingchaxun{
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		//流程定义管理 使用 RepositoryService
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		RepositoryService repositoryService =&nbsp;processEngine.getRepositoryService();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">ProcessDefinitionQuery&nbsp;processDefinitionQuery =&nbsp;DrepositoryService.createProcessDefinitionQuery();</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//查询所有</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">List&lt;ProcessDefinition&gt; list =&nbsp;processDefinitionQuery.list();</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">for (ProcessDefinition&nbsp;processDefinition : list) {</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">processDefinition.getId(); &nbsp;//pdid<strong><u>流程定义id</u></strong>（<strong><span style="color:#FF0000;">不是dbid！</span></strong>）</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">processDefinition.getName(); &nbsp;//名称</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">processDefinition.getKey(); &nbsp;//pdkey</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">processDefinition.getVersion(); &nbsp;//pdversion</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//添加条件</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">processDefinitionQuery.processDefinitionId(&quot;caigou-1&quot;); &nbsp;//当然也可以根据key查 还可以根据其他的查</span>
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		List&lt;ProcessDefinition&gt; list =&nbsp;processDefinitionQuery.list();
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		for (ProcessDefinition&nbsp;processDefinition : list) {
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 80px;">
+		processDefinition.getId(); &nbsp;//pdid（<strong><span style="color: rgb(255, 0, 0);">不是dbid！</span></strong>）
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 80px;">
+		processDefinition.getName(); &nbsp;//名称
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 80px;">
+		processDefinition.getKey(); &nbsp;//pdkey
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 80px;">
+		processDefinition.getVersion(); &nbsp;//pdversion
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.流程资源文件查询</strong>
+</p>
+
+<p>
+	用于获取所有发不上去的文件
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@Test
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public void shuxingchaxun{
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		ProcessEngine processEngine = new Configuration().buildProcessEngine();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		//流程定义管理 使用 RepositoryService
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		RepositoryService repositoryService =&nbsp;processEngine.getRepositoryService();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		//通过发布id和资源文件名得到资源
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">//<strong><span style="color:#FF0000;">发布id 是在jbpm4_deployment表中的主键DBID</span></strong></span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-size: 13px;">//资源文件名</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<a href="http://localhost:8080/wp-content/uploads/2013/11/5.jpg"><img alt="5" class="alignnone size-full wp-image-1769" height="75" src="http://localhost:8080/wp-content/uploads/2013/11/5.jpg" width="316" /></a>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">InputStream in = repositoryService&nbsp;</span>.getResourceAsStream(&quot;1&quot;, &quot;caigou.png&quot;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		OutputStream out = new FileOutputStream(&quot;d:/caigou.png&quot;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		int b;
+	</p>
+
+	<p style="margin-left: 40px;">
+		while (b = in.read() != -1) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		out.write(b);
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		in.close();
+	</p>
+
+	<p style="margin-left: 40px;">
+		out.close();
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	企业中这种流程定义文件 如果想要修改 就通过上面的方法将jpdl.xml读取出来 然后修改之后 再写回到数据库中就好了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、流程删除</strong>
+</h5>
+
+<p>
+	通过发布id来删除
+</p>
+
+<p>
+	<strong>1.删除流程 而不删除流程的实例</strong>
+</p>
+
+<blockquote>
+	<p>
+		repositoryService.deleteDeployment(发布id);
+	</p>
+</blockquote>
+
+<p>
+	此时 如果次流程有流程实例 就会报错 无法删除
+</p>
+
+<p>
+	<strong>2.删除流程 同时删除流程的实例</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">repositoryService.deleteDeploymentCascade(发布id);</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

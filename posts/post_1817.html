@@ -1,0 +1,740 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong><span style="color:#FF0000;">&lt;?php</span></strong><br />
+	<strong># echo可以用逗号分隔要输出的内容</strong>
+</p>
+
+<p>
+	//echo 不是一个函数 而是一个语言固有的结构&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		$a = 1;<br />
+		$b = &quot;b&quot;;<br />
+		echo $a,&quot;, &quot;,$b,&quot;&lt;br/&gt;&quot;; &nbsp;//1, b
+	</p>
+</blockquote>
+
+<p>
+	//<strong><span style="color:#EE82EE;">面试题</span></strong> 哪个语句执行最快
+</p>
+
+<blockquote>
+	<p>
+		echo &quot;hi &quot; . &quot;yutou&quot;; &nbsp;//双引号比单引号慢<br />
+		echo &#39;hi &#39; . &#39;yutou&#39;; &nbsp;//要先进行字符串连接运算 再输出 较慢<br />
+		echo &#39;hi &#39; , &#39;yutou&#39;; &nbsp;//这个最快<br />
+		print_r(&#39;hi &#39; , &#39;yutou&#39;); &nbsp;//这个需要调用函数 比语言结构慢
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 变量的引用赋值</strong>
+</p>
+
+<blockquote>
+	<p>
+		$a = &amp;$b; &nbsp;//不是$b指向$a 而是它俩指向同一内存地址<br />
+		echo $a,&quot;, &quot;,$b,&quot;&lt;br/&gt;&quot;; &nbsp;//b, b<br />
+		$b = 5;<br />
+		echo $a,&quot;, &quot;,$b,&quot;&lt;br/&gt;&quot;; &nbsp;//5, 5
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong>关于unset</strong>
+</p>
+
+<blockquote>
+	<p>
+		unset($a);&nbsp;&nbsp; &nbsp;//unset掉了a 只是a不要了 这个内存地址还被b所指向 所以并未被销毁 b也unset掉了 内存的存储才被垃圾回收机制释放<br />
+		echo $a,&quot;, &quot;,$b,&quot;&lt;br/&gt;&quot;; &nbsp;//, 5
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 引用计数赋值</strong>
+</p>
+
+<blockquote>
+	<p>
+		class human {<br />
+		&nbsp;&nbsp; &nbsp;public $age = 21;<br />
+		}<br />
+		$xiuxiu = new human(); &nbsp;//创建对象 <span style="color:#FF0000;">其实$xiuxiu指向一个内存地址1 这里面存的是一个指向对象的内存地址2和引用计数 目前是1</span>
+	</p>
+
+	<p>
+		$yutou = $xiuxiu; &nbsp;//对象的赋值不要加&amp; 它自动就是引用赋值 <span style="color:#FF0000;">是$yutou和$xiuxiu都指向内存地址1 并且引用计数变为2</span>
+	</p>
+
+	<p>
+		<a href="http://localhost:8080/wp-content/uploads/2013/11/jishu.jpg"><img alt="jishu" class="alignnone size-full wp-image-1818" height="173" src="http://localhost:8080/wp-content/uploads/2013/11/jishu.jpg" width="371" /></a>
+	</p>
+
+	<p>
+		$yutou-&gt;age = 20; &nbsp;//两者指向一块区域 修改这个 就是修改那个<br />
+		print_r($xiuxiu); &nbsp;//human Object ( [age] =&gt; 20 )&nbsp;<br />
+		echo &quot;&lt;br/&gt;&quot;;
+	</p>
+
+	<p>
+		$yutou = 999; &nbsp;//<span style="color:#FF0000;">把内存地址1中存的引用计数变成了1 再开辟一个新内存存放999让$yutou指向它</span>
+	</p>
+
+	<p>
+		<a href="http://localhost:8080/wp-content/uploads/2013/11/jishu2.jpg" rel="" style="" target="" title=""><img alt="jishu2" class="alignnone size-full wp-image-1819" height="164" src="http://localhost:8080/wp-content/uploads/2013/11/jishu2.jpg" style="" title="" width="289" /></a>（这个是老师画的 不是我画的 赫赫）
+	</p>
+
+	<p>
+		print_r($yutou); &nbsp;//999<br />
+		echo &quot;&lt;br/&gt;&quot;;<br />
+		print_r($xiuxiu); &nbsp;//human Object ( [age] =&gt; 20 )&nbsp;<br />
+		echo &quot;&lt;br/&gt;&quot;;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 变量类型</strong>
+</p>
+
+<p>
+	1.整形
+</p>
+
+<p>
+	2.浮点型 &nbsp;- &nbsp;注意要存钱的话 不要用浮点 有的小数没法用二进制精确表示 可以存成分为单位的整形
+</p>
+
+<p>
+	3.字符串
+</p>
+
+<p>
+	4.布尔型
+</p>
+
+<p>
+	5.null型 &nbsp;- &nbsp;用if判断 为假
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;">if ($lksjdlfs) {</span><br />
+		&nbsp;&nbsp; &nbsp;echo &#39;嘿嘿&#39;;<br />
+		} else {<br />
+		&nbsp;&nbsp; &nbsp;echo &#39;呵呵&#39;;<br />
+		} &nbsp;//呵呵 &nbsp;- &nbsp;如果判断一个没有定义过的变量 值为null 就是假
+	</p>
+</blockquote>
+
+<p>
+	6.数组
+</p>
+
+<p>
+	7.对象
+</p>
+
+<p>
+	8.资源型
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 动态变量名</strong>
+</p>
+
+<p>
+	//php中变量名 函数名 对象名 类名 都很灵活 可以用变量表示<br />
+	//这样可以接收用户的参数 更灵活
+</p>
+
+<blockquote>
+	<p>
+		$a = &quot;a&quot;;<br />
+		$b = &quot;b&quot;;<br />
+		$c = &quot;c&quot;;
+	</p>
+
+	<p>
+		$who = &quot;b&quot;; &nbsp;//这个可以是用户的传参<br />
+		echo $$who,&quot;&lt;br/&gt;&quot;; &nbsp;//b &nbsp;- &nbsp;真神奇
+	</p>
+
+	<p>
+		$shui = &quot;who&quot;;<br />
+		echo $$$shui,&quot;&lt;br/&gt;&quot;; &nbsp;//b &nbsp;- &nbsp;太神奇了吧
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 常量</strong>
+</p>
+
+<blockquote>
+	<p>
+		define(常量名, 常量值); &nbsp;//用中文也好使<br />
+		echo 常量名;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 运算符</strong>
+</p>
+
+<blockquote>
+	<p>
+		echo (3 / 2),&quot;&lt;br/&gt;&quot;; &nbsp;//1.5 &nbsp;- &nbsp;弱类型 如果是浮点直接返回浮点<br />
+		echo &quot;(0 == \&quot;0\&quot;): &quot;,(0 == &quot;0&quot;),&quot;&lt;br/&gt;&quot;; &nbsp;//1<br />
+		echo &quot;(0 == \&quot;null\&quot;): &quot;,(0 == &quot;null&quot;),&quot;&lt;br/&gt;&quot;; &nbsp;//1<br />
+		echo &quot;(null == \&quot;\&quot;): &quot;,(null == &quot;&quot;),&quot;&lt;br/&gt;&quot;; &nbsp;//1<br />
+		echo &quot;(null == \&quot;null\&quot;): &quot;,(null == &quot;null&quot;),&quot;&lt;br/&gt;&quot;; &nbsp;//[没有输出] &nbsp;- &nbsp;&quot;null&quot;是字符串 不是空的 所以不等<br />
+		echo &quot;(0 == null): &quot;,(0 == null),&quot;&lt;br/&gt;&quot;; &nbsp;//1<br />
+		echo &quot;(0 === null): &quot;,(0 === null),&quot;&lt;br/&gt;&quot;; &nbsp;//[没有输出] &nbsp;- &nbsp;全等于 不仅相等 类型也得一样
+	</p>
+</blockquote>
+
+<p>
+	//<strong><span style="color:#EE82EE;">面试题</span></strong> 举例说明用===可以判断 用==不能判断的
+</p>
+
+<blockquote>
+	<p>
+		if (false !== strpos(&#39;echo&#39;, &#39;e&#39;)) { &nbsp;//这里必须用全不等于判断 因为strpos函数 返回参数2在参数1中的位置 如果不存在返回false 它恰好在第0位 如果用!=判断 0也是false 顾得不到想要的结果<br />
+		&nbsp;&nbsp; &nbsp;echo &#39;有e&#39;;<br />
+		} else {<br />
+		&nbsp;&nbsp; &nbsp;echo &#39;没有e&#39;;<br />
+		}<br />
+		echo &quot;&lt;br/&gt;&quot;;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 逻辑运算符</strong>
+</p>
+
+<blockquote>
+	<p>
+		//异或 &nbsp;- &nbsp;一方为真一方为假<br />
+		$p1 = 0;//女<br />
+		$p2 = 1;//男<br />
+		if ($p1 xor $p2) {<br />
+		&nbsp;&nbsp; &nbsp;echo &quot;可以结婚&quot;;<br />
+		} else {<br />
+		&nbsp;&nbsp; &nbsp;echo &quot;不能结婚&quot;;<br />
+		}<br />
+		echo &quot;&lt;br/&gt;&quot;;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 字符串运算符</strong>
+</p>
+
+<blockquote>
+	<p>
+		//. &nbsp;- &nbsp;作用 连接字符串
+	</p>
+</blockquote>
+
+<p>
+	<br />
+	<strong># 运算符的返回值</strong>
+</p>
+
+<blockquote>
+	<p>
+		echo ($a = 5),&quot;&lt;br/&gt;&quot;; &nbsp;//5 &nbsp;- &nbsp;赋值运算符返回赋值的值
+	</p>
+
+	<p>
+		var_dump(3 &gt; 2); &nbsp;//true &nbsp;- &nbsp;使用这个函数能输出比较运算符的布尔值
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 函数</strong>
+</p>
+
+<p>
+	// <strong>带默认值得参数</strong>
+</p>
+
+<blockquote>
+	<p>
+		function func1($a, $b = 2) {<br />
+		&nbsp;&nbsp; &nbsp;echo $a + $b;<br />
+		}<br />
+		echo func1(5); &nbsp;//7 &nbsp;- &nbsp;<span style="color:#FF0000;">有默认值的参数可以不传 如果有默认值的参数不在最后面 就必须得传</span>
+	</p>
+
+	<p>
+		echo func1(5, 6, 7); &nbsp;//11 &nbsp;- &nbsp;传参可以多余函数定义形参的个数 多余的被忽略 但不能少于 会报错
+	</p>
+</blockquote>
+
+<p>
+	// 函数引用传值方式（<span style="color:#FF0000;">严重不推荐</span>这样写 违反了封装原则）
+</p>
+
+<blockquote>
+	<p>
+		$a = 10;<br />
+		function dbl(&amp;$x) {<br />
+		&nbsp;&nbsp; &nbsp;$x *= 2;<br />
+		&nbsp;&nbsp; &nbsp;return $x;<br />
+		}<br />
+		echo dbl($a),&quot;&lt;br/&gt;&quot;; &nbsp;//20<br />
+		echo $a,&quot;&lt;br/&gt;&quot;; &nbsp;//20
+	</p>
+</blockquote>
+
+<p>
+	// 函数内部操作全局变量（<span style="color:#FF0000;">严重不推荐</span>使用）
+</p>
+
+<blockquote>
+	<p>
+		/*直接定义在php文件中的变量就是全局变量*/<br />
+		$a = 1;<br />
+		function func2() {<br />
+		&nbsp;&nbsp; &nbsp;echo $a,&quot;&lt;br/&gt;&quot;; &nbsp;//这个$a 是在函数内部定义的 和外边的不一样 所以这不是访问外边的$a<br />
+		&nbsp;&nbsp; &nbsp;global $a; &nbsp;//告诉函数 这是全局变量<br />
+		&nbsp;&nbsp; &nbsp;$a = 2;<br />
+		&nbsp;&nbsp; &nbsp;echo $a,&quot;&lt;br/&gt;&quot;;<br />
+		}<br />
+		func2();<br />
+		echo $a,&quot;&lt;br/&gt;&quot;;
+	</p>
+</blockquote>
+
+<p>
+	<br />
+	// <strong>动态调用函数</strong>
+</p>
+
+<blockquote>
+	<p>
+		function a($i) { echo &quot;a $i&lt;br/&gt;&quot;; }<br />
+		function b($i) { echo &quot;b $i&lt;br/&gt;&quot;; }<br />
+		function c($i) { echo &quot;c $i&lt;br/&gt;&quot;; }
+	</p>
+
+	<p>
+		// 方式1<br />
+		$func = &quot;b&quot;; &nbsp;//指定要调用的函数名<br />
+		$func(3); &nbsp;//这就动态调用了 &nbsp;- &nbsp;太神妙了吧
+	</p>
+
+	<p>
+		// 方式2<br />
+		call_user_func(&quot;a&quot;, 1);<br />
+		call_user_func_array(&quot;c&quot;, array(4)); &nbsp;//把所有参数组织成数组传递
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 超级全局变量</strong>
+</p>
+
+<p>
+	在所有部分都可见 无论是函数中（在函数中不用global声明） 还是数组中
+</p>
+
+<p>
+	$_GET, $POST, $_COOKIE, $_SESSION, $_SERVER, $_ENV, $_REQUEST, $_FILE, $GLOBALS
+</p>
+
+<p>
+	$_GET, $POST &nbsp;- &nbsp;请求参数<br />
+	$_SERVER &nbsp;- &nbsp;服务器执行时的相关信息 和服务器软件的不同会略有不同 来访者ip 请求参数 URI 文件绝对路径<br />
+	$_ENV
+</p>
+
+<blockquote>
+	<p>
+		echo $_ENV,&quot;&lt;br/&gt;&quot;; &nbsp;//可能为空 因为php.ini中限制了对它的打印
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">php.ini</span>
+</p>
+
+<blockquote>
+	<p>
+		variables_order = &quot;GPCS&quot; &nbsp; //限制可以打印 GET POST COOKIE SESSION 这个顺序还决定了他们的优先级<br />
+		variables_order = &quot;GPCSE&quot; &nbsp;//要是想打印的话在后面加上E 代表ENV 但是服务器一般限制打印 不让得到过多的服务器信息
+	</p>
+</blockquote>
+
+<p>
+	但是还可以通过 getenv() 函数得到
+</p>
+
+<p>
+	例如
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;">echo getenv(&#39;OS&#39;),&quot;&lt;br/&gt;&quot;; &nbsp;//得到操作系统</span>
+	</p>
+</blockquote>
+
+<p>
+	<span style="line-height: 1.6em;">因为各种操作系统间有很多不一样的地方</span><br />
+	就比如说换行符
+</p>
+
+<p style="margin-left: 40px;">
+	windows &quot;\r\n&quot;<br />
+	linux &quot;\n&quot;<br />
+	mac &quot;\r&quot;<br />
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="line-height: 1.6em;"># 检查是否已定义</span></strong>
+</p>
+
+<p>
+	// <strong>检查变量是否定义</strong>
+</p>
+
+<blockquote>
+	<p>
+		var_dump(isset($ljsdkfjalsjfoejoj)); &nbsp;//是否已定义<br />
+		echo &quot;&lt;br/&gt;&quot;;<br />
+		var_dump(empty($ljsdkfjalsjfoejoj)); &nbsp;//是否为空 没定义 所以是空<br />
+		echo &quot;&lt;br/&gt;&quot;;
+	</p>
+</blockquote>
+
+<p>
+	// <strong>检查常量是否定义</strong>
+</p>
+
+<blockquote>
+	<p>
+		if (!defined(&#39;PI&#39;)) { &nbsp;//注意结尾的d<br />
+		&nbsp;&nbsp; &nbsp;define(&#39;PI&#39;, 3.14);<br />
+		}<br />
+		defined(&#39;PI&#39;) or define(&#39;PI&#39;, 3.14); &nbsp;//<strong><span style="color:#FF0000;">小技巧</span></strong>！ 利用逻辑运算符的短路特性
+	</p>
+</blockquote>
+
+<p>
+	// <strong>检查函数是否定义</strong>
+</p>
+
+<blockquote>
+	<p>
+		var_dump(function_exists(&quot;a&quot;)); &nbsp;//由于PHP版本不同 支持的函数并不太一样 可以通过这个方法判断
+	</p>
+</blockquote>
+
+<p>
+	比如说在框架里 PHP的一个版本之后才支持一个函数 但是如果想用在之前版本 它可能自己写这个函数 但是还不一定这个框架在哪个版本的PHP用 就可以
+</p>
+
+<blockquote>
+	<p>
+		if (!function_exists(&#39;mysql_connect&#39;)) {<br />
+		&nbsp;&nbsp; &nbsp;function mysql_connect() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//...<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 超级全局变量 $_GET, $_POST</strong>
+</p>
+
+<p>
+	它俩是数组类型的变量
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>关于参数大小 </strong></span><span style="color:#EE82EE;"><strong>面试</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	GET方式是根据URL传递 URL的长度受到 浏览器 和 服务器软件 的双重制约<br />
+	具体长度不一定 在2K以内 <span style="color:#FF0000;">不要说就是2K 一看就是刚学出来的</span> 其实HTTP协议没有限制
+</p>
+
+<p style="margin-left: 40px;">
+	POST当时主要是受到 服务器软件的限制
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">php.ini</span> 中可以配置&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	upload_max_filesize = 2M &nbsp;//默认为2M
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 超全局变量 $GLOBALE 数组</strong>
+</p>
+
+<p>
+	是所有全局变量的花名册 里边有 声明的全局变量 在这里都能找到
+</p>
+
+<p>
+	给在函数内部操作全局变量<span style="font-size: 13px;">（不推荐使用）</span> 提供了方法
+</p>
+
+<p>
+	操作$GLOBALS中的某个成员的值 就等于在操作那个全局变量
+</p>
+
+<blockquote>
+	<p>
+		$a = 99;<br />
+		print_r($GLOBALS);<br />
+		/* 结果<br />
+		...<br />
+		[a] =&gt; 99<br />
+		...<br />
+		*/
+	</p>
+
+	<p>
+		$b = 100;<br />
+		print_r($GLOBALS);<br />
+		/* 结果<br />
+		...<br />
+		[a] =&gt; 99<br />
+		[b] =&gt; 100<br />
+		...<br />
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong># 数组</strong>
+</p>
+
+<p>
+	定义
+</p>
+
+<p>
+	array(&#39;key&#39; =&gt; &#39;value&#39;, ...);
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">?&gt;</span></strong>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

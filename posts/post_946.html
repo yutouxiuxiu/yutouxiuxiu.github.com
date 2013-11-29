@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>泛型的一些讨论</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					泛型的一些讨论
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>数组和集合比</strong></p>  <p>数组 真的</p>  <p>Object[] objs = new String[10];&#160;&#160; //可以编译</p>  <p>objs[0] = new Integer(100);&#160;&#160; //可以编译 但是运行时出错</p>  <p>如果是new String[] 它在内存中就是String</p>  <p>泛型 假的</p>  <p><u><font color="#ff0000">(x)</font> ArrayList&lt;Object&gt; arr = new ArrayList&lt;String&gt;();</u>&#160;&#160; //不可以编译</p>  <p>arr.add(100);&#160;&#160; //如果上一句可以编译 这句就能运行了</p>  <p>因为擦出之后 在内存中ArrayList在内存中不是泛型 它可以存储任何对象 其实内部是Object数组 而不是String</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、通配符</font></h5>  <ul>   <li><strong>万能打印集合的方法 引出泛型通配符”?”</strong></li> </ul>  <p>1.用Object？不行… 不能让通过编译</p>  <blockquote>   <p>public static void print(ArrayList&lt;Object&gt; list) {</p>    <p>}</p>    <p><u><font color="#ff0000">(x)</font> print</u>(new ArrayList&lt;String&gt;());</p> </blockquote>  <p>&#160;</p>  <p>2.不行 不能重载 其实泛型擦出之后 都是一样的</p>  <blockquote>   <p>public static void <u><font color="#ff0000">(x)</font> </u><u>print(ArrayList&lt;String&gt; list)</u> {</p>    <p>}</p>    <p>public static void <u><font color="#ff0000">(x)</font> </u><u>print(ArrayList&lt;Integer&gt; list)</u> {</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <p>3.通配符解决这个问题</p>  <blockquote>   <p>public static void print(ArrayList&lt;?&gt; list) {</p>    <p>}</p>    <p>print(new ArrayList&lt;String&gt;());</p>    <p>print(new ArrayList&lt;Integer&gt;());</p> </blockquote>  <p>&#160;</p>  <p>4.但是print方法里要是用了…</p>  <blockquote>   <p>public static void print(ArrayList&lt;?&gt; list) {</p>    <p>&#160;&#160;&#160; list.add(100);&#160;&#160; //这不行 因为不知道？是什么… 参数是泛型的方法 都没法用</p>    <p>&#160;&#160;&#160; list.get(0);&#160;&#160;&#160; //其实返回值是泛型的方法 也没用了 虽然可以用Object接 但是没什么意义了</p>    <p>}</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>无界通配</strong></li> </ul>  <p><strong>1.通配符的好处</strong></p>  <p>可以让泛型类之间使用通配符后 更加通用</p>  <p>可以为多种泛型找到共同的父类</p>  <p>ArrayList&lt;?&gt; 是ArrayList&lt;Integer&gt;, ArrayList&lt;Strring&gt;……的父类</p>  <p>在方法调用上可以把<font color="#ff0000"><strong>形参类型（</strong>通配符是形参上用的<strong>）</strong></font>给出通配符</p>  <p align="center"><strong><font color="#ff0000">一句话概括通配符：通配符放在方法的形参上 使方法更加通用</font></strong></p>  <p><strong>2.通配符的坏处</strong></p>  <p>不能使用泛型方法</p>  <p>参数为泛型的和返回值为泛型的方法 无法使用</p>  <p>&#160;</p>  <ul>   <li><strong>泛型限定</strong></li> </ul>  <p><strong>1.子类通配</strong></p>  <blockquote>   <p>&lt;? extends XXX&gt;</p> </blockquote>  <p>可以限制？只能是XXX或者XXX的子类</p>  <p><strong>优缺点</strong></p>  <p>参数是泛型的方法是作废的</p>  <p>返回时泛型的方法可以使用 返回的是XXX类型</p>  <p>&#160;</p>  <p><strong>2.父类通配</strong></p>  <blockquote>   <p>&lt;? super XXX&gt;</p> </blockquote>  <p>可以限制？只能是XXX或者XXX的父类</p>  <p><strong>优缺点</strong></p>  <p>参数是泛型的方法可以使用</p>  <p>返回值是泛型的方法用不了</p>  <p>&#160;</p>  <p><strong>举个栗子</strong></p>  <p><strong>子类限定的好处</strong></p>  <blockquote>   <p>boolean addAll(Collection&lt;? extends E&gt; c)</p> </blockquote>  <blockquote>   <p>Collection&lt;Number&gt; c = new …</p>    <p>c.addAll(new Collection&lt;Integer&gt;);&#160;&#160; //可用</p>    <p>c.addAll(new Collection&lt;Double&gt;); //可用</p> </blockquote>  <p>Number的集合可以加入Integer集合</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、父类中获取子类传递的类型变量</font></h5>  <p><font color="#ff0000"><strong>为什么获取传过来的类型是什么？</strong></font></p>  <p><font color="#ff0000"></font></p>  <p>用反射</p>  <blockquote>   <p>public abstract class A&lt;T&gt; {</p>    <p>&#160;&#160;&#160; public A() {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //获取B给A传递的T的值</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; //this.getClass().getName();&#160;&#160;&#160; //得到的是子类的类型</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; Type[] types = type.getActualTypeArguments();&#160;&#160; //因为可能有很多泛型变量</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; Class clazz = (Class) types[0];&#160;&#160; //得到第一个类型参数的真实类型</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(clazz.getName());</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <blockquote>   <p>class B extends A&lt;String&gt; {</p>    <p>}</p> </blockquote>  <blockquote>   <p>B b = new B();&#160;&#160;&#160; //子类构造器会调用父类构造器</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

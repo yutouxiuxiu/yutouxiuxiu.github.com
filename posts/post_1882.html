@@ -1,0 +1,1487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php基础 - 数组</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php基础 - 数组
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>目录</strong>
+</h5>
+
+<p>
+	<a href="#一、数组的创建">#一、数组的创建</a>
+</p>
+
+<p>
+	<a href="#二、数组的循环">#二、数组的循环</a>
+</p>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<a id="一、数组的创建" name="一、数组的创建"><strong>一、数组的创建</strong></a>
+</h5>
+
+<p>
+	key 可以是数字/字符串&nbsp;
+</p>
+
+<p>
+	key为纯数字叫索引数组 其他较关联数组
+</p>
+
+<p>
+	value 可以是任何类型的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong><span style="color: rgb(255, 0, 0);">如果没有指定键 会以当前存在的整数键+1 作为新的键</span></strong>
+</p>
+
+<p style="font-size: 13px;">
+	<strong><span style="color: rgb(255, 0, 0);">如果当前没有整数键 从0开始</span></strong>
+</p>
+
+<p style="font-size: 13px;">
+	<font color="#ff0000"><b>如果指定的键已经有值 则将被覆盖</b></font>
+</p>
+
+<blockquote>
+	<p>
+		1.$array = array(&#39;&#39; =&gt; &#39;&#39;, ...);
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">2.$array = array(&#39;&#39;, </span><span style="line-height: 1.6em;">...);</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">3.$array[''] = </span><span style="line-height: 1.6em;">&#39;&#39;;</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">4.$array[] = &#39;&#39;; &nbsp;//会自动向后开辟一个新的键</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">5.$array = array(&#39;&#39; =&gt; &#39;&#39;, &#39;&#39;, ...</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">);</span>
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$array[] = &#39;a&#39;;<br />
+		<span style="line-height: 1.6em;">$array[3] = &#39;b&#39;;</span><br />
+		<span style="line-height: 1.6em;">$array[] = &#39;c&#39;;</span><br />
+		<span style="line-height: 1.6em;">$array[] = &#39;d&#39;;</span>
+	</p>
+
+	<p>
+		//（结果！！！）Array ( [0] => a [3] => b [4] => c [5] =&gt; d )
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;);<br />
+		<span style="line-height: 1.6em;">unset($array[3]);</span><br />
+		<span style="line-height: 1.6em;">$array[] = &#39;e&#39;;</span><br />
+		<span style="line-height: 1.6em;">print_r($array);</span>
+	</p>
+
+	<p>
+		//（结果！！！）Array ( [0] => a [1] => b [2] => c [4] =&gt; e )
+	</p>
+
+	<p>
+		<strong><span style="color:#FF0000;">（注意！！！）删掉一个单元 键的值继续增长不受影响</span></strong>
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$array['1'] = &#39;yi&#39;;<br />
+		<span style="line-height: 1.6em;">$array</span><span style="line-height: 1.6em;">[1] = &#39;一&#39;;</span><br />
+		<span style="line-height: 1.6em;">print_r($array</span><span style="line-height: 1.6em;">);</span>
+	</p>
+
+	<p>
+		//结果&nbsp;Array ( [1] =&gt; 一 )
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<a name="二、数组的循环"><strong>二、数组的循环</strong></a>
+</p>
+
+<p>
+	<strong>1.for循环</strong>
+</p>
+
+<blockquote>
+	<p>
+		<strike><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">for ($i = 0, $i &lt;&nbsp;count($array); $i++</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">) {</span></strike>
+	</p>
+
+	<p>
+		for ($i = 0, $len = count($array); $i &lt; $len; $i++) { &nbsp;//这样效率高 否则每次都要调用count函数
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.foreach循环</strong>
+</p>
+
+<p>
+	像下面这样的 键没有规律的数组 就没法用for循环来遍历
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">foreach开始执行时 数组内部的指针会自动指向第一个单元</span></strong>
+</p>
+
+<p>
+	<strong>（1）键值都要</strong>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(3 =&gt; &#39;a&#39;, 6=&gt; &#39;b&#39;, &#39;a&#39; =&gt; &#39;c&#39;);
+	</p>
+
+	<p>
+		foreach ($array as $key =&gt; $value) {
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">echo $key,&#39; =&gt; &#39;, $value; &nbsp;//</span><strong style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;"><span style="color: rgb(255, 0, 0);">（注意！！！）停留在了最后一次的值</span></strong>
+	</p>
+
+	<p>
+		var_dump(current($array)); &nbsp;//<strong><span style="color:#FF0000;">（注意！！！）</span></strong>bool(false); &nbsp;- &nbsp;它使劲往后循环 foreach结束之后 不会自动将数组reset（参见下面的游标操作）
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）只要值</strong>
+</p>
+
+<blockquote>
+	<p>
+		foreach ($array as $value) {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.游标操作</strong>
+</p>
+
+<p>
+	数组内部有一个游标&nbsp;指向当前正在操作的值
+</p>
+
+<p>
+	游标操作函数
+</p>
+
+<p style="margin-left: 40px;">
+	current, key, next, prev, reset, end
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>（1）current &nbsp;- &nbsp;游标当前所指向的单元的值</strong>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;);
+	</p>
+
+	<p>
+		echo current($array); &nbsp;//a &nbsp;- &nbsp;数组刚创建 指针指向第0个单元
+	</p>
+</blockquote>
+
+<p>
+	<strong style="font-size: 13px;">（2）key &nbsp;- &nbsp;游标当前所指向的单元的键</strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		echo current($array); &nbsp;//0 &nbsp;- &nbsp;数组刚创建 指针指向第0个单元
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）next &nbsp;- &nbsp;右边向后移动一个单元</strong>
+</p>
+
+<blockquote>
+	<p>
+		echo next($array); &nbsp;//b &nbsp;- &nbsp;移动并返回移动后的值
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">echo next($array); &nbsp;//c<br />
+		echo next($array); &nbsp;//d<br />
+		var_dump(next($array)); &nbsp;//bool(false) &nbsp;- &nbsp;<strong><span style="color:#FF0000;">next到数组的外面 &nbsp;使用next和current都返回false</span></strong> 使用key返回null<br />
+		var_dump(current($array)); &nbsp;//bool(false)&nbsp;<br />
+		var_dump(key($array)); &nbsp;//null</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong style="font-size: 13px;">（4）prev &nbsp;- &nbsp;指针向前移动一个单元</strong>
+</p>
+
+<p>
+	<strong>（5）end &nbsp;- &nbsp;将指针指向数组的最后一个单元</strong>
+</p>
+
+<p>
+	<strong>（6）reset &nbsp;- &nbsp;</strong><strong style="font-size: 13px;">将指针指向数组的第一个单元</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.for循环 循环关联数组</strong>
+</p>
+
+<blockquote>
+	<p>
+		for (; current($array); next($array)) {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>（注意！！！）陷阱！！！</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(0, 1, 2, 3);
+	</p>
+
+	<p>
+		for (; current($array); next($array)) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		echo current($array);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	数组的第一个元素是0 在for循环进行current($array)的真假判断时 就是假 此方法根本就无法遍历这个数组
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.each</strong>
+</p>
+
+<p>
+	把指针指向的当前单元的信息组成一个数组 然后<span style="color:#FF0000;"><strong>再把数组的游标向后移动一下</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		Array(
+	</p>
+
+	<p style="margin-left: 40px;">
+		1 =&gt; 单元值,<br />
+		&#39;value&#39; =&gt; 单元值,<br />
+		0 =&gt; 键,<br />
+		&#39;key&#39; =&gt; 键
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">)</span>
+	</p>
+</blockquote>
+
+<p>
+	如果游标移出了数组 会返回 bool(false)
+</p>
+
+<blockquote>
+	<p>
+		while ($current = each($array)) {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.list</strong>
+</p>
+
+<p>
+	80%的PHPer都没搞清楚
+</p>
+
+<p>
+	list可以把数组的元素 分别赋值给变量
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;春&#39;, &#39;夏&#39;, &#39;秋&#39;, &#39;冬&#39;);<br />
+		list($apring, $summer, $autumn, $winter) = $array;<br />
+		这样 春夏秋冬就分别赋值给了这四个变量
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="color:#FF0000;">（注意！！！）在list中变量的顺序 分别对应数组的 [0], [1], [2], ...</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		list($a, $b, $c) = array(2 =&gt; &#39;赵&#39;, 3 =&gt; &#39;钱&#39;, 1 =&gt; &#39;孙&#39;);
+	</p>
+
+	<p>
+		//<strong><span style="color:#FF0000;">结果：$a, $b, $c 分别是 null,&nbsp;孙, 赵</span></strong>
+	</p>
+</blockquote>
+
+<p>
+	<strong style="font-size: 13px;"><span style="color: rgb(255, 0, 0);">（注意！！！）</span></strong><span style="font-size: 13px;">list的执行过程是 先产生映射 然后按照参数<strong><span style="color:#FF0000;">从右向左进行赋值</span></strong></span>
+</p>
+
+<blockquote>
+	<p>
+		list($arr[0], $arr[1], , $arr[2]) = array(3 =&gt; &#39;赵&#39;, 1 =&gt; &#39;钱&#39;, 5 =&gt; &#39;孙&#39;, 2 =&gt; &#39;李&#39;);<br />
+		print_r($arr);
+	</p>
+
+	<p>
+		//结果：Array ( [2] => 赵 [1] => 钱 [0] =&gt; ) &nbsp;- &nbsp;是从右向左赋值的
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>7.each + list</strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">each 经常和 list 配合使用</span>
+</p>
+
+<blockquote>
+	<p>
+		while ($temp = each($array)) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		list($key, $value) = $temp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		echo $key,&#39; =&gt; &#39;,$value;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a name="三、数组的下标"><strong>三、数组的下标</strong></a>
+</h5>
+
+<p>
+	整形：不必加引号 加了引号 php还要把它转成整形
+</p>
+
+<p>
+	字符串型：
+</p>
+
+<p style="margin-left: 40px;">
+	不加引号 将被理解为常量 按照常量值做下标 如果找不到对应常量定义 直接当成下标 并且报Notice
+</p>
+
+<p style="margin-left: 40px;">
+	单引号 效率高
+</p>
+
+<p style="margin-left: 40px;">
+	双引号 会解析里面的变量 效率低
+</p>
+
+<blockquote>
+	<p>
+		error_reporting(E_ALL); &nbsp;//开启所有错误报告
+	</p>
+
+	<p>
+		$array = array(0 =&gt; &#39;爱&#39;, &#39;yu&#39; =&gt; &#39;芋&#39;, &#39;头&#39; =&gt; &#39;头&#39;);
+	</p>
+
+	<p>
+		echo $array[0],$array['0'],$array["0"];
+	</p>
+
+	<p>
+		echo $array[yu],$array['yu'],$array["yu"];
+	</p>
+
+	<p>
+		define(&#39;头&#39;, &#39;aaa&#39;);<br />
+		$tou = &#39;头&#39;;
+	</p>
+
+	<p>
+		echo $array[头],$array['头'],$array["$tou"];
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		/* 结果：
+	</p>
+
+	<p>
+		爱爱爱<br />
+		Notice: Use of undefined constant yu - assumed &#39;yu&#39; inD:\APMServ5.2.6\www\htdocs\study\phpbasic\array.php&nbsp;on line&nbsp;48<br />
+		芋芋芋<br />
+		Notice: Undefined index: aaa inD:\APMServ5.2.6\www\htdocs\study\phpbasic\array.php&nbsp;on line&nbsp;52<br />
+		头头
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<a id="四、数组操作函数" name="四、数组操作函数">四、数组操作函数</a>
+</h5>
+
+<p>
+	<strong>1.数组产生函数</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（1）range&nbsp; - &nbsp;建立一个指定范围数字的数组</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	array&nbsp;range&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$start&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$limit&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.number">number</a>&nbsp;$step&nbsp;= 1&nbsp;] )
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="docs/php/zh/function.range.html">docs/php/zh/function.range.html</a>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	生成从&nbsp;start&nbsp;到 limit 的数字的数组 如果start&gt;limit 则生成的从大到小
+</p>
+
+<p>
+	<strong>（2）array_fill &nbsp;- &nbsp;创建一个用固定值填充的数组</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_fill&nbsp;(&nbsp;int&nbsp;$start_index&nbsp;,&nbsp;int&nbsp;$num&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$value&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-fill.html">docs/php/zh/function.array-fill.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	用&nbsp;value&nbsp;参数的值将一个数组填充&nbsp;num&nbsp;个条目，键名由&nbsp;start_index&nbsp;参数指定的开始。
+</p>
+
+<blockquote>
+	<div>
+		<p>
+			$a&nbsp;=&nbsp;array_fill(5,&nbsp;3,&nbsp;&#39;banana&#39;);<br />
+			$b&nbsp;=&nbsp;array_fill(-2,&nbsp;4,&nbsp;&#39;pear&#39;);<br />
+			print_r($a);<br />
+			print_r($b);
+		</p>
+
+		<p>
+			/*
+		</p>
+
+		<p>
+			Array&nbsp;<br />
+			<span style="line-height: 1.6em;">(</span><br />
+			<span style="line-height: 1.6em;">&nbsp; &nbsp; [5]&nbsp; =&gt; banana</span><br />
+			<span style="line-height: 1.6em;">&nbsp; &nbsp; [6]&nbsp; =&gt; banana</span><br />
+			<span style="line-height: 1.6em;">&nbsp; &nbsp; [7]&nbsp; =&gt; banana</span><br />
+			<span style="line-height: 1.6em;">)</span>
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div>
+		<div>
+			<p>
+				Array<br />
+				(<br />
+				&nbsp;&nbsp;&nbsp; [-2] =&gt; pear<br />
+				&nbsp;&nbsp;&nbsp; [0] =&gt; pear<br />
+				&nbsp;&nbsp;&nbsp; [1] =&gt; pear<br />
+				&nbsp;&nbsp;&nbsp; [2] =&gt; pear<br />
+				)
+			</p>
+
+			<p>
+				*/
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.数组计算函数</strong>
+</p>
+
+<p>
+	<strong>（1）count &nbsp;- &nbsp;数组元素个数 对象属性个数</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;count&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$var&nbsp;[,&nbsp;int&nbsp;$mode&nbsp;= COUNT_NORMAL&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.count.html">docs/php/zh/function.count.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	var &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	数组/对象：返回数组元素个数/对象个数
+</p>
+
+<p style="margin-left: 80px;">
+	null：返回0
+</p>
+
+<p style="margin-left: 80px;">
+	其他：返回1
+</p>
+
+<p style="margin-left: 40px;">
+	mode &nbsp;- &nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	COUNT_RECURSIVE（或 1 或 true），&nbsp;count()&nbsp;递归计算 <strong><span style="color:#FF0000;">计算每个数组中的元素个数相加（看下面的栗子 才能理解这句话）</span></strong>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">COUNT_NORMAL（或&nbsp;</span>0 或 false），&nbsp;count()&nbsp;不识别递归
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39;, &#39;b&#39;, array(&#39;d&#39;, &#39;e&#39;));
+	</p>
+
+	<p>
+		echo count($array),&#39;&lt;br /&gt;&#39;; &nbsp;//3
+	</p>
+
+	<p>
+		echo count($array, COUNT_RECURSIVE); &nbsp;//<strong><span style="color:#FF0000;">5 &nbsp;- &nbsp;不是4！</span></strong>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>（2）array_sum &nbsp;- &nbsp;计算数组所有单元值的和</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.number">number</a>&nbsp;array_sum&nbsp;(&nbsp;array&nbsp;$array&nbsp;)
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	array_sum()&nbsp;将数组中的所有值的和以整数或浮点数的结果返回。
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>array_count_values &nbsp;- &nbsp;统计所有值出现的次数</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_count_values&nbsp;(&nbsp;array&nbsp;$input&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-count-values.html">docs/php/zh/function.array-count-values.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	仅限于值为整形和字符串的数组 否则出错
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.数组判断函数</strong>
+</p>
+
+<p>
+	<strong>（1）array_key_exists &nbsp;- &nbsp;键是否存在</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;array_key_exists&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$key&nbsp;,&nbsp;array&nbsp;$search&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-key-exists.html">docs/php/zh/function.array-key-exists.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	array_key_exists()&nbsp;在给定的&nbsp;key&nbsp;存在于数组中时返回&nbsp;TRUE。key&nbsp;可以是任何能作为数组索引的值。&nbsp;array_key_exists()&nbsp;也可用于对象。
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>isset 和 array_key_exists 的区别</strong>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39;, null);
+	</p>
+
+	<p>
+		var_dump(array_key_exists(0, $array)); &nbsp;//bool(true)
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">var_dump(array_key_exists(1, $array)); &nbsp;//bool(true)</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">var_dump(isset($array[0])); &nbsp;//bool(true)</span>
+	</p>
+
+	<p>
+		var_dump(isset($array[1])); &nbsp;//bool(false) &nbsp;- &nbsp;<strong><span style="color:#FF0000;">isset是根据值来判断的 如果有这个键 但是它的值是null 仍然返回false</span></strong>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>isset不是函数 是语法结构</strong></span> 速度比 array_key_exists 快 但是isset是根据值来判断的
+</p>
+
+<p style="margin-left: 40px;">
+	isset并不仅限于数组 可以判断变量是否设置
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（2）in_array &nbsp;- &nbsp;某个值是否在数组中</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	bool&nbsp;in_array&nbsp;(&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$needle&nbsp;,&nbsp;array&nbsp;$haystack&nbsp;[,&nbsp;bool&nbsp;$strict&nbsp;=&nbsp;FALSE&nbsp;] )
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	strict&nbsp; - &nbsp;为true 将用全等&ldquo;===&rdquo;进行检测
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong>4.数组整体处理函数</strong>
+</p>
+
+<p>
+	<strong>（1）array_flip &nbsp;- &nbsp;交换键值</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_flip&nbsp;(&nbsp;array&nbsp;$trans&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	如果存在相同的值 后交换的 会覆盖原来的交换值
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39; =&gt; 0, &#39;b&#39; =&gt; 1, &#39;c&#39; =&gt; 1, &#39;d&#39; =&gt; 2);
+	</p>
+
+	<p>
+		print_r(array_flip($array)); &nbsp;//Array ( [0] => a [1] => c [2] =&gt; d )
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>非字符串和整形的不能转换 会卡住</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39; =&gt; 0, &#39;b&#39; =&gt; array(1, 2));
+	</p>
+
+	<p>
+		print_r(array_flip($array));
+	</p>
+
+	<p>
+		/* 结果：
+	</p>
+
+	<p>
+		Warning: array_flip() [<a href="http://localhost:8080/study/phpbasic/function.array-flip">function.array-flip</a>]: Can only flip STRING and INTEGER values! in&nbsp;D:\APMServ5.2.6\www\htdocs\study\phpbasic\array.php&nbsp;on line&nbsp;65<br />
+		Array ( [0] =&gt; a )
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）array_unique &nbsp;- &nbsp;去重</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_unique&nbsp;(&nbsp;array&nbsp;$array&nbsp;[,&nbsp;int&nbsp;$sort_flags&nbsp;= SORT_STRING&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-unique.html">docs/php/zh/function.array-unique.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">sort_flags</span><span style="font-size: 13px;">&nbsp;</span> -&nbsp;
+</p>
+
+<p style="margin-left: 80px;">
+	SORT_REGULAR&nbsp;- compare items normally (don&#39;t change types)<br />
+	<span style="line-height: 1.6em;">SORT_NUMERIC</span><span style="line-height: 1.6em;">&nbsp;- compare items numerically</span><br />
+	<span style="line-height: 1.6em;">SORT_STRING&nbsp;- compare items as strings</span><br />
+	<span style="line-height: 1.6em;">SORT_LOCALE_STRING</span><span style="line-height: 1.6em;">&nbsp;- compare items as strings, based on the current locale.</span>
+</p>
+
+<blockquote>
+	<p>
+		$array = array(&#39;a&#39;, &#39;b&#39;, &#39;a&#39;);
+	</p>
+
+	<p>
+		print_r(<span style="font-size: 13px;">array_unique($array)</span>); &nbsp;//Array ( [0] => a [1] =&gt; b ) &nbsp;- &nbsp;如果值相同 保留先出现的
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）array_filter &nbsp;- &nbsp;用函数过滤数组元素</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_filter&nbsp;(&nbsp;array&nbsp;$input&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.types.callable.html">callable</a>&nbsp;$callback&nbsp;= &quot;&quot;&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-filter.html">docs/php/zh/function.array-filter.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	如果没有提供&nbsp;callback&nbsp;函数， 将删除&nbsp;input&nbsp;中所有等值为&nbsp;FALSE&nbsp;的条目
+</p>
+
+<blockquote>
+	<p>
+		function&nbsp;odd($var)<br />
+		{<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;returns&nbsp;whether&nbsp;the&nbsp;input&nbsp;integer&nbsp;is&nbsp;odd<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;return($var&nbsp;&amp;&nbsp;1);<br />
+		}
+	</p>
+
+	<p>
+		$array&nbsp;=&nbsp;array(&quot;a&quot;=&gt;1,&nbsp;&quot;b&quot;=&gt;2,&nbsp;&quot;c&quot;=&gt;3,&nbsp;&quot;d&quot;=&gt;4,&nbsp;&quot;e&quot;=&gt;5);
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<pre>
+/*
+Array
+(
+    [a] =&gt; 1
+    [c] =&gt; 3
+    [e] =&gt; 5
+)</pre>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>（4）array_change_key_case &nbsp;- &nbsp;键全变大写/小写</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	array&nbsp;array_change_key_case&nbsp;(&nbsp;array&nbsp;$input&nbsp;[,&nbsp;int&nbsp;$case&nbsp;= CASE_LOWER&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-change-key-case.html">docs/php/zh/function.array-change-key-case.html</a>
+</p>
+
+<p>
+	<strong>（5）array_walk_recursive &nbsp;- &nbsp;递归操作数组</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;array_walk_recursive&nbsp;(&nbsp;array&nbsp;<strong><span style="color:#FF0000;">&amp;</span></strong>$input&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.types.callable.html">callable</a>&nbsp;$funcname&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>$userdata&nbsp;=&nbsp;NULL&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-walk-recursive.html">docs/php/zh/function.array-walk-recursive.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	将用户自定义函数&nbsp;funcname&nbsp;应用到&nbsp;array&nbsp;数组中的每个单元。本函数会递归到更深层的数组中去。
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">funcname</span><span style="font-size: 13px;">&nbsp;</span> -
+</p>
+
+<p style="margin-left: 80px;">
+	典型情况下&nbsp;funcname&nbsp;接受两个参数。input&nbsp;参数的值作为第一个，键名作为第二个。
+</p>
+
+<blockquote>
+	<p>
+		Note:
+	</p>
+
+	<p>
+		如果&nbsp;funcname&nbsp;需要直接作用于数组中的值，则给&nbsp;funcname&nbsp;的第一个参数指定为<a href="http://localhost:8080/docs/php/zh/language.references.html">引用</a>。这样任何对这些单元的改变也将会改变原始数组本身。
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">userdata</span><span style="font-size: 13px;">&nbsp;</span>&nbsp;-
+</p>
+
+<p style="margin-left: 80px;">
+	如果提供了可选参数&nbsp;userdata，将被作为第三个参数传递给 callback&nbsp;funcname。
+</p>
+
+<p>
+	<strong>4.数组顺序函数</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（1）shuffle &nbsp;- &nbsp;将数组打乱</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	bool&nbsp;shuffle&nbsp;(&nbsp;array&nbsp;<strong><span style="color: rgb(255, 0, 0);">&amp;</span></strong>$array&nbsp;)
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	成功返回true 失败返回false
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（2）array_reverse &nbsp;- &nbsp;数组反转</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	array&nbsp;array_reverse&nbsp;(&nbsp;array&nbsp;$array&nbsp;[,&nbsp;bool&nbsp;$preserve_keys&nbsp;= false&nbsp;] )
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<span style="line-height: 1.6em;">preserve_keys &nbsp;-</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="line-height: 1.6em;">TRUE</span><span style="line-height: 1.6em;">&nbsp; - &nbsp;数字键也进行反转</span>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<font color="#ff0000"><b>默认数字键 不反转键 值反转值 非数字键 都反转</b></font>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		$array = array(&#39;春&#39;, &#39;夏&#39;, &#39;秋&#39;, &#39;冬&#39;);<br />
+		print_r($array);<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		print_r(array_reverse($array));<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		/*
+	</p>
+
+	<p>
+		Array ( [0] => 春 [1] => 夏 [2] => 秋 [3] =&gt; 冬 )&nbsp;<br />
+		Array ( [0] => 冬 [1] => 秋 [2] => 夏 [3] =&gt; 春 )&nbsp;
+	</p>
+
+	<p>
+		*/
+	</p>
+
+	<p>
+		$array = array(&#39;a&#39; =&gt; &#39;春&#39;, &#39;b&#39; =&gt; &#39;夏&#39;, &#39;c&#39; =&gt; &#39;秋&#39;, &#39;d&#39; =&gt; &#39;冬&#39;);<br />
+		print_r($array);<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		print_r(array_reverse($array));<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		/*
+	</p>
+
+	<p>
+		Array ( [a] => 春 [b] => 夏 [c] => 秋 [d] =&gt; 冬 )&nbsp;<br />
+		Array ( [d] => 冬 [c] => 秋 [b] => 夏 [a] =&gt; 春 )&nbsp;
+	</p>
+
+	<p>
+		*/
+	</p>
+
+	<p>
+		$array = array(&#39;a&#39; =&gt; &#39;春&#39;, 2 =&gt; &#39;暮春&#39;, &#39;b&#39; =&gt; &#39;夏&#39;, 3=&gt; &#39;仲夏&#39;, 0 =&gt; &#39;秋&#39;, &#39;c&#39; =&gt; &#39;深秋&#39;, 1 =&gt; &#39;冬&#39;);<br />
+		print_r($array);<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		print_r(array_reverse($array));<br />
+		echo &#39;&lt;br/&gt;&#39;;
+	</p>
+
+	<p>
+		/* 如果数字键和字符串键夹杂 则看起来是 先把所有的都反转 然后数字键按照从左到右递增重排
+	</p>
+
+	<p>
+		Array ( [a] => 春 [2] => 暮春 [b] => 夏 [3] => 仲夏 [0] => 秋 [c] => 深秋 [1] =&gt; 冬 )&nbsp;<br />
+		Array ( [0] => 冬 [c] => 深秋 [1] => 秋 [2] => 仲夏 [b] => 夏 [3] => 暮春 [a] =&gt; 春 )&nbsp;
+	</p>
+
+	<p>
+		*/
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）sort &nbsp;- &nbsp;数组升序</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;sort&nbsp;(&nbsp;array&nbsp;&amp;$array&nbsp;[,&nbsp;int&nbsp;$sort_flags&nbsp;= SORT_REGULAR&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.sort.html">docs/php/zh/function.sort.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	本函数对数组进行排序。当本函数结束时数组单元将被从最低到最高重新安排。<strong><span style="color:#FF0000;">key 会重新排列 无论整形key还是字符串key</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">sort_flags &nbsp;-</span>
+</p>
+
+<p style="margin-left: 80px;">
+	SORT_REGULAR&nbsp;- 正常比较单元（不改变类型）<br />
+	<span style="line-height: 1.6em;">SORT_NUMERIC</span><span style="line-height: 1.6em;">&nbsp;- 单元被作为数字来比较</span><br />
+	<span style="line-height: 1.6em;">SORT_STRING</span><span style="line-height: 1.6em;">&nbsp;- 单元被作为字符串来比较</span><br />
+	<span style="line-height: 1.6em;">SORT_LOCALE_STRING</span><span style="line-height: 1.6em;">&nbsp;- 根据当前的区域（locale）设置来把单元当作字符串比较，可以用&nbsp;</span><a href="http://localhost:8080/docs/php/zh/function.setlocale.html" style="line-height: 1.6em;">setlocale()</a><span style="line-height: 1.6em;">&nbsp;来改变。</span><br />
+	<span style="line-height: 1.6em;">SORT_NATURAL</span><span style="line-height: 1.6em;">&nbsp;- 和&nbsp;</span><a href="http://localhost:8080/docs/php/zh/function.natsort.html" style="line-height: 1.6em;">natsort()</a><span style="line-height: 1.6em;">&nbsp;类似对每个单元以&ldquo;自然的顺序&rdquo;对字符串进行排序。 PHP 5.4.0 中新增的。</span><br />
+	<span style="line-height: 1.6em;">SORT_FLAG_CASE</span><span style="line-height: 1.6em;">&nbsp;- 能够与&nbsp;</span><span style="line-height: 1.6em;">SORT_STRING</span><span style="line-height: 1.6em;">&nbsp;或&nbsp;</span><span style="line-height: 1.6em;">SORT_NATURAL</span><span style="line-height: 1.6em;">&nbsp;合并（OR 位运算），不区分大小写排序字符串。</span>
+</p>
+
+<blockquote>
+	<p>
+		$fruits = array(&#39;a&#39; =&gt; &quot;lemon&quot;, &#39;b&#39; =&gt; &quot;orange&quot;, &#39;c&#39; =&gt; &quot;banana&quot;, &#39;d&#39; =&gt; &quot;apple&quot;);<br />
+		sort($fruits);<br />
+		print_r($fruits);
+	</p>
+
+	<p>
+		//结果：Array ( [0] => apple [1] => banana [2] => lemon [3] =&gt; orange )
+	</p>
+</blockquote>
+
+<p>
+	<strong>（4）asort &nbsp;- &nbsp;保留索引的数组排序</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;asort&nbsp;(&nbsp;array&nbsp;&amp;$array&nbsp;[,&nbsp;int&nbsp;$sort_flags&nbsp;= SORT_REGULAR&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	本函数对数组进行排序，<strong><span style="color:#FF0000;">数组的索引保持和单元的关联</span></strong>。主要用于对那些单元顺序很重要的结合数组进行排序。
+</p>
+
+<p>
+	<strong>（5）ksort &nbsp;- &nbsp;按照键排序</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	bool&nbsp;ksort&nbsp;(&nbsp;array&nbsp;&amp;$array&nbsp;[,&nbsp;int&nbsp;$sort_flags&nbsp;= SORT_REGULAR&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.ksort.html">docs/php/zh/function.ksort.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	对数组按照键名排序，保留键名到数据的关联。本函数主要用于关联数组。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.队列/栈操作函数</strong>
+</p>
+
+<p>
+	队列：先进先出
+</p>
+
+<p style="margin-left: 40px;">
+	人排队 先排的 先被选走
+</p>
+
+<p>
+	栈：后进先出
+</p>
+
+<p style="margin-left: 40px;">
+	往缸里放东西 后放进去的能先拿出来
+</p>
+
+<p>
+	<strong>（1）array_push &nbsp;- &nbsp;将一/多个单元 放到数组尾部（压栈）</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;array_push&nbsp;(&nbsp;array&nbsp;<strong><span style="color:#FF0000;">&amp;</span></strong>$array&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$var&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$...&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	返回压入成功后 数组单元的个数
+</p>
+
+<blockquote>
+	<p>
+		$array = array();<br />
+		array_push($array, &#39;春&#39;);<br />
+		array_push($array, &#39;夏&#39;, &#39;秋&#39;, &#39;冬&#39;);<br />
+		print_r($array);
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		//结果：Array ( [0] => 春 [1] => 夏 [2] => 秋 [3] =&gt; 冬 )
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）array_pop &nbsp;- &nbsp;弹出数组尾部单元（出栈）</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;array_pop&nbsp;(&nbsp;array&nbsp;<strong><span style="color:#FF0000;">&amp;</span></strong>$array&nbsp;)
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-pop.html">docs/php/zh/function.array-pop.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	弹出并返回&nbsp;array&nbsp;数组的最后一个单元，并将数组&nbsp;array&nbsp;的长度减一。如果&nbsp;array&nbsp;为空（或者不是数组）将返回&nbsp;NULL。 Will additionally produce a&nbsp;<a href="http://localhost:8080/docs/php/zh/function.array-pop.html">Warning</a>when called on a non-array.
+</p>
+
+<p>
+	<strong>（3）array_unshift &nbsp;- &nbsp;将一个/多个单元 放在数组开头</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	int&nbsp;array_unshift&nbsp;(&nbsp;array&nbsp;<strong><span style="color:#FF0000;">&amp;</span></strong>$array&nbsp;,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$var&nbsp;[,&nbsp;<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;$...&nbsp;] )
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-unshift.html">docs/php/zh/function.array-unshift.html</a>
+</p>
+
+<p style="margin-left: 40px;">
+	array_unshift()&nbsp;将传入的单元插入到&nbsp;array&nbsp;数组的开头。注意单元是作为整体被插入的，因此传入单元将保持同样的顺序。<span style="color:#FF0000;"><strong>所有的数值键名将修改为从零开始重新计数</strong></span>，所有的文字键名保持不变。
+</p>
+
+<blockquote>
+	<div>
+		<div>
+			$queue&nbsp;=&nbsp;array(&quot;orange&quot;,&nbsp;&quot;banana&quot;);<br />
+			array_unshift($queue,&nbsp;&quot;apple&quot;,&nbsp;&quot;raspberry&quot;);<br />
+			print_r($queue);
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div>
+		<p>
+			/*
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div>
+		<div>
+			<pre>
+Array
+(
+    [0] =&gt; apple
+    [1] =&gt; raspberry
+    [2] =&gt; orange
+    [3] =&gt; banana
+)</pre>
+
+			<p>
+				*/
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</blockquote>
+
+<p>
+	<strong>（4）array_shift &nbsp;- &nbsp;移除数组开头单元</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/docs/php/zh/language.pseudo-types.html#language.types.mixed">mixed</a>&nbsp;array_shift&nbsp;(&nbsp;array&nbsp;<strong><span style="color:#FF0000;">&amp;</span></strong>$array&nbsp;)
+</p>
+
+<div style="margin-left: 40px;">
+	<a href="docs/php/zh/function.array-shift.html">docs/php/zh/function.array-shift.html</a>
+</div>
+
+<p style="margin-left: 40px;">
+	array_shift()&nbsp;将&nbsp;array&nbsp;的第一个单元移出并作为结果返回，将&nbsp;array&nbsp;的长度减一并将所有其它单元向前移动一位。<strong><span style="color:#FF0000;">所有的数字键名将改为<u>从零开始计数</u>，文字键名将不变</span></strong>。
+</p>
+
+<blockquote>
+	<p>
+		$array = array(0 =&gt; &#39;春&#39;, 3 =&gt; &#39;夏&#39;, 1 =&gt; &#39;秋&#39;, 2 =&gt; &#39;冬&#39;);<br />
+		array_shift($array);<br />
+		print_r($array);
+	</p>
+
+	<p>
+		//结果：Array ( [0] => 夏 [1] => 秋 [2] =&gt; 冬 )
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Maven</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Maven
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是MAVEN</strong>
+</h5>
+
+<p>
+	项目构建 依赖管理
+</p>
+
+<p>
+	<strong>项目构建</strong>
+</p>
+
+<p>
+	清理 -&gt; 编译 -&gt; 测<span style="line-height: 1.6em;">试 -&gt; 测试报告 -&gt; 打包 -&gt; 部署</span>
+</p>
+
+<p>
+	<strong>理想的项目构建</strong>
+</p>
+
+<p>
+	高度自动化（构建的步骤一下就完成） 跨平台 可重用组件 标准化的（项目的目录结构按它的照规范来）
+</p>
+
+<p>
+	<strong>依赖</strong>
+</p>
+
+<p>
+	依赖包自动下载 统一依赖管理
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<ul>
+	<li>
+		<strong>为什么用MAVEN</strong>
+	</li>
+</ul>
+
+<p>
+	原来有Ant 现在不用了 都用Maven了
+</p>
+
+<p>
+	它么有确定的目录结构 得在配置文件中配置
+</p>
+
+<p>
+	必须明确告诉ant做什么 它才会做
+</p>
+
+<p>
+	build.xml
+</p>
+
+<p>
+	没有依赖管理
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	Maven有具体的目录结构 不用根据项目结构不用写编译脚本
+</p>
+
+<p>
+	有生命周期（编译测试打包构建等过程）
+</p>
+
+<p>
+	pom.xml
+</p>
+
+<p>
+	依赖管理 仓库管理
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、安装Maven</strong>
+</h5>
+
+<p>
+	下载后是一个压缩包3.x 解压到任意目录
+</p>
+
+<p>
+	配置环境变量 用户变量 系统变量都可以
+</p>
+
+<p>
+	1.MAVEN_HOME
+</p>
+
+<p>
+	为解压目录
+</p>
+
+<p>
+	2.PATH
+</p>
+
+<p>
+	%MAVEN_HOME%/bin
+</p>
+
+<p style="font-size: 13px;">
+	3.MAVEN_OPTS
+</p>
+
+<p style="font-size: 13px;">
+	-Xms128m -Xmx521m
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>cmd:</strong>
+</p>
+
+<blockquote>
+	<p>
+		&gt;mvn -version
+	</p>
+
+	<p>
+		打印了版本信息 说明没有问题
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>Maven的目录结构</strong>
+</p>
+
+<p>
+	| - bin &nbsp;- &nbsp;命令
+</p>
+
+<p>
+	| - boot &nbsp;- &nbsp;类加载器
+</p>
+
+<p>
+	| - conf
+</p>
+
+<p style="margin-left: 40px;">
+	| - loging &nbsp;- &nbsp;日志
+</p>
+
+<p style="margin-left: 40px;">
+	| - settings.xml &nbsp;- &nbsp;Maven的全局配置
+</p>
+
+<p>
+	| - lib &nbsp;- &nbsp;Maven内部用的包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>本地仓库</strong>
+</p>
+
+<p>
+	默认在 用户文件夹/.m2/repository/ 下
+</p>
+
+<p>
+	如何更改？
+</p>
+
+<p>
+	在settings.xml中配置<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;localRepository&gt;...\a&lt;/localRepository&gt;</span>
+</p>
+
+<p>
+	而且要复制settings.xml文件到a目录中 localRepository配置
+</p>
+
+<p>
+	然后Maven会自动在a目录下再创建一个repository目录&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>用户范围的Maven配置文件</strong>
+</p>
+
+<p>
+	把全局settings.xml的拷贝到 用户文件夹/.m2下
+</p>
+
+<blockquote>
+	<p>
+		&lt;localRepository&gt;配置成本目录下的repository文件夹&lt;/<span style="font-size: 13px;">localRepository&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	如果创建了用户范围的 全局的就不起作用了 一般都使用用户范围的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、Maven的Java项目</strong>
+</h5>
+
+<p>
+	<strong>目录结构</strong>
+</p>
+
+<blockquote>
+	<p>
+		src/main/java/包... &nbsp;- &nbsp;.java文件
+	</p>
+
+	<p>
+		src/main/resocurce &nbsp;- &nbsp;资源文件（例如spring配置文件）
+	</p>
+
+	<p>
+		src/test/java/包...&nbsp; - &nbsp;测试文件 junit测试文件
+	</p>
+
+	<p>
+		src/test/resource &nbsp;- &nbsp;测试用资源文件
+	</p>
+
+	<p>
+		target &nbsp;- &nbsp;输出目录（自动生成）
+	</p>
+
+	<p>
+		pom.xml &nbsp;- &nbsp;项目配置文件
+	</p>
+</blockquote>
+
+<p>
+	<strong>pom.xml</strong>
+</p>
+
+<p>
+	配置项目的唯一坐标 gav
+</p>
+
+<blockquote>
+	<p>
+		&lt;groupId &nbsp;- &nbsp;组织名+项目名
+	</p>
+
+	<p>
+		&lt;artifactId &nbsp;- &nbsp;模块名
+	</p>
+
+	<p>
+		&lt;version &nbsp;- &nbsp;版本
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;dependencies &nbsp;- &nbsp;<span style="line-height: 1.6em;">配置所有依赖</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">&lt;dependency &nbsp;- &nbsp;配置依赖</span>
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&lt;groupId &nbsp;- &nbsp;依赖的组织名+项目名
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&lt;artifactId &nbsp;- &nbsp;依赖的模块名
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		&lt;version &nbsp;- &nbsp;依赖的版本
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>cmd:</strong>
+</p>
+
+<blockquote>
+	<p>
+		&gt;cd 到项目目录
+	</p>
+
+	<p>
+		&gt;tree /f &nbsp; &nbsp; &nbsp; &nbsp;看目录结构
+	</p>
+
+	<p>
+		&gt;mvn clean &nbsp; &nbsp; &nbsp; &nbsp;清理（清空target目录）
+	</p>
+
+	<p>
+		&gt;mvn compile &nbsp; &nbsp; &nbsp; &nbsp;编译
+	</p>
+
+	<p>
+		&gt;mvn test &nbsp; &nbsp; &nbsp; &nbsp;测试
+	</p>
+
+	<p>
+		&gt;mvn package &nbsp; &nbsp; &nbsp; &nbsp;打jar包
+	</p>
+
+	<p>
+		&gt;mvn install &nbsp; &nbsp; &nbsp; &nbsp;安装项目到本地仓库
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、Eclipse中的Maven</strong>
+</h5>
+
+<p>
+	配置Maven安装目录
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/pz.jpg" rel="" style="" target="" title=""><img alt="pz" class="alignnone size-full wp-image-1476" height="413" src="http://localhost:8080/wp-content/uploads/2013/10/pz.jpg" style="" title="" width="485" /></a>
+</p>
+
+<p>
+	配置用户范围的settings.xml
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/yh.jpg" rel="" style="" target="" title=""><img alt="yh" class="alignnone size-full wp-image-1477" height="305" src="http://localhost:8080/wp-content/uploads/2013/10/yh.jpg" style="" title="" width="419" /></a>
+</p>
+
+<p>
+	加载依赖的索引
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/index.jpg" rel="" style="" target="" title=""><img alt="index" class="alignnone size-full wp-image-1478" height="187" src="http://localhost:8080/wp-content/uploads/2013/10/index.jpg" style="" title="" width="479" /></a>
+</p>
+
+<p>
+	新建Maven项目
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	执行命令
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/ml.jpg" rel="" style="" target="" title=""><img alt="ml" class="alignnone size-full wp-image-1479" height="341" src="http://localhost:8080/wp-content/uploads/2013/10/ml.jpg" style="" title="" width="503" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/clean.jpg" rel="" style="" target="" title=""><img alt="clean" class="alignnone size-full wp-image-1480" height="364" src="http://localhost:8080/wp-content/uploads/2013/10/clean.jpg" style="" title="" width="494" /></a>
+</p>
+
+<p>
+	不用写mvn了 直接写命令
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、依赖</strong>
+</h5>
+
+<p>
+	<strong>1.依赖范围</strong>
+</p>
+
+<p>
+	maven有三个classpath 编译、测试、运行的classpath
+</p>
+
+<p>
+	<strong>pom.xml</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;scope&gt;compile/test/provided/<span style="line-height: 1.6em;">runtime</span><span style="line-height: 1.6em;">&lt;/scope&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/yl.jpg" rel="" style="" target="" title=""><img alt="yl" class="alignnone size-full wp-image-1481" height="121" src="http://localhost:8080/wp-content/uploads/2013/10/yl.jpg" style="" title="" width="357" /></a>
+</p>
+
+<p>
+	compile &nbsp;- &nbsp;在主代码测绘代码和运行时候都有效（不写默认是这个）
+</p>
+
+<p>
+	test &nbsp;- &nbsp;只对测试代码有效（比如junit 仅在测试的时候需要）
+</p>
+
+<p>
+	provided（已经提供） &nbsp;- &nbsp;在开发的时候用 让它不报错 在项目运行的时候不用 比如tomcat提供的jar包 就不用自己引&nbsp;
+</p>
+
+<p>
+	runtime &nbsp;- &nbsp;数据库驱动 在编译的时候都用不上 只是在配置文件中指定了一个字符串 在运行的时候才能用上
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.依赖的传递性</strong>
+</p>
+
+<p>
+	a依赖于b（第一直接依赖） b依赖于c（第二直接依赖） a低于c是间接依赖&nbsp;
+</p>
+
+<p>
+	依赖范围对依赖传递的影响
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/cdx.jpg" rel="" style="" target="" title=""><img alt="cdx" class="alignnone size-full wp-image-1482" height="130" src="http://localhost:8080/wp-content/uploads/2013/10/cdx.jpg" style="" title="" width="332" /></a>
+</p>
+
+<p>
+	&ldquo;-&rdquo; &nbsp;为不存在 包都不存在了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	如果b和c中有相同但版本不同的依赖 a使用b中的依赖 就近使用
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.可选依赖</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;optional&gt;true/false&lt;/optional&gt;
+	</p>
+</blockquote>
+
+<p>
+	如果想要切换数据库 就配置两个 然后一个true一个false
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.排除依赖</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;exclusions&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;excludion&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;groupId&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;artifactId&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、仓库管理&nbsp;</strong>
+</h5>
+
+<p>
+	中央仓库 Maven公司的仓库
+</p>
+
+<p>
+	&nbsp; &darr;
+</p>
+
+<p>
+	私服仓库 公司里每个部门都有一个
+</p>
+
+<p>
+	&nbsp; &darr;
+</p>
+
+<p>
+	本地仓库
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、生命周期</strong>
+</h5>
+
+<p>
+	clean 清理
+</p>
+
+<p>
+	default 编译 测试 打包 安装到本地仓库 部署
+</p>
+
+<p style="margin-left: 40px;">
+	比如执行package 会先编译 再测试 再打包 不会清理 因为不是一个生命周期里的
+</p>
+
+<p style="margin-left: 40px;">
+	一般先clean 再执行defalut里的操作
+</p>
+
+<p>
+	site 生成站点文档
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	六、插件
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	打源码包的插件
+</p>
+
+<p>
+	pom.xml
+</p>
+
+<p>
+	&lt;build&gt;
+</p>
+
+<p style="margin-left: 40px;">
+	&lt;plugin&gt;
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;groupId&gt;org.apache.maven.plugins<span style="font-size: 13px;">&lt;g</span><span style="font-size: 13px;">roupId&gt;</span>
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;atrifactId&gt;maven-source-plugin&lt;/
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;version&gt;2.2.1&lt;/
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;executions&gt;
+</p>
+
+<p style="margin-left: 120px;">
+	&lt;execution&gt;
+</p>
+
+<p style="margin-left: 160px;">
+	&lt;phase&gt;verify&lt;/ &nbsp;- &nbsp;绑定在哪个生命周期
+</p>
+
+<p style="margin-left: 160px;">
+	&lt;goals&gt;
+</p>
+
+<p style="margin-left: 200px;">
+	&lt;goal&gt;jar-no-fork&lt;/
+</p>
+
+<p style="margin-left: 160px;">
+	&lt;/
+</p>
+
+<p style="margin-left: 120px;">
+	&lt;/
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;/
+</p>
+
+<p style="margin-left: 40px;">
+	&lt;/plugin&gt;
+</p>
+
+<p>
+	&lt;/build&gt;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	继承
+</p>
+
+<p>
+	继承父文件
+</p>
+
+<p>
+	&lt;parent&gt;
+</p>
+
+<p>
+	&lt;groupId&gt;
+</p>
+
+<p>
+	&lt;vaersion&gt;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	自由定义属性下的标签
+</p>
+
+<p>
+	&lt;properties&gt;
+</p>
+
+<p>
+	&lt;属性名&gt;属性值&lt;/
+</p>
+
+<p>
+	使用的时候 使用${属性名}
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&lt;dependencyManagement&gt;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	聚合
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

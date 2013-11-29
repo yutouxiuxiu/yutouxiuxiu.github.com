@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>log4j</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					log4j
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.什么是日志</strong>
+</p>
+
+<p>
+	开发过程中程序的调试
+</p>
+
+<p style="margin-left: 40px;">
+	日志占代码量的4%
+</p>
+
+<p>
+	项目上线之后后期的维护
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.日志技术</strong>
+</p>
+
+<p>
+	<strong>（1）jdk logging</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	在jdk的开发包内 不用导入jar包
+</p>
+
+<p style="margin-left: 40px;">
+	java.util.logging
+</p>
+
+<p>
+	<strong>（2）log4j</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	apache公司的开源框架
+</p>
+
+<p>
+	<strong>（3）common-loggings</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	apache的 通用的日志 用户可以自由选择第三方的日志组件做实现
+</p>
+
+<p>
+	<strong>（4）slf4j</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	simple logging facade for java 简单的门面 不是具体的日志解决方案 它能把所有的日志统一
+</p>
+
+<p>
+	前两种算是两种不同的日志实现
+</p>
+
+<p>
+	后面两种主要是在做一些日志接口的统一工作
+</p>
+
+<p>
+	spring用的common-loggins hibernate用的是slf4j 但是他们用的日志的实现都是log4j
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、log4j</strong>
+</h5>
+
+<p>
+	log4j 2 我也没用过 现在一般都用log4j 1
+</p>
+
+<p>
+	<strong>1.导入jar包</strong>
+</p>
+
+<p>
+	<strong>2.配置文件</strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">log4j.xml</span>
+</p>
+
+<p>
+	log4j.properties（推荐）
+</p>
+
+<p>
+	<strong>（1）log4j有三个部件</strong>
+</p>
+
+<p>
+	<strong>记录器</strong> &nbsp;- &nbsp;用于设置日志的输出级别和日志的输出源 一个记录器可以对应多个输出源
+</p>
+
+<p style="margin-left: 40px;">
+	记录器 = 级别, 输出源1, ...
+</p>
+
+<p style="margin-left: 40px;">
+	log4j.rootLogger &nbsp;- &nbsp;根记录器 所有日志的默认配置
+</p>
+
+<p style="margin-left: 40px;">
+	日志级别
+</p>
+
+<p style="margin-left: 80px;">
+	fatal &nbsp;- &nbsp;致命错误
+</p>
+
+<p style="margin-left: 80px;">
+	error &nbsp;- &nbsp;普通错误（一般在catch里记录）
+</p>
+
+<p style="margin-left: 80px;">
+	warn &nbsp;- &nbsp;警告信息
+</p>
+
+<p style="margin-left: 80px;">
+	info &nbsp;- &nbsp;普通信息
+</p>
+
+<p style="margin-left: 80px;">
+	debug &nbsp;- &nbsp;调试信息
+</p>
+
+<p style="margin-left: 80px;">
+	trace &nbsp;- &nbsp;堆栈信息
+</p>
+
+<p style="margin-left: 80px;">
+	中间的四个比较常用
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">log4j.rootLogger = DEBUG, stdout, file</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<u><span style="font-size: 13px;">当记录日志的时候 只会向设置的输出源输出比设置级别高或等于的信息</span></u>
+</p>
+
+<p style="margin-left: 40px;">
+	设置记录级别的时候 有8个选项 除了这6个级别 还有两个选项
+</p>
+
+<p style="margin-left: 80px;">
+	off - 全关
+</p>
+
+<p style="margin-left: 80px;">
+	all - 全开
+</p>
+
+<p style="margin-left: 40px;">
+	常用级别
+</p>
+
+<p style="margin-left: 40px;">
+	error（项目上线后）、warn、info、debug（开发时）
+</p>
+
+<p>
+	<strong>输出源</strong> &nbsp;- &nbsp;日志输出的目的地
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">log4j.appender.输出源名字 = 输出源实现类</span>
+</p>
+
+<p style="margin-left: 40px;">
+	log4j.appender.输出源名字 = org.apache.log4j.ConsoleAppender
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">org.apache.log4j.ConsoleAppender &nbsp;- &nbsp;控制台</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">org.apache.log4j.FileAppender &nbsp;- &nbsp;文件</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">org.apache.log4j.DailyRollingFileAppender &nbsp;- &nbsp;每天文件</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">org.apache.log4j.RollingFile &nbsp;- &nbsp;到达指定大小产生新文件</span>
+</p>
+
+<p style="margin-left: 40px;">
+	是控制台时
+</p>
+
+<p style="margin-left: 40px;">
+	log4j.appender.<span style="font-size: 13px;">输出源名字</span>.Target =&nbsp;<span style="font-size: 13px;">System.err</span>
+</p>
+
+<p style="margin-left: 80px;">
+	System.out &nbsp;- &nbsp;黑色的
+</p>
+
+<p style="margin-left: 80px;">
+	System.err &nbsp;- &nbsp;红色的
+</p>
+
+<p style="margin-left: 40px;">
+	是文件时
+</p>
+
+<p style="margin-left: 40px;">
+	log4j.appender.<span style="font-size: 13px;">输出源名字.File = d:/...</span>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	也可以记录到数据库/邮箱中
+</p>
+
+<p>
+	<strong>布局</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">log4j.appender.</span><span style="font-size: 13px;">输出源名字.layout = 布局实现类</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">PatternLayout &nbsp;- &nbsp;自定义布局 灵活性高</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">如果用PatternLayout</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">log4j.appender.</span><span style="font-size: 13px;">输出源名字.layou.ConversionPattern&nbsp;= 设置格式</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">$d{ABSOLUTE} %5p %c{1}: %L - %m%n</span>
+</p>
+
+<p style="margin-left: 80px;">
+	日期 级别 类: 行号 - 信息 回车
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.记录日志</strong>
+</p>
+
+<blockquote>
+	<p>
+		private static final Logger LOGGER = Logger.getLogger(当前类.class);
+	</p>
+
+	<p>
+		...
+	</p>
+
+	<p>
+		//记录日志
+	</p>
+
+	<p>
+		LOGGER.fatal(&quot;致命错误&quot;);
+	</p>
+
+	<p>
+		LOGGER.error(&quot;普通错误&quot;);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">LOGGER.warn(&quot;警告信息</span><span style="font-size: 13px;">&quot;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">LOGGER.info(&quot;普通信息</span><span style="font-size: 13px;">&quot;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">LOGGER.debug(&quot;调试信息</span><span style="font-size: 13px;">&quot;);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">LOGGER.trace(&quot;堆栈信息</span><span style="font-size: 13px;">&quot;);</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	比如设置的级别是debug 堆栈信息会不显示
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.不同包的日志记录器记录不同级别</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">log4j.rootLogger = off, stdout, file</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">log4j.logger.包名 = 日志级别</span>
+	</p>
+</blockquote>
+
+<p>
+	更便于我们观察某个包中的内容 易于分析
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

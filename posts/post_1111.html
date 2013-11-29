@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2标签</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2标签
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">一、Generic Tags</font></h5>  <ul>   <li><strong>Control Tags</strong> </li> </ul>  <p><strong>1.if, elseif, else</strong></p>  <blockquote>   <p>&lt;s:if test=””&gt;</p>    <p>&#160;</p>    <p>&lt;/s:if&gt;</p>    <p>&lt;s:elseif test=””&gt;</p>    <p>&#160;</p>    <p>&lt;/s:elseif&gt;</p>    <p>…</p>    <p>&lt;s:else&gt;</p>    <p>&#160;</p>    <p>&lt;/s:selse&gt;</p> </blockquote>  <p><strong>2.iterator</strong></p>  <p>循环迭代集合</p>  <blockquote>   <p>&lt;s:iterator value=”集合”&gt;&#160;&#160;&#160; //开始标签会循环每个元素 把当前循环的元素压入值栈</p>    <p>&#160;</p>    <p>&lt;/s:iterator&gt;&#160;&#160;&#160; //给当前循环元素弹栈</p> </blockquote>  <p>value&#160; -&#160; 默认值为栈顶元素</p>  <p>status&#160; -&#160; 循环状态变量</p>  <p><strong>栗子</strong></p>  <blockquote>   <p>&lt;s:iterator value=”{‘yutou’, ‘xiuxiu’}”&gt; </p>    <p>&#160;&#160;&#160; &lt;s: property/&gt;&lt;br/&gt;&#160; //打印栈顶</p>    <p>&lt;/s:iterator&gt;</p> </blockquote>  <p><strong>栗子</strong></p>  <blockquote>   <p>List&lt;User&gt; userList = new ArrayList&lt;User&gt;();</p>    <p>userList.add(new User(“yutou”));</p>    <p>userList.add(new User(“xiuxiu”));</p>    <p>vs.push(userList);</p> </blockquote>  <blockquote>   <p>&lt;s:iterator&gt;&#160;&#160;&#160; //默认迭代栈顶元素 即userList 循环的时候 又压入了一个User</p>    <p>&#160;&#160;&#160; &lt;s: property/&gt;&lt;br/&gt;&#160;&#160;&#160; //打印当前栈顶元素</p>    <p>&lt;/s:iterator&gt;&#160;&#160;&#160; //弹栈 栈顶又变成了userList</p> </blockquote>  <p><strong>循环状态 iteratorStatus</strong></p>  <p>类似&lt;c:forEach varStatus…</p>  <blockquote>   <p>&lt;s:iterator … status=”status”&gt;</p>    <p>#status.count&#160;&#160;&#160; //圈数 从1开始</p>    <p>#status.index&#160;&#160;&#160; //下标 从0开始</p>    <p>#status.even</p>    <p>#status.odd</p>    <p>#status.first</p>    <p>#status.last</p>    <p>&lt;/s:iterator&gt;</p> </blockquote>  <p><strong>循环Map</strong></p>  <blockquote>   <p>&lt;s:iterator value=”{‘1’:‘yutou’, ’2’:‘xiuxiu’}”&gt;&#160;&#160;&#160;&#160; //每次压栈的是Map.Entry</p>    <p>&#160;&#160;&#160; &lt;s: property value=”key”/&gt;&lt;s: property value=”value”/&gt;&lt;br/&gt;</p>    <p>&lt;/s:iterator&gt;</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p><strong>Data Tags</strong></p>  <p><strong>1.property</strong></p>  <p>打印值 <font color="#ff0000"><strong>很常用</strong></font></p>  <blockquote>   <p>&lt;s:property value=””/&gt;</p> </blockquote>  <p>escape&#160; -&#160; 是否转义&lt;, &gt;, ”, ’ 防止注入 默认为true </p>  <p>value&#160; -&#160; 指定OGNL表达式 默认为栈顶对象</p>  <p><strong>2.set</strong></p>  <p>创建变量</p>  <blockquote>   <p>&lt;s:set name=”变量名” value=”OGNL表达式” scope=”作用范围”/&gt;</p> </blockquote>  <p>scope&#160; -&#160; 作用范围 默认值action</p>  <p><strong>作用范围可选值：</strong></p>  <p>page, request, session, application, action（把变量存储到request和OgnlContext中）</p>  <p>例如</p>  <blockquote>   <p>&lt;s: set var=”ggg” value=”#paramters.aaa.bbb.ccc.ddd.eee.fff.ggg”/&gt;&#160;&#160;&#160; //当很长是 可以这样简化</p>    <p>&lt;s:property value=”#ggg”/&gt;</p> </blockquote>  <p><strong>3.push</strong></p>  <p>压栈再弹栈</p>  <p>向ValueStack中压入字符串 然后又马上弹出了</p>  <blockquote>   <p>&lt;s: push value=””/&gt;</p> </blockquote>  <p>所以 它的用法是</p>  <blockquote>   <p>&lt;s: push value=”hello”&gt;</p>    <p>&#160;&#160;&#160; 在这里可以使用</p>    <p>&lt;/s: push&gt;</p> </blockquote>  <p><strong>4.url</strong></p>  <p>生成Action的访问url <font color="#ff0000"><strong>非常有用</strong></font></p>  <p>和&lt;c:url&gt;相似</p>  <blockquote>   <p>&lt;s:url action=”hello” namespace=”/”/&gt;</p> </blockquote>  <p>带参数的url 并且会对value的值进行url编码</p>  <blockquote>   <p>&lt;s:url action=”hello” namespace=”/”&gt;</p>    <p>&#160;&#160;&#160; &lt;s: param name=”” value=”OGNL表达式”/&gt;</p>    <p>&lt;/s:url&gt;</p> </blockquote>  <p><strong>5.a</strong></p>  <p>生成访问Action的链接</p>  <blockquote>   <p>&lt;s:a action=”” namespace=””&gt;&lt;/s:a&gt;</p> </blockquote>  <p>也可以带参数</p>  <p><strong>6.debug</strong></p>  <blockquote>   <p>&lt;s: debug /&gt;</p> </blockquote>  <p>会显示值栈信息</p>  <p>和域信息</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、UI Tags</font></h5>  <ul>   <li><strong>Form Tags</strong> </li> </ul>  <p><strong>特点</strong></p>  <blockquote>   <p>简化代码</p>    <p>自动数据回显（最大优点 优化单选按钮、复选框、下拉列表的回显）</p>    <p>&#160;&#160;&#160; -&#160; 如果需要回显 <font color="#ff0000"><strong>需要在接收的Action加上对应的属性</strong></font> 因为它回显的时候 Action在值栈的栈顶 Form Tags 会自动将栈顶的对应属性 作为回显的值</p>    <p>指定主题样式（缺点 用不上 它自己加样式了 我们自己就没法加了）</p> </blockquote>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/11511.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="1" border="0" alt="1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb1511.jpg" width="190" height="86" /></a></p>  <p>默认样式会给加上表格 但是不推荐使用</p>  <p>采用cssClass属性 指定class</p>  <p>采用cssStyle属性 指定style</p>  <p>id, readonly 什么的都一样</p>  <p><strong>1.form 表单</strong></p>  <blockquote>   <p>&lt;s:form action=”<font color="#ff0000"><strong>无需加.action后缀</strong></font>” namespace=”” theme=”simple”&gt;</p> </blockquote>  <p>action&#160; -&#160; 与&lt;action&gt;的name对应</p>  <p>namespace&#160; -&#160; 与&lt;package&gt;的namespace对应</p>  <p>theme&#160; -&#160; 样式 默认为xhtml 为了能自己设计样式 所以指定为simple</p>  <p>method&#160; -&#160; <font color="#ff0000"><strong>默认POST</strong></font></p>  <p><strong>2.textfield 文本框</strong></p>  <blockquote>   <p>&#160;&#160;&#160; &lt;s:textfield name=”” label=”” /&gt;&#160;&#160;&#160; //如果用默认的样式 多个表单项之间不用换行</p> </blockquote>  <p>label&#160; -&#160; 如果用simple样式 不用</p>  <p><strong>3.password 密码</strong></p>  <blockquote>   <p>&#160;&#160;&#160; &lt;s: password name=”password” label=”” /&gt;</p> </blockquote>  <p>showPassword=”true”&#160; -&#160; 对它进行回显 默认不回显</p>  <p><strong>4.radio 单选按钮</strong></p>  <blockquote>   <p>&lt;s:radio list=”{‘真实值’： ‘显示值’， ‘真实值’： ‘显示值’, …}” name=”” value=”’默认值’” /&gt;</p> </blockquote>  <p>value&#160; -&#160; 如果给定了默认值 就无法完成回显了</p>  <p><strong>5.checkboxlist 复选框</strong></p>  <blockquote>   <p>&lt;s:checkboxlist list=”{‘真实值’： ‘显示值’， ‘真实值’： ‘显示值’, …}”name=”” /&gt;</p> </blockquote>  <p><strong>关于存储和回显</strong></p>  <blockquote>   <p>这个很好 如果用字符串接收 会自动用“,”分割 但是无法回显 可以用OGNL处理（一般用这个）</p>    <p>如果用字符串数组接收 可以回显 但是存入数据库还得处理</p> </blockquote>  <p><strong>用OGNL处理回显</strong></p>  <blockquote>   <p>&lt;s:checkboxlist value=”hobby.split(‘, ’)” …/&gt;</p> </blockquote>  <p>split的是 ‘, ’（逗号 <font color="#ff0000"><strong>空格</strong></font>）</p>  <p><strong>6.hidden 隐藏域</strong></p>  <blockquote>   <p>&lt;s:hidden name=”” value=”<font color="#ff0000"><strong>不支持OGNL，可用%{}</strong></font> ” /&gt;</p> </blockquote>  <p><strong>7.select 下拉列表</strong></p>  <blockquote>   <p>&lt;s: select headerKey=”” heaserValue=”===请选择===” list=”{‘真实值’： ‘显示值’， ‘真实值’： ‘显示值’, …}” name=”” /&gt;</p> </blockquote>  <p>headerKey&#160; -&#160; 第一个的真实值（可以空着 选了请选择 就相当于没选）</p>  <p>heaserValue&#160; -&#160; 第一个的显示值</p>  <p><strong>8.submit 提交按钮</strong></p>  <blockquote>   <p>&#160;&#160;&#160; &lt;s:submit value=”提交”/&gt;</p> </blockquote>  <p><strong>表单结束</strong></p>  <blockquote>   <p>&lt;/s:form&gt;</p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

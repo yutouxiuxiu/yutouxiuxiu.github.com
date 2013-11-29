@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate对象状态</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate对象状态
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、对象状态</strong>
+</h5>
+
+<p>
+	<strong>1.save方法</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/20.jpg" rel="" style="" target="" title=""><img alt="20" class="alignnone size-medium wp-image-1282" height="111" src="http://localhost:8080/wp-content/uploads/2013/10/20-300x111.jpg" style="" title="" width="300" /></a>
+</p>
+
+<p>
+	1,2,3&nbsp; -&nbsp; 临时状态&nbsp; 没有和数据库发生过关系
+</p>
+
+<p>
+	4,5&nbsp; -&nbsp; 持久化状态&nbsp;&nbsp; 一直在hibernate里
+</p>
+
+<p style="margin-left: 40px;">
+	处于持久化状态的对象 不一定在数据库里有数据 有可能没有提交事务
+</p>
+
+<p style="margin-left: 40px;">
+	该对象被session管理 当事务提交的时候 hibernate会检查session中所有持久化状态的对象
+</p>
+
+<p style="margin-left: 80px;">
+	如果对象是从临时状态转成持久化状态的且没有id值 则发出insert语句
+</p>
+
+<p style="margin-left: 80px;">
+	如果该对象是持久化状态且有id值 则会与副本作对比 如果一样什么都不做 不一样会发出update语句
+</p>
+
+<p>
+	6&nbsp; -&nbsp; 脱管状态（hibernate不管了）&nbsp; 曾经和数据库发生过关系
+</p>
+
+<p>
+	<strong>2.get方法</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/21.jpg"><img alt="21" class="alignnone size-medium wp-image-1285" height="65" src="http://localhost:8080/wp-content/uploads/2013/10/21-300x65.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>3.update方法</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/22.jpg"><img alt="22" class="alignnone size-medium wp-image-1286" height="98" src="http://localhost:8080/wp-content/uploads/2013/10/22-300x98.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>4.evict方法</strong>
+</p>
+
+<p>
+	由持久化状态变为脱管状态
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/23.jpg"><img alt="23" class="alignnone size-medium wp-image-1287" height="98" src="http://localhost:8080/wp-content/uploads/2013/10/23-300x98.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>5.clear方法</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/24.jpg"><img alt="24" class="alignnone size-medium wp-image-1288" height="120" src="http://localhost:8080/wp-content/uploads/2013/10/24-300x120.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>6.close方法</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/25.jpg"><img alt="25" class="alignnone size-medium wp-image-1289" height="142" src="http://localhost:8080/wp-content/uploads/2013/10/25-300x142.jpg" width="300" /></a>
+</p>
+
+<p>
+	<strong>7.对象的快照（副本）</strong>
+</p>
+
+<p>
+	提高性能 从数据库中取出的时候 会产生一个副本 hibernate会对比对象和对象的副本 如果两者一样 就不用向数据库中发送更新语句了
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/26.jpg"><img alt="26" class="alignnone size-medium wp-image-1290" height="136" src="http://localhost:8080/wp-content/uploads/2013/10/26-300x136.jpg" width="300" /></a>（数据库中name原本的值就是88）
+</p>
+
+<p>
+	①有了副本的概念 并不是所有的持久化对象都发出update语句 这样效率提高了
+</p>
+
+<p>
+	②
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/27.jpg"><img alt="27" class="alignnone size-medium wp-image-1292" height="151" src="http://localhost:8080/wp-content/uploads/2013/10/27-300x151.jpg" width="300" /></a>
+</p>
+
+<p>
+	1.处于持久化状态的对象 不一定在数据库中有相应的数据 有可能没有提交事务
+</p>
+
+<p>
+	2.当事务提交的时候 hibernate才要检查各个持久化状态的对象 根据规则决定发出insert语句或者update语句
+</p>
+
+<p>
+	3.转化为持久状态的方法 save、update、set
+</p>
+
+<p>
+	4.转化为托管状态的方法 clear、evcit、close
+</p>
+
+<p>
+	5.副本
+</p>
+
+<p>
+	（1）副本相当于快照
+</p>
+
+<p>
+	（2）副本中的数据始终和数据库中的数据保持同步
+</p>
+
+<p>
+	（3）当一个持久化对象在事务提交的时候 是否发出语句 参照副本
+</p>
+
+<p>
+	6.对象状态的意义
+</p>
+
+<p>
+	可以把客户端各种对象通过hibernate的方法转化成持久化状态的对象 只有转化成持久化状态的对象 在事务提交的时候 hibernate内部才会检查这些对象的状态 来决定发出什么样的SQL语句（当然查询语句除外）
+</p>
+
+<p>
+	在整个过程中 状态只提交一次（在事务提交的时候）所以效率比较高
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

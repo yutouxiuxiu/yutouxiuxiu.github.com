@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MySQL优化 - 定位慢查询</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MySQL优化 - 定位慢查询
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、定位慢查询</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	<strong>1.MySQL数据库运行状态查询</strong>
+</p>
+
+<p style="font-size: 13px;">
+	<span style="line-height: 1.6em;">当前MySQL运行时间 执行了多少insert/update...语句 当前连接数（了解并发量）</span>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show status;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	在phpmyadmin中也可以直接观察到
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（1）运行时间</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show status like &#39;uptime&#39;;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>（2）语句执行数量</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show global&nbsp;status like &#39;com_select&#39;;
+	</p>
+
+	<p>
+		show&nbsp;global&nbsp;status like &#39;com_insert&#39;;
+	</p>
+
+	<p>
+		show&nbsp;global&nbsp;status like &#39;com_update&#39;;
+	</p>
+
+	<p>
+		show&nbsp;global&nbsp;status like &#39;com_dalete&#39;;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<strong><span style="color: rgb(255, 0, 0);">选择存储引擎</span></strong>&nbsp;看那些语句偏多来选择存储引擎
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	如果不加global或者写的是session 查的是当前会话的 global查的是从MySQL启动到现在的
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（3）连接数</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show status like &#39;connections&#39;;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	<strong>（4）显示慢查询次数</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	如果慢查询数量很多 就说明很有问题
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show status like &#39;slow_queries&#39;;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	默认情况 MySQL认为 10s以上的查询 是慢查询（但4000w的记录 都不一定出现10s以上的查询）
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（5）修改MySQL慢查询时间</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	给它修改为1s 然后让它跑上一天 看哪个查询慢
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		show variables like &#39;long_query_time&#39;;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	发现是10s 给它设成1s
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		set long_query_time=1;
+	</p>
+</blockquote>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<p style="font-size: 13px;">
+	<strong>1.慢查询定位</strong>
+</p>
+
+<p style="font-size: 13px;">
+	如何从一个大项目中迅速的定位执行速度比较慢的SQL语句？
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（1）我们先来构建一个400w记录的大表</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	大表中的记录是有要求的&nbsp;<strong><span style="color: rgb(255, 0, 0);">数据要是不同的 才有意义</span></strong>&nbsp;否则和真是效果相差很大&nbsp;使用存储过程构建 脚本如下：
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/压力测试脚本.txt">压力测试脚本</a>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	&ldquo;delimiter $$&rdquo;这个是干嘛的？
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	因为存储过程中会有分号 为了创建存储过程 我们要用这个命令 把命令执行结束符（原来是&ldquo;;&rdquo;）修改成&ldquo;$$&rdquo;
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	当然 创建完了之后 用 &ldquo;delimiter ;&rdquo; 恢复
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（2）记录慢查询日志</strong>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	默认不记录 在MySQL启动的时候指定参数 记录慢查询
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		mysqld.exe --safe-mode --slow-query-log
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	safe-mode 安全模式？
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	可以记录日志 数据有恢复能力
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	日志位置
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	<span style="color: rgb(0, 0, 255);">my.ini</span>&nbsp;datadir=&quot;...&quot;
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	也就是放置数据库文件的位置 不要轻易改动 移动了数据库文件 要重建索引 否则不好用
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	..._slow.log文件
+</p>
+
+<p style="font-size: 13px;">
+	<strong>（3）执行一个慢查询</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		SELECT * FROM emp WHERE empno=789634 OR empno=793280
+	</p>
+
+	<p>
+		（此时empno不是索引 只是一个普普通通的字段）
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	在<span style="color: rgb(0, 0, 255);">..._slow</span><span style="color: rgb(0, 0, 255);">.log</span>文件中 可以看到这个慢查询
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		Time &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Id Command &nbsp; &nbsp;Argument<br />
+		# Time: 131105 13:17:54<br />
+		# User@Host: root[root] @ localhost [127.0.0.1]<br />
+		# Query_time:&nbsp;<u>1.045060</u>&nbsp;&nbsp;Lock_time: 0.000000 Rows_sent: 2 &nbsp;Rows_examined: 4000000<br />
+		use yaliceshi;<br />
+		SET timestamp=1383628674;<br />
+		<u>select * from emp where empno=789634 or empno=793280<br />
+		&nbsp;LIMIT 0, 1000;</u>
+	</p>
+</blockquote>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	但是为什么<strong><span style="color: rgb(255, 0, 0);">第二次执行同样的查询 速度就很快</span></strong>？
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	MySQL会缓存
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Java定时执行任务的三种方法</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Java定时执行任务的三种方法
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp; &nbsp;1、java.util.Timer</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 这个方法应该是最常用的，不过这个方法需要手工启动你的任务：</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; Timer timer=new Timer（）;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; timer.schedule（new ListByDayTimerTask（），10000,86400000）；</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 这里的ListByDayTimerTask类必须extends TimerTask里面的run（）方法。</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 2、ServletContextListener</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 这个方法在web容器环境比较方便，这样，在web server启动后就可以自动运行该任务，不需要手工操作。</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 将ListByDayListener implements ServletContextListener接口，在contextInitialized方法中加入启动Timer的代码，在contextDestroyed方法中加入cancel该Timer的代码；然后在web.xml中，加入listener:</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;listener&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;listener-class&gt;com.qq.customer.ListByDayListener&lt;/listener-class&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/listener&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 3、org.springframework.scheduling.timer.ScheduledTimerTask</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; 如果你用spring,那么你不需要写Timer类了，在schedulingContext-timer.xml中加入下面的内容就可以了：</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;!DOCTYPE beans PUBLIC &ldquo;-//SPRING//DTD BEAN//EN&rdquo; &ldquo;.springframework.org/dtd/spring-beans.dtd&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;beans&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;bean id=&ldquo;timer&rdquo; class=&ldquo;org.springframework.scheduling.timer.TimerFactoryBean&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;property name=&ldquo;scheduledTimerTasks&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;list&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;ref local=&ldquo;MyTimeTask1&rdquo;/&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/list&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/property&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/bean&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;bean id=&ldquo;MyTimeTask&rdquo; class=&ldquo;com.qq.timer.ListByDayTimerTask&rdquo;/&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;bean id=&ldquo;MyTimeTask1&rdquo; class=&ldquo;org.springframework.scheduling.timer.ScheduledTimerTask&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;property name=&ldquo;timerTask&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;ref bean=&ldquo;MyTimeTask&rdquo;/&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/property&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;property name=&ldquo;delay&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;value&gt;10000&lt;/value&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/property&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;property name=&ldquo;period&rdquo;&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;value&gt;86400000&lt;/value&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/property&gt;</span><br style="margin: 0px; padding: 0px; word-wrap: break-word; color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: 宋体; font-size: 14px; line-height: 25px;">&nbsp;&nbsp;&nbsp; &lt;/bean&gt;</span>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

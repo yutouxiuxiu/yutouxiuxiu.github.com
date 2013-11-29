@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>继承</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					继承
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<ul>   <li><strong>继承</strong></li> </ul>  <p>&#160;&#160; is a 谁是谁的一种   <br /><strong>&#160; 好处</strong>    <br />&#160;&#160;&#160; 1.提高了代码的复用性    <br />&#160;&#160;&#160; 2.让类与类产生了关系 有了这个关系才有了多态的特性</p>  <p>（注意！！！）只支持单继承 不支持多继承（c++支持多继承）   <br />&#160;&#160;&#160; 多继承容易带来安全隐患 多个父类中有同样的方法 它就不知道运行哪个了    <br />&#160;&#160;&#160; java用多实现形式来表现多继承    <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; 想要用一个体系 先看父类 再看子类    <br />&#160;&#160;&#160; 查阅父类功能 创建子类对象 （父类也许不让创建对象 比如 抽象类 接口）    <br /><strong></strong></p>  <ul>   <li><strong>继承出现后 类成员的特点</strong></li> </ul> <strong></strong>  <p>   <br />&#160;&#160;&#160; <strong>1.变量&#160; 构造函数     <br /></strong>&#160;&#160;&#160;&#160;&#160;&#160;&#160; */</p>  <blockquote>   <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; class Fu {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; int num = 4;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; class Zi extends Fu {     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; int num = 5;      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; }</p> </blockquote>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; /*   <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 打印num为子类的5    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 可以打印 this.num 子类的num    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; this 本类对象的引用    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果子类李没有 只有父类里有 用this也能访问    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 可以打印 super.num 父类的num    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; super 父类对象的引用    <br />&#160;&#160;&#160;&#160; */&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; /*    <br />&#160;&#160;&#160; <strong>2.函数</strong>    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 子类出现和父类一样的函数时 会对父类方法进行重写覆盖    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 当子类继承了父类 沿袭了父类的功能到子类中 但是子类虽具备该功能 但功能的内容 却和父类不一致    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 这时 没有必要定义新功能 而是使用覆盖特性 保留父类的功能定义 并重写功能内容    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果有一部分用过原来的函数 就用 super.函数名();    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; （注意！！！）&#160; 子类权限必须大于等于父类权限才能覆盖（父类的是private 不叫覆盖 因为子类都不知道父类有 就是一个函数 不是覆盖）    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 静态只能覆盖静态     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 重载：只看同名函数的参数列表    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 重写：子父类方法一模一样    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果父类中有一个 int method() 子类中有一个 void method() 这样不行 无法覆盖 编译不通过    <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; <strong>3.构造函数     <br /></strong>&#160;&#160;&#160;&#160;&#160;&#160;&#160; 构造函数不能覆盖 因为子父类的构造函数名都不一样    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 会先执行父类的构造函数 再执行子类的构造函数    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 因为子类所有的（注意！！！是所有的）构造函数中的第一行 有一条隐式的 super(); -&gt; 会访问父类中空参数的构造函数    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; （注意！！！）如果显示指定 就执行显式指定的 如果父类中没有空参数的构造函数 就必须显式指定    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; （显式指定必须在第一行 显式指定的 有可能是this()也有可能是super() 子类中至少有一个构造函数会访问父类中的构造函数）     <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 子类必须要先访问父类的构造函数 因为子类使用之前 要看看父类是怎么对一些东西初始化的    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 父类的构造函数也有super(); 它访问了Object的构造函数    <br />&#160;&#160;&#160; */</p>  <blockquote>   <p>class Fu {     <br />public Fu() {      <br />System.out.println(this);      <br />}      <br />}</p>    <p>class Zi extends Fu {     <br />      <br />}      <br />      <br />new Zi();</p> </blockquote>  <p>/*   <br />打印的是Zi...    <br />因为类的加载过程    <br />1.加载Zi到内存    <br />2.加载Fu到内存    <br />3.执行Zi构造方法    <br />4.执行Fu构造方法    <br />*/</p>  <p>&#160;</p>  <ul>   <li>&#160;<strong>聚集关系</strong></li> </ul> <strong></strong>  <p>   <br />&#160;&#160;&#160; has a 谁里边有谁    <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; 聚合 eg 班级里边的一员    <br />&#160;&#160;&#160; 组合 eg 手 心脏 嘴... 组合在一起（比聚合更紧密）</p>  <ul>   <li><strong>final 关键字</strong></li> </ul> <strong></strong>  <p>   <br />&#160;&#160;&#160; 1.可以修饰类 变量 函数    <br />&#160;&#160;&#160; 2.被final修饰的类 不可以被继承（继承打破了封装性 要是不想被别人修改的 就定义final）    <br />&#160;&#160;&#160; 3.被final修饰的方法 不能被覆写（有些访问底层 内部实现之类的不想被覆写的 可以定义final）    <br />&#160;&#160;&#160; 4.被final修饰的变量 是常量 只能赋值一次 既能修饰成员变量 又能修饰局部变量    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 常量就得所有字母大写 单词间用下划线    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; 如果在成员位置上的时候 还加一个static    <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; public static final ... 全局常量    <br />&#160;&#160;&#160; 5.内部类定义在类中的局部位置上时 只能访问该局部被final修饰的局部变量&#160;&#160;&#160; //???    <br />*/</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate的HQL</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate的HQL
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、HQL</strong>
+</h5>
+
+<p>
+	hibernate query language
+</p>
+
+<p>
+	<strong>和SQL语句的区别</strong>
+</p>
+
+<p>
+	1.FROM 后面跟持久化类没
+</p>
+
+<p>
+	2.SELECT/WHERE 后跟属性名
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、单表</strong>
+</h5>
+
+<p>
+	1.FROM 类名
+</p>
+
+<p style="margin-left: 40px;">
+	查询全部属性 对象查询 查出来的结果是对象
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	2.SELECT 属性名 [,属性名...] FROM 类名
+</p>
+
+<p style="margin-left: 40px;">
+	Object类型的数组 按照SELECT属性的顺序
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	3.SELECT new 类的全限定名(属性名[,属性名...]) FROM 类名
+</p>
+
+<p style="margin-left: 40px;">
+	通过构造函数创建查询结果的类 查询结果是指定类型的数组
+</p>
+
+<p style="margin-left: 40px;">
+	需要在指定的类里有对应参数的构造函数
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	4.SELECT COUNT(随便一个属性) FROM 类名
+</p>
+
+<p style="margin-left: 40px;">
+	返回可以强转成Long型
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	5. ... ORDER BY 属性名 ASC/DESC
+</p>
+
+<p style="margin-left: 40px;">
+	带排序的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	max...
+</p>
+
+<p>
+	min...
+</p>
+
+<p>
+	group by...
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	6. ... WHERE 属性=?/:名称
+</p>
+
+<blockquote>
+	<p>
+		Query query = session.createQuery(&quot;from Classes where cname=?&quot;);
+	</p>
+
+	<p>
+		query.setString(0, &quot;b&quot;);
+	</p>
+
+	<p>
+		query.list();
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		Query query = session.createQuery(&quot;from Classes where cname=:a&quot;);
+	</p>
+
+	<p>
+		query.setString(&quot;a&quot;, &quot;b&quot;);
+	</p>
+
+	<p>
+		query.list();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、一对多</strong>
+</h5>
+
+<p>
+	<strong>1.等值连接</strong>
+</p>
+
+<p>
+	（1）SQL
+</p>
+
+<blockquote>
+	<p>
+		SELECT c.*, s.*
+	</p>
+
+	<p>
+		FROM classes c, student s
+	</p>
+
+	<p>
+		WHERE c.cid=s.cid
+	</p>
+</blockquote>
+
+<p>
+	（2）HQL
+</p>
+
+<blockquote>
+	<p>
+		FROM Classes c,Student s WHERE c.cid=s.student.sid
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	查询的结果是Object类型的数组 里面有对象 按照顺序为Classes和Student对象
+</p>
+
+<p style="margin-left: 40px;">
+	很少用 结果比较不好使用
+</p>
+
+<p>
+	<strong>2.内连接（和等值连接效果一样）</strong>
+</p>
+
+<p>
+	（1）SQL
+</p>
+
+<blockquote>
+	<p>
+		SELECT c.*, s.*
+	</p>
+
+	<p>
+		FROM classes c INNER JOIN student s ON(c.cid=s.cid)
+	</p>
+</blockquote>
+
+<p>
+	（2）HQL
+</p>
+
+<blockquote>
+	<p>
+		FROM Classes c INNER JOIN c.students s
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	查询的结果是Object类型的数组 里面有对象 按照顺序为 Classes和Student对象
+</p>
+
+<blockquote>
+	<p>
+		FROM Student s INNER JOIN s.classes c
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	查询的结果是Object类型的数组 里面有对象 按照顺序为 Student和Classes对象
+</p>
+
+<p style="margin-left: 40px;">
+	很少用 结果仍然比较不好使用
+</p>
+
+<p>
+	<strong>迫切内连接</strong>
+</p>
+
+<blockquote>
+	<p>
+		FROM Classes c INNER JOIN <span style="color:#FF0000;">FETCH</span> c.student s
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	查询的结果是Classes对象 Classes对象的students属性值是对应的Student的集合
+</p>
+
+<blockquote>
+	<p>
+		FROM Student s INNER JOIN <span style="color:#FF0000;">FETCH</span> s.classes c
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	和上面的相反
+</p>
+
+<p style="margin-left: 40px;">
+	多用 结果容易使用
+</p>
+
+<p>
+	<strong>查询部分属性</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	通过一个视图类ClassesView 里面有cname和sname属性 和对应的构造方法
+</p>
+
+<blockquote>
+	<p>
+		SELECT new com.yutouxiuxiu.test.ClassesView(c.cname s.sname) FROM Student s INNER JOIN s.classes c
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	结果是ClassesView对象
+</p>
+
+<p>
+	带构造函数的查询和FETCH的结构是相矛盾的
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">有SELECT就不能有FETCH 有FETCH就不能有SELECT</span></strong>
+</p>
+
+<p>
+	<strong>左外连接</strong>
+</p>
+
+<p>
+	（1）SQL
+</p>
+
+<blockquote>
+	<p>
+		SELECT c.*, s.*
+	</p>
+
+	<p>
+		FROM classes c LEFT OUTER JOIN student s ON(c.cid=s.cid)
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	查询所有的班级 没有学生的班级也会被查出来
+</p>
+
+<p>
+	（2）HQL
+</p>
+
+<blockquote>
+	<p>
+		FROM 页面显示主要的 m LEFT OUTER JOIN FETCH m.顺带显示的属性
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		FROM Classes c&nbsp;<span style="font-size: 13px;">LEFT OUTER JOIN FETCH c.students</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">左外连接有可能有重复的数据 可以去重 把List转成Set</span>
+</p>
+
+<blockquote>
+	<p>
+		List list = session.createQuery(...);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">Set&lt;Classes&gt; classesSet = new HashSet&lt;Classes&gt;(list);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	要是非得要List再转回来
+</p>
+
+<p>
+	<strong>右外连接</strong>
+</p>
+
+<p>
+	（1）SQL
+</p>
+
+<blockquote>
+	<p>
+		SELECT c.*, s.*
+	</p>
+
+	<p>
+		FROM student s OUTER JOIN classes c ON(c.cid=s.cid)
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	和上面的结果一样
+</p>
+
+<p>
+	（2）HQL
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、多对多</strong>
+</h5>
+
+<p>
+	1.把所有的课程信息查询出来 把每一个课程中所修的学生的信息也查询出来
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Session session = sessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Course&gt; courses = session.createQuery(&quot;from Course c left outer join fetch c.students&quot;).list();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Course&gt; courseSet = new HashSet&lt;Course&gt;(courses);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(courseSet.size());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(Course course:courseSet){<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(course.getCname());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; students = course.getStudents();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(Student student:students){<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.print(student.getSname());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();
+	</p>
+</blockquote>
+
+<p>
+	查询所有的学生的信息，把学生修的课程的信息查询出来
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Session session = sessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Student&gt; students = session.createQuery(&quot;from Student s left outer join fetch s.courses c&quot;).list();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; studentSet = new HashSet&lt;Student&gt;(students);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(studentSet.size());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();
+	</p>
+</blockquote>
+
+<p>
+	查询有课程的所有的学生
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Session session = sessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Student&gt; students = session.createQuery(&quot;from Course c inner join fetch c.students s&quot;).list();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//Set&lt;Student&gt; studentSet = new HashSet&lt;Student&gt;(students);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//需要去重<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(students.size());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();
+	</p>
+</blockquote>
+
+<p>
+	一对多和多对多
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Session session = sessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Classes&gt; classesList = session.createQuery(&quot;from Classes c left outer join fetch c.students s left outer join fetch s.courses cc&quot;).list();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(Classes classes:classesList){<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(classes.getCname());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Student&gt; students = classes.getStudents();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(Student student:students){<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(student.getSname());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Set&lt;Course&gt; courses = student.getCourses();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(Course course:courses){<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(course.getCname());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();
+	</p>
+</blockquote>
+
+<p>
+	循环层数太多？看看下面的
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Session session = sessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Student&gt; studentList = session.createQuery(&quot;from Student s left outer join fetch s.classes c left outer join fetch s.courses cc&quot;).list();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/**<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; * 遍历student集合中的数据，只需要两重循环就可以了<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; */<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>总结</strong>
+</p>
+
+<p>
+	1.如果查询出来的结构要和持久化类的结构保持一致
+</p>
+
+<p style="margin-left: 40px;">
+	单表
+</p>
+
+<p style="margin-left: 80px;">
+	不加SELECT
+</p>
+
+<p style="margin-left: 80px;">
+	加SELECT 用带构造函数的
+</p>
+
+<p style="margin-left: 40px;">
+	多表
+</p>
+
+<p style="margin-left: 80px;">
+	必须在JOIN后加FETCH
+</p>
+
+<p style="margin-left: 40px;">
+	结构清晰 但是把数据库所有的字段都加载到结构中了
+</p>
+
+<p>
+	2.如果需要查询的数据只是表中字段的很小一部分
+</p>
+
+<p style="margin-left: 40px;">
+	必须使用带构造函数的SELECT查询 不能用FETCH
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

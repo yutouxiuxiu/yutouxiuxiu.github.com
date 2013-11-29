@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>hibernate的性能问题</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					hibernate的性能问题
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	hibernate通过什么让它的性能稍微高点儿呢
+</p>
+
+<h5>
+	<strong>一、一级缓存、二级缓存、查询缓存</strong>
+</h5>
+
+<p>
+	1.一级缓存
+</p>
+
+<p style="margin-left: 40px;">
+	减少了session与数据库的交互次数（在flush时交互）
+</p>
+
+<p>
+	2.二级缓存
+</p>
+
+<p style="margin-left: 40px;">
+	不经常改变的 经常查询的公共不是保密性的数据放入二级缓存
+</p>
+
+<p>
+	3.查询缓存
+</p>
+
+<p style="margin-left: 40px;">
+	把一些数据放入查询缓存中
+</p>
+
+<h5>
+	<strong>二.懒加载</strong>
+</h5>
+
+<p>
+	针对大数据 系统里有大数据
+</p>
+
+<p>
+	需要加载的时候才加载
+</p>
+
+<p>
+	懒加载是通过控制SQL语句发出的时间来提高性能的
+</p>
+
+<p>
+	<strong>1.类的懒加载 单表</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	体现的是一般属性的懒加载
+</p>
+
+<blockquote>
+	<p>
+		Session session = sessionFactory.openSession();
+	</p>
+
+	<p>
+		/* student是一个代理对象 代理对象继承了Student类 */
+	</p>
+
+	<p>
+		Student student = (Student)session.load(Student.class, 1L);&nbsp;&nbsp;&nbsp; //此时debug 看到student的属性都是null 其实只加载了空壳子
+	</p>
+
+	<p>
+		syso(student.getSname());&nbsp;&nbsp;&nbsp; //要获取student的属性的时候 才去数据库取值
+	</p>
+
+	<p>
+		session.clase();
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">著名错误 no Session</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	当试图从数据库中查询数据的时候 session已经关闭了 就会发生该异常 必须等数据查询好了 才能关闭session
+</p>
+
+<blockquote>
+	<p>
+		session.clase();
+	</p>
+
+	<p>
+		syso(student.getSname());
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.集合的懒加载 一对多 多对多</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	体现的是类与集合的懒加载
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;"><strong>1.集合默认的就是懒加载 在遍历集合的时候才发出SQL语句向数据库要数据</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		Student student = (Student)session.get(Student.class, 1L);
+	</p>
+
+	<p>
+		Set&lt;Course&gt; courses = student.getCouerses();&nbsp;&nbsp;&nbsp; //此时不会发出查询加载集合的SQL语句
+	</p>
+
+	<p>
+		for (Course course : courses) {&nbsp;&nbsp;&nbsp; //此时才发出加载集合的SQL语句
+	</p>
+
+	<p>
+		syso(course.getCname());&nbsp;&nbsp;&nbsp;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	2.要是在映射文件中&lt;set ... <strong><span style="color:#FF0000;">lazy=&quot;false&quot;</span></strong> ...&gt; 它就会在一开始就加载（发出关联集合的SQL语句）
+</p>
+
+<p style="margin-left: 40px;">
+	3.要是在映射文件中&lt;set ... <strong><span style="color:#FF0000;">lazy=&quot;extra&quot;</span></strong> ...&gt; 会更进一步的延时加载
+</p>
+
+<p style="margin-left: 40px;">
+	在查询带有函数的语句时（比如.size()对应的count() 还有max,min）只发出函数的SQL语句
+</p>
+
+<blockquote>
+	<p>
+		syso(course.size());
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.单端关联的懒加载 多对一</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	体现的是类与类的懒加载
+</p>
+
+<p style="margin-left: 40px;">
+	&lt;many-to-one lazy=&quot;false/no-porxy（相等于true）/proxy（相等于true）&quot;
+</p>
+
+<p style="margin-left: 40px;">
+	但是这个没有什么用 many-to-one 是从多的一方加载一个数据 只查询一个数据 对性能的影响并不大 所以在这里可以忽略不计
+</p>
+
+<p>
+	懒加载是通过控制SQL语句发出的时间来提高性能的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、抓取策略</strong>
+</h5>
+
+<p>
+	对关联对象（eg 在查询学生的时候 课程是关联对象）怎么样发出SQL语句的策略
+</p>
+
+<p>
+	针对多张表的
+</p>
+
+<p>
+	如果关联对象是类 对性能影响不大 这里不考虑
+</p>
+
+<p>
+	主要研究的对象是集合
+</p>
+
+<blockquote>
+	<p>
+		&lt;set fetch=&quot;select（默认）/subselect/join&quot;&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>1.select</strong>
+</p>
+
+<p>
+	代码1
+</p>
+
+<blockquote>
+	<p>
+		Classes classes = (Classes)session.get(Classes.class, 1L);
+	</p>
+
+	<p>
+		Set&lt;Student&gt; students = classes.getStudents();
+	</p>
+
+	<p>
+		for (Student student : students) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		syso(student.getSname());
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	先根据cid为1查询classes 再根据cid为1查询student
+</p>
+
+<p>
+	代码2
+</p>
+
+<blockquote>
+	<p>
+		List&lt;Classes&gt; classesList = session.createQuery(&quot;from Classes&quot;).list();
+	</p>
+
+	<p>
+		for (Classes classes : classesList) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		Set&lt;Student&gt; students = classes.getStudents();
+	</p>
+
+	<p style="margin-left: 40px;">
+		for (Student student : students) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(student.getSname());
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	先把classes表中的所有数据查询出来 根据每个cid再次查询student
+</p>
+
+<p>
+	（n+1条查询）
+</p>
+
+<p>
+	<strong>2.subselect</strong>
+</p>
+
+<p>
+	代码2
+</p>
+
+<p>
+	where ... in ...
+</p>
+
+<p>
+	只要需求分析中有<strong><span style="color:#FF0000;">子查询</span></strong> 用这个效率比较高
+</p>
+
+<p>
+	<strong>3.join</strong>
+</p>
+
+<p>
+	代码1
+</p>
+
+<p>
+	采用外连接查询 把classes和student都查询过来了
+</p>
+
+<p>
+	代码2
+</p>
+
+<p>
+	不起作用 和select一样
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>如果需求分析 含有子查询 join不起作用</strong></span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、懒加载和抓取策略的集合</strong>
+</h5>
+
+<p>
+	主要研究的是Set集合 怎么样 什么时候发出SQL语句
+</p>
+
+<p>
+	1.fetch=&quot;join&quot; lazy=&quot;true&quot;
+</p>
+
+<p style="margin-left: 40px;">
+	一次性把classes和student中的数据加载出来 此时懒加载失效
+</p>
+
+<p>
+	3.fetch=&quot;select/subselect&quot;&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	（1）lazy=&quot;true/extra&quot;
+</p>
+
+<p style="margin-left: 40px;">
+	当迭代集合 发出查询student的SQL语句
+</p>
+
+<p style="margin-left: 40px;">
+	（2）lazy=&quot;false&quot;
+</p>
+
+<p style="margin-left: 40px;">
+	当查询classes时 发出查询student的SQL语句
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

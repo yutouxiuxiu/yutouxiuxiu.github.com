@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java生成条形码</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java生成条形码
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p><strong>在这里给大家介绍一个java 生成条形码</strong></p>  <p><strong>jbarcode.jar 生成条形码</strong></p>  <p>支持EAN13, EAN8, UPCA, UPCE, Code 3 of 9, Codabar, Code 11, Code 93, Code 128, MSI/Plessey, Interleaved 2 of 5, PostNet等 </p>  <p>这个项目从2005年就成立到现在以有两个修正版本</p>  <p><img alt="" src="http://dl.iteye.com/upload/attachment/469686/c1431376-570a-301a-b110-f56cc8936467.png" width="202" height="60" /></p>  <p><img alt="" src="http://dl.iteye.com/upload/attachment/469685/3ad4b22d-c1a4-38af-a6fa-937042867b36.gif" width="116" height="60" /></p>  <p>Java代码 </p>  <ol>   <li>/*</li>    <li> * To change this template, choose Tools | Templates</li>    <li> * and open the template in the editor.</li>    <li> */</li>    <li></li>    <li>package com.zk.lb.manger.scoll.lib.util;&#160; </li>    <li></li>    <li>import java.awt.image.BufferedImage;&#160; </li>    <li>import java.io.FileOutputStream;&#160; </li>    <li>import org.jbarcode.JBarcode;&#160; </li>    <li>import org.jbarcode.encode.Code39Encoder;&#160; </li>    <li>import org.jbarcode.encode.EAN13Encoder;&#160; </li>    <li>import org.jbarcode.paint.BaseLineTextPainter;&#160; </li>    <li>import org.jbarcode.paint.EAN13TextPainter;&#160; </li>    <li>import org.jbarcode.paint.WideRatioCodedPainter;&#160; </li>    <li>import org.jbarcode.paint.WidthCodedPainter;&#160; </li>    <li>import org.jbarcode.util.ImageUtil;&#160; </li>    <li></li>    <li>/**</li>    <li> * 2008-10-4</li>    <li> * @author 刘庆</li>    <li> */</li>    <li>public class OneBarcodeUtil {&#160; </li>    <li></li>    <li>public static void main(String[] paramArrayOfString)&#160; </li>    <li>&#160; {&#160; </li>    <li>try</li>    <li>&#160;&#160;&#160; {&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; JBarcode localJBarcode = new JBarcode(EAN13Encoder.getInstance(), WidthCodedPainter.getInstance(), EAN13TextPainter.getInstance());&#160; </li>    <li>//生成. 欧洲商品条码(=European Article Number)</li>    <li>//这里我们用作图书条码</li>    <li>&#160;&#160;&#160;&#160;&#160; String str = &quot;788515004012&quot;;&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; BufferedImage localBufferedImage = localJBarcode.createBarcode(str);&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; saveToGIF(localBufferedImage, &quot;EAN13.gif&quot;);&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localJBarcode.setEncoder(Code39Encoder.getInstance());&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localJBarcode.setPainter(WideRatioCodedPainter.getInstance());&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localJBarcode.setTextPainter(BaseLineTextPainter.getInstance());&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localJBarcode.setShowCheckDigit(false);&#160; </li>    <li>//xx</li>    <li>&#160;&#160;&#160;&#160;&#160; str = &quot;JBARCODE-39&quot;;&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localBufferedImage = localJBarcode.createBarcode(str);&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; saveToPNG(localBufferedImage, &quot;Code39.png&quot;);&#160; </li>    <li></li>    <li>&#160;&#160;&#160; }&#160; </li>    <li>catch (Exception localException)&#160; </li>    <li>&#160;&#160;&#160; {&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localException.printStackTrace();&#160; </li>    <li>&#160;&#160;&#160; }&#160; </li>    <li>&#160; }&#160; </li>    <li></li>    <li>static void saveToJPEG(BufferedImage paramBufferedImage, String paramString)&#160; </li>    <li>&#160; {&#160; </li>    <li>&#160;&#160;&#160; saveToFile(paramBufferedImage, paramString, &quot;jpeg&quot;);&#160; </li>    <li>&#160; }&#160; </li>    <li></li>    <li>static void saveToPNG(BufferedImage paramBufferedImage, String paramString)&#160; </li>    <li>&#160; {&#160; </li>    <li>&#160;&#160;&#160; saveToFile(paramBufferedImage, paramString, &quot;png&quot;);&#160; </li>    <li>&#160; }&#160; </li>    <li></li>    <li>static void saveToGIF(BufferedImage paramBufferedImage, String paramString)&#160; </li>    <li>&#160; {&#160; </li>    <li>&#160;&#160;&#160; saveToFile(paramBufferedImage, paramString, &quot;gif&quot;);&#160; </li>    <li>&#160; }&#160; </li>    <li></li>    <li>static void saveToFile(BufferedImage paramBufferedImage, String paramString1, String paramString2)&#160; </li>    <li>&#160; {&#160; </li>    <li>try</li>    <li>&#160;&#160;&#160; {&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; FileOutputStream localFileOutputStream = new FileOutputStream(&quot;d:/images/&quot; + paramString1);&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; ImageUtil.encodeAndWrite(paramBufferedImage, paramString2, localFileOutputStream, 96, 96);&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localFileOutputStream.close();&#160; </li>    <li>&#160;&#160;&#160; }&#160; </li>    <li>catch (Exception localException)&#160; </li>    <li>&#160;&#160;&#160; {&#160; </li>    <li>&#160;&#160;&#160;&#160;&#160; localException.printStackTrace();&#160; </li>    <li>&#160;&#160;&#160; }&#160; </li>    <li>&#160; }&#160; </li>    <li></li>    <li>}&#160; </li> </ol>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

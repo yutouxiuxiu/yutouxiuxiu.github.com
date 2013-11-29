@@ -1,0 +1,920 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 取派员 区域</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 取派员 区域
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、重点</strong>
+</h5>
+
+<p>
+	1.取派员添加（收派标准下拉列表）
+</p>
+
+<p>
+	2.取派员分页查询
+</p>
+
+<p>
+	3.批量导入区域（文件上传、Excel解析、pinyin4j）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、<span style="font-size: 13px;">取派员添加</span></strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/13.jpg"><img alt="1" class="alignnone size-full wp-image-1564" height="209" src="http://localhost:8080/wp-content/uploads/2013/10/13.jpg" width="503" /></a>
+</p>
+
+<p>
+	<strong>1.是否有PDA</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;input type=&quot;checkbox&quot; name=&quot;haspda&quot; value=&quot;1&quot;/&gt;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		private String haspda = &quot;0&quot;;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.<span style="font-size: 13px;">收派标准下拉列表</span></strong>
+</p>
+
+<p>
+	standard.id 就是将数据封装到 model.standard.id中
+</p>
+
+<blockquote>
+	<p>
+		&lt;select name=&quot;<span style="color:#FF0000;">standard.id</span>&quot;&gt;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	表单的下拉列表 应该是用ajax获取json数据
+</p>
+
+<blockquote>
+	<p>
+		$.post(&quot;.../standard_ajaxlist.action&quot;, function(data) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		/* 传统方式遍历 也可以用下边jquery的
+	</p>
+
+	<p style="margin-left: 40px;">
+		for (var i=0; i &lt; data.length; i++) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		data[i].id
+	</p>
+
+	<p style="margin-left: 40px;">
+		} */
+	</p>
+
+	<p style="margin-left: 40px;">
+		$(data).each(function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.id;
+	</p>
+
+	<p style="margin-left: 80px;">
+		var option = $(&quot;&lt;option value=&#39;&quot; + this.id + &quot;&#39;&gt;&quot; + this.name + &quot;&lt;/option&gt;&quot;);
+	</p>
+
+	<p style="margin-left: 80px;">
+		$(&quot;standardSelect&quot;).append(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">option</span>);
+	</p>
+
+	<p style="margin-left: 40px;">
+		});
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">StandardAction</span>
+</p>
+
+<blockquote>
+	<p>
+		public String ajaxlist() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		List&lt;Standard&gt; list = standardService.findAll();
+	</p>
+
+	<p style="margin-left: 40px;">
+		ServletActionContext.getContext().put(&quot;json&quot;, list);
+	</p>
+
+	<p style="margin-left: 40px;">
+		return &quot;success-ajaxlist&quot;;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">StandardService</span>
+</p>
+
+<blockquote>
+	<p>
+		public List&lt;<span style="font-size: 13px;">Standard</span>&gt;&nbsp;<span style="font-size: 13px;">findAll() {</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		//其实有隐含的条件 deltag=0 这里用命名查询还是离线查询 因为这个条件是固定的 所以写命名查询
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">}</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">只返回需要的</span></strong>
+</p>
+
+<p>
+	但是Standard对象里有很多属性 不过需要的只有name和id来显示下拉列表
+</p>
+
+<blockquote>
+	<p>
+		&lt;result name=&quot;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">success-ajaxlist</span>&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;param name=&quot;root&quot;&gt;json&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;param name=&quot;includeProperties&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;!-- json是一个list 要的是list中的每个元素的id和name --&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		\[\d+\<span style="line-height: 1.6em;">]\.id,</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="line-height: 1.6em;">\[\d+\]\.name</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;!-- \d是数字 + 是一个或多个&nbsp;因为中括号和点都有特殊意义 所以要转义 --&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	就直接保存就好了 因为id是页面输入的 然后关联的Standard对象的id有值 就因为有这个id 就能设置外键了 就不需要其他的操作了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">json关联死循环问题</span></strong>
+</p>
+
+<p>
+	如果生成的json依赖的数据 引用了一个对象 那个对象又引用回来 会产生死循环
+</p>
+
+<p>
+	<span style="font-size: 13px;">新版的Struts2 （2.3.15） 的json插件中自己就解决了这个问题 在第二次引用的时候 就断开了（为null）</span>
+</p>
+
+<p>
+	<span style="font-size: 13px;">以前 或者使用其他json工具&nbsp;需要手动解决</span>
+</p>
+
+<p>
+	配置includeProperties 或者excludeProperties
+</p>
+
+<p>
+	Staff -&gt; Standard -&gt; Staff -&gt; ...
+</p>
+
+<p>
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -&gt; User
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	但是现在为了网络传输的速度 也把冗余的数据去掉
+</p>
+
+<blockquote>
+	<p>
+		&lt;param name=&quot;<span style="font-size: 13px;">includeProperties</span>&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		total,
+	</p>
+
+	<p style="margin-left: 40px;">
+		rows\[\d+\]\.id,
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">rows\[\d+\]\.name,</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">rows\[\d+\]\.station,</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">rows\[\d+\]\.haspda,</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">rows\[\d+\]\.deltag,</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">rows\[\d+\]\.standard\.name</span>
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.删除、修改</strong>
+</p>
+
+<p>
+	获取选择的记录行
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/29.jpg"><img alt="2" class="alignnone size-full wp-image-1570" height="102" src="http://localhost:8080/wp-content/uploads/2013/10/29.jpg" width="538" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	修改时 下拉列表的回显
+</p>
+
+<p>
+	在返回数据的时候 返回standard.id
+</p>
+
+<blockquote>
+	<p>
+		$(&quot;#standardSelect&quot;).val(rowData.standard.id);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、区域管理</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/qy.jpg"><img alt="qy" class="alignnone size-full wp-image-1575" height="150" src="http://localhost:8080/wp-content/uploads/2013/10/qy.jpg" width="391" /></a>
+</p>
+
+<p>
+	<strong>1.批量导入功能</strong>
+</p>
+
+<p>
+	上传Excel 然后解析
+</p>
+
+<p>
+	比较常用的是POI技术 对微软格式（word、excel、ppt）的文档进行读写
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp; &nbsp; &nbsp;之前格式 &nbsp;2007版本之后加了x的格式
+</p>
+
+<p style="margin-left: 40px;">
+	word &nbsp;HWPH &nbsp; &nbsp; XWPF
+</p>
+
+<p style="margin-left: 40px;">
+	excel HSSF &nbsp; &nbsp; XSSF
+</p>
+
+<p style="margin-left: 40px;">
+	ppt &nbsp; HSLF &nbsp; &nbsp; XSLF
+</p>
+
+<p>
+	<strong>（1）导入jar包</strong>
+</p>
+
+<p>
+	poi-3.9....jar
+</p>
+
+<p>
+	在本地库的索引找就行
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）解析思路</strong>
+</p>
+
+<p>
+	打开文档 -&gt; 选择Sheet -&gt; 一行一行看 -&gt; 一个一个单元格看
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（3）代码</strong>
+</p>
+
+<blockquote>
+	<p>
+		HSSFWorkbook hssfWorkbook = new&nbsp;<span style="font-size: 13px;">HSSFWorkbook(new FileInputStream(&quot;info.xls&quot;));</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">//</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">如果格里什么都没写 获取就为null 加上这个策略 会让它返回空的串</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">hssfWorkbook&nbsp;</span>.setMissingCellPolicy(Row.CREATE_NULL_AS_BLANK);
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">HSSFSheet sheet =&nbsp;hssfWorkbook.getSheetAt(0);</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">//hssfWorkbook.getSheet(&quot;Sheet1&quot;</span><span style="font-size: 13px;">);</span>
+	</p>
+
+	<p>
+		//遍历
+	</p>
+
+	<p>
+		for (Row row : sheet) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">if (row.getRowNum() == 0</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">) continue; &nbsp;//跳过标题行</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//row.getCell(0); &nbsp;//获取第一个单元格&nbsp;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		for (Cell cell : row) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		//判断单元格数据类型
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		syso(cell.getStringCellValue());
+	</p>
+
+	<p style="margin-left: 80px;">
+		} else if (<span style="font-size: 13px;">cell.getCellType() == Cell.CELL_TYPE_NUMBERIC</span>) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-size: 13px;">syso(cell.getNumbericCellValue());</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">处理重复数据</span></strong>
+</p>
+
+<p>
+	saveOrUpdate
+</p>
+
+<p style="margin-left: 40px;">
+	对于assigned策略主键 执行<span style="font-size: 13px;">saveOrUpdate时 会先执行一次查询 如果id存在 执行update id不存在执行save</span>
+</p>
+
+<p style="margin-left: 40px;">
+	对于uuid策略主键 hibernate只会判断对象中的id是否存在 如果存在执行update 如果不存在执行save
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">GenericDaoImpl</span>
+</p>
+
+<blockquote>
+	<p>
+		public void saveOrUpdate(T obj) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.getHibernateTemplate().saveOrUpdate(obj);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	对于这个region 主键的策略是assigned 所以 相同主键的会被更新 不同的会被insert
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>处理数据错误</strong></span>
+</p>
+
+<p>
+	允许一部分成功
+</p>
+
+<p style="margin-left: 40px;">
+	要告诉用户哪些失败了
+</p>
+
+<p style="margin-left: 40px;">
+	// 声明log4j日志记录器
+</p>
+
+<blockquote>
+	<p>
+		private static final Logger LOGGER = Logger.getLogger(Region.class);
+	</p>
+
+	<p>
+		...
+	</p>
+
+	<p>
+		try {
+	</p>
+
+	<p style="margin-left: 40px;">
+		处理代码...
+	</p>
+
+	<p>
+		} catch (Exception e) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		// 将错误记录日志 log4j
+	</p>
+
+	<p style="margin-left: 40px;">
+		LOGGER.error(&quot;导入区域数据失败，区域id：&quot; + region.getId(), e);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	只允许全部成功/全部失败
+</p>
+
+<p style="margin-left: 40px;">
+	放在一个事务里
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.一键上传</strong>
+</p>
+
+<p>
+	不用提交表单 就上传了
+</p>
+
+<p>
+	使用的是隐藏iframe进行上传的
+</p>
+
+<blockquote>
+	<p>
+		&lt;form enctype=&quot;multipart/form-data&quot; method=&quot;post&quot; target=&quot;upload-iframe&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;input type=&quot;file&quot; name=...
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;iframe name=&quot;<span style="font-size: 13px;">upload-iframe</span>&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	用jquery插件 ocupload（one click upload）
+</p>
+
+<p>
+	引入那个js
+</p>
+
+<p>
+	jquery.ocupload....js
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		$(&quot;#button-upload&quot;).upload({
+	</p>
+
+	<p style="margin-left: 40px;">
+		name : &#39;upload&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		action : &#39;..../region_batchimport.action&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		autoSubmit : true,
+	</p>
+
+	<p style="margin-left: 40px;">
+		onSelect : function() {},
+	</p>
+
+	<p style="margin-left: 40px;">
+		onSubmit :&nbsp;<span style="font-size: 13px;">function() {},</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		onComplete : function(response) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		//<span style="font-size: 13px;">response 服务器的返回结果</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.生成拼音</strong>
+</p>
+
+<p>
+	pinyin4j
+</p>
+
+<p>
+	<strong>（1）导入jar包</strong>
+</p>
+
+<p>
+	如果在网上搜索不到坐标 可以自己添加到本地仓库
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/install.jpg" rel="" style="" target="" title=""><img alt="install" class="alignnone size-full wp-image-1580" height="152" src="http://localhost:8080/wp-content/uploads/2013/10/install.jpg" style="" title="" width="332" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（2）用工具类</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/PinYin4jUtils.java_.jpg"><img alt="PinYin4jUtils.java" class="alignnone size-full wp-image-1581" src="http://localhost:8080/wp-content/uploads/2013/10/PinYin4jUtils.java_.jpg" /></a>&nbsp;这个是工具类是.java的 下载之后扩展名把.jpg去掉
+</p>
+
+<blockquote>
+	<p>
+		String chinese = &quot;芋头&quot;;
+	</p>
+
+	<p>
+		//拼音首字母
+	</p>
+
+	<p>
+		String[] array = PinYin4jUtils.getHeadByString(chinese);
+	</p>
+
+	<p>
+		StringBuffer stringBuffer = new StringBuffer();
+	</p>
+
+	<p>
+		for (String s : array) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		stringBuffer.append(s);
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">stringBuffer.toString();</span>
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		//全拼
+	</p>
+
+	<p>
+		PinYin4jUtils.hanziToPinyin(chinese);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

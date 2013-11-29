@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Zend framework - 概述</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Zend framework - 概述
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、什么是Zend framework</strong>
+</h5>
+
+<p>
+	是一个MVC框架
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/zend.jpg" rel="" style="" target="" title=""><img alt="zend" class="alignnone size-full wp-image-1725" height="106" src="http://localhost:8080/wp-content/uploads/2013/11/zend.jpg" style="" title="" width="457" />​</a>
+</p>
+
+<p>
+	目前流行的php框架有
+</p>
+
+<p style="margin-left: 40px;">
+	Zend framework（简称ZF Zend公司的 庞大 功能强悍 难学）
+</p>
+
+<p style="margin-left: 40px;">
+	thinkphp（中国开发的 国内开发的有一个毛病 如果它不赚钱 它就不升级了）
+</p>
+
+<p style="margin-left: 40px;">
+	yii（外企用的比较多）
+</p>
+
+<p style="margin-left: 40px;">
+	cakephp（轻巧）
+</p>
+
+<p>
+	还有很多公司 是用自己开发的框架 不用这些产品
+</p>
+
+<p>
+	<strong>1.好处</strong>
+</p>
+
+<p>
+	程序更加规范
+</p>
+
+<p>
+	提高开发效率
+</p>
+
+<p>
+	程序可读性增强（目录结构都规定了）
+</p>
+
+<p>
+	程序可维护性增强
+</p>
+
+<p>
+	<strong>2.不足</strong>
+</p>
+
+<p>
+	配置复杂
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、快速入门</strong>
+</h5>
+
+<p>
+	<strong>1.使用工具创建项目</strong>
+</p>
+
+<p>
+	强烈建议在&nbsp;PHP5.2 以上
+</p>
+
+<p>
+	也可以手动创建 但是太麻烦 没什么技术含量
+</p>
+
+<p>
+	使用zf.bat进行创建
+</p>
+
+<p>
+	解压目录/bin/zf.bat
+</p>
+
+<p>
+	cmd：
+</p>
+
+<blockquote>
+	<p>
+		zf.bat create project 项目全路径
+	</p>
+</blockquote>
+
+<p>
+	这里注意 要把PHP的根目录配置到系统环境变量PATH中才有效
+</p>
+
+<p>
+	<strong>2.目录结构</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/ml1.jpg" rel="" style="" target="" title=""><img alt="ml" class="alignnone size-full wp-image-1763" height="143" src="http://localhost:8080/wp-content/uploads/2013/11/ml1.jpg" style="" title="" width="205" /></a>
+</p>
+
+<p>
+	<strong>3.使用zend studio创建空php项目</strong>
+</p>
+
+<p>
+	和刚才创建的名称保持一致
+</p>
+
+<p>
+	不用zend studio直接创建zend项目 因为可能会出现问题 公司里也不推荐这种方式创建
+</p>
+
+<p>
+	<strong>4.把刚才创建的项目拷贝过来</strong>
+</p>
+
+<p>
+	<strong>5.引入zend framework库到项目中</strong>
+</p>
+
+<p>
+	压缩包/library/
+</p>
+
+<p>
+	把里面的Zend文件夹 复制到项目中的library目录
+</p>
+
+<p>
+	<strong>6.配置apache和php 使其支持zf框架</strong>
+</p>
+
+<p>
+	（1）确定php&gt;5.2.0
+</p>
+
+<p>
+	（2）开启PDO和PDO相关数据库引擎
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">php.ini</span>
+</p>
+
+<blockquote>
+	<p>
+		extension=php_pdo_mysql.dll &nbsp;去掉前面的分号
+	</p>
+</blockquote>
+
+<p>
+	（3）开启Apache的rewrite模块
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">httpd.conf</span>
+</p>
+
+<p style="margin-left: 40px;">
+	①
+</p>
+
+<blockquote>
+	<p>
+		LoadModule rewrite_module modules/mod_rewrite.so &nbsp;去掉前面的井号
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	②开启识别.htaccess功能
+</p>
+
+<blockquote>
+	<p>
+		AllowOverride None 改为 All
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<strong><span style="color:#FF0000;">（注意！！！）可能有三处 都改成All 虚拟主机配置里的不管</span></strong>
+</p>
+
+<p>
+	<strong>7.配置虚拟主机</strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">配置虚拟主机到项目的public目录下</span>
+</p>
+
+<p>
+	<span style="color: rgb(0, 0, 255); font-size: 13px;">httpd.conf</span>
+</p>
+
+<blockquote>
+	<p>
+		# Virtual hosts<br />
+		Include conf/extra/httpd-vhosts.conf &nbsp;这个的注释打开
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">Apache\conf\extra\httpd-vhosts.conf</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;VirtualHost *:80&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		DocumentRoot &quot;D:/APMServ5.2.6/www/htdocs/yutouzend/public&quot; &nbsp;建议粘贴过来的话 斜杠换成前面的方向
+	</p>
+
+	<p style="margin-left: 40px;">
+		ServerName yutouzend.com
+	</p>
+
+	<p style="margin-left: 40px;">
+		DirectoryIndex index.php
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;Directory /&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		options FollowSymLinks
+	</p>
+
+	<p style="margin-left: 40px;">
+		AllowOverride None
+	</p>
+
+	<p style="margin-left: 40px;">
+		Order allow,deny
+	</p>
+
+	<p style="margin-left: 40px;">
+		Allow from all
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/Directory&gt;
+	</p>
+
+	<p>
+		&lt;/<span style="font-size: 13px;">VirtualHost&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	如果使用的是集成开发环境 例如APMServ 要把虚拟主机的读写权限改到整个项目的路径 而不是public 否则会报错 说无法读取。。。
+</p>
+
+<p>
+	<span style="color:#0000FF;">hosts</span>
+</p>
+
+<p>
+	添加DNS
+</p>
+
+<blockquote>
+	<p>
+		127.0.0.1 &nbsp; &nbsp;yutouzend.com
+	</p>
+</blockquote>
+
+<p>
+	<strong>8.访问</strong>
+</p>
+
+<p>
+	http://<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">yutouzend.com</span>
+</p>
+
+<p>
+	如果Apache是8080端口 就在地址后直接加:8080就行了 前面的配置都不变
+</p>
+
+<p>
+	看到下面的画面 就说明成功了！
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/11/zend1.jpg" rel="" style="" target="" title=""><img alt="zend" class="alignnone size-full wp-image-1809" height="245" src="http://localhost:8080/wp-content/uploads/2013/11/zend1.jpg" style="" title="" width="364" /></a>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2的国际化</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2的国际化
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>零、Struts的国际化</p>  <p>Struts的国际化</p>  <blockquote>   <p>&#160; | - 全局</p>    <p>&#160; | - 局部</p>    <p>&#160;&#160;&#160; | - 包</p>    <p>&#160;&#160;&#160; | - Action</p>    <p>&#160;&#160;&#160; | - 临时</p> </blockquote>  <p>应用场景</p>  <blockquote>   <p>jsp&#160; -&#160; 使用标签&lt;s:text name=”资源文件中的key”/&gt;</p>    <p>配置文件（例如校验配置文件中的message）&#160; -&#160; 使用标签&lt;message key=”资源文件中的key”/&gt;</p>    <p>Action（例如密码错误信息）&#160; -&#160; getText(”资源文件中的key”);</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、全局</font></h5>  <p><font color="#ff0000"><strong>全局的好一些 建议使用</strong></font></p>  <p><strong>1.在struts.xml中通过设置常量给出资源文件的基本名</strong></p>  <blockquote>   <p>&lt;constant name=”struts.custom.i18n.resources” value=”res[,可以给出多个资源文件的基本名]”/&gt;</p> </blockquote>  <p><strong>2.写资源文件</strong></p>  <p><font color="#ff0000">在src下建立 “res_国家/地区语言名称.properties”</font></p>  <p>例如 res_zh_CN.properties</p>  <blockquote>   <p>key=value</p>    <p>……</p> </blockquote>  <p>文件查找顺序</p>  <blockquote>   <p>res_en_US.properties</p>    <p>res_en.properties</p>    <p>res_zh_CN.properties</p>    <p>res_zh.properties</p>    <p>res.properties</p> </blockquote>  <p>&#160;</p>  <p><strong>3.获取字符串</strong></p>  <p>例如资源文件中</p>  <blockquote>   <p>username=用户名</p> </blockquote>  <p><strong>（1）在jsp中获取</strong></p>  <blockquote>   <p>&lt;s:text name=”username”/&gt;</p> </blockquote>  <p><strong>（2）在Action中获取</strong></p>  <blockquote>   <p>String usernameString = this.getText(“username”);</p> </blockquote>  <p><strong>（3）在配置文件中获取</strong></p>  <blockquote>   <p>&lt;message key=”error.user.username”/&gt;</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、包局部</font></h5>  <p>创建在某个包下的资源文件 基本名称必须是“package”</p>  <p>例如package_zh_CN.properties</p>  <p>在该包及其子包都有效</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、Action级别</font></h5>  <p>在Action同包下 基本名称是Action类名</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、临时的</font></h5>  <p>在src下 创建基本名称随意的properties</p>  <p>只对jsp页面有效</p>  <blockquote>   <p>&lt;s:i18n name=”基本名称”&gt;</p>    <p>&#160;&#160; &lt;s:text name=”key”/&gt;</p>    <p>&lt;/s:i18n&gt;</p> </blockquote>  <p>在s:i18n标签内定义的s:text都使用的是指定基本名称的properties文件中的国际化信息</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

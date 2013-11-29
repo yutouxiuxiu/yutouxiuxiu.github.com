@@ -1,0 +1,1473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>BOS项目 环境搭建</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					BOS项目 环境搭建
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、项目简要需求分析</strong>
+</h5>
+
+<p>
+	<strong>1.项目背景</strong>
+</p>
+
+<p>
+	BOS系统 宅急送公司物流管理 用友开发的
+</p>
+
+<p>
+	历时1年多 需求分析有2-3个月 开发3个月（20多名工程师）项目规模60人月
+</p>
+
+<p>
+	ERP系统的一部分 一期工程采用C/S结构 二期采用B/S结构
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>项目的分类</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	OA
+</p>
+
+<p style="margin-left: 80px;">
+	Office Automation 办公自动化系统 日常办公用软件管理
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/oa.jpg" rel="" style="" target="" title=""><img alt="oa" class="alignnone size-full wp-image-1499" height="373" src="http://localhost:8080/wp-content/uploads/2013/10/oa.jpg" style="" title="" width="325" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	CRM
+</p>
+
+<p style="margin-left: 80px;">
+	Customer Relationship Management
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/crm.jpg" rel="" style="" target="" title=""><img alt="crm" class="alignnone size-full wp-image-1500" height="311" src="http://localhost:8080/wp-content/uploads/2013/10/crm.jpg" style="" title="" width="264" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	ERP
+</p>
+
+<p style="margin-left: 80px;">
+	Enterprise&nbsp;Resource Planning
+</p>
+
+<p style="margin-left: 80px;">
+	物流、人流、财流、信息流 结合到一起
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/erp.jpg" rel="" style="" target="" title=""><img alt="erp" class="alignnone size-full wp-image-1501" height="310" src="http://localhost:8080/wp-content/uploads/2013/10/erp.jpg" style="" title="" width="428" /></a>
+</p>
+
+<p>
+	<strong>2.软件开发流程</strong>
+</p>
+
+<p>
+	瀑布模型
+</p>
+
+<p style="margin-left: 40px;">
+	需求分析（调研） &nbsp;- &nbsp;需求分析文档（开发团队 需求分析工程师）
+</p>
+
+<p style="margin-left: 40px;">
+	系统设计 &nbsp;- &nbsp;概要、详细 根据需求设计原型页面 给公司进行确认&nbsp;数据库设计（E-R图） 软件业务开发流程（UML统一相关语言）
+</p>
+
+<p style="margin-left: 40px;">
+	编码
+</p>
+
+<p style="margin-left: 40px;">
+	测试
+</p>
+
+<p style="margin-left: 40px;">
+	实施
+</p>
+
+<p style="margin-left: 40px;">
+	运维
+</p>
+
+<p>
+	设计很重要 不仅要会编码 也要会设计 <u>我们是软件工程师 不是程序猿</u>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.项目开发任务安排</strong>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">10天</span>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">三个业务功能</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">基础数据模块（4天）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	取派模块（1-2天）
+</p>
+
+<p style="margin-left: 40px;">
+	中专流程管理（1-2天）
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">两个系统功能</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">用户管理（1天）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">权限管理（1天）</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.开发环境</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/devenv.jpg" rel="" style="" target="" title=""><img alt="devenv" class="alignnone size-full wp-image-1502" height="243" src="http://localhost:8080/wp-content/uploads/2013/10/devenv.jpg" style="" title="" width="494" /></a>
+</p>
+
+<p>
+	<strong>5.开发技术</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/js.jpg" rel="" style="" target="" title=""><img alt="js" class="alignnone size-full wp-image-1503" height="184" src="http://localhost:8080/wp-content/uploads/2013/10/js.jpg" style="" title="" width="345" /></a>
+</p>
+
+<p>
+	面试的时候 黑色的那些是亮点 就是 不是每个项目都会用到的那些
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、导入项目原型</strong>
+</h5>
+
+<p>
+	<strong>1.导入到MyEclipse</strong>
+</p>
+
+<p>
+	不要import
+</p>
+
+<p>
+	新建一个开发工具支持的结构 把对应的代码放到对应位置
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">用javaee5.0 点NO</span></strong> 让它用6.0进行编译（选YES就用5.0编译了 5.0编译有问题 接口的实现类上不能用注解 方法上Override会报错）
+</p>
+
+<p>
+	企业中开发 源码 配置文件 测试用例 都分开
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/fenkai.jpg" rel="" style="" target="" title=""><img alt="fenkai" class="alignnone size-full wp-image-1504" height="57" src="http://localhost:8080/wp-content/uploads/2013/10/fenkai.jpg" style="" title="" width="107" /></a>
+</p>
+
+<p>
+	<strong>2.项目结构</strong>
+</p>
+
+<p>
+	所有页面都在WEB-INF下 为什么呢？为了权限管理 Struts2的拦截器只能拦截Action的访问 Struts2就推荐我们把页面放到WEB-INF下
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/ml1.jpg" rel="" style="" target="" title=""><img alt="ml" class="alignnone size-full wp-image-1505" height="122" src="http://localhost:8080/wp-content/uploads/2013/10/ml1.jpg" style="" title="" width="111" /></a>
+</p>
+
+<p>
+	但是它怎么能直接在浏览器访问呢 因为struts的配置里
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/page.jpg" rel="" style="" target="" title=""><img alt="page" class="alignnone size-full wp-image-1506" height="43" src="http://localhost:8080/wp-content/uploads/2013/10/page.jpg" style="" title="" width="332" /></a>
+</p>
+
+<p>
+	如果不写Action的处理类 它会执行struts-default.xml中default-action-ref指定的默认处理器 没有配置method 它就走execute方法 execute方法里 就直接返回的SUCCESS
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.ssh的jar包整合</strong>
+</p>
+
+<p>
+	共38个
+</p>
+
+<p>
+	<strong>struts-2.3.15：</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	struts2/apps/struts-blank.war/*.jar （13个）
+</p>
+
+<p style="margin-left: 40px;">
+	struts2整合spring的jar包
+</p>
+
+<p style="margin-left: 80px;">
+	struts2/lib/struts2-spring-plugin-2.3.15.3.jar （1个）
+</p>
+
+<p>
+	<strong>spring-3.2.0：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	基本jar包
+</p>
+
+<p style="margin-left: 80px;">
+	spring/lib/beans,context,core,expression.RELEASE.jar&nbsp;（4个）
+</p>
+
+<p style="margin-left: 40px;">
+	AOP
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">s</span><span style="font-size: 13px;">pring/lib/</span>aop,aspect （2个）
+</p>
+
+<p style="margin-left: 80px;">
+	spring_dependencied/aoplliance/<span style="line-height: 1.6em;">&nbsp; &nbsp;联盟接口包</span><span style="font-size: 13px;">&nbsp;（1个）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">spring_dependencied/</span><span style="line-height: 1.6em;">aspectj/...weaver/ &nbsp;&nbsp;AspectJ框架包 （1个）</span>
+</p>
+
+<p style="margin-left: 80px;">
+	AOP联盟提供了一套接口 spring做了实现 spring为了
+</p>
+
+<p style="margin-left: 40px;">
+	事务管理
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">s</span><span style="font-size: 13px;">pring/lib/</span>jdbc,tx<span style="font-size: 13px;">&nbsp;（2个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	整合持久层框架
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">s</span><span style="font-size: 13px;">pring/lib/</span>orm<span style="font-size: 13px;">&nbsp;（1个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	用于配置监听器
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">s</span><span style="font-size: 13px;">pring/lib/</span>web<span style="font-size: 13px;">&nbsp;（1个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	测试包
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="font-size: 13px;">s</span><span style="font-size: 13px;">pring/lib/</span>test<span style="font-size: 13px;">&nbsp;（1个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	日志
+</p>
+
+<p style="margin-left: 80px;">
+	common-logging,log4j 在Struts2中已经有了
+</p>
+
+<p>
+	<strong>hibernate-<span style="line-height: 1.6em;">3.6.10：</span></strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">hibernate/hibernate.jar 核心 （1个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">hibernate/</span><span style="line-height: 1.6em;">lib/required*.jar （6个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">hibernate/</span><span style="line-height: 1.6em;">lib/jpa/ &nbsp;（1个）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	连接池
+</p>
+
+<p style="margin-left: 80px;">
+	lib/optional/c3p0 &nbsp;（1个）
+</p>
+
+<p style="margin-left: 40px;">
+	驱动
+</p>
+
+<p style="margin-left: 80px;">
+	（1个）
+</p>
+
+<p style="margin-left: 40px;">
+	日志
+</p>
+
+<p style="margin-left: 80px;">
+	它用slf4j 让它和log4j结合
+</p>
+
+<p style="margin-left: 80px;">
+	slf4j-1.7.2/slf4j-log4j2-1.7.2
+</p>
+
+<p style="margin-left: 80px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.Struts2整合Spring的原理</strong>
+</p>
+
+<p>
+	plugin 改写了ObjectFactory 在创建Action对象时 通过Spring创建
+</p>
+
+<p>
+	<strong>5.Spring整合Hibernate的原理</strong>
+</p>
+
+<p>
+	orm包中提供了 LocalSeessionFactoryBean 讲Hibernate的配置文件加载到Spring中 获得SessionFactory对象 讲sf对象注入DAO组件（HibernateDaoSupport） 通过HibernateTemplate 进行增删改查
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、Maven项目整合</strong>
+</h5>
+
+<p>
+	<strong>0.企业应用</strong>
+</p>
+
+<p>
+	搭建私服 可以去私服下载jar包
+</p>
+
+<p>
+	项目依赖 把项目拆分成多个项目 分层 分模块
+</p>
+
+<p>
+	常规的使用 用Maven构建项目 管理项目 运行发布项目
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.环境搭建</strong>
+</p>
+
+<p>
+	myeclipse内置maven环境 eclipse需要单独安装maven的插件
+</p>
+
+<p>
+	myeclipse
+</p>
+
+<p>
+	（1）配置外置的maven环境
+</p>
+
+<p>
+	（2）配置setting.xml的位置
+</p>
+
+<p>
+	（3）解压.m2.rar 覆盖仓库
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.建立maven项目</strong>
+</p>
+
+<p>
+	新建maven工程
+</p>
+
+<p>
+	&radic; create a simple project
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/newmaven.jpg" rel="" style="" target="" title=""><img alt="newmaven" class="alignnone size-full wp-image-1509" height="109" src="http://localhost:8080/wp-content/uploads/2013/10/newmaven.jpg" style="" title="" width="374" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/mavenjg.jpg"><img alt="mavenjg" class="alignnone size-full wp-image-1510" height="137" src="http://localhost:8080/wp-content/uploads/2013/10/mavenjg.jpg" width="183" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.通过坐标导入jar包</strong>
+</p>
+
+<p>
+	在myeclipse的pom.xml中 右键 maven4myeclipse -&gt;&nbsp;添加依赖 在索引库里搜索
+</p>
+
+<p>
+	也可以去网站搜索
+</p>
+
+<blockquote>
+	<p>
+		http://search.maven.org/<br />
+		http://mvnrepository.com/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.代码导入</strong>
+</p>
+
+<p>
+	如果是从普通项目粘贴 要切换到Navigat视图 防止把没用的复制过来（比如<span style="font-size: 13px;">Maven项目没有使用src/main/webapp/WEB-INF/classes，lib之类的</span>）
+</p>
+
+<p>
+	源码 -&gt; src/main/java
+</p>
+
+<p>
+	配置文件 -&gt; src/main/resorces
+</p>
+
+<p>
+	webroot -&gt; src/main/webapp
+</p>
+
+<p>
+	WEB-INF -&gt; src/main/webapp/WEB-INF（千万不要把多余的文件(lib, classes)复制过来）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.运行</strong>
+</p>
+
+<p>
+	maven项目运行到tomcat可以使用俩种插件
+</p>
+
+<blockquote>
+	<p>
+		tomcat-maven-plugin（给力）
+	</p>
+
+	<p>
+		cargo
+	</p>
+</blockquote>
+
+<p>
+	<strong>tomcat-maven-plugin：</strong>
+</p>
+
+<p>
+	<strong>（1）可以使用内嵌的tomcat运行</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	项目右键 -&gt; run as -&gt; maven build..
+</p>
+
+<p style="margin-left: 40px;">
+	<u>Goals: tomcat:run</u>
+</p>
+
+<p style="margin-left: 40px;">
+	这个速度很快 它不加载其他的项目
+</p>
+
+<p>
+	<strong>（2）使用外部tomcat运行</strong>（通用发布方式 发布到别的容器也可以）
+</p>
+
+<p style="margin-left: 40px;">
+	可以生成war包 然后放进去
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">项目右键 -&gt; run as -&gt; maven build..</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<u><span style="font-size: 13px;">Goals:&nbsp;</span>clean package</u>
+</p>
+
+<p style="margin-left: 40px;">
+	可以 Skip Tests 不用让所有的Test都跑一下
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	会打包到target里
+</p>
+
+<p style="margin-left: 40px;">
+	但是里面有版本号 可以配置pom
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000FF;">pom.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;build&gt;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		&lt;finalName&gt;打包的文件名&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>（3）热部署到其他tomcat</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	通过maven命令 将项目部署到远程tomcat
+</p>
+
+<p style="margin-left: 40px;">
+	它默认使用的是tomcat-maven-plugin-1.1 这个版本的时候坐标是org.codehaus.mojo 后期这个插件被apache收购了 收购之后分为tomcat6-maven-plugin 和&nbsp;<span style="font-size: 13px;">tomcat7-maven-plugin&nbsp;</span>
+</p>
+
+<p style="margin-left: 40px;">
+	可以通过配置来实现热部署
+</p>
+
+<p style="margin-left: 40px;">
+	pom.xml
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">项目右键 -&gt; run as -&gt; maven build..</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<u style="font-size: 13px;">Goals:&nbsp;</u><u>tomcat:deploy</u>
+</p>
+
+<p style="margin-left: 40px;">
+	<u style="font-size: 13px;">Goals:&nbsp;</u><u>tomcat:redeploy</u>
+</p>
+
+<p style="margin-left: 40px;">
+	<u style="font-size: 13px;">Goals:&nbsp;</u><u>tomcat:undeploy</u>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、使用SVN进行版本控制</strong>
+</h5>
+
+<p>
+	<strong>1.SVN Server安装配置</strong>
+</p>
+
+<p>
+	VisualSVNServer 内置了SVN 和 Apache 它已经集成好了
+</p>
+
+<p style="margin-left: 40px;">
+	用8443端口 其他用默认
+</p>
+
+<p>
+	创建仓库 bos
+</p>
+
+<p>
+	新建用户
+</p>
+
+<p>
+	访问路径 https://xxx:8443/svn/bos 充分了解风险
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.安装TortoisSVN</strong>
+</p>
+
+<p>
+	import 导入 第一次的时候 往服务器导入
+</p>
+
+<p>
+	check out 检出
+</p>
+
+<p>
+	export 导出 文件和仓库没有关联 只是单纯的把代码下载下来而已
+</p>
+
+<p>
+	update 更新<span style="font-size: 13px;">本地文件</span>
+</p>
+
+<p>
+	commit 提交到服务器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.MyEclipseSVN 插件</strong>
+</p>
+
+<p>
+	site-1.8.8.zip
+</p>
+
+<p>
+	将解压里的svn移动到<span style="font-size: 13px;">myeclipse/dropins里</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.讲mavenbos导入到svn仓库中</strong>
+</p>
+
+<p>
+	切换到svn透视图
+</p>
+
+<p>
+	新建code目录
+</p>
+
+<p>
+	项目右键 -&gt; team -&gt; share project
+</p>
+
+<p>
+	在target,点文件等没有的文件右键&nbsp;-&gt; team -&gt; 添加至 svn ignore
+</p>
+
+<p>
+	项目右键 -&gt; team -&gt; commit
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、项目主页布局</strong>
+</h5>
+
+<p>
+	企业级的javaee开发 不用界面那么绚丽 简洁大方就好了 就用软件工程师自己写 不用美工
+</p>
+
+<p>
+	使用UI前端框架 ExtJS、Flex（flash的开发框架） - 企业中多用 功能很强大&nbsp;<u>都已经收费了</u>
+</p>
+
+<p>
+	EasyUI - 企业中虽不多用 但是较为简单 和ExtJS的思想是差不多的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.EasyUI</strong>
+</p>
+
+<p>
+	针对企业级软件的前端设计
+</p>
+
+<p>
+	http://www.jeasyui.com
+</p>
+
+<p>
+	<u>1.2.3版本开始收费</u>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.EasyUI目录结构</strong>
+</p>
+
+<blockquote>
+	<p>
+		domo &nbsp;- &nbsp;示例
+	</p>
+
+	<p>
+		locale &nbsp;- &nbsp;国际化信息文件
+	</p>
+
+	<p>
+		plugins &nbsp;- &nbsp;功能插件（前端UI都是由许多插件组成）
+	</p>
+
+	<p>
+		src &nbsp;- &nbsp;源码
+	</p>
+
+	<p>
+		themes &nbsp;- &nbsp;主题样式css 里面自带5套主题
+	</p>
+
+	<p>
+		jquery-1.8.0.min.js &nbsp;- &nbsp;jquery
+	</p>
+
+	<p>
+		easyloader.js &nbsp;- &nbsp;EasyUI插件的核心加载器
+	</p>
+
+	<p>
+		jquery.easyui.min.js&nbsp; - &nbsp;插件文件的压缩文件 =&nbsp;<span style="font-size: 13px;">easyloader.js +&nbsp;plugins/*.js</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.将EasyUI导入项目</strong>
+</p>
+
+<p>
+	最基本的
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">jquery-1.8.0.min.js</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">jquery.easyui.min.js</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">locale/sasyui-lang-zh_CN.js &nbsp;- &nbsp;中文包</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">themes/default/sasyui.css &nbsp;- &nbsp;默认主题&nbsp;样式文件</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">themes/icon.css &nbsp;- &nbsp;图标样式文件</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.UI技术</strong>
+</p>
+
+<p>
+	<strong>layout 布局</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/layout.jpg" rel="" style="" target="" title=""><img alt="layout" class="alignnone size-full wp-image-1513" height="226" src="http://localhost:8080/wp-content/uploads/2013/10/layout.jpg" style="" title="" width="549" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/newsc.jpg" rel="" style="" target="" title=""><img alt="newsc" class="alignnone size-full wp-image-1514" height="117" src="http://localhost:8080/wp-content/uploads/2013/10/newsc.jpg" style="" title="" width="411" /></a>
+</p>
+
+<p>
+	可以嵌套使用 如果不指定宽度 东部会覆盖中部和西部&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>accordion 折叠面板</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/acc.jpg" rel="" style="" target="" title=""><img alt="acc" class="alignnone size-full wp-image-1515" height="163" src="http://localhost:8080/wp-content/uploads/2013/10/acc.jpg" style="" title="" width="553" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/acco.jpg" rel="" style="" target="" title=""><img alt="acco" class="alignnone size-full wp-image-1516" height="53" src="http://localhost:8080/wp-content/uploads/2013/10/acco.jpg" style="" title="" width="407" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>tabs 选项卡</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/tabs.jpg" rel="" style="" target="" title=""><img alt="tabs" class="alignnone size-full wp-image-1518" height="52" src="http://localhost:8080/wp-content/uploads/2013/10/tabs.jpg" style="" title="" width="349" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/tabscz.jpg" rel="" style="" target="" title=""><img alt="tabscz" class="alignnone size-full wp-image-1519" height="172" src="http://localhost:8080/wp-content/uploads/2013/10/tabscz.jpg" style="" title="" width="377" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/tabsxg.jpg"><img alt="tabsxg" class="alignnone size-full wp-image-1520" height="116" src="http://localhost:8080/wp-content/uploads/2013/10/tabsxg.jpg" width="245" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>ztree 树形菜单</strong>
+</p>
+
+<p>
+	jquery的插件 在企业中用的很主流 非常的强大（一般树、编辑树、勾选树、隐藏树）
+</p>
+
+<p>
+	<strong>（1）下载下来的目录结构</strong>
+</p>
+
+<blockquote>
+	<p>
+		api &nbsp;- &nbsp;使用文档
+	</p>
+
+	<p>
+		css &nbsp;- &nbsp;样式表皮
+	</p>
+
+	<p>
+		demo &nbsp;- &nbsp;示例
+	</p>
+
+	<p>
+		js &nbsp;- &nbsp;类库
+	</p>
+</blockquote>
+
+<p>
+	<strong>（2）引入</strong>
+</p>
+
+<blockquote>
+	<p>
+		jquery.js
+	</p>
+
+	<p>
+		zTreeStyle.css
+	</p>
+
+	<p>
+		jquery.ztree.all.js
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（3）标准数据树&nbsp;<span style="line-height: 1.6em;">StandardData</span></strong>
+</p>
+
+<p>
+	只适用于简单的树结构 写zNodes数组很麻烦
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;">&lt;script type=&quot;text/javascript&quot;&gt;</span>
+	</p>
+
+	<p>
+		$(function() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		// setting参数
+	</p>
+
+	<p style="margin-left: 40px;">
+		var setting = {}; //标准数据树 可以空setting
+	</p>
+
+	<p style="margin-left: 40px;">
+		// 设置节点数据
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		var zNodes = [
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		{name: &#39;菜单1&#39;,&nbsp;<span style="line-height: 1.6em;">children: [</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 120px;">
+		<span style="font-size: 13px;">{name: &#39;子菜单1&#39;}</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		<span style="line-height: 1.6em;">]</span><span style="line-height: 1.6em;">},</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		{name: &#39;菜单2&#39;},
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		];
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		// 初始化树
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		$.fn.ztree.init($(&quot;#standardTree&quot;), setting, zNodes)
+	</p>
+
+	<p>
+		})
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">&lt;/</span>
+	</p>
+
+	<p>
+		&lt;ul id=&quot;<span style="font-size: 13px;">standardTree</span>&quot; class=&quot;ztree&quot;&gt;<span style="line-height: 1.6em;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>（4）简单数据树&nbsp;<span style="line-height: 1.6em;">SimpleData</span></strong>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		<span style="line-height: 1.6em;">&lt;script type=&quot;text/javascript&quot;&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		$(function() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		// setting参数
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		var setting = {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		data: {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		//激活简单树
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		simpleData : {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		enable: true
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		};
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		var zNodes = [
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		//id &nbsp;- &nbsp;节点id
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		//pid &nbsp;- &nbsp;父节点id
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		{id:1, pId:0, name:&#39;菜单一&#39;},
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">{id:11, pId:1, name:&#39;子菜单一&#39;},</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">{id:2, pId:0, name:&#39;菜单二&#39;}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		];
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		// 初始化树
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		$.fn.ztree.init($(&quot;#<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">simpleTree</span>&quot;), setting, zNodes)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;/
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;ul id=&quot;</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">simpleTree</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot; class=&quot;ztree&quot;&gt;</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; line-height: 1.6em;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>tabs和ztree结合</strong>
+</p>
+
+<p>
+	点击树形菜单生成选项卡
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	var setting = {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	data: {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+	//激活简单树
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+	simpleData : {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+	enable: true
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+	callback: {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+	onclick: function(event, treeId, treeNode, clickFlag) {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+	//如果存在 选中它 如果不存在 打开新的
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+	if ($(&quot;#mytabs&quot;).tabs(&#39;exist&#39;, treeNode.name)) {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 240px;">
+	<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">$(&quot;#mytabs&quot;).tabs(&#39;select</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&#39;, treeNode.name)</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+	}&nbsp;<span style="line-height: 1.6em;">else {</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 240px;">
+	$(&quot;#mytabs&quot;).tabs(&#39;add&#39;, {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	title: treeNode.name,
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	//href: treeNode.page//直接把网页拿过来 嵌入网页 但是这样不好 如果点这个页面里的链接 整个网页就走了 所以不用这个
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	content: &lsquo;&lt;div&gt;&rsquo;<span style="line-height: 1.6em;">//直接拿html来</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	<span style="line-height: 1.6em;">+ &#39;&lt;ifream src=&quot;&#39; + treeNode.page&nbsp;+ &#39;&quot; scrolling=&quot;auto&quot; style=&quot;widht=100%; height=100%; border:0;&quot;&gt;&#39;</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	<span style="line-height: 1.6em;">+ &#39;&lt;/ifream&gt;&#39;</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	<span style="line-height: 1.6em;">+ &#39;&#39;&lt;/div&gt;&#39;,</span>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 280px;">
+	&nbsp;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 240px;">
+	});
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+	}&nbsp;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	};
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">{id:11, pId:1, name:&#39;子</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">菜单一&#39;, page: &#39;http://www.baidu.com&#39;},</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&lt;div id=&quot;mytabs&quot;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

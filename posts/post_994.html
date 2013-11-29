@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>OGNL</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					OGNL
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是OGNL</font></h5>  <p>1.表达式语言 对象图导航语言</p>  <p>2.它不依赖JavaWeb</p>  <blockquote>   <p>EL表达式操作的是域对象</p>    <p>OGNL表达式操作的数据在<font color="#4f81bd"><strong>OgnlContext</strong></font>中 它是一个Map 还有root对象</p> </blockquote>  <p>可以在java应用中 导入ognl-….jar</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、如何在java中使用OGNL</font></h5>  <p><strong>1.创建OgnlContext</strong></p>  <blockquote>   <p>OgnlContext context = new OgnlContext();</p>    <p>//Map context = new OgnlContext();&#160;&#160;&#160; //这样是可以向上转型的 它实质上就是Map</p>    <p>context.put(“key”, value);</p> </blockquote>  <p><strong>2.创建root对象</strong></p>  <blockquote>   <p>context.setRoot(某value);</p> </blockquote>  <p><strong>3.使用Ognl.getValue()执行OGNL表达式</strong></p>  <blockquote>   <p>Ognl.getValue(“OGNL表达式”, context, context.getRoot());</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、基本语法</font></h5>  <ul>   <li><strong>上下文导航</strong></li> </ul>  <blockquote>   <p>#键</p> </blockquote>  <p><font color="#ff0000">#表示访问上下文</font></p>  <p><strong>栗子</strong></p>  <p><strong>Emp</strong></p>  <blockquote>   <p>private String name;</p>    <p>private double salary;</p>    <p>private Address address;</p> </blockquote>  <p><strong>Address</strong></p>  <blockquote>   <p>private String country;</p>    <p>private String city;</p>    <p>private String street;</p> </blockquote>  <p><strong>Test</strong></p>  <blockquote>   <p>OgnlContext context = new OgnlContext();</p>    <p>Emp emp1 = new Emp(“张三”, 25000, new Address(“中国”, ”北京“, “大北窑”)); //在CBD</p>    <p>Emp emp2 = new Emp(“李四”, 500, new Address(“中国”, ”北京“, “西二旗”));</p>    <p>context.put(“e1”, emp1);</p>    <p>context.put(“e2”, emp2);</p>        <p>context.setRoot(emp2);</p>        <p>String name = (String) Ognl.getValue(“#e1.name”, context, context.getRoot());</p>    <p>double salary = (Double) Ognl.getValue(“#e1.salary”, context, context.getRoot());</p>    <p>String city = (String) Ognl.getValue(“#e1.address.city”, context, context.getRoot());</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>根对象导航</strong></li> </ul>  <blockquote>   <p>属性名</p> </blockquote>  <p><strong>栗子</strong></p>  <blockquote>   <p>String name = (String) Ognl.getValue(“name”, context, context.getRoot()); //张三</p>    <p>String city = (String) Ognl.getValue(“address.street”, context, context.getRoot()); //大北窑</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>设置JavaBean的属性值</strong> </li> </ul>  <blockquote>   <p>Ognl.setValue(“name”, context, context.getRoot(), “修修”);</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>调用字符串的方法</strong> </li> </ul>  <blockquote>   <p>“”.方法(参数…)</p> </blockquote>  <p>注意方法的返回值要是void 就没法输出</p>  <blockquote>   <p>String name = (String) Ognl.getValue(“’yutou‘.toUpperCase()”, context, context.getRoot());&#160;&#160;&#160; //YUTOU</p> </blockquote>  <p><strong></strong></p>  <p><strong></strong></p>  <ul>   <li><strong>构造方法</strong> </li> </ul>  <blockquote>   <p>new 类全限定名</p> </blockquote>  <p><strong>栗子</strong></p>  <blockquote>   <p>Date date = (Date) Ognl.getValue(“new java.util.Date()”, context, context.getRoot());</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>静态方法</strong></li> </ul>  <p>用一对儿@把类名括起来 方法直接写</p>  <blockquote>   <p>@类全限定名@方法(参数…)</p> </blockquote>  <p><strong>栗子</strong></p>  <blockquote>   <p>Ognl.getValue(“@java.lang.Math@min(10, 20)”, context, context.getRoot());</p> </blockquote>  <blockquote>   <p>String date = (String) Ognl.getValue(“@java.lang.String@format(‘%tF %&lt;tT’, new java.util.Date())”, context, context.getRoot());</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>静态属性</strong></li> </ul>  <blockquote>   <p>@java.lang.Math@PI</p> </blockquote>  <blockquote>   <p>double pi = (Double)Ognl.getValue(“@java.lang.Math@PI”, context, context.getRoot());</p> </blockquote>  <p>其中如果是java.lang.Math类的话 可以省略类名 但是“@”不能省略</p>  <blockquote>   <p>@@PI</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>操作数组</strong></li> </ul>  <blockquote>   <p>#arr[0]</p> </blockquote>  <p>此方法支持数组和List</p>  <p><strong></strong></p>  <ul>   <li><strong>创建Map</strong></li> </ul>  <p>创建的是LinkedHashMap（有顺序）</p>  <blockquote>   <p>#{‘’:’’, ‘’:’’}</p> </blockquote>  <p>这个#和上下文无关 而是和{}配套的</p>  <p><strong></strong></p>  <ul>   <li><strong>指定类型创建Map</strong></li> </ul>  <p><strong><font color="#ff0000">（注意！！！）只有Map可以指定类型创建 List不能…</font></strong></p>  <blockquote>   <p>#@java.util.HashMap@{‘’: ‘’, ‘’:’’}</p> </blockquote>  <p><strong></strong></p>  <ul>   <li><strong>获取Map中的内容</strong></li> </ul>  <blockquote>   <p>map.age</p> </blockquote>  <blockquote>   <p>map[‘age’]</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>投影</strong></li> </ul>  <p>获取List对象中的一列</p>  <blockquote>   <p>list.{属性名}</p> </blockquote>  <p><strong>栗子</strong></p>  <blockquote>   <p>List&lt;Emp&gt; emp</p>    <p>List = new ArrayList&lt;Emp&gt;;</p>    <p>empList.add(new Emp(“张三”, 25000));</p>    <p>empList.add(new Emp(“李四”, 5000));</p>    <p>empList.add(new Emp(“王五”, 2000));</p>    <p>context.put(“empList”, empList);</p>    <p>&#160;</p>    <p>List&lt;Double&gt; salaryList = (“#empList.{salary}”, context, context.getRoot());</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>条件查询</strong></li> </ul>  <p>所有满足条件的对象</p>  <blockquote>   <p>List&lt;Emp&gt; empList = (“#empList.{? salary&gt;3000}”, context, context.getRoot());&#160;&#160;&#160; //张三，李四</p> </blockquote>  <p>第一个满足条件的对象</p>  <blockquote>   <p>List&lt;Emp&gt; empList = (“#empList.{^ salary&gt;3000}”, context, context.getRoot());&#160;&#160;&#160; //张三</p> </blockquote>  <p>最后一个满足条件的对象</p>  <blockquote>   <p>List&lt;Emp&gt; empList = (“#empList.{$ salary&gt;3000}”, context, context.getRoot());&#160;&#160;&#160; //李四</p> </blockquote>  <p>&#160;</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、OGNL表达式中的常量</font></h5>  <p>基本和java相同</p>  <p>字符串常量可以使用双引号/单引号 </p>  <blockquote>   <p>”yutou“</p>    <p>‘yutou’</p> </blockquote>  <p><font color="#ff0000"><strong>（注意！！！）如果只有一个字符的字符串 必须用双引号</strong></font></p>  <blockquote>   <p>“y”&#160;&#160;&#160; </p> </blockquote>  <p>直接写 yutou 是根对象的yutou属性</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、OGNL表达式中的运算符</font></h5>  <p>基本和java相同</p>  <blockquote>   <p>&gt;, &lt;, &lt;=, &gt;=, == …..</p> </blockquote>  <p>另外还有特殊的</p>  <p><strong>1. , （逗号运算符）</strong></p>  <p>多个表达式中间用”,“分割</p>  <p>逗号表达式会依次从左到右运算所有表达式 而最后一个表达式 是整个逗号表达式的值</p>  <p>（通常用于依次运算所有表达式 一般不用它的值）</p>  <blockquote>   <p>1+1， 2+2</p> </blockquote>  <p><strong>2. {&#160; }</strong></p>  <p><strong>创建ArrayList集合</strong></p>  <blockquote>   <p>{’yutou‘, ’xiuxiu‘}</p> </blockquote>  <blockquote>   <p>List list = (List)Ognl.getValue(“{’yutou‘, ’xiuxiu‘}”, context, context.getRoot());</p> </blockquote>  <p><strong>3.in</strong></p>  <p>元素是否在集合（List，Map都行）中存在 返回boolean型</p>  <blockquote>   <p>List list = (List)Ognl.getValue(“’yutou‘ in {’yutou‘, ’xiuxiu‘}”, context, context.getRoot());&#160;&#160; //返回true</p> </blockquote>  <p><strong>4.not in</strong></p>  <p>元素是否不在集合中存在 返回boolean型</p>  <blockquote>   <p>List list = (List)Ognl.getValue(“#e2.name not in {’yutou‘, ’xiuxiu‘}”, context, context.getRoot()); //返回true</p> </blockquote>  <p><font color="#ff0000"><strong>（注意！！！）in是运算符 所以直接写”in” 不会被当成根对象的属性值 会报错</strong></font></p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <p>&#160;</p>  <ul>   <li><strong>用OGNL封装请求参数</strong> </li> </ul>  <p><strong>Action</strong></p>  <p>在Action类中 把User当成普通属性一样 提供get/set方法</p>  <blockquote>   <p>public class MyAction extends ActionSupport {      <br />&#160;&#160;&#160; User user;       <br />&#160;&#160;&#160;&#160; <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String execute() throws Exception {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(user);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public User getUser() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return user;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUser(User user) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.user = user;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>login.jsp</strong></p>  <p>其中user.username 是OGNL表达式 它会定位一个属性</p>  <p>定位到当前Action的user属性的username属性</p>  <blockquote>   <p>用户名&lt;input type=”text” name=”user.username”/&gt;</p>    <p>密码&lt;input type=”password” name=”user.password”/&gt;</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>用OGNL封装一组请求参数</strong> </li> </ul>  <p><strong>Action</strong></p>  <blockquote>   <p>public class MyAction extends ActionSupport {      <br />&#160;&#160;&#160; List&lt;User&gt; userList;       <br />&#160;&#160;&#160; Map&lt;String, User&gt; userMap;       <br />&#160;&#160;&#160; <br />&#160;&#160;&#160; @Override       <br />&#160;&#160;&#160; public String execute() throws Exception {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(userList);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(userMap);       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return null;       <br />&#160;&#160;&#160; }</p>    <p>&#160;&#160;&#160; public List&lt;User&gt; getUserList() {      <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return userList;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUserList(List&lt;User&gt; userList) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.userList = userList;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public Map&lt;String, User&gt; getUserMap() {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; return userMap;       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public void setUserMap(Map&lt;String, User&gt; userMap) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; this.userMap = userMap;       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong>adduser.jsp</strong></p>  <p>向List集合中封装</p>  <blockquote>   <p>用户1&lt;br/&gt;      <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userList[0].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userList[0].password&quot;/&gt;       <br />用户2&lt;br/&gt;       <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userList[1].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userList[1].password&quot;/&gt;       <br /></p> </blockquote>  <p>向Map集合中封装</p>  <blockquote>   <p>用户1&lt;br/&gt;      <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userMap['user1'].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userMap['user1'].password&quot;/&gt;       <br />用户2&lt;br/&gt;       <br />&#160; 用户名&lt;input type=&quot;text&quot; name=&quot;userMap['user2'].username&quot;/&gt;       <br />&#160; 密码&lt;input type=&quot;text&quot; name=&quot;userMap['user2'].password&quot;/&gt;       </p></blockquote>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

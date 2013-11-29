@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Struts2</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Struts2
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5><font style="font-weight: bold">零、什么是框架</font></h5>  <p>软件=应用组件+业务组件</p>  <blockquote>   <p>应用组件：各个软件共性的部分</p>    <p>业务组件：这个软件共性的部分</p> </blockquote>  <p><strong>框架：</strong></p>  <p>框架就是应用组件 使用框架开发 就不用什么都从头开始了</p>  <p>框架就是半成品的软件</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、Struts2</font></h5>  <p><strong>1.针对mvc的框架</strong></p>  <p><strong>2.关注的是java软件分层中的web层</strong></p>  <p>不关注service和dao层</p>  <p>（所以 service和dao层如果出现了Struts2就大错特错了）</p>  <p><strong>3.其他的mvc框架</strong></p>  <p>Struts1&#160; -&#160; 全世界最早的MVC框架 当时风靡全球啊（它和Struts2风马牛不相及）</p>  <p>&#160;&#160;&#160; 但是它的内核写的很难扩展 这是后来发现的 当初看不到这个问题 所以以后就不用了 所以和Struts2内核完全不同</p>  <p>JSF</p>  <p>SpringMVC</p>  <p><strong>4.源码包在哪</strong></p>  <p>src/core/src/main/java/org/…</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、Struts2的核心</font></h5>  <p>内核是WebWork 其实原来在Struts1风靡之后出来了WebWork 但是没有人知道它</p>  <p>所以后来它和Apache合作</p>  <blockquote>   <p>Struts2=WebWork（没人知道它）+Apache提供Struts这个名称（大家都知道）</p> </blockquote>  <p>所以Struts1和Struts2根本就不一样</p>  <p>WebWork的核心是Xwork</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、Struts2流程分析</font></h5>  <p><strong>以前的Servlet</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/1114.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="1" border="0" alt="1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb113.png" width="176" height="180" /></a></p>  <p><strong>Struts2</strong></p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/2111.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="2" border="0" alt="2" src="http://localhost:8080/wp-content/uploads/2013/09/21_thumb111.png" width="520" height="222" /></a></p>  <p>页面是不变的</p>  <p>以前写Servlet&#160; 现在写Action</p>  <p>现在得用struts.xml中配置StrutsPrepareAndExecuteFilter 并将其配置到web.xml中</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">四、HelloWorld</font></h5>  <ul>   <li><strong>搭建环境（！）</strong> </li> </ul>  <p><strong>1.在项目里导包</strong></p>  <p>导入Struts2下载文件中 appsblank.warWEB-INFlib 下的所有jar包</p>  <p>就是一个空项目的Demo</p>  <p><strong>2.配置web.xml</strong></p>  <blockquote>   <p>&lt;filter&gt;</p>    <p>&#160;&#160;&#160; &lt;filter-name&gt;struts2&lt;/filter-name&gt;</p>    <p>&#160;&#160;&#160; &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;&#160;&#160; //这里可以ctrl + shift + t 搜索 StrutsPrepareAndExecuteFilter 获取这个类的全名</p>    <p>&lt;/filter&gt;</p>    <p>&lt;filter-mapping&gt;</p>    <p>&#160;&#160;&#160; &lt;filter-name&gt;struts2&lt;/filter-name&gt;</p>    <p>&#160;&#160;&#160; &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</p>    <p>&lt;/filter-mapping&gt;</p> </blockquote>  <p><strong>3.添加struts.xml</strong></p>  <p>在src目录下添加struts.xml</p>  <p>struts2-core….jar里的struts2.3.dtd里边有一个DOCTYPE 粘贴过来</p>  <blockquote>   <p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</p>    <p>&lt;!DOCTYPE struts PUBLIC</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;</p>    <p>&lt;struts&gt;</p>    <p>&#160;&#160;&#160; &lt;package name=&quot;项目名称&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt; </p>    <p>&#160;&#160;&#160; &lt;/package&gt;</p>    <p>&lt;/struts&gt;</p> </blockquote>  <p>但是这里要自动补全得上网 它才能下载这个dtd</p>  <p>如果不上网需要给这个网络路径映射本地文件</p>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/3311.png"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="3" border="0" alt="3" src="http://localhost:8080/wp-content/uploads/2013/09/33_thumb311.png" width="483" height="467" /></a></p>  <p>&#160;</p>  <ul>   <li><strong>完成HelloWorld</strong> </li> </ul>  <p><strong>1.jsp页面</strong></p>  <p>hello.jsp</p>  <blockquote>   <p>&lt;a href=” <font color="#ff0000">&lt;c:url value=’/helloAction.action’”&gt;</font> Hello Struts2&lt;/a&gt;</p> </blockquote>  <p><strong>2.Action的请求处理方法</strong></p>  <p>为了解耦 都没有父类</p>  <p>需要有一个public String execute()的方法 就相当于Servlet中的service方法</p>  <p><strong>HelloAction[execute]</strong></p>  <blockquote>   <p>public class HelloAction {</p>    <p>&#160;&#160;&#160; <font color="#ff0000">public String execute()</font> {</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;执行了Action&quot;);</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <font color="#ff0000">return “success”</font> ;&#160;&#160;&#160; //给一个要跳转到的逻辑名称 真正的页面在struts.xml中配置</p>    <p>&#160;&#160;&#160; }</p>    <p>}</p> </blockquote>  <p><strong>3.结果转发页面</strong></p>  <p>result.jsp</p>  <blockquote>   <p>我是结果页面</p> </blockquote>  <p><strong>4.在struts.xml中配置Action</strong></p>  <blockquote>   <p>&lt;struts&gt; </p>    <p>&#160;&#160;&#160; &lt;package name=&quot;项目名称&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt; </p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;action <font color="#ff0000">name=”helloAction” class=”com.yutouxiuxiu.demo.action.HelloAction”</font>&gt;&#160;&#160;&#160; //name属性指定了这个Action的访问路径 这个的访问路径是helloAction.action（有.action扩展名）</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;result <font color="#ff0000">name=”success”&gt;/result.jsp</font>&lt;/result&gt;</p>    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;/action&gt;</p>    <p>&#160;&#160;&#160; &lt;/package&gt;</p>    <p>&lt;/struts&gt;</p> </blockquote>  <p>&#160;</p>  <ul>   <li><strong>总结</strong> </li> </ul>  <p>1.页面中的访问路径与struts.xml中的&lt;action&gt;元素的name属性对应 并且访问路径还需要扩展名.action</p>  <p>2.请求处理方法格式public String execute()</p>  <p>3.转发的与请求处理方式的返回值的关系：返回值 与 struts.xml中的&lt;result&gt;元素的name属性对应 其子元素字串是真正的转发路径</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">五、Struts2流程图</font></h5>  <p><a href="http://localhost:8080/wp-content/uploads/2013/09/11144.jpg"><img style="background-image: none; border-right-width: 0px; padding-left: 0px; padding-right: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px; padding-top: 0px" title="图片1" border="0" alt="图片1" src="http://localhost:8080/wp-content/uploads/2013/09/11_thumb1133.jpg" width="476" height="364" /></a></p>  <p>&#160;</p>  <p>Action Invocation在所有的Interception（拦截器）中传递</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

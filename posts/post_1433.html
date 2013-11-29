@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java生成json</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java生成json
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">1.用json-lib生成json&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">要用到的jar包：commons-beanutils-1.8.3.jar,&nbsp;commons-collections-3.2.1.jar,&nbsp;commons-lang-2.4.jar,&nbsp;commons-logging-1.1.1.jar,&nbsp;ezmorph-1.0.6.jar,&nbsp;json-lib-2.3-jdk15.jar&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//1.对象</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">package&nbsp;com.hx.test;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;com.hx.entity.Person;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;net.sf.json.JSONObject;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">public&nbsp;class&nbsp;JsonTest&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;Person&nbsp;person&nbsp;=&nbsp;new&nbsp;Person();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setName(&quot;tom&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setAddress(&quot;UK&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setAge(14);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;JSONObject&nbsp;json&nbsp;=&nbsp;JSONObject.fromObject(person);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;System.out.println(json.toString());</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//输出结果为：</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//{&quot;address&quot;:&quot;UK&quot;,&quot;age&quot;:14,&quot;name&quot;:&quot;tom&quot;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//2.数组和集合</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">package&nbsp;com.hx.test;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.ArrayList;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.List;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;net.sf.json.JSONArray;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">public&nbsp;class&nbsp;JsonTest&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;List&lt;String&gt;&nbsp;fruit&nbsp;=&nbsp;new&nbsp;ArrayList&lt;String&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;fruit.add(&quot;apple&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;fruit.add(&quot;pear&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;fruit.add(&quot;orange&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;fruit.add(&quot;banana&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;JSONArray&nbsp;fruits&nbsp;=&nbsp;JSONArray.fromObject(fruit);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;System.out.println(fruits.toString());</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//输出结果：</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//["apple","pear","orange","banana"]</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//2）Map集合</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//Map集合比较特殊，因为&nbsp;key-value键值对的对应方式，所以咱们应当用JSONObject来生成json。</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">package&nbsp;com.hx.test;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.HashMap;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.Map;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;net.sf.json.JSONObject;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">public&nbsp;class&nbsp;JsonTest&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;Map&lt;String,&nbsp;String&gt;&nbsp;map&nbsp;=&nbsp;new&nbsp;HashMap&lt;String,&nbsp;String&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;001&quot;,&nbsp;&quot;apple&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;002&quot;,&nbsp;&quot;pear&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;003&quot;,&nbsp;&quot;orange&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;004&quot;,&nbsp;&quot;banana&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;JSONObject&nbsp;json&nbsp;=&nbsp;JSONObject.fromObject(map);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;System.out.println(json.toString());</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//输出结果：</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//{&quot;004&quot;:&quot;banana&quot;,&quot;001&quot;:&quot;apple&quot;,&quot;002&quot;:&quot;pear&quot;,&quot;003&quot;:&quot;orange&quot;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//3)&nbsp;Map集合扩展</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">package&nbsp;com.hx.test;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.ArrayList;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.HashMap;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.List;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;java.util.Map;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;net.sf.json.JSONObject;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">public&nbsp;class&nbsp;JsonTest&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;Map&lt;String,&nbsp;List&lt;String&gt;&gt;&nbsp;map&nbsp;=&nbsp;new&nbsp;HashMap&lt;String,&nbsp;List&lt;String&gt;&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;List&lt;String&gt;&nbsp;strList1&nbsp;=&nbsp;new&nbsp;ArrayList&lt;String&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList1.add(&quot;aa&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList1.add(&quot;bb&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList1.add(&quot;cc&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;List&lt;String&gt;&nbsp;strList2&nbsp;=&nbsp;new&nbsp;ArrayList&lt;String&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList2.add(&quot;dd&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList2.add(&quot;ee&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList2.add(&quot;ff&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;List&lt;String&gt;&nbsp;strList3&nbsp;=&nbsp;new&nbsp;ArrayList&lt;String&gt;();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList3.add(&quot;gg&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList3.add(&quot;hh&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;strList3.add(&quot;ii&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;001&quot;,&nbsp;strList1);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;002&quot;,&nbsp;strList2);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;map.put(&quot;003&quot;,&nbsp;strList3);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;JSONObject&nbsp;json&nbsp;=&nbsp;JSONObject.fromObject(map);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;System.out.println(json.toString());</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//输出结果：</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//{&quot;001&quot;:["aa","bb","cc"],"002":["dd","ee","ff"],"003":["gg","hh","ii"]}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">/*</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;和json-lib相比，Gson操作就相当的更简单了</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;不管是对象还是数组，还是上面较复杂的map集合，</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;操作都是一样的，Gson是出自google，应为比较小巧，所以其自己系统android上面用的也&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是这个。</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">*/</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//因为操作都一样，所以在这里只给大家演示一种情况。</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//别忘了导jar包：[i]gson-2.1.jar[/i]</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">package&nbsp;com.hx.test;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;com.google.gson.Gson;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">import&nbsp;com.hx.entity.Person;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">public&nbsp;class&nbsp;GsonTest&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;Person&nbsp;person&nbsp;=&nbsp;new&nbsp;Person();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setAddress(&quot;UK&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setAge(14);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;person.setName(&quot;tom&quot;);</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;Gson&nbsp;gson&nbsp;=&nbsp;new&nbsp;Gson();</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;&nbsp;System.out.println(gson.toJson(person));</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">&nbsp;}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">}</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//输出结果：</span><br style="margin: 0px; padding: 0px; border: 0px; color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;" />
+	<span style="color: rgb(102, 102, 102); font-family: verdana, Arial, sans-serif; line-height: 24px;">//{&quot;name&quot;:&quot;tom&quot;,&quot;age&quot;:14,&quot;address&quot;:&quot;UK&quot;}</span>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

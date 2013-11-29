@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Action与ServletAPI</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Action与ServletAPI
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>如何在Action的execute方法中获取使用request，response，session，application对象</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">一、解耦方式</font></h5>  <p>它不是用来获取request，response，session，application对象的</p>  <p>是获取这些域对象的解耦对象（Map）的</p>  <p>对域对象的Map进行操作 就等同于操作域对象一样</p>  <p><strong>优点</strong>：与ServletAPI没有耦合</p>  <p><strong>缺点</strong>：没有办法完全操作ServletAPI</p>  <p><font color="#ff0000">&#160;&#160;&#160; <u>不能调用方法 只能操作域对象中的域功能</u></font></p>  <p>&#160;&#160;&#160; 例如不能request.getContextPath(); 只能添加删除获取Attribute</p>  <p><strong>1.request域</strong></p>  <blockquote>   <p>//1.获取ActionContext</p>    <p>ActionContext ac = ActionContext.getContext();</p>    <p>//向request域中添加内容</p>    <p>ac.put(“requestKey”, “requestValue”);</p>    <p>//获取request域中的内容</p>    <p>ac.get(“requestKey”);</p>    <p>//获取request的Map <font color="#ff0000">对这个Map操作等同于操作request域</font></p>    <p>Map&lt;String, Object&gt; request = ac.getContextMap();</p>    <p>…</p> </blockquote>  <p><strong>2.session域</strong></p>  <blockquote>   <p>//获取session的解耦Map</p>    <p>Map&lt;String,Object&gt; sessionMap = ac.getSession();</p>    <p>sessionMap.put(“sessionKey”,”sessionValue”);</p>    <p>…</p> </blockquote>  <p><strong>3.application域</strong></p>  <blockquote>   <p>Map&lt;String,Object&gt; applicationMap = ac.getApplication();</p>    <p>…</p> </blockquote>  <p><strong>4.获取请求参数</strong></p>  <blockquote>   <p>Map&lt;String,Object&gt; params = ac.getParameters();</p>    <p>//注意 返回的类型是<font color="#ff0000"><u>String类型的数组</u></font></p>    <p>String username = ((String[]) params.get(“username”))[0];</p> </blockquote>  <p><strong>5.获取值栈</strong></p>  <blockquote>   <p>ac.getValueStack();</p> </blockquote>  <p>&#160;</p>  <h5><font style="font-weight: bold">二、感知接口方式</font></h5>  <p><font color="#ff0000"><strong>基本不用</strong></font></p>  <p>需要implements ServletRequestAware, ServletResponseAware, ServletContextAware接口</p>  <p>里面有一个未实现的方法</p>  <blockquote>   <p>private HttpServletRequest request;</p>    <p>private HttpServletResponse response;</p>    <p>private HttpServletContext context;</p>    <p>@Override</p>    <p>public void setServletRequest(HttpServletRequest request) {</p>    <p>&#160;&#160;&#160; this.request = request;</p>    <p>}</p>    <p>@Override</p>    <p>setServletResponse(HttpServletResponse response) {</p>    <p>&#160;&#160;&#160; this.response = response;</p>    <p>}</p>    <p>@Override</p>    <p>setServletContext(HttpServletContext context) {</p>    <p>&#160;&#160;&#160; this.context = context;</p>    <p>}</p> </blockquote>  <p>Struts会调用这些方法把ServletAPI传递给我们</p>  <p>会在execute方法执行之前执行这些方法</p>  <p>这样在execute方法中使用 就没问题了</p>  <p>&#160;</p>  <p>不过这里Struts把这些域对象进行了增强 和原来的不一样了</p>  <p>&#160;</p>  <h5><font style="font-weight: bold">三、ServletActionContext方式</font></h5>  <p><font color="#ff0000"><strong>经常使用</strong></font></p>  <blockquote>   <p>HttpServletRequest request = ServletActionContext.getRequest();</p>    <p>HttpServletResponse response = ServletActionContext.getResponse();</p>    <p>HttpServletContext context = ServletActionContext.getServletContext();</p> </blockquote>  <p>就这么用就行了</p>
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
