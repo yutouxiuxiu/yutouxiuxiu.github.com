@@ -1,0 +1,2157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>迭代化软件开发流程</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					迭代化软件开发流程
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<table border="0" cellpadding="0" cellspacing="0" style="font-family: Arial; font-size: 14px; line-height: 26px;" width="100%">
+	<tbody>
+		<tr>
+			<td>
+				<span class="tt">软件开发流程</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td width="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="5" /></span>
+							</td>
+							<td width="100%">
+								<p>
+									<span class="font"><a name="N1003E" style="color: rgb(51, 102, 153);"><span class="atitle2">1. 传统开发流程的问题</span>&nbsp;</a><br />
+									传统的 软件开发流程是一个文档驱动的流程，它将整个软件开发过程划分为顺序相接的几个阶段，每个阶段都必需完成全部规定的任务（文档）后才能够进入下一个阶段。 如必须完成全部的系统需求规格说明书之后才能够进入概要设计阶段，编码必需在系统设计完成之后才能够进行。这就意味着只有当所有的系统模块全部开发完成之 后，我们才进行系统集成，对于一个由上百个模块组的复杂系统来说，这是一个非常艰巨而漫长的工作。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="254" src="http://www.gdcec.com/cyber2005/pic/image002.gif" style="border: none;" width="368" /></span>
+								</p>
+
+								<p>
+									<span class="font">随着我们所开发的软件项目越来越复杂，传统的瀑布型开发流程不断地暴露出以下问题：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">需求或设计中的错误往往只有到了项目后期才能够被发现例如：系统交付客户之后才发现原先对于需求的理解是错误的，系统设计中的问题要到测试阶段才能被发现。</span>
+									</li>
+									<li>
+										<span class="font">对于项目风险的控制能力较弱项目风险在项目开发较晚的时候才能够真正降低，往往是经过系统测试之后，才能确定该设计是否能够真正满足系统需求。</span>
+									</li>
+									<li>
+										<span class="font">软件项目常常延期完成或开发费用超出预算项目开发进度往往会被意外发生的问题所打乱，需要进行返工或其他一些额外的开发周期，造成项目延期或费用超支。</span>
+									</li>
+									<li>
+										<span class="font">项目管理人员专注于文档的完成和审核来估计项目的进展情况所以项目经理对于项目状态的估计往往是不准确的，当他回答系统已完成了80%的开发任务时，剩下20%的开发任务实际上消耗的是整个项目80%的开发资源。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">在传统的瀑布模型中，需求和设计中的问题是无法在项目开发的前期被检测出来的，只有当第一次系统集成时，这些设计缺陷才会在测试中暴露出来，从而导致一系列的返工：重新设计、编码、测试，进而导致项目的延期和开发成本的上升。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="360" src="http://www.gdcec.com/cyber2005/pic/image004.gif" style="border: none;" width="480" /></span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1007E" style="color: rgb(51, 102, 153);"><span class="atitle2">2. 采用迭代化开发控制项目风险</span>&nbsp;</a><br />
+									为 了解决传统软件开发流程中的问题，我们建议采用迭代化的开发方法来取代瀑布模型。在瀑布模型中，我们要完成的是整个软件系统开发这个大目标。在迭代化的方 法中，我们将整个项目的开发目标划分成为一些更易于完成和达到的阶段性小目标，这些小目标都有一个定义明确的阶段性评估标准。迭代就是为了完成一定的阶段 性目标而所从事的一系列开发活动，在每个迭代开始前都要根据项目当前的状态和所要达到的阶段性目标制定迭代计划，整个迭代过程包含了需求、设计、实施（编 码）、部署、测试等各种类型的开发活动，迭代完成之后需要对迭代完成的结果进行评估，并以此为依据来制定下一次迭代的目标。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="217" src="http://www.gdcec.com/cyber2005/pic/image005.gif" style="border: none;" width="413" /></span>
+								</p>
+
+								<p>
+									<span class="font">与传统的瀑布式开发模型相比较，迭代化开发具有以下特点：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">允许变更需求<br />
+										需求总是会变化，这是事实。给项目带来麻烦的常常主要是需求变化和需求&quot;蠕变&quot;，它们会导致延期交付、工期延误、客户不满 意、开发人员受挫。通过向用户演示迭代所产生的部分系统功能，我们可以尽早地收集用户对于系统的反馈，及时改正对于用户需求的理解偏差，从而保证开发出来 的系统真正地解决客户的问题。</span>
+									</li>
+									<li>
+										<span class="font">逐步集成元素<br />
+										在传统的项目开发中，由于要求一下子集成系统中所有的模块，集成阶段往往要占到整个项目很大比例的工作量（最 高可达40%），这一阶段的工作经常是不确定并且非常棘手。在迭代式方法中，集成可以说是连续不断的，每一次迭代都会增量式集成一些新的系统功能，要集成 的元素都比过去少得多，所以工作量和难度都是比较低的。</span>
+									</li>
+									<li>
+										<span class="font">尽早降低风险<br />
+										迭代化开发的主要指导原则就是以架构为中心，在早期的迭代中所要解决的主要问题就是尽快确定系统架构，通过几 次迭代来尽快地设计出能够满足核心需求的系统架构，这样可以迅速降低整个项目的风险。等到系统架构稳定之后，项目的风险就比较低了，这个时候再去实现系统 中尚未完成的功能，进而完成整个项目。</span>
+									</li>
+									<li>
+										<span class="font">有助于提高团队的士气<br />
+										开发人员通过每次迭代都可以在短期内看到自己的工作成果，从而有助于他们增强信心，更好地完成开发任务。而在非迭代式开发中，开发人员只有在项目接近尾声时才能看到开发的结果，在此之前的相当长时间，大家还是在不确定性中摸索前近。</span>
+									</li>
+									<li>
+										<span class="font">生成更高质量的产品<br />
+										每次迭代都会产生一个可运行的系统，通过对这个可运行系统进行测试，我们在早期的迭代中就可以及时发现缺陷并改正，性能上的瓶颈也可以尽早发现并处理。因为在每次迭代中总是不断地纠正错误，我们可以得到更高质量的产品。</span>
+									</li>
+									<li>
+										<span class="font">保证项目开发进度<br />
+										每次迭代结束时都会进行评估，来判断该次迭代有没有达到预定的目标。项目经理可以很清楚地知道有哪些需求已经实现了，并且比较准确地估计项目的状态，对项目的开发进度进行必要的调整，保证项目按时完成。</span>
+									</li>
+									<li>
+										<span class="font">容许产品进行战术改变<br />
+										迭代化的开发具有更大的灵活性，在迭代过程中可以随时根据业务情况或市场环境来对产品的开发进行调整。例如为了同现有的同类产品竞争，可以决定采用抢先竞争对手一步的方法，提前发布一个功能简化的产品。</span>
+									</li>
+									<li>
+										<span class="font">迭代流程自身可在进行过程中得到改进和精炼<br />
+										一次迭代结束时的评估不仅要从产品和进度的角度来考察项目的情况，而且还要分析组织和流程本身有什么待改进之处，以便在下次迭代中更好地完成任务。</span>
+									</li>
+								</ul>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="360" src="http://www.gdcec.com/cyber2005/pic/image007.gif" style="border: none;" width="480" /></span>
+								</p>
+
+								<p>
+									<span class="font">迭代化方法解决的主要是对于风险的控制问题，从下图可以看出，传统的开发流程中系统的风险要到项目开发的后期（主要是测试阶段）才能够被真正降低。 而迭代化开发中的风险，可以在项目开发的早期通过几次迭代来尽快地解决掉。在早期的迭代中一旦遇到问题，如某一个迭代没有完成预定的目标，我们还可以及时 调整开发进度以保证项目按时完成。一般到了项目开发的后期（风险受控阶段），由于大部分高风险的因素（如需求、架构、性能等）都已经解决，这时候只需要投 入更多的资源去实现剩余的需求即可。这个阶段的项目开发具有很强的可控性，从而保证我们按时交付一个高质量的软件系统。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="360" src="http://www.gdcec.com/cyber2005/pic/image009.gif" style="border: none;" width="480" /></span>
+								</p>
+
+								<p>
+									<span class="font">迭代化开发不是一种高深的软件工程理论，它提供了一种控制项目风险的非常有效的机制。在日常的工作我们也经常地应用到这一基本思想，如对于一个非常 大型的工程项目，我们经常会把它分为几期来分步实施，从而把复杂的问题分解为相对容易解决的小问题，并且能够在较短周期内看到部分系统实现的效果，通过尽 早暴露问题来帮助我们及早调整我们的开发资源，加强项目进度的可控程度，保证项目的按时完成。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100EE" style="color: rgb(51, 102, 153);"><span class="atitle2">3. 管理迭代化的软件项目</span>&nbsp;</a><br />
+									当我 们在实际工作中实践迭代化思想时，Rational统一开发流程RUP(Rational Unified Process)可以给予我们实践的指导。RUP是一个通用的软件流程框架，它是一个以架构为中心、用例驱动的迭代化软件开发流程。RUP是从几千个软件 项目的实践经验中总结出来的，对于实际的项目具有很强的指导意义，是软件开发行业事实上的行业标准。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100F7" style="color: rgb(51, 102, 153);"><span class="atitle3">3.1 软件开发的四个阶段</span>&nbsp;</a><br />
+									在RUP中，我们把软件开发生命周期划分为四个阶段，每个阶段的结束标志就是一个主要的里程碑（如下图所示）。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="156" src="http://www.gdcec.com/cyber2005/pic/image010.gif" style="border: none;" width="406" /></span>
+								</p>
+
+								<p>
+									<span class="font">这四个阶段主要是为了达到以下阶段性的目标里程碑：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">先启(Inception)：确定项目开发的目标和范围</span>
+									</li>
+									<li>
+										<span class="font">精化(Elaboration)：确定系统架构和明确需求</span>
+									</li>
+									<li>
+										<span class="font">构建(Construction)：实现剩余的系统功能</span>
+									</li>
+									<li>
+										<span class="font">产品化(Transition)：完成软件的产品化工作，将系统移交给客户</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">每个目标里程碑都是一个商业上的决策点，如先启阶段结束之后，我们就要决定这个项目是否可行、是否要继续做这个项目。每一个阶段都是由里程碑来决定的，判断一个阶段是否结束的标志就是看项目当前的状态是否满足里碑中所规定的条件。</span>
+								</p>
+
+								<p>
+									<span class="font">从这种阶段划分模式中可以看出，项目的主要风险集中在前两个阶段。在精化阶段中经过几次迭代后，我们要为系统建立一个稳定的架构，在此之后再实现更 多的系统需求时，不再需要对该架构进行修改。同时，在精化阶段中，我们通过迭代来不断地收集用户的需求反馈，便得系统的需求逐步地明确和完整。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10129" style="color: rgb(51, 102, 153);"><span class="atitle3">3.2 关于开发资源的分配</span>&nbsp;</a><br />
+									基于 RUP风险驱动的迭代化开发模式，我们只需要在项目的先启阶段投入少量的资源，对项目的开发前景和商业可行性进行一些探索性的研究。在精化阶段再投入多一 些的研发力量来实现一些与架构相关的核心需求，逐步地把系统架构搭建起来。等到这两个阶段结束之后，项目的一些主要风险和问题也得到了解决，这时候再投入 整个团队进行全面的系统开发。等到产品化阶段，主要的开发任务已经全部完成，项目不再需要维持一个大规模的开发团队，开发资源也可以随之而减少。在项目开 发周期中，开发资源的分配可以如下图所示。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="165" src="http://www.gdcec.com/cyber2005/pic/image011.gif" style="border: none;" width="413" /></span>
+								</p>
+
+								<p>
+									<span class="font">这样安排可以最充分有效地利用公司的开发资源，缓解软件公司对于人力资源不断增长的需求，从而降低成本。另外一方面，由于前两个阶段（先启和精化） 的风险较高，我们只是投入部分的资源，一旦发生返工或是项目目标的改变，我们也可以将资源浪费降到最低点。在传统的软件开发流程中，对于开发资源的分配基 本上是贯穿整个项目周期而不变的，资源往往没有得到充分有效地利用。</span>
+								</p>
+
+								<p>
+									<span class="font">基于这种资源分配模式，一个典型的项目在项目进度和所完成的工作量之间的关系可能如下表中的数据所示。</span>
+								</p>
+
+								<table border="1" width="300">
+									<tbody>
+										<tr>
+											<td>
+												&nbsp;
+											</td>
+											<td>
+												<span class="font">先启</span>
+											</td>
+											<td>
+												<span class="font">精化</span>
+											</td>
+											<td>
+												<span class="font">构建</span>
+											</td>
+											<td>
+												<span class="font">产品化</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">工作量</span>
+											</td>
+											<td>
+												<span class="font">~5%</span>
+											</td>
+											<td>
+												<span class="font">20%</span>
+											</td>
+											<td>
+												<span class="font">65%</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">进度</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+											<td>
+												<span class="font">30%</span>
+											</td>
+											<td>
+												<span class="font">50%</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>
+									<span class="font"><a name="N10184" style="color: rgb(51, 102, 153);"><span class="atitle3">3.3 迭代策略</span>&nbsp;</a><br />
+									关于迭代计划的安排，通常有以下四种典型的策略模式：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">增量式(Incremental)<br />
+										这种模式的特点是项目架构的风险较小（往往是开发一些重复性的项目），所以精化阶段只需要一个迭代。但项目的开发工作量较大，构建阶段需要有多次迭代来实现，每次迭代都在上一次迭代的基础上增加实现一部分的系统功能，通过迭代的进行而逐步实现整个系统的功能。</span>
+									</li>
+									<li>
+										<span class="font">演进式(Evolutionary)<br />
+										当项目架构的风险较大时（从未开发过类似项目），需要在精化阶段通过多次迭代来建立系统的架构，架构是通过多次迭代的探索，逐步演化而来的。当架构建立时，往往系统的功能也已经基本实现，所以构建阶段只需要一次迭代。</span>
+									</li>
+									<li>
+										<span class="font">增量提交(Incremental Delivery)<br />
+										这种模式的特点产品化阶段的迭代较多，比较常见的例子是项目的难度并不 大，但业务需求在不断地发生变化，所以需要通过迭代来不断地部署完成的系统；但同时又要不断地收集用户的反馈来完善系统需求，并通过后续的迭代来补充实现 这些需求。应用这种策略时要求系统架构非常稳定，能够适应满足后续需求变化的要求。</span>
+									</li>
+									<li>
+										<span class="font">单次迭代(Grand Design)<br />
+										传统的瀑布模型可以看作是迭代化开发的一个特例，整个开发流程只有一次迭代。但这种模式有一个固有的弱点，由于它对风险的控制能力较差，往往会在产品化阶段产生一些额外的迭代，造成项目的延误。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">这几种迭代策略只是一些典型模式的代表，实际应用中应根据实际情况灵活应用，最常见的迭代计划往往是这几种模式的组合。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N101A7" style="color: rgb(51, 102, 153);"><span class="atitle3">3.4 制定项目开发计划</span>&nbsp;</a><br />
+									在迭代 化的开发模式中，项目开发计划也是随着项目的进展而不断细化、调整并完善的。传统的项目开发计划是在项目早期制定的，项目经理总是试图在项目的一开始就制 定一个非常详细完善的开发计划。与之相反，迭代开发模式认为在项目早期只需要制定一个比较粗略的开发计划，因为随着项目的进展，项目的状态在不断地发生变 化，项目经理需要随时根据迭代的结果来对项目计划进行调整，并制定下一次迭代的详细计划。</span>
+								</p>
+
+								<p>
+									<span class="font">在RUP中，我们把项目开发计划分为以下三部分：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">项目计划<br />
+										确定整个项目的开发目标和进度安排，包括每一个阶段的起止时间段。</span>
+									</li>
+									<li>
+										<span class="font">阶段计划<br />
+										当前阶段中包含有几个迭代，每一次迭代要达到的目标以及进度安排。</span>
+									</li>
+									<li>
+										<span class="font">迭代计划<br />
+										针对当前迭代的详细开发计划，包括开发活动以及相关资源的分配。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">项目开发计划也是完全体现迭代化的思想，每次迭代中项目经理都会根据项目情况来不断地调整和细化项目开发计划。迭代计划是在对上一次迭代结果进行评 估的基础上制定的，如果上一次迭代达到了预定的目标，那么当前迭代只需要解决剩下的问题；如果上一次迭代中留有一些问题还没有解决，则当前迭代还需要继续 去解决这些问题。所以必须注意，迭代是不能重叠的，即你还没有完成当前迭代时，你决不能进入下一迭代，因为下一次迭代的计划是根据当前迭代的结果而制定 的。</span>
+								</p>
+
+								<table border="0" cellpadding="0" cellspacing="0" width="100%">
+									<tbody>
+										<tr>
+											<td>
+												<span class="font"><a name="author1" style="color: rgb(51, 102, 153);"></a></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>
+					<span class="font">&nbsp;</span>
+				</p>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td>
+								<span class="font"><span class="atitle">Rational开发过程</span></span>
+							</td>
+							<td width="8">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="8" /></span>
+							</td>
+							<td align="right" width="180">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr valign="top">
+											<td align="right">
+												&nbsp;
+											</td>
+											<td width="46">
+												<form action="https://www-130.ibm.com/developerworks/secure/email-it.jsp" style="margin: 0px; padding: 0px;">
+													&nbsp;
+												</form>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td width="6">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="6" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#000000" colspan="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="100" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#ffffff" colspan="5">
+								<span class="font"><img alt="" border="0" height="8" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="100" /></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td width="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c.gif" style="border: none;" width="5" /></span>
+							</td>
+							<td width="100%">
+								<blockquote>
+									<p>
+										<span class="font">　</span>
+									</p>
+								</blockquote>
+
+								<p>
+									<span class="font"><a name="N10041" style="color: rgb(51, 102, 153);"><span class="atitle2">1. 引言</span>&nbsp;</a><br />
+									本文对 Rational 软件开发过程（Rational Software Development Process）的原理和结构给出了高度的描述，它是：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">迭代的、增量的开发过程</span>
+									</li>
+									<li>
+										<span class="font">面向对象的开发过程</span>
+									</li>
+									<li>
+										<span class="font">管理和控制的开发过程</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">它具有足够的普遍性，可以在规模与应用领域方面，为各个软件产品和项目量身订做。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10059" style="color: rgb(51, 102, 153);"><span class="atitle2">2.总体软件生命周期</span></a></span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1005F" style="color: rgb(51, 102, 153);"><span class="atitle3">2.1 两种视角</span>&nbsp;</a><br />
+									Rational 过程可以从两种不同而又密不可分的视角来观察：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">从管理的视角来看，涉及财务、战略、商业和人文方面</span>
+									</li>
+									<li>
+										<span class="font">从技术的视角来看，涉及质量、工程和设计方法方面</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N10071" style="color: rgb(51, 102, 153);"><span class="atitle3">2.2 周期和阶段</span></a></span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="165" src="http://www.gdcec.com/cyber2005/pic/image002.jpg" style="border: none;" width="553" /></span>
+								</p>
+
+								<p>
+									<span class="font">从管理的角度，即从业务和经济的角度来看，对应项目的进展，软件的生命周期包含四个主要阶段:</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">起始阶段（Inception）-- 有一个好的想法：详细构想出最终产品的设想和它的业务案例，确定项目的范围 。</span>
+									</li>
+									<li>
+										<span class="font">细化阶段（Elaboration）--计划必要的活动和所需资源，详细确定功能并设计构架 。</span>
+									</li>
+									<li>
+										<span class="font">构建阶段（Construction）-- 构建产品， 发展最初的设想、构架和计划，直到一个可以交付给用户的产品（完成后的设想）完成。</span>
+									</li>
+									<li>
+										<span class="font">移交阶段（Transition）-- 将产品移交用户使用，包括：制造、交付、培训、支持、维护，直到用户满意。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">完成这4个阶段称为一个开发周期, 它产生的软件称作第一代（generation）。 除非产品的生命结束， 一个现有产品可以通过重复下一个相同的起始、细化、构建和移交四阶段，各个阶段的侧重点与第一次不同，从而演进为下一代产品。 这个时期我们称之为演进(evolution)。最后伴随着产品经过几个周期的演进，新一代产品也不断被制造出来。</span>
+								</p>
+
+								<p>
+									<span class="font">例如，演进周期的启动可能由以下这几项触发：用户建议增强功能、用户环境的改变、重要技术的变更，以及应对竞争的需要。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="184" src="http://www.gdcec.com/cyber2005/pic/image004.jpg" style="border: none;" width="553" /></span>
+								</p>
+
+								<p>
+									<span class="font">实际中，周期之间会有轻微重叠：起始阶段和细化阶段可能会在上一个周期的移交阶段未结束时就开始了。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100B4" style="color: rgb(51, 102, 153);"><span class="atitle3">2.3. 迭代</span>&nbsp;</a><br />
+									从技术的角度来 看，软件开发可以视为一连串的迭代过程，通过这些迭代被开发的软件得以增量演进。 每次迭代都以一个可执行的产品的发布而结束， 该产品可能是完整版本的一个子集，但从工程的或用户的角度来看是有用的。 每次发布都伴随一些支持性工件：版本描述、用户文档和计划等。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="278" src="http://www.gdcec.com/cyber2005/pic/image006.jpg" style="border: none;" width="553" /></span>
+								</p>
+
+								<p>
+									<span class="font">一次迭代包括以下活动： 计划、分析、设计、实施和测试。 根据迭代在开发周期中所处位置的不同，这些活动分别占不同的比例。</span>
+								</p>
+
+								<p>
+									<span class="font">管理角度和技术角度之间是协调的， 而且各个阶段的结束还和各次迭代的结束保持同步。</span>
+								</p>
+
+								<p>
+									<span class="font">换句话说，每个阶段可以分为一次或多次迭代过程。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100D9" style="color: rgb(51, 102, 153);"><strong>(注意：本图中每阶段的迭代数目仅为示意)</strong>&nbsp;</a><br />
+									<img alt="(注意：本图中每阶段的迭代数目仅为示意) " border="0" height="312" src="http://www.gdcec.com/cyber2005/pic/image008.jpg" style="border: none;" width="554" /></span>
+								</p>
+
+								<p>
+									<span class="font">但是，这两个角度（管理角度和技术角度），不仅仅只是保持同步，它们还具有一些完全相同的里程碑，它们共同贡献出一些随时间演进的产品和工件。 一些工件更多地处于技术方面控制之下，另一些工件更多地处于管理方面的控制之下。见第五节。</span>
+								</p>
+
+								<p>
+									<span class="font">这些工件的可用性、工件是否满足所建立的评估标准，是构成里程碑的主要具体元素，比日历牌上的日期提供了多得多的内容。</span>
+								</p>
+
+								<p>
+									<span class="font">像周期一样，迭代之间也会有轻微重叠。即第N次迭代的计划和构架在第N-1次迭代还未结束时就开始了。有时候，迭代也会平行进行：一个工作于系统某一部分的小组，可能在某个迭代内没有可交付的工件。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100F2" style="color: rgb(51, 102, 153);"><span class="atitle3">2.4.区别</span>&nbsp;</a><br />
+									对于不同的项目而言，每个阶段的侧重点，入口和出口准则，一个开发周期的各个工件，以及各次迭代的数目和长度都会不同。这主要取决于作为过程判别式的的四个主要项目特征。按照影响程度降序排列，它们是：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">业务环境</span>
+
+										<p>
+											&nbsp;
+										</p>
+
+										<ul>
+											<li>
+												<span class="font">契约性工作，开发者基于给定的客户规格说明只为该客户开发软件。</span>
+											</li>
+											<li>
+												<span class="font">推测性开发或商业开发，开发者开发软件以推向市场。</span>
+											</li>
+											<li>
+												<span class="font">内部项目， 开发者和客户在同一个机构中。</span>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<span class="font">软件开发工作量的规模:<br />
+										按照一些度量标准来确定，比如 Delivered Source Instructions，或功能点、人-月数，或者只按照成本。</span>
+									</li>
+									<li>
+										<span class="font">新颖程度：<br />
+										对于软件开发组织，这个软件新颖程度如何有多新，尤其是该软件是否为第二次或更后面的周期。这项区别包括了组织和过程的成熟度、资产、技术水平，当前的技状况，以及诸如组建并培训团队、获取工具及其他资源这样的问题。</span>
+									</li>
+									<li>
+										<span class="font">应用类型，目标领域：<br />
+										MIS，命令和控制系统, 嵌入式实时系统, 软件开发环境工具等等, 尤其时具体的应用领域会给开发提出特殊的约束条件：安全性、性能、国际化、内存限制等。<br />
+										本文首先描述适用所有类型软件开发的通用过程，然后描述了一些有区别价值的特定过程实例，并列举了几个例子。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N1011E" style="color: rgb(51, 102, 153);"><span class="atitle3">2.5工作量和日程安排</span>&nbsp;</a><br />
+									各阶段在工作量和时间安排上是不同的。尽管由于不同项目类型之间相差会很大，一个典型的中等规模项目的最初开发周期可以预计为下面的比率：</span>
+								</p>
+
+								<table border="1">
+									<tbody>
+										<tr>
+											<td>
+												&nbsp;
+											</td>
+											<td>
+												<span class="font">起始阶段</span>
+											</td>
+											<td>
+												<span class="font">细化阶段</span>
+											</td>
+											<td>
+												<span class="font">构建阶段</span>
+											</td>
+											<td>
+												<span class="font">移交阶段</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">工作量</span>
+											</td>
+											<td>
+												<span class="font">5%</span>
+											</td>
+											<td>
+												<span class="font">20%</span>
+											</td>
+											<td>
+												<span class="font">65%</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">日程安排</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+											<td>
+												<span class="font">30%</span>
+											</td>
+											<td>
+												<span class="font">50%</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>
+									<span class="font">可以用下图表示：</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="126" src="http://www.gdcec.com/cyber2005/pic/image010.jpg" style="border: none;" width="554" /></span>
+								</p>
+
+								<p>
+									<span class="font">但是对于一个演进周期来说，起始阶段和细化阶段可能大大缩减。使用特定工具和技术（如应用程序构建器），构建阶段可以远远小于起始阶段和细化阶段的总和。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10178" style="color: rgb(51, 102, 153);"><span class="atitle2">3. Rational 过程的各个阶段</span></a></span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1017E" style="color: rgb(51, 102, 153);"><span class="atitle3">3.1. 起始阶段</span>&nbsp;</a><br />
+									这个阶段产生一个预测产品的最初设想，并将其转换为一个实际的项目。本阶段的目的是建立一个新产品或一次大的更新的业务案例，并且指定项目的范围。</span>
+								</p>
+
+								<p>
+									<span class="font">对于一个新产品的开发，本阶段的主要结果是得到一个&quot;做还是不做&quot;的决定以进入下一阶段，并投入一定的时间和资金来详细分析构建什么、能否构建，以及如何构建。</span>
+								</p>
+
+								<p>
+									<span class="font">对于一个现有产品的演进，这会是一个简短的阶段， 主要看用户或客户的要求、问题报告，或是新的技术动态。</span>
+								</p>
+
+								<p>
+									<span class="font">对于一个契约性的开发，是否进行项目的决定取决于在特定领域的经验、以及组织在此领域的竞争力和市场情况。这里起始阶段可以归结为一个参加投标的决定，或投标活动本身。该决定可能是基于一个现有的研究原型，其结构对最终软件可能合适，也可能不合适。</span>
+								</p>
+
+								<p>
+									<span class="font">入口准则:</span>
+								</p>
+
+								<p>
+									<span class="font">对于一项需要的描述，可以采用以下形式：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一份最初的设想</span>
+									</li>
+									<li>
+										<span class="font">一个遗留系统</span>
+									</li>
+									<li>
+										<span class="font">一份建议请求（An RFP --request for proposal)</span>
+									</li>
+									<li>
+										<span class="font">先前一代的产品和一个增强要求清单</span>
+									</li>
+									<li>
+										<span class="font">一些资产(软件, 专门技能, 财务资产)</span>
+									</li>
+									<li>
+										<span class="font">一个概念原型或实物模型</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">出口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个初始的业务案例至少要包含以下内容:</span>
+
+										<p>
+											&nbsp;
+										</p>
+
+										<ul>
+											<li>
+												<span class="font">对产品设想的明确表达即核心需求，表述为功能、范围、性能、容量和技术等。</span>
+											</li>
+											<li>
+												<span class="font">成功标准 (如收入的数目)</span>
+											</li>
+											<li>
+												<span class="font">最初的风险评估</span>
+											</li>
+											<li>
+												<span class="font">完成细化阶段所需的资源估算</span>
+											</li>
+										</ul>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">通常在初试阶段结束时，我们将得到：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个最初的域分析模型(完成大约10%-20%), 确定最关键的用例, 并且足以进行进构架工作。</span>
+									</li>
+									<li>
+										<span class="font">一个最初的构架原型，在这个阶段可以是一个一次性原型</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N101CF" style="color: rgb(51, 102, 153);"><span class="atitle3">3.2. 细化阶段</span>&nbsp;</a><br />
+									本阶段的主要目的是更彻底地分析问题域，定义构架并使之稳定，确定项目的最大风险。这样在本阶段结束时，我们可以得到一个关于下2个阶段如何工作的综合计划：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个基于分析模型的基线产品设想（即最初的需求集合）。</span>
+									</li>
+									<li>
+										<span class="font">至少对第一次构建迭代的评价准则。</span>
+									</li>
+									<li>
+										<span class="font">一个基线软件构架。</span>
+									</li>
+									<li>
+										<span class="font">开发和部署产品的必需资源，尤其是人员和工具。</span>
+									</li>
+									<li>
+										<span class="font">一份日程安排。</span>
+									</li>
+									<li>
+										<span class="font">足以对构建阶段的成本、日程安排和质量做出&quot;精确&quot;的评估的一份风险决议。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">在这个阶段，建立了一个可执行的构架原型；它至少实现了初始阶段识别出的最关键的用例 ，解决了项目的最大技术风险；根据范围、规模、风险和项目新颖程度的不同构架原型需要一次或多次迭代。这是一个生成高质量代码（这些代码成为架构基线）的 演进原型，但是也不排除开发出一个或几个试探性的、一次性原型，以降低开发的风险：对需求、可行性、人机界面研究、向投资者演示等的精化。在本阶段的结束 时，仍然会产生一个&quot;做还是不做&quot;的决定， 以确定是否要真正投资构建这个产品（或参与合同项目的竞标）。</span>
+								</p>
+
+								<p>
+									<span class="font">此时产生的计划一定要足够详细，风险也必须充分降低，可以对开发工作的完成进行精确的成本和日程估算。</span>
+								</p>
+
+								<p>
+									<span class="font">入口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">前一阶段出口准则所描述的产品和工件</span>
+									</li>
+									<li>
+										<span class="font">被项目管理者和投资者认可的计划，和细化阶段所需的资源</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">出口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一份详细的软件开发计划，包含：</span>
+
+										<p>
+											&nbsp;
+										</p>
+
+										<ul>
+											<li>
+												<span class="font">更新后的风险评估</span>
+											</li>
+											<li>
+												<span class="font">一份管理计划</span>
+											</li>
+											<li>
+												<span class="font">一份人员配置计划</span>
+											</li>
+											<li>
+												<span class="font">一份显示迭代内容和次数的阶段计划</span>
+											</li>
+											<li>
+												<span class="font">一份迭代计划，详细计划下次迭代</span>
+											</li>
+											<li>
+												<span class="font">开发环境和所需的其他工具</span>
+											</li>
+											<li>
+												<span class="font">一份测试计划</span>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<span class="font">一个基线设想，以对最终产品的一个评估准则的集合的形式</span>
+									</li>
+									<li>
+										<span class="font">用于评估构建阶段最初的迭代结果的客观、可测量的演进标准</span>
+									</li>
+									<li>
+										<span class="font">一个域分析模型（80%完成），相应的构架可以称之为是&quot;完整的&quot;</span>
+									</li>
+									<li>
+										<span class="font">一个软件构架描述（说明约束和限制）</span>
+									</li>
+									<li>
+										<span class="font">一个可执行的构架基线</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N1022F" style="color: rgb(51, 102, 153);"><span class="atitle3">3.3. 构建阶段</span>&nbsp;</a><br />
+									本阶段可以划 分为数次迭代，不断充实构架基线，向最终产品逐步演进或增量演进。在每次迭代过程中，上个阶段（细化阶段）的工件得到扩充和修正， 但它们最终将随着系统向正确和完整的方向的演进而稳定下来。在这个阶段，除了软件本身，还生成一些新的工件：文档（既有内部使用的文档，也有面向最终用户 的文档）、测试床及测试套件、部署附件，以及用于支持下一阶段的部署辅助（例如销售辅助）。</span>
+								</p>
+
+								<p>
+									<span class="font">对每次迭代，都具有：</span>
+								</p>
+
+								<p>
+									<span class="font">入口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">上次迭代的产品和工件。 迭代计划必须阐明迭代的特定目标：</span>
+
+										<p>
+											&nbsp;
+										</p>
+
+										<ul>
+											<li>
+												<span class="font">将要开发的新增功能，覆盖了哪些用例或场景</span>
+											</li>
+											<li>
+												<span class="font">本次迭代过程中减少的风险</span>
+											</li>
+											<li>
+												<span class="font">本次迭代过程中修改的缺陷</span>
+											</li>
+										</ul>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">出口准则：</span>
+								</p>
+
+								<p>
+									<span class="font">更新后的产品和工件，另外还有:</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个版本描述文档，记录了迭代的结果</span>
+									</li>
+									<li>
+										<span class="font">测试用例和根据产品得出的测试结果</span>
+									</li>
+									<li>
+										<span class="font">一个详细描述下一次迭代的计划</span>
+									</li>
+									<li>
+										<span class="font">对下一次迭代的客观度量标准</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">到构建阶段的后期，必须完成以下工件，及本阶段最后一次迭代额外的出口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个部署计划，指定必需的事项：</span>
+
+										<p>
+											&nbsp;
+										</p>
+
+										<ul>
+											<li>
+												<span class="font">打包</span>
+											</li>
+											<li>
+												<span class="font">定价</span>
+											</li>
+											<li>
+												<span class="font">演示</span>
+											</li>
+											<li>
+												<span class="font">支持</span>
+											</li>
+											<li>
+												<span class="font">培训</span>
+											</li>
+											<li>
+												<span class="font">移交策略 (例如一个现有系统的更新计划)</span>
+											</li>
+											<li>
+												<span class="font">产品 (软盘和手册)</span>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<span class="font">用户文档</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N10289" style="color: rgb(51, 102, 153);"><span class="atitle3">3.4. 移交阶段</span>&nbsp;</a><br />
+									移交阶段是将产品交付给最终用户的阶段。 它涉及销售、打包、安装、配置、支持用户社区和做出修正等.</span>
+								</p>
+
+								<p>
+									<span class="font">从技术角度来看，伴随本阶段迭代的是一次或多次发布：`beta&#39; 版发布、正式版发布、修补bug , 或增强版发布。</span>
+								</p>
+
+								<p>
+									<span class="font">当用户对产品满意时，本阶段即告结束。 例如，契约性开发时正式验收， 或者产品有关的所有活动都已结束。 此时，某些积累的资产可以加以整理，以为下一个周期或其他项目重用。</span>
+								</p>
+
+								<p>
+									<span class="font">入口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">上一次迭代的产品和工件， 尤其是足够成熟可以交付给用户的软件产品</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">出口准则：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">前一阶段某些文档的更新，以及必要时根据原始及修订后的成功标准，进行&quot;事后&quot;项目性能分析，从而替换原有计划。</span>
+									</li>
+									<li>
+										<span class="font">一个简短的清单，列出本次开发周期给组织带来的新的资产</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N102AD" style="color: rgb(51, 102, 153);"><span class="atitle3">3.5. 演进周期</span>&nbsp;</a><br />
+									对于重要的演进，我们应用整个过程递归，仍从起始阶段开始一个新的周期。因为我们已经有了一个产品，所以比起一个初次开发的产品，起始阶段可能大大缩短。细化阶段也可能缩小范围，而在计划方面的关注程度要大于分析或构架的演进方面。需要指出：周期之间可以略有重叠。</span>
+								</p>
+
+								<p>
+									<span class="font">较小的演进可以通过延长移交阶段或增加一两次迭代来完成。</span>
+								</p>
+
+								<p>
+									<span class="font">移交阶段可以以一个终结过程而结束，即产品不再演进了，但是为了终结它，需要采取一些特定的动作。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N102BC" style="color: rgb(51, 102, 153);"><span class="atitle2">4. Rational过程中的活动</span>&nbsp;</a><br />
+									Rational 过程中各个阶段的名称(如起始、细化、构建、移交)与描述高级活动的术语（如分析、设计、测试等）相差甚远。 因此我们容易理解某种活动的进行并不局限于某个特定阶段，也与其他作者、标准及特定领域的所使用的术语无关。这些活动确实发生，但它们在每个阶段和每次迭 代中的程度有所不同。下图表明了活动重点如何随时间的推进而发生演进。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="336" src="http://www.gdcec.com/cyber2005/pic/image012.jpg" style="border: none;" width="554" /></span>
+								</p>
+
+								<p>
+									<span class="font">图中活动重点的变化也说明尽管每次迭代在形式上都是&quot;相似&quot;的，但它们的性质和内容却是随时间而改变的。</span>
+								</p>
+
+								<p>
+									<span class="font">这还表明，一项活动的结束并不总意味着另一项活动的开始，即并不是分析完成了才开始设计，而是这些活动相关的各种&quot;工件&quot;在随着开发者对问题或需求的理解的加深也不断得到更新。</span>
+								</p>
+
+								<p>
+									<span class="font">最后，在一个迭代过程中，计划、测试和集成这些活动不是集中堆积在开发活动的开始和结束阶段，而是增量地分布在整个开发周期的各个阶段、每次迭代之中。 它们并不表现为开发过程的某个独立的阶段或步骤。</span>
+								</p>
+
+								<p>
+									<span class="font">尽管具体的项目有具体的区别，但对于一个中等规模、初次开发的典型项目来说，其开发周期中各种活动的比例如下：</span>
+								</p>
+
+								<table border="1">
+									<tbody>
+										<tr>
+											<td>
+												<span class="font">计划与管理</span>
+											</td>
+											<td>
+												<span class="font">15%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">分析/需求</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">设计/集成</span>
+											</td>
+											<td>
+												<span class="font">15%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">实施/功能测试</span>
+											</td>
+											<td>
+												<span class="font">30%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">度量/评估/验收测试</span>
+											</td>
+											<td>
+												<span class="font">15%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">工具/环境/变更管理</span>
+											</td>
+											<td>
+												<span class="font">10%</span>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<span class="font">维护（开发过程中的修补）</span>
+											</td>
+											<td>
+												<span class="font">5%</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>
+									<span class="font"><a name="N10325" style="color: rgb(51, 102, 153);"><span class="atitle2">5. 生命周期工件</span>&nbsp;</a><br />
+									开发过程不是文档驱动的：它的工件中必须一直包括软件产品自身。文档应该十分精简，数目不能太多，应只保留那些确实从管理或技术的角度有真正价值的文档。 Rational 建议保留以下典型的文档集。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1032E" style="color: rgb(51, 102, 153);"><span class="atitle3">5.1管理工件</span>&nbsp;</a><br />
+									管理工件不是产品，而是用来驱动或监控项目进展、估计项目风险、调整项目资源，以及使客户或投资者对项目保持一定的&quot;可见性&quot; 的。</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一份机构策略文档，是机构开发过程的明文规定。 它包含一个此类项目的实例。</span>
+									</li>
+									<li>
+										<span class="font">一份远景文档, 描述系统级需求，质量要求和优先级。</span>
+									</li>
+									<li>
+										<span class="font">一份业务案例文档, 描述财务环境、合同，以及项目的投资回报等等。</span>
+									</li>
+									<li>
+										<span class="font">一份开发计划文档, 包括总体的迭代计划和当前及近期迭代的详细规划。</span>
+									</li>
+									<li>
+										<span class="font">一份评估标准文档，包括需求、验收标准及其他特定的技术目标，它们由各个阶段演进的主要&quot;里程碑&quot;组成。包含迭代的目标和验收水平。</span>
+									</li>
+									<li>
+										<span class="font">每次发布的版本描述文档。</span>
+									</li>
+									<li>
+										<span class="font">部署文档, 包含对交付、培训、安装、销售、制造和交割相关的有用信息。</span>
+									</li>
+									<li>
+										<span class="font">状态评估文档: 项目状态的阶段性&quot;快照&quot;， 具有进展、人力、开销、结果、关键风险、活动等的度量标准。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N10352" style="color: rgb(51, 102, 153);"><span class="atitle3">5.2技术工件</span>&nbsp;</a><br />
+									它们或者是交付的产品，可执行的软件及手册，或者是一些用于制造产品的蓝图，这些产品包括软件模型、源代码和其他有助于理解和演进产品的工程信息。</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">用户手册, 在生命周期早期开发。</span>
+									</li>
+									<li>
+										<span class="font">软件文档, 最好以源代码自建文档和模型的形式，其中模型是用合适的CASE工具捕获并维护的这些模型包括用例、类图和过程图等。</span>
+									</li>
+									<li>
+										<span class="font">一个软件构架文档, 描述软件的整体构架，及它的主要组成元素的分解说明： 类的分组、类、过程、子系统、关键接口的定义和关键设计决策的依据。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">本文第3部分中列举的入口准则和出口准则可以映射到这11类文档之中。</span>
+								</p>
+
+								<p>
+									<span class="font">上面介绍的这套文档可以依照具体项目的类型进行扩充和删减，一些文档可以合并。 文档不必一定是纸张形式---也可以是电子表格、文本文件、数据库、源代码的注释、超文本文档等等---但相应的信息资源必须被清楚地识别，易于访问，也要保存一些历史记录。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1036D" style="color: rgb(51, 102, 153);"><span class="atitle3">5.3需求</span>&nbsp;</a><br />
+									Rational 软件开发过程也不是需求驱动的。 在产品演进的周期中，需求表现为不同的形式：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">业务案例给出了主要约束，多是些可用的资源。</span>
+									</li>
+									<li>
+										<span class="font">远景文档从用户角度仅描述了系统的关键需求，它在开发过程中将缓慢演进。</span>
+									</li>
+									<li>
+										<span class="font">更详细的需求在第二阶段（细化阶段）以用例和场景的形式进行阐明，并在第三阶段（构建阶段）随着对产品和用户需求了解的加深进一步精化。这些更详细的需求记录在评估标准文档中，它们驱动了构建阶段和移交阶段迭代内容的定义， 并在迭代计划中引用。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="N10382" style="color: rgb(51, 102, 153);"><span class="atitle2">6. Rational过程的例子</span>&nbsp;</a><br />
+									按照2.4节中所述的区别，Rational 过程采用不同的形式。 这里有两个极端的例子。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1038B" style="color: rgb(51, 102, 153);"><span class="atitle3">6.1大型契约性软件开发的Rational过程</span>&nbsp;</a><br />
+									对这个软件开发项目，Rational 过程分为3个阶段建立招标, 对应3个不同类型的合同。</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个研究与设计阶段, 包含了生命周期的起始阶段和细化阶段, 通常以风险分担方式投标，举例来说，成本加奖金合同（ cost plus award fee contract ，CPAF）。</span>
+									</li>
+									<li>
+										<span class="font">一个生产阶段，包含了生命周期的构建和移交阶段, 通常作为一个公司、固定的价格合同（a firm, fixed price contract ,FFP）来投标。</span>
+									</li>
+									<li>
+										<span class="font">一个维护阶段，对应生命周期的演进阶段，通常作来工作量水平合同（ a level of effort contract ，LOE）来投标。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">因为用户需要更高的可视性来评估项目，还因为项目涉及大量人员和组织，开发过程应更加正规化，要比小型、内部的项目更加重视书面工件。第5部分列出的11类文档都以某种形式或名称存在。</span>
+								</p>
+
+								<p>
+									<br />
+									<span class="font"><img alt="" border="0" height="321" src="http://www.gdcec.com/cyber2005/pic/image014.jpg" style="border: none;" width="444" /></span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N103B4" style="color: rgb(51, 102, 153);"><span class="atitle3">6.2小型商业软件产品的Rational过程</span>&nbsp;</a><br />
+									在按规模分类的过程家族的另一端，是小型的商业软件开发。它的流动性更强一些，只有有限的正规性， 表现为一些主要的里程碑和有限的文档集：</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">一个产品远景 （A product vision）。</span>
+									</li>
+									<li>
+										<span class="font">一份开发计划，显示资源和日程安排</span>
+									</li>
+									<li>
+										<span class="font">版本描述文档，在每次迭代的开始指明本次迭代的目标，在迭代结束时 作为版本说明（release notes）进行更新。</span>
+									</li>
+									<li>
+										<span class="font">必要的用户手册</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font">软件结构、软件设计、开发过程可以通过代码本身或软件开发环境来进行文档化。</span>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<p>
+					<span class="font">&nbsp;</span>
+				</p>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td>
+								<span class="font"><span class="astitle">在项目中集成RUP和XP</span></span>
+							</td>
+							<td width="8">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%281%29.gif" style="border: none;" width="8" /></span>
+							</td>
+							<td align="right" width="180">
+								&nbsp;
+							</td>
+							<td width="6">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%281%29.gif" style="border: none;" width="6" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#000000" colspan="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%281%29.gif" style="border: none;" width="100" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#ffffff" colspan="5">
+								<span class="font"><img alt="" border="0" height="8" src="http://www.gdcec.com/cyber2005/pic/c%281%29.gif" style="border: none;" width="100" /></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td width="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%281%29.gif" style="border: none;" width="5" /></span>
+							</td>
+							<td width="100%">
+								<span class="font"><a name="N10070" style="color: rgb(51, 102, 153);"><span class="atitle3">概述</span>&nbsp;</a></span>
+								<p>
+									&nbsp;
+								</p>
+
+								<p>
+									<span class="font">我们集中讨论如何通过使用两个流行的方法得到过程的恰当级别：Rational Unified Process 或简称 RUP 以及极限编程（XP）。我们展示如何在小型项目中使用 RUP 以及 RUP 如何处理 XP 没有涉及到的领域。二者融合为项目团队提供了所需的指南--减少风险同时完成交付软件产品的目标。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 是由 IBM Rational 开发的过程框架。它是一种迭代的开发方法，基于六个经过行业验证的最佳实践（参见 RUP 附录）。随着时间的推进，一个基于 RUP 的项目将经历四个阶段：起始阶段（Inception）、细化阶段（Elaboration）、构造阶段（Construction）、交付阶段 （Transition）。每个阶段都包括一次或者多次的迭代。在每次迭代中，您根据不同的要求或工作流（如需求、分析和设计等）投入不同的工作量。 RUP 的关键驱动因素就是降低风险。RUP 通过数千个项目中数千名 IBM Rational 客户和合作伙伴使用而得到精化。下图展示了一个典型迭代过程的工作流：</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10081" style="color: rgb(51, 102, 153);"><strong>典型迭代流</strong>&nbsp;</a><br />
+									<img alt="典型迭代流" border="0" height="264" src="http://www.gdcec.com/cyber2005/pic/image001.png" style="border: none;" width="522" /></span>
+								</p>
+
+								<p>
+									<span class="font">作为风险如何影响过程的一个例子，我们应该考虑是否需要为业务建模。如果由于对业务的理解中没有考虑到一些重大风险，将导致我们所构建的系统是错误 的，那么我们就应该执行一些业务建模工作。我们需要正式进行建模工作吗？这取决于我们的涉众--如果一个小团队将非正式地使用结果，那么我们也许只进行非 正式的记录就可以。如果组织中的其他人也将使用结果或者查看结果，那么我们可能就要投入更大的努力，并且确保该结果的正确性和可理解性。</span>
+								</p>
+
+								<p>
+									<span class="font">您可以定制 RUP 使其满足几乎任何项目的需要。如果没有满足您特定需要的即装即用的过程或路线图，您可以轻松地创建您自己的路线图。路线图描述了该项目如何计划使用过程， 因此代表了该项目的特定过程实例。这就意味着，RUP 可以按需要变得简单或复杂，我们将在本文中详细解释。</span>
+								</p>
+
+								<p>
+									<span class="font">XP 是一个用于小型项目中的以代码为中心的轻量级过程（参见 XP 附录）。它来自 Kent Beck 的创意，在大概 1997 年 Chrysler 公司的 C 3 工资单项目中得到软件界的关注。如同 RUP 一样，XP 也是基于迭代的，并且体现了诸如小规模发布、简单设计、测试以及持续迭代几项实践，。XP 为恰当的项目和环境引入了一些有效的技术；不过，其中也存在隐藏的假设、活动和角色。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 和 XP 具有不同的基本原理。RUP 是过程组件、方法以及技术的框架，您可以将其应用于任何特定的软件项目，我们希望用户限定 RUP 的使用范围。XP，从另一方面来说，是一个具有更多限制的过程，需要附加内容以使其适合完整的开发项目。这些不同点解释了软件开发界的一个观点：开发大型 系统的人员使用 RUP 解决问题，而开发小型系统的人员使用 XP 作为解决方案。我们的经验表明大部分的软件项目都处于两者之间--尽力找寻适用于各自情况的过程的恰当级别。单纯地使用两者之一是不充分的。</span>
+								</p>
+
+								<p>
+									<span class="font">当您在 RUP 中融合了 XP 技术时，您会得到过程的正确量，既满足了项目所有成员的需要，又解决了所有主要的项目风险问题。对于一个工作于高信任环境中的小型项目团队，其中用户是团 队的一部分，那么 XP 完全可以胜任。对于团队越来越分散，代码量越来越大，或者构架没有很好定义的情况，您需要做一些其他工作。在用户交互具有&quot;契约&quot;风格的项目中，仅有 XP 是不够的。RUP 是一个框架，您可以从 RUP 出发，在必要时以一组更健壮的技术来扩展 XP。</span>
+								</p>
+
+								<p>
+									<span class="font">本文的以下部分描述了一个基于 RUP 四个阶段的小型项目。在每个阶段中，我们都确定了所产生的活动和工件 。虽然 RUP 和 XP 具有不同的角色和职责，但是我们在这里不会处理这些差异。对于任何组织或项目，实际项目成员必须在过程中与正确的角色关联起来。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100A3" style="color: rgb(51, 102, 153);"><span class="atitle2">项目启动－起始阶段</span>&nbsp;</a><br />
+									对于新的开发项目来说，起始阶段是很重要的，在项目继续进行前，您必须处理重要的业务与需求风险。对于那些增强现有系统的项目，起始阶段是比较短暂的，但是其目的仍是确定该项目的实施价值及可行性。</span>
+								</p>
+
+								<p>
+									<span class="font">在起始阶段中，为了构建软件您可以创建业务案例。视图是起始过程中的关键工件。它是系统的高级描述。它为每个人解释该系统是什么、可能使用系统的用 户、使用系统的原因、必须具备的功能，以及存在的约束。视图可能很短，也许只有一两段。视图往往包括软件必须为客户提供的关键功能。</span>
+								</p>
+
+								<p>
+									<span class="font">下面的例子展示了一个项目的很短视图，该项目对 Rational 的外部网站进行了改造。</span>
+								</p>
+
+								<p>
+									<span class="font"><em>为使 Rational 的地位达到电子开发（包括工具、服务和最佳实践）的世界领先程度，可以通过动态的、个性化的网站加强客户关系，为访问者提供自助服务、支持和目标内容。新的过程和技术启用可以使内容供应商通过一种简化的、自动的解决方案加速发布并提高内容的质量。</em></span>
+								</p>
+
+								<p>
+									<span class="font">RUP 起始阶段中 4 个重要活动为：</span>
+								</p>
+
+								<p>
+									<span class="font">制定项目的范围。如果我们打算构建一个系统，我们需要知道其内容以及它如何满足涉众的需要。在这个活动中，我们捕获内容和最重要的需求的足够详细的信息，从而得出产品可接受的标准。</span>
+								</p>
+
+								<p>
+									<span class="font">计划并准备业务案例。我们使用视图作为指导，定义风险缓和策略，开发起始的项目计划，并确定已知成本、日程计划，以及盈利率平衡。</span>
+								</p>
+
+								<p>
+									<span class="font">综合得出备选构架。如果正在计划中的系统没什么新颖性，而且使用的框架广为人之，那么您可以跳过这一步。我们一旦知道客户的需求，就要开始分配时间 研究可行的备选构架。新技术能够带来解决软件问题的新的并且经过改进的解决方案。在过程的早期花些时间评估购买还是创建系统，并选择技术，也可以开发出一 个起始原型，这些都可以减少项目的一些主要风险。</span>
+								</p>
+
+								<p>
+									<span class="font">准备项目环境。任何项目都需要项目环境。不论您使用 XP 技术（例如结对编程），还是较传统的技术，您都需要确定团队将要使用的物理资源、软件工具以及步骤。</span>
+								</p>
+
+								<p>
+									<span class="font">进行小型项目开发时，并不需要太多的&quot;过程时间&quot;来执行起始过程。您往往可以在几天中或者更少的时间里完成，下面的内容说明了本阶段除了视图之外的预期工件。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100CA" style="color: rgb(51, 102, 153);"><span class="atitle3">一个经批准的业务案例</span>&nbsp;</a><br />
+									涉众有机会 从业务的角度认定项目是值得进行的。RUP 和 XP 都承认最好在早期就得出项目是否值得进行的结论，以免在一个注定将要失败的项目中花费宝贵的资源。如同在&quot;Planning Extreme Programming&quot; 一书描述的那样，XP 对于项目是如何形成的以及涉及哪些角色这两个问题的回答是比较模糊的（似乎在现有项目或系统的环境中是最清晰的），但是在研究阶段，XP 处理的工件与 RUP 起始过程中的是相同的。</span>
+								</p>
+
+								<p>
+									<span class="font">不论您在 XP 中非正式地考虑业务问题，还是在 RUP 中将业务案例做成一流的项目工件，您都需要考虑这些问题。风险清单您应该在整个项目开发过程中都保持记录 Risk List（风险清单）。使用有风险清单可以是一个具有经过计划的风险缓和策略的简单清单。为各个风险设定优先级。任何与项目有关的人员都可以随时看到风险 的内容以及如何处理风险，但是没有提供解决风险的一般方式 。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100D6" style="color: rgb(51, 102, 153);"><span class="atitle3">初步项目计划</span>&nbsp;</a><br />
+									本计划包括资源估算、规模以及阶段计划。对于任何项目，这些估算都是不断变化的，您必须监控它们。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100DF" style="color: rgb(51, 102, 153);"><span class="atitle3">项目验收计划</span>&nbsp;</a><br />
+									您的计划正式与否依 赖于项目的类型。您必须判断客户会如何才能认为您的项目取得了成功。对于一个 XP 项目，客户会采取验收测试的形式。在更普遍的过程中，客户可能不会真正地进行测试，但是接受的标准必须直接由客户作出，或者由另一个角色作出，例如与客户 直接接触的系统分析员。也可能存在其他的验收标准，例如创建最终用户文档和帮助，但是XP并不涉及此内容。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100E8" style="color: rgb(51, 102, 153);"><span class="atitle3">起始细化迭代计划</span>&nbsp;</a><br />
+									在基于 RUP 的项目中，在上次迭代的最后，您将详细计划下次迭代。在迭代的最后，您可以评估迭代开始时设立的标准。XP 提供了探监控与衡量迭代成功的一些优秀技巧。衡量标准是简单的，您可以轻松地将它们合并到迭代计划和评估标准中。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N100F1" style="color: rgb(51, 102, 153);"><span class="atitle3">起始用例模型</span>&nbsp;</a><br />
+									虽然这听起来比较正 式而让人望之却步，但是它却相当简单。用例与客户在XP中编写的&quot;故事&quot;相对应。其间的差异就是一个用例就是一套完整的动作，由参与者或系统外部的人员或 事物发起，这正是用例的价值所在。用例可能包括若干个XP&quot;故事&quot;。RUP 为了定义项目的边界，推荐在起始过程中确定用户与角色。从用户的观点关注整套操作有助于将系统分为有价值的部分。这有助于判定恰当的实施特性，因此我们能 够在每次迭代的最后向客户交付一些成果（可能在起始迭代与细化迭代早期除外）。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 与 XP 都可以帮助我们确保避免一种情况，即整个项目已完成 80％，但都不是可交付的形式。我们一直希望发布的系统对用户都是有价值的。</span>
+								</p>
+
+								<p>
+									<span class="font">在这一点上，用例模型在识别用例和参与者方面几乎没有或只有很少提供支持的细节。它可以是手工或使用工具绘制的简单的文本或者 UML（统一建模语言）图。该模型帮助我们确保已经包含了涉众所关心的正确的功能，并且没用忘记任何功能，并允许我们轻松地查看整个系统。用例根据若干因 素设定优先级，这些因素包括风险、对客户的重要程度以及技术难点。起始阶段中不需要过于正式的或过大的工件。按照您的需求让它们保持简单或者正式就可以。 XP 包括对计划与系统验收的指南，但是 RUP 需要在项目的早期添加更多的一些内容。这些少量添加可能通过处理一套更完整的风险而为项目提供很大的价值。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10100" style="color: rgb(51, 102, 153);"><span class="atitle2">细化阶段</span>&nbsp;</a><br />
+									细化阶段的目标是为系统构架设立基线，为在构建阶段大量的设计与实施工作打下坚实的基础。构架通过考虑最重要的需求（那些对系统构架影响最大的需求）与评估风险演进而来。构架的稳定性是通过一个或多个构架原型进行评估的。</span>
+								</p>
+
+								<p>
+									<span class="font">在 RUP 中，设计活动主要关注系统构架的概念，对于软件密集型的系统来说，就是软件构架的概念。使用组件构架是在 RUP 中体现的软件开发 6 项最佳实践其中之一，该实践推荐在开发与所作所为构架上要投入一些时间。在这项工作花费的时间可以减缓与脆弱的、僵化日系统有关的风险。</span>
+								</p>
+
+								<p>
+									<span class="font">XP 使用&quot;隐喻&quot;替换了构架的概念。隐喻只捕获构架的一部分，而其余构架部分则随着代码开发的自然结果而演进。XP假定构架的形成是从生成简单的代码开始，然后进行持续的代码重构。</span>
+								</p>
+
+								<p>
+									<span class="font">在 RUP 中，构架不只是&quot;隐喻&quot;。在细化阶段中，您构建可执行的构架，从中可能降低与是否满足非功能性需求相关的许多风险，例如性能、可靠性以及健壮性。通过阅读 XP文献，很可能推断出一些 RUP 为细化阶段所描述的内容，尤其是过于 XP 所称的基础设施的过分关注，都是徒劳无功的。XP 认为在没有必要的情况下创建基础设施所做的工作导致了解决方案过于复杂，并且所创建的结果对客户没有价值。在 RUP 中，构架与基础设施不是等同的。</span>
+								</p>
+
+								<p>
+									<span class="font">在 RUP 与 XP 中创建构架的方法是截然不同。RUP 建议您关注构架，避免随时间变化而产生的范围蔓延、增加项目规模以及采用新技术带来的风险。XP 采用足够简单或是很好理解的现有构架，该构架能够随着代码而演进。XP 建议您不要为明天而设计，而要为今天而实施。XP 相信如果您尽可能地保持设计简单，那么将来管理起来也轻而易举。RUP 希望您考虑该主张带来的风险。如果系统或者部分系统在未来不得不重写，那么 XP 认为这种举措比现在就计划这种可能性更明智而且花费更少。对于一些系统，这是千真万确的，而且使用 RUP 时，在您细化阶段考虑风险也会得出同一结论。RUP 并不认为对于所有系统这都是正确的，而且经验表明对于那些较大型、较复杂和没有先例的系统来说，这可能是灾难性的。</span>
+								</p>
+
+								<p>
+									<span class="font">虽然为未来的可能性（可能永远不会生生）花费太多的精力可能是一种浪费但是对未来进行足够的关注不失为一件精明之举。多少公司能花得起代价不断重写或者甚至是重构代码呢？</span>
+								</p>
+
+								<p>
+									<span class="font">对于任何项目，在细化阶段您应该至少完成这三项活动：</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>定义、验证并且设定构架的基线。</strong>&nbsp;使 用风险清单从起始阶段开发备选构架。我们关注是否能够保证构想中的软件具有可行性。如果选定技术对于系统没什么新颖性或者复杂性，这项任务不会花费太长时 间。如果您正在向现有系统中添加内容，那么如果现有构架不需要进行变更，这项任务就不是必要的。但是当真正出现构架风险时，您并不想让您的架构来&quot;碰运 气&quot;。</span>
+								</p>
+
+								<p>
+									<span class="font">作为这项活动的一部分，您可能执行一些组件选择，并且做出决定进行购买/创建/重用组件。如果这需要大量工作，您可以将其分为单独的活动。</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>精化视图。</strong>&nbsp;在起始 阶段，您开发了一个视图。因为你要确定项目的可行性，并且涉众有时间检查和评价系统，因此可能要对视图文档及需求作出一些变更。对视图与需求的修改一般在 细化阶段进行。在细化阶段的最后，您已经深刻理解了用来构建和计划的最关键的用例。涉众需要得到认可，在当前构架的环境中，只要按照当前的计划开发整个系 统，就能实现当前的设想。在随后的迭代过程中，变更的数量应该有所减少，但是您可能会在每次迭代中花一些时间进行需求管理。</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>为构建阶段创建迭代计划并且设定基线</strong>&nbsp;。 现在，可以为您的计划填充细节了。在每次构建迭代的最后，您可以按需要重新考虑计划并且进行调整。调整过程经常是必需的，因为需要进行的工作往往被错误地 估算，业务环境也会常常变化，有时需求也会发生变更。为用例、场景以及技术工作设定优先级，然后将它们分配到迭代过程中。在每次迭代过程的最后，您计划产 生一个能够为涉众提供价值的工作产品。</span>
+								</p>
+
+								<p>
+									<span class="font">您可以在细化阶段执行其他活动。我们推荐您建立测试环境并且开始开发测试。虽然详细的代码还没有完成，但是您仍然可以设计测试，也许可以实施集成测 试。程序员应该随时准备进行单元测试，并且了解如何使用项目选定的测试工具。XP 推荐您在编写代码前先设计测试内容。这是个独到的见解，尤其是当您向现有代码主体中添加内容时。不过，无论您选择如何进行测试，都应该在细化阶段建立常规 测试体制。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 描述的细化阶段包括 XP 中的研究阶段和投入阶段。XP 处理技术风险（例如新颖性和复杂性）的方式为使用&quot;spike&quot;解决方案，例如花费一些时间进行试验以对工作量进行估算。这种技术在许多案例中都是有效 的，当较大风险没有体现在单个用例或&quot;故事&quot;中时，您就需要花些工夫确保系统的成功而且对工作量进行精确的估算。</span>
+								</p>
+
+								<p>
+									<span class="font">在细化阶段，您会经常更新工件，例如起始阶段的需求与风险清单。在细化阶段可能出现的工件包括：</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>软件构架文档（SAD）。</strong>&nbsp;SAD 是一个复合型的工件，它提供了整个项目的技术信息的单一来源。在细化阶段的最后，该文档可能会包含详细的介绍，描述在结构上很重要的用例，并且确定关键的 机制和设计元素。对于增强现有系统的项目，您可以使用以前的 SAD，或者如果你觉得不会带来什么风险，那么就决定不使用该文档。在所有的情况下，您都应该深思熟虑并且记录于文档中。</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>构建过程的迭代计划。</strong>&nbsp;您 可以在细化阶段计划构建迭代的次数。每次迭代都有特定的用例、场景以及其他分配的工作项目。这些信息都在迭代计划中有所体现并且设定基线。评审与核准计划 可以作为细化阶段的出口标准的一部分。对于非常小的短期项目来说，您可以将细化阶段的迭代与起始过程和构建过程合并。关键性的活动仍然可以进行，但是迭代 计划和评审所需的资源都会有所减少。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10145" style="color: rgb(51, 102, 153);"><span class="atitle2">构建阶段</span>&nbsp;</a><br />
+									构建的目标是完成系统开发。构建阶段从某种意义上来看是一个制造过程，其中重点工作就是管理资源、控制操作以优化成本、日程和质量。从这个意义上来讲，管理理念应该进行一个转换，从起始阶段和细化阶段的知识产权开发转换到构建和交付阶段的部署产品的开发。</span>
+								</p>
+
+								<p>
+									<span class="font">XP 侧重构建阶段。构建阶段是编写产品代码的阶段。XP所有阶段的目的都是为了进行计划，但是 XP 的关注焦点是构建代码。</span>
+								</p>
+
+								<p>
+									<span class="font">构建阶段的每次迭代都具有三个关键活动：</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>管理资源与控制过程。</strong>&nbsp;每个人都需要了解自己的工作内容和时间。您必须保证工作负荷不会超过您的能力，而且工作可以按计划进行。</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>开发与测试组件。</strong>&nbsp;您构建组件以满足迭代中用例、场景以及其他功能的需要。您对其进行单元测试和集成测试。</span>
+								</p>
+
+								<p>
+									<span class="font"><strong>对迭代进行评估。</strong>&nbsp;在迭代完成时，您需要判断是否已经达到了迭代的目标。如果没有，您必须重新划分优先级并管理范围以确保能够按时交付系统。</span>
+								</p>
+
+								<p>
+									<span class="font">不同类型的系统需要使用不同的技术。RUP 为软件工程师提供了不同的指导，以帮助他们创建恰当的组件。以用例和补充（非功能）需求的形式提出的需求是足够详细的，可以使工程师开展工作。RUP 中的若干活动为设计、实施和测试不同种类的组件提供了指南。一名有经验的软件工程师不需要详细查看这些活动。经验稍欠缺一些的工程师可以通过最佳实践获得 很大的帮助。每个团队成员都可以按需要深入研究过程或者只是稍微了解一下。不过，他们都参照一个单独的过程知识基础。</span>
+								</p>
+
+								<p>
+									<span class="font">在 XP 中，&quot;故事&quot;驱动实施过程。在 Extreme Programming Installed 一书中，Jeffries等人认为&quot;故事&quot;是程序员的&quot;会话承诺&quot;（promises for conversation）。 持续有效的交流大有裨益。虽然总是需要澄清一些细节，如果&quot;故事&quot;不够详细，而使程序员不能完成他们大部分工作，那么可以说&quot;故事&quot;还没有就绪。用例必须 足够详细以方便程序员实施。在许多情况下，程序员会帮助编写用例的技术细节。Jeffries 等人认为，会话应该记录在文档中并且附加到&quot;故事&quot;中。RUP 也同意这个观点，除了以用例规格说明的形式，可以按需要使用非正式的形式。捕获并管理会话的结果是您必须管理的任务。</span>
+								</p>
+
+								<p>
+									<span class="font">XP 的长处在于构建阶段。对于大多数团队来说，都存在适用于他们的&quot;智慧与指南的结晶&quot;。XP 中最显著的实践包括：</span>
+								</p>
+
+								<p>
+									<span class="font">测试--程序员不断地随着代码的开发编写测试。测试反映了&quot;故事&quot;。XP提倡您首先编写测试，这是一项优秀的实践，因为它可以迫使您深刻地理解&quot;故 事&quot;，并且在必要的地方提出更多的问题。不论在编写代码之前还是之后，一定要编写测试。将它们加入到您的测试包中，并且保证每次代码变更时都运行测试。</span>
+								</p>
+
+								<p>
+									<span class="font">重构--不断重构系统的结构而不改变其行为，可以使其更加简单或灵活。您需要判断对您的团队来说是否存在一个较好的实践。简单与复杂的判别否因人而 异。有这样一个例子，一个项目中的两个很聪明的工程师每晚都要重写对方的代码，因为他们认为对方的代码过于复杂。这产生了一个副作用，也就是他们总是干扰 第二天其他成员的工作。测试是有帮助的，但是如果他们之间不陷入代码之争的话，那么团队的处境就会更好一些。</span>
+								</p>
+
+								<p>
+									<span class="font">结对编程--XP 认为结对编程可以在更短的时间内创建出更好的代码。有证据表明这是正确的 。如果您遵照这项实践，就需要考虑许多人文与环境的因素。程序员愿意对此进行尝试吗？您的物理环境可以满足这种情况吗，即有足够的空间使两个程序员在一个 单独工作站中有效地工作？您如何对待远程工作或者在其他地点工作的程序员？</span>
+								</p>
+
+								<p>
+									<span class="font">持续集成--集成与构建工作需要持续进行，可能每天不止一次。这是一种确保代码结构完整的很好的方式，它还允许在集成测试过程中进行持续的质量监控。</span>
+								</p>
+
+								<p>
+									<span class="font">集体代码所有权--任何人都可以随时修改任何代码。XP 依赖这样一个事实，即一组好的单元测试将会减少这项实践的风险。让大家将每一件事都搞清楚的好处不能局限在一定的尺度上--是 1 万行代码、2 万行代码还是一定要少于 5 万行？</span>
+								</p>
+
+								<p>
+									<span class="font">简单设计--随着重构过程的进行，需要不断地修改系统设计使其变更简单。再一次重申，您需要判断这项工作进行到何种程度才恰好合适。如果您在细化阶段中花费了必要霎时间来设计构架，我们相信简单的设计将会很快完成并且很快变得稳定。</span>
+								</p>
+
+								<p>
+									<span class="font">代码标准--这一直都是一项良好实践。标准是什么都没关系，只要您使用它们而且每个人都认可就可以。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 与 XP 都认为您必须管理（和控制）迭代过程。衡量标准可以提供较好的计划信息，因为它们可以帮助您选择对于您的团队来说什么是最适合的。需要衡量三件事：时间、 规模和缺陷。这样您就可以获得所有类型您所感兴趣的统计数字。XP 为您提供简单的衡量标准来判断进展并且预测成果。这些衡量标准围绕着完成的&quot;故事&quot;数量、通过测试的数量以及统计中的趋势这些问题。XP 为使用最少量的衡量标准做出了一个优秀的表率，因为查看太多并不一定会增加项目成功的机会。RUP 为您提供了对于您可以衡量的内容以及如何衡量的指导，并且举了有关衡量标准的例子。在所有的情况中，衡量标准必须简单、客观、易于搜集、易于表达，并且不 易产生误解。</span>
+								</p>
+
+								<p>
+									<span class="font">在构建阶段的迭代过程中将会产生哪些工件呢？这取决于迭代是处于构建阶段的早期还是后期，您可以创建以下工件：</span>
+								</p>
+
+								<p>
+									<span class="font">组件--组件代表了软件代码中的一部分（源代码、二进制代码或者可执行程序），或者包含信息的文件，例如，一个启动文件或者一个 ReadMe 文件。组件还可以是其他组件的聚合，例如由几个可执行程序组成的应用程序。</span>
+								</p>
+
+								<p>
+									<span class="font">培训资料--如果系统的用户界面比较复杂，那么请在用例的基础上尽早编写用户手册和其他培训资料的初稿。</span>
+								</p>
+
+								<p>
+									<span class="font">部署计划--客户需要一个系统。部署计划描述了一组安装、测试并且有效地向用户交付产品所需的任务。对于 以Web 为中心的系统来说，我们已经发现，部署计划的重要性又提高了。</span>
+								</p>
+
+								<p>
+									<span class="font">交付阶段迭代计划--临近交付时，您需要完成并且评审交付阶段迭代计划。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10196" style="color: rgb(51, 102, 153);"><span class="atitle3">代码完整吗？</span>&nbsp;</a><br />
+									认为代码就是设计并且设计也就是代码。代码与自身总是一致的，这一点是千真万确的。我们认为花费精力进行设计并且沟通设计是很值得的，而不仅仅是创建代码。下面的小故事会说明这一点。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 与 XP 间的差异除了建立构架的方法以外，还包括其他方面的不同。其中一点就是关于设计概念的沟通方式。XP</span>
+								</p>
+
+								<p>
+									<span class="font">一名工程师曾有两次这样的软件项目经历，设计体现在代码中，并且只能在代码中找到设计信息。这两个项目都是关于编译器的：一个是改进与维护用于 Ada 编译器的优化程序，另一个项目是将一个编译器的前端移植到一个新的平台上，并且连接一个第三方的代码生成器。</span>
+								</p>
+
+								<p>
+									<span class="font">编译器技术是比较复杂的，但也是广为人知的。在这两个项目中，该工程师想要概览编译器（或者优化程序）的设计和实施。在每个案例中，他都接到一堆源 代码清单，大概有几英尺厚，而且被告知&quot;查看这些信息&quot;。他本应被提供一些带有支持性文字的构建很好的图。优化程序的项目没有完成。但是编译器项目确实取 得了成功，由于在代码开发过程中进行了广泛的测试，所以代码质量很高。这位工程师花费了数天时间研究调试器中的代码以弄明白其作用。个人的损失尚在其次， 团队的损失代价就更不值得。我们并没有按 XP 所示的那样在 40 小时后完成开发，我们反而花费了大量个人努力来完成工作。</span>
+								</p>
+
+								<p>
+									<span class="font">只开发代码带来的主要问题就是无论代码文档编写得多么好，它都没有告诉您它本身要解决的问题，它只提供了问题的解决方案。一些需求文档在最初用户和 开发人员继续工作很长时间以后，仍然可以很好地解释项目的原始目标。为了维护系统，您往往需要了解最初项目团队的设计目标。一些高级设计文档都是相似的 --代码经常没有经过高度的抽象，所以无法提供任何信息以表明整体的系统能够实现什么功能。在面向对象的系统中，这一点尤其是正确的，因为仅仅查看里面的 类文件是很难甚至无法得出执行线程。设计文档指导您在后期出现问题时该查看的内容--在后期经常会出现问题。</span>
+								</p>
+
+								<p>
+									<span class="font">这个故事说明花费时间创建与维护设计文档确实会有所帮助。这可以降低误解的风险，并且加速开发过程。XP 的方式就是花费几分钟勾画出设计的大概内容或者使用 CRC 卡片。 但是团队不主张这样，而只是进行代码开发。他们有一个隐含的假设，那就是任务很简单，我们已经知道该如何进行了。即使我们成功地完成了任务，那么下一个新 来的人可能就不会如此幸运。RUP建议您多花费一些时间创建并维护这些设计工件。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N101AB" style="color: rgb(51, 102, 153);"><span class="atitle2">交付阶段</span>&nbsp;</a><br />
+									交付阶段的焦点就是确保软件对于最终用户是可用的。交付阶段包括为发布进行产品的测试，在用户反馈的基础上做微小的调整等几方面内容。在生命周期的这个时刻，用户反馈主要集中在精确调整产品、配置、安装，以及可用性等问题上。</span>
+								</p>
+
+								<p>
+									<span class="font">较早发布、经常性发布都是很好的办法。但是，我们通过发布要达到的目的是什么呢？XP 没有清楚地解释这个问题，也没有处理发布商业软件所必须制造问题。在内部项目中，您可以为解决这些问题找到捷径，但是即使这样，您仍然需要编辑文档、员工 培训等工作。那么技术支持与变更管理又如何呢？希望现场客户控制这些内容，这是可行的吗？Bruce Conrad 在他的 XP 的 InfoWorld 评论 中指出用户并不希望得到的软件总是在持续变更。您必须对快速变更软件的利益和变更的劣势及可能带来的不稳定性进行权衡。</span>
+								</p>
+
+								<p>
+									<span class="font">当您决定发布的时候，您必须为最终用户提供比代码多得多的东西。交付阶段的活动和工件会指导您完成本部分软件开发过程。这些活动主要是为了向您的客户提供可用的产品。交付阶段的关键活动如下：</span>
+								</p>
+
+								<p>
+									<span class="font">确定最终用户支持资料。该活动比较简单，您只需提供一个清单即可。但是务必要确保您的组织已准备好对客户进行技术支持。</span>
+								</p>
+
+								<p>
+									<span class="font">在用户的环境中测试可交付的产品。如果您能够在公司内部模拟用户环境，那是最好不过的。否则，就到客户的公司去，安装软件并且保证其可以运行。您一定不想尴尬地回答客户：&quot;但是在我们的系统上工作很正常。&quot;</span>
+								</p>
+
+								<p>
+									<span class="font">基于用户反馈精确调整产品。如果可能的话，在您向有限数量客户交付软件时计划一次或者多次 Beta 测试周期。如果进行该测试，那么就需要对 Beta 测试周期进行管理，并且考虑您&quot;收尾工作&quot;中的客户反馈。</span>
+								</p>
+
+								<p>
+									<span class="font">向最终用户交付最终产品。对于不同类型的软件产品和发布版本，需要处理许多有关打包、制造和其他产品问题。您肯定不会仅仅将软件复制到一个文件夹中，然后向客户发一封邮件告诉他们软件已经到位了。</span>
+								</p>
+
+								<p>
+									<span class="font">与其他阶段一样，过程的格式与复杂度都有所不同。不过，如果您没有注意部署细节，那么可能导致数周或数月的良好开发工作前功尽弃，从而在进入目标市场时以失败告终。</span>
+								</p>
+
+								<p>
+									<span class="font">在交付阶段中您可以生成若干工件。如果您的项目涉及到将来的发布（有多少项目没有涉及到呢？），那么您就应该开始为下次发布确定功能和缺陷。对于任何项目，下列工件都至关重要：</span>
+								</p>
+
+								<p>
+									<span class="font">部署计划--完成您始于构建阶段的部署计划并且将其作为交付的路线图。</span>
+								</p>
+
+								<p>
+									<span class="font">版本注释--它是一个比较少见的软件产品，不包含对最终用户至关重要的指令。可以对其做出计划，对于注释要有一个可用的、一致的格式。</span>
+								</p>
+
+								<p>
+									<span class="font">交付阶段资料与文档--这类资料可以采取很多形式。您可以在线提供所有内容吗？您会进行指导吗？您的产品帮助完整并且可用吗？不要认为您所了解的，客户也同样了解。您的成功就在于帮助您的客户取得成功。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N101D5" style="color: rgb(51, 102, 153);"><span class="atitle2">结束语</span>&nbsp;</a><br />
+									构建软件的工作远远多于编 写代码所工作。一个软件开发过程必须集中处理向用户发布高质量软件的所有必需活动。一个完整的过程不必是庞大的。我们通过集中论述项目中的主要活动和工 件，已经向您展示了如何进行一个小型但是完整的过程。如果执行某项活动或者创建某个工件对于缓解项目中的风险是有帮助的，那么就请进行。您可以按需要为您 的项目团队和组织使用或多或少的过程和格式。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 和 XP 并不必是互相排斥的。通过结合使用这两种方法，您完全可以得到一个过程，帮助您比现在更快地交付更高质量的软件。Robert Martin 描述了一个叫做 dX 的过程，他将其作为 RUP 的附属品 。它就是一个从 RUP 框架中构建的过程的实例。</span>
+								</p>
+
+								<p>
+									<span class="font">一个优秀的软件过程可以使用经业界验证的最佳实践。最佳实践已经在真实的软件开发组织中使用，并且经历了时间的考验。XP 是目前广为关注的方法。它以代码为中心，并提供了一项承诺：花费最少的过程开销得到最大的生产力。XP 中的许多技术值得在恰当的情况中考虑和采用。</span>
+								</p>
+
+								<p>
+									<span class="font">XP 关注&quot;故事&quot;、测试和代码--它以一定的深度讨论了计划，但没有详细阐述如何获取计划。XP 意味着您可以完成其他一些工作，例如&quot;使用一些卡片进行 CRC 设计或者草拟某种 UML&hellip;&hellip;&quot;或者&quot;请不要生成并不使用的文档或者其他工件&quot;，但只是一带而过。RUP 希望您在定制和更新开发计划时，仅仅考虑创建有用和必须的东西，并且指出了这些东西该是什么。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 是一个可以处理整个软件开发周期的过程。它关注最佳实践，并且经过了数千个项目的洗礼。我们鼓励研究和发明新的技术以产生最佳实践。随着新的最佳实践崭露头脚，我们希望将它们纳入 RUP 中。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N101EA" style="color: rgb(51, 102, 153);"><span class="atitle2">附录：Rational Unified Process</span>&nbsp;</a><br />
+									Rational Unified Process，或者简称 RUP，提供了软件开发的规律性方法。它是由IBM Rational开发并维护的过程产品。它为来同类型的项目提供了几种即装即用的路线图。RUP 还提供了一些信息，帮助您在软件开发过程中使用其他 Rational 工具，但是它不要求将 Rational 工具有效地应用于整个组织，您也可以将 Rational 工具与其他供应商的产品进行集成。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 为软件项目所有方面提供了指导。并不需要您执行任何特定的活动或者创建任何特定的工件。它只为您提供信息和指南，您可以决定将哪些应用于您的组织。如果没有特定的路线图适合您的项目或者组织，RUP 还提供了一些指南来帮助您量身定做你的过程。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 强调采用现代软件开发的一些最佳实践，作为一种降低开发新软件所带来的内在风险的方式。这些最佳实践包括：</span>
+								</p>
+
+								<p>
+									<span class="font">1． 迭代开发<br />
+									2． 管理需求<br />
+									3． 使用基于组件的构架<br />
+									4． 可视建模<br />
+									5． 持续的质量验证<br />
+									6． 控制变更</span>
+								</p>
+
+								<p>
+									<span class="font">这些最佳经验融合到 Rational Unified Process 的以下定义中：</span>
+								</p>
+
+								<p>
+									<span class="font">角色--执行的系列活动和拥有的工件。<br />
+									学科--软件工程中的关键领域，例如需求、分析与设计、实施与测试。<br />
+									活动--工件生成与评估方式的定义。<br />
+									工件--在执行活动中所使用的、生成的或修改的工作产品。</span>
+								</p>
+
+								<p>
+									<span class="font">RUP 是一个迭代过程，确定了任何软件开发项目的四个阶段。随着时间的推进，每个项目都要经历起始阶段、细化阶段、构建阶段和交付阶段。每个阶段包括一次或多次 迭代，其中您可以生成可执行文件，但是系统可能不完整（可能起始阶段除外）。在每次迭代过程中，您以不同的细节级别执行几个学科中的活动。下文是 RUP 的概述图。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N10217" style="color: rgb(51, 102, 153);"><strong>RUP 概览图</strong>&nbsp;</a><br />
+									<img alt="RUP 概览图" border="0" height="406" src="http://www.gdcec.com/cyber2005/pic/image003.png" style="border: none;" width="595" /></span>
+								</p>
+
+								<p>
+									<span class="font">The Rational Unified Process, An Introduction, Second Edition 一书是 RUP 的好的概述。您可以在 Rational 的 Web 站点 www.rational.com 上找到更进一步的信息和对于 RUP 的评价。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="N1022A" style="color: rgb(51, 102, 153);"><span class="atitle2">附录：极限编程</span>&nbsp;</a><br />
+									极限编程（XP） 是由 Kent Beck 在 1996 年开发的一种软件开发学科。它基于四个价值：沟通、简单、反馈和勇气。它强调客户与开发团队成员的持续沟通，在开发进程中设立一名现场客户。该现场客户决 定创建的内容和顺序。通过持续重构代码并创建最小的非代码工件集合而体现简单。许多短期发布和持续单元测试建立了反馈机制。勇气意味着完成正确的事情，即 使并不是最流行的事情。它还意味着诚实面对您能做的和不能做的事情。</span>
+								</p>
+
+								<p>
+									<span class="font">12 个 XP 实践为这四个价值提供支持。它们是：</span>
+								</p>
+
+								<p>
+									<span class="font">有计划的开发：通过结合使用优先级&quot;故事&quot;和技术估算，确定下一版本的功能。</span>
+								</p>
+
+								<p>
+									<span class="font">小版本：以小的增量版本经常向客户发布软件。</span>
+								</p>
+
+								<p>
+									<span class="font">隐喻：隐喻是一个简单、共享的&quot;故事&quot;或描述，说明系统如何工作。</span>
+								</p>
+
+								<p>
+									<span class="font">简单设计：通过保持代码简单从而保证设计简单。不断的在代码中寻找复杂点并且立刻进行移除。</span>
+								</p>
+
+								<p>
+									<span class="font">测试：用户编写测试内容以对&quot;故事&quot;进行测试。程序员编写测试内容来发现代码中的任何问题。在编写代码前先编写测试内容。</span>
+								</p>
+
+								<p>
+									<span class="font">重构：这是一项简化技术，用来移除代码中的重复内容和复杂之处。</span>
+								</p>
+
+								<p>
+									<span class="font">结对编程：团队中的两个成员使用同一台计算机开发所有的代码。一个人编写代码或者驱动，另一个人同时审查代码的正确性和可理解性。</span>
+								</p>
+
+								<p>
+									<span class="font">集体代码所有权：任何人都拥有所有的代码。这就意味这每个人都可以在任何时候变更任何代码。</span>
+								</p>
+
+								<p>
+									<span class="font">持续集成：每天多次创建和集成系统，只要任何实现任务完成就要进行。</span>
+								</p>
+
+								<p>
+									<span class="font">每周 40 个小时：程序员在疲劳时无法保证最高效率。连续两周加班是绝对不允许的。</span>
+								</p>
+
+								<p>
+									<span class="font">现场客户：一名真实的客户全时工作于开发环境中，帮助定义系统、编写测试内容并回答问题。</span>
+								</p>
+
+								<p>
+									<span class="font">编码标准：程序员采用一致的编码标准。</span>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td>
+								<span class="font"><span class="atitle">浅谈测试驱动开发（TDD）</span></span>
+							</td>
+							<td width="8">
+								&nbsp;
+							</td>
+							<td align="right" width="180">
+								&nbsp;
+							</td>
+							<td width="6">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/kflc_view.asp?id=39" style="border: none;" width="6" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#000000" colspan="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%282%29.gif" style="border: none;" width="100" /></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td bgcolor="#ffffff" colspan="5">
+								<span class="font">　</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					<tbody>
+						<tr valign="top">
+							<td width="5">
+								<span class="font"><img alt="" border="0" height="1" src="http://www.gdcec.com/cyber2005/pic/c%282%29.gif" style="border: none;" width="5" /></span>
+							</td>
+							<td width="100%">
+								<table border="0" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr align="left" valign="top">
+											<td>
+												&nbsp;
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>
+									&nbsp;
+								</p>
+
+								<blockquote>
+									<p>
+										<span class="font">测试驱动开发(TDD)是极限编程的重要特点，它以不断的测试推动代码的开发，既简化了代码，又保证了软件质量。本文从开发人员使用的角度，介绍了 TDD 优势、原理、过程、原则、测试技术、Tips 等方面。</span>
+									</p>
+								</blockquote>
+
+								<p>
+									<span class="font"><a name="IDAICGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">背景</span>&nbsp;</a><br />
+									一个高效的软件开发过程 对软件开发人员来说是至关重要的，决定着开发是痛苦的挣扎，还是不断进步的喜悦。国人对软件蓝领的不屑，对繁琐冗长的传统开发过程的不耐，使大多数开发人 员无所适从。最近兴起的一些软件开发过程相关的技术，提供一些比较高效、实用的软件过程开发方法。其中比较基础、关键的一个技术就是测试驱动开发 （Test-Driven Development）。虽然TDD光大于极限编程，但测试驱动开发完全可以单独应用。下面就从开发人员使用的角度进行介绍，使开发人员用最少的代价尽 快理解、掌握、应用这种技术。下面分优势，原理，过程，原则，测试技术，Tips等方面进行讨论。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDAOCGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">1. 优势</span>&nbsp;</a><br />
+									TDD的基本思路就是通过测试来推动整个开发的进行。而测试驱动开发技术并不只是单纯的测试工作。</span>
+								</p>
+
+								<p>
+									<span class="font">需求向来就是软件开发过程中感觉最不好明确描述、易变的东西。这里说的需求不只是指用户的需求，还包括对代码的使用需求。很多开发人员最害怕的就是 后期还要修改某个类或者函数的接口进行修改或者扩展，为什么会发生这样的事情就是因为这部分代码的使用需求没有很好的描述。测试驱动开发就是通过编写测试 用例，先考虑代码的使用需求（包括功能、过程、接口等），而且这个描述是无二义的，可执行验证的。</span>
+								</p>
+
+								<p>
+									<span class="font">通过编写这部分代码的测试用例，对其功能的分解、使用过程、接口都进行了设计。而且这种从使用角度对代码的设计通常更符合后期开发的需求。可测试的要求，对代码的内聚性的提高和复用都非常有益。因此测试驱动开发也是一种代码设计的过程。</span>
+								</p>
+
+								<p>
+									<span class="font">开发人员通常对编写文档非常厌烦，但要使用、理解别人的代码时通常又希望能有文档进行指导。而测试驱动开发过程中产生的测试用例代码就是对代码的最好的解释。</span>
+								</p>
+
+								<p>
+									<span class="font">快乐工作的基础就是对自己有信心，对自己的工作成果有信心。当前很多开发人员却经常在担心：&ldquo;代码是否正确？&rdquo;&ldquo;辛苦编写的代码还有没有严重 bug？&rdquo;&ldquo;修改的新代码对其他部分有没有影响？&rdquo;。这种担心甚至导致某些代码应该修改却不敢修改的地步。测试驱动开发提供的测试集就可以作为你信心的来 源。</span>
+								</p>
+
+								<p>
+									<span class="font">当然测试驱动开发最重要的功能还在于保障代码的正确性，能够迅速发现、定位bug。而迅速发现、定位bug是很多开发人员的梦想。针对关键代码的测试集，以及不断完善的测试用例，为迅速发现、定位bug提供了条件。</span>
+								</p>
+
+								<p>
+									<span class="font">我的一段功能非常复杂的代码使用TDD开发完成，真实环境应用中只发现几个bug，而且很快被定位解决。您在应用后，也一定会为那种自信的开发过程，功能不断增加、完善的感觉，迅速发现、定位bug的能力所感染，喜欢这个技术的。</span>
+								</p>
+
+								<p>
+									<span class="font">那么是什么样的原理、方法提供上面说的这些好处哪？下面我们就看看TDD的原理。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDA1CGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">2. 原理</span>&nbsp;</a><br />
+									测试驱动开发的基本思想就是在开发功能代码之前，先编写测试代码。也就是说在明确要开发某个功能后，首先思考如何对这个功能进行测试，并完成测试代码的编写，然后编写相关的代码满足这些测试用例。然后循环进行添加其他功能，直到完全部功能的开发。</span>
+								</p>
+
+								<p>
+									<span class="font">我们这里把这个技术的应用领域从代码编写扩展到整个开发过程。应该对整个开发过程的各个阶段进行测试驱动，首先思考如何对这个阶段进行测试、验证、考核，并编写相关的测试文档，然后开始下一步工作，最后再验证相关的工作。下图是一个比较流行的测试模型：V测试模型。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDADDGNB" style="color: rgb(51, 102, 153);"><strong>【图 V测试模型】</strong>&nbsp;</a><br />
+									<img alt="" border="0" height="281" src="http://www.gdcec.com/cyber2005/pic/V.jpg" style="border: none;" width="400" /></span>
+								</p>
+
+								<p>
+									<span class="font">在开发的各个阶段，包括需求分析、概要设计、详细设计、编码过程中都应该考虑相对应的测试工作，完成相关的测试用例的设计、测试方案、测试计划的编 写。这里提到的开发阶段只是举例，根据实际的开发活动进行调整。相关的测试文档也不一定是非常详细复杂的文档，或者什么形式，但应该养成测试驱动的习惯。</span>
+								</p>
+
+								<p>
+									<span class="font">关于测试模型，还有X测试模型。这个测试模型，我认为，是对详细阶段和编码阶段进行建模，应该说更详细的描述了详细设计和编码阶段的开发行为。及针对某个功能进行对应的测试驱动开发。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDATDGNB" style="color: rgb(51, 102, 153);"><strong>【图 X测试模型】</strong>&nbsp;</a><br />
+									<img alt="" border="0" height="283" src="http://www.gdcec.com/cyber2005/pic/X.jpg" style="border: none;" width="400" /></span>
+								</p>
+
+								<p>
+									<span class="font">基本原理应该说非常简单，那么如何进行实际操作哪，下面对开发过程进行详细的介绍。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDABEGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">3. 过程</span>&nbsp;</a><br />
+									软件开发其他阶段的测试驱动开发，根据测试驱动开发的思想完成对应的测试文档即可。下面针对详细设计和编码阶段进行介绍。</span>
+								</p>
+
+								<p>
+									<span class="font">测试驱动开发的基本过程如下：</span>
+								</p>
+
+								<p>
+									<span class="font">1） 明确当前要完成的功能。可以记录成一个 TODO 列表。</span>
+								</p>
+
+								<p>
+									<span class="font">2） 快速完成针对此功能的测试用例编写。</span>
+								</p>
+
+								<p>
+									<span class="font">3） 测试代码编译不通过。</span>
+								</p>
+
+								<p>
+									<span class="font">4） 编写对应的功能代码。</span>
+								</p>
+
+								<p>
+									<span class="font">5） 测试通过。</span>
+								</p>
+
+								<p>
+									<span class="font">6） 对代码进行重构，并保证测试通过。</span>
+								</p>
+
+								<p>
+									<span class="font">7） 循环完成所有功能的开发。</span>
+								</p>
+
+								<p>
+									<span class="font">为了保证整个测试过程比较快捷、方便，通常可以使用测试框架组织所有的测试用例。一个免费的、优秀的测试框架是 Xunit 系列，几乎所有的语言都有对应的测试框架。</span>
+								</p>
+
+								<p>
+									<span class="font">开发过程中，通常把测试代码和功能代码分开存放，这里提供一个简单的测试框架使用例子，您可以通过它了解测试框架的使用。下面是文件列表。</span>
+								</p>
+
+								<pre style="white-space: pre-wrap; word-wrap: break-word;">
+<span class="font">	project/				项目主目录
+
+	project/test			测试项目主目录
+
+	project/test/testSeq.cpp		测试seq_t 的测试文件，对其他功能文件的测试文件复制后修改即可
+
+	project/test/testSeq.h
+
+	project/test/Makefile			测试项目的 Makefile 
+
+	project/test/main.cpp			测试项目的主文件，不需要修改
+
+	project/main.cpp		           项目的主文件
+
+	project/seq_t.h			功能代码，被测试文件
+
+	project/Makefile		           项目的 Makefile</span></pre>
+
+								<p>
+									<span class="font">主要流程基本如此，但要让你的代码很容易的进行测试，全面又不繁琐的进行测试，还是有很多测试原则和技术需要考虑。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDAYEGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">4. 原则</span>&nbsp;</a><br />
+									测试隔离。不同代码的测试应该相互隔离。对一块代码的测试只考虑此代码的测试，不要考虑其实现细节（比如它使用了其他类的边界条件）。</span>
+								</p>
+
+								<p>
+									<span class="font">一顶帽子。开发人员开发过程中要做不同的工作，比如：编写测试代码、开发功能代码、对代码重构等。做不同的事，承担不同的角色。开发人员完成对应的 工作时应该保持注意力集中在当前工作上，而不要过多的考虑其他方面的细节，保证头上只有一顶帽子。避免考虑无关细节过多，无谓地增加复杂度。</span>
+								</p>
+
+								<p>
+									<span class="font">测试列表。需要测试的功能点很多。应该在任何阶段想添加功能需求问题时，把相关功能点加到测试列表中，然后继续手头工作。然后不断的完成对应的测试用例、功能代码、重构。一是避免疏漏，也避免干扰当前进行的工作。</span>
+								</p>
+
+								<p>
+									<span class="font">测试驱动。这个比较核心。完成某个功能，某个类，首先编写测试代码，考虑其如何使用、如何测试。然后在对其进行设计、编码。</span>
+								</p>
+
+								<p>
+									<span class="font">先写断言。测试代码编写时，应该首先编写对功能代码的判断用的断言语句，然后编写相应的辅助语句。</span>
+								</p>
+
+								<p>
+									<span class="font">可测试性。功能代码设计、开发时应该具有较强的可测试性。其实遵循比较好的设计原则的代码都具备较好的测试性。比如比较高的内聚性，尽量依赖于接口等。</span>
+								</p>
+
+								<p>
+									<span class="font">及时重构。无论是功能代码还是测试代码，对结构不合理，重复的代码等情况，在测试通过后，及时进行重构。关于重构，我会另撰文详细分析。</span>
+								</p>
+
+								<p>
+									<span class="font">小步前进。软件开发是个复杂性非常高的工作，开发过程中要考虑很多东西，包括代码的正确性、可扩展性、性能等等，很多问题都是因为复杂性太大导致 的。极限编程提出了一个非常好的思路就是小步前进。把所有的规模大、复杂性高的工作，分解成小的任务来完成。对于一个类来说，一个功能一个功能的完成，如 果太困难就再分解。每个功能的完成就走测试代码－功能代码－测试－重构的循环。通过分解降低整个系统开发的复杂性。这样的效果非常明显。几个小的功能代码 完成后，大的功能代码几乎是不用调试就可以通过。一个个类方法的实现，很快就看到整个类很快就完成啦。本来感觉很多特性需要增加，很快就会看到没有几个 啦。你甚至会为这个速度感到震惊。（我理解，是大幅度减少调试、出错的时间产生的这种速度感）</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDAFFGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">5. 测试技术</span></a></span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDAKFGNB" style="color: rgb(51, 102, 153);"><span class="atitle3">5.1. 测试范围、粒度</span>&nbsp;</a><br />
+									对 哪些功能进行测试？会不会太繁琐？什么时候可以停止测试？这些问题比较常见。按大师 Kent Benk 的话，对那些你认为应该测试的代码进行测试。就是说，要相信自己的感觉，自己的经验。那些重要的功能、核心的代码就应该重点测试。感到疲劳就应该停下来休 息一下。感觉没有必要更详细的测试，就停止本轮测试。</span>
+								</p>
+
+								<p>
+									<span class="font">测试驱动开发强调测试并不应该是负担，而应该是帮助我们减轻工作量的方法。而对于何时停止编写测试用例，也是应该根据你的经验，功能复杂、核心功能的代码就应该编写更全面、细致的测试用例，否则测试流程即可。</span>
+								</p>
+
+								<p>
+									<span class="font">测试范围没有静态的标准，同时也应该可以随着时间改变。对于开始没有编写足够的测试的功能代码，随着bug的出现，根据bug补齐相关的测试用例即可。</span>
+								</p>
+
+								<p>
+									<span class="font">小步前进的原则，要求我们对大的功能块测试时，应该先分拆成更小的功能块进行测试，比如一个类A使用了类B、C，就应该编写到A使用B、C功能的测 试代码前，完成对B、C的测试和开发。那么是不是每个小类或者小函数都应该测试哪？我认为没有必要。你应该运用你的经验，对那些可能出问题的地方重点测 试，感觉不可能出问题的地方就等它真正出问题的时候再补测试吧。</span>
+								</p>
+
+								<p>
+									<span class="font"><a name="IDATFGNB" style="color: rgb(51, 102, 153);"><span class="atitle3">5.2. 怎么编写测试用例</span>&nbsp;</a><br />
+									测试用例的编写就用上了传统的测试技术。</span>
+								</p>
+
+								<ul>
+									<li>
+										<span class="font">操作过程尽量模拟正常使用的过程。</span>
+									</li>
+									<li>
+										<span class="font">全面的测试用例应该尽量做到分支覆盖，核心代码尽量做到路径覆盖。</span>
+									</li>
+									<li>
+										<span class="font">测试数据尽量包括：真实数据、边界数据。</span>
+									</li>
+									<li>
+										<span class="font">测试语句和测试数据应该尽量简单，容易理解。</span>
+									</li>
+									<li>
+										<span class="font">为了避免对其他代码过多的依赖，可以实现简单的桩函数或桩类（Mock Object）。</span>
+									</li>
+									<li>
+										<span class="font">如果内部状态非常复杂或者应该判断流程而不是状态，可以通过记录日志字符串的方式进行验证。</span>
+									</li>
+								</ul>
+
+								<p>
+									<span class="font"><a name="IDAAGGNB" style="color: rgb(51, 102, 153);"><span class="atitle2">6. Tips</span>&nbsp;</a><br />
+									很多朋友有疑 问，&ldquo;测试代码的正确性如何保障？是写测试代码还是写测试文档？&rdquo;这样是不是会陷入&ldquo;鸡生蛋，蛋生鸡&rdquo;的循环。其实是不会的。通常测试代码通常是非常简单 的，通常围绕着某个情况的正确性判断的几个语句，如果太复杂，就应该继续分解啦。而传统的开发过程通常强调测试文档。但随着开发节奏的加快，用户需求的不 断变化，维护高层（需求、概要设计）的测试文档可以，更低层的测试文档的成本的确太大了。而且可实时验证功能正确性的测试代码就是对代码最好的文档。</span>
+								</p>
+
+								<p>
+									<span class="font">软件开发过程中，除了遵守上面提到的测试驱动开发的几个原则外，一个需要注意的问题就是，谨防过度设计。编写功能代码时应该关注于完成当前功能点， 通过测试，使用最简单、直接的方式来编码。过多的考虑后期的扩展，其他功能的添加，无疑增加了过多的复杂性，容易产生问题。应该等到要添加这些特性时在进 行详细的测试驱动开发。到时候，有整套测试用例做基础，通过不断重构很容易添加相关特性。</span>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

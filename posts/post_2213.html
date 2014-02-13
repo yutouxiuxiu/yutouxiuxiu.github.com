@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>花生壳http版协议说明</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					花生壳http版协议说明
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h2 style="padding: 0.5em 0px 0px 20px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 19px; font-weight: bold; clear: left; border-bottom-style: none; background-image: url(http://open.oray.com/wiki/lib/tpl/oray/images/separator.gif); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify; background-position: 0% 20px; background-repeat: repeat no-repeat;">
+	<a id="检测ip变化" name="检测ip变化" style="padding: 0px 5px; margin: 0px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0) !important;">检测IP变化</a>
+</h2>
+
+<div class="level2" style="padding: 0px; margin: 0px 0px 0px 35px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		要确定客户端是否应该更新，它必须有一个可靠的方式来确定当前的IP地址是什么，以便比较最后一次更新的地址。以下有两种方式。
+	</p>
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="直接连接" name="直接连接" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">直接连接</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		客户端自行判断并获取其连接到互联网的公网IP地址。
+	</p>
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="网站ip检测" name="网站ip检测" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">网站IP检测</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		通过网站IP检测的方式，获取当前机器公网IP地址。&nbsp;
+	</p>
+
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		Oray DDNS提供CheckIP的服务，可通过下面地址检测:&nbsp;<a class="urlextern" href="http://ddns.oray.com/checkip" rel="nofollow" style="padding: 1px 0px 1px 16px; margin: 0px; background-image: url(http://open.oray.com/wiki/lib/tpl/oray/images/link_icon.gif); background-color: transparent; color: rgb(0, 0, 238); background-position: 0px 1px; background-repeat: no-repeat no-repeat;" title="http://ddns.oray.com/checkip">http://ddns.oray.com/checkip</a>
+	</p>
+</div>
+
+<h2 style="padding: 0.5em 0px 0px 20px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 19px; font-weight: bold; clear: left; border-bottom-style: none; background-image: url(http://open.oray.com/wiki/lib/tpl/oray/images/separator.gif); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify; background-position: 0% 20px; background-repeat: repeat no-repeat;">
+	<a id="更新协议" name="更新协议" style="padding: 0px 5px; margin: 0px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0) !important;">更新协议</a>
+</h2>
+
+<div class="level2" style="padding: 0px; margin: 0px 0px 0px 35px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		当客户端发现IP地址变化或是用户修改设置时，客户端应该进行更新。<br style="padding: 0px; margin: 0px;" />
+		所有的更新都基本于标准的HTTP请求发送。<br style="padding: 0px; margin: 0px;" />
+		服务器会传回一个返回代码，客户端需要解析。&nbsp;
+	</p>
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="http请求" name="http请求" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">HTTP请求</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<ul style="padding-right: 0px; padding-left: 10px; margin: 0px 0px 0.5em 1em; line-height: 1.5em; list-style-image: none;">
+		<li class="level1" style="padding: 0px; margin: 0px;">
+			<div class="li" style="padding: 0px; margin: 0px;">
+				主机名：ddns.oray.com
+			</div>
+		</li>
+		<li class="level1" style="padding: 0px; margin: 0px;">
+			<div class="li" style="padding: 0px; margin: 0px;">
+				HTTP端口：80
+			</div>
+		</li>
+		<li class="level1" style="padding: 0px; margin: 0px;">
+			<div class="li" style="padding: 0px; margin: 0px;">
+				HTTPS 端口：443
+			</div>
+		</li>
+	</ul>
+
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		请求支持HTTP和基于SSL的HTTPS协议（HTTPS需要付费用户才能使用）&nbsp;<br style="padding: 0px; margin: 0px;" />
+		所有客户端必须发送一个完整的User-Agent文件头，用于区分不同的设备，空值或非法参数将导致请求失败。
+	</p>
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="例子" name="例子" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">例子</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		<strong style="padding: 0px; margin: 0px;">1.使用URL验证</strong>&nbsp;<br style="padding: 0px; margin: 0px;" />
+		适用于浏览器或应用程序（fetch, curl, lwp-request），可以在URL中包含验证信息。
+	</p>
+
+	<pre class="code" style="padding: 0.5em; margin-top: 0px; font-size: 12px; border: 1px dashed rgb(140, 172, 187); overflow: auto; background-color: rgb(247, 249, 250);">
+http://username:password@ddns.oray.com/ph/update?hostname=yourhostname&amp;myip=ipaddress
+</pre>
+
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		<strong style="padding: 0px; margin: 0px;">2.原始HTTP GET请求&nbsp;</strong><br style="padding: 0px; margin: 0px;" />
+		实际的HTTP请求，类似下面的代码。&nbsp;<br style="padding: 0px; margin: 0px;" />
+		其中 base-64-authorization 请使用 Base64 加密 username:password 后的字符替换。
+	</p>
+
+	<pre class="code" style="padding: 0.5em; margin-top: 0px; font-size: 12px; border: 1px dashed rgb(140, 172, 187); overflow: auto; background-color: rgb(247, 249, 250);">
+GET /ph/update?hostname=yourhostname&amp;myip=ipaddress HTTP/1.0
+Host: ddns.oray.com
+Authorization: Basic base-64-authorization
+User-Agent: Oray
+</pre>
+
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		请注意必须使用GET请求，POST是不被允许的。
+	</p>
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="更新参数" name="更新参数" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">更新参数</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<p style="padding: 0px; margin: 0px 0px 1em;">
+		目前仅允许提交以下参数
+	</p>
+
+	<table class="inline" style="padding: 0px; margin: 0px 0px 1em; border-spacing: 0px; border-collapse: collapse;">
+		<tbody style="padding: 0px; margin: 0px;">
+			<tr class="row0" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row1" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row2" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					参数
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					说明
+				</td>
+			</tr>
+			<tr class="row3" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row4" style="padding: 0px; margin: 0px;">
+				<td class="col0 leftalign" colspan="2" style="padding: 3px; margin: 0px; text-align: left; border: 1px solid rgb(140, 172, 187);">
+					hostname
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					需要更新的域名，此域名必须是开通花生壳服务。多个域名使用,分隔，默认为空，则更新护照下所有激活的域名。例：hostname=test.oray.com,customtest.oray.com
+				</td>
+			</tr>
+			<tr class="row5" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row6" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					myip
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					需要更新的IP地址，可以不填。如果不指定，则由服务器获取到的IP地址为准。
+				</td>
+			</tr>
+			<tr class="row7" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row8" style="padding: 0px; margin: 0px;">
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<h2 style="padding: 0.5em 0px 0px 20px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 19px; font-weight: bold; clear: left; border-bottom-style: none; background-image: url(http://open.oray.com/wiki/lib/tpl/oray/images/separator.gif); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify; background-position: 0% 20px; background-repeat: repeat no-repeat;">
+	<a id="返回代码" name="返回代码" style="padding: 0px 5px; margin: 0px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0) !important;">返回代码</a>
+</h2>
+
+<div class="level2" style="padding: 0px; margin: 0px 0px 0px 35px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	&nbsp;
+</div>
+
+<h3 style="padding: 0.5em 0px 0px 40px; margin: 0px 0px 1em; color: rgb(0, 0, 0); font-size: 18px; font-weight: bold; clear: left; border-bottom-style: none; font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; line-height: normal; text-align: justify;">
+	<a id="代码列表" name="代码列表" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0) !important;">代码列表</a>
+</h3>
+
+<div class="level3" style="padding: 0px; margin: 0px 0px 0px 45px; color: rgb(0, 0, 0); font-family: 'Lucida Grande', Verdana, Lucida, Helvetica, Arial, sans-serif; font-size: 13px; line-height: normal; text-align: justify;">
+	<table class="inline" style="padding: 0px; margin: 0px 0px 1em; border-spacing: 0px; border-collapse: collapse;">
+		<tbody style="padding: 0px; margin: 0px;">
+			<tr class="row0" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row1" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row2" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					参数
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					说明
+				</td>
+			</tr>
+			<tr class="row3" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row4" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					good
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					更新成功，域名的IP地址已经更新，同时会返回本次更新成功的IP，用空格隔开，如：good 1.2.3.4
+				</td>
+			</tr>
+			<tr class="row5" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row6" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					nochg
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					更新成功，但没有改变IP。一般这种情况为本次提交的IP跟上一次的一样
+				</td>
+			</tr>
+			<tr class="row7" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row8" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					notfqdn
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					未有激活花生壳的域名
+				</td>
+			</tr>
+			<tr class="row9" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row10" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					nohost
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					域名不存在或未激活花生壳
+				</td>
+			</tr>
+			<tr class="row11" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row13" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row14" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					abuse
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					请求失败，频繁请求或验证失败时会出现
+				</td>
+			</tr>
+			<tr class="row15" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row16" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					<strike>!donator</strike>
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					<strike>表示此功能需要付费用户才能使用，如https</strike>
+				</td>
+			</tr>
+			<tr class="row17" style="padding: 0px; margin: 0px;">
+			</tr>
+			<tr class="row18" style="padding: 0px; margin: 0px;">
+				<td class="col0" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					911
+				</td>
+				<td class="col2" colspan="2" style="padding: 3px; margin: 0px; border: 1px solid rgb(140, 172, 187);">
+					系统错误
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>extjs4 - Reader/Writer</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					extjs4 - Reader/Writer
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、Reader与Writer</strong>
+</h5>
+
+<p>
+	<strong>1.Reader</strong>
+</p>
+
+<p>
+	Reader: 主要是用于将proxy数据代理读取到的数据按照不同的规则进行解析 然后将解析的数据保存到Model中
+</p>
+
+<p>
+	结构
+</p>
+
+<p>
+	Ext.data.reader.Reader 读取器的根类
+</p>
+
+<p style="margin-left: 40px;">
+	Ext.data.reader.Json JSON格式的读取器
+</p>
+
+<p style="margin-left: 80px;">
+	Ext.data.reader.Array 扩展JSON的Array读取器
+</p>
+
+<p style="margin-left: 40px;">
+	Ext.data.reader.Xml Xml格式的读取器
+</p>
+
+<p>
+	<strong>2.Writer</strong>
+</p>
+
+<p>
+	Writer：将现有的Model转换成JSON/XML的形式发送到服务器上
+</p>
+
+<p>
+	结构
+</p>
+
+<p>
+	Ext.data.writer.Writer&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	Ext.data.writer.Json
+</p>
+
+<p style="margin-left: 40px;">
+	Ext.data.Xml
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、reader.Json</strong>
+</h5>
+
+<p>
+	var userData = {
+</p>
+
+<p style="margin-left: 40px;">
+	total: 10, &nbsp;//返回数据的总条数 如果这个不叫total 就可以在reader的参数中配置 totalProperty&nbsp;进行改变
+</p>
+
+<p style="margin-left: 40px;">
+	user: [{
+</p>
+
+<p style="margin-left: 80px;">
+	name: &#39;yutou&#39;,
+</p>
+
+<p style="margin-left: 80px;">
+	age: 19,
+</p>
+
+<p style="margin-left: 80px;">
+	orders: [
+</p>
+
+<p style="margin-left: 120px;">
+	{id: 1, name: &#39;pen&#39;},
+</p>
+
+<p style="margin-left: 120px;">
+	{id: 2, name: &#39;book&#39;}
+</p>
+
+<p style="margin-left: 80px;">
+	]
+</p>
+
+<p style="margin-left: 40px;">
+	}]
+</p>
+
+<p>
+	};
+</p>
+
+<p>
+	//model
+</p>
+
+<p>
+	Ext.regModel(&#39;User&#39;, {
+</p>
+
+<p style="margin-left: 40px;">
+	fields: [
+</p>
+
+<p style="margin-left: 80px;">
+	{name: &#39;name&#39;, type: &#39;string&#39;},
+</p>
+
+<p style="margin-left: 80px;">
+	{name: &#39;age&#39;, type: &#39;int&#39;}
+</p>
+
+<p style="margin-left: 40px;">
+	],
+</p>
+
+<p style="margin-left: 40px;">
+	hasMany: {
+</p>
+
+<p style="margin-left: 80px;">
+	model: &#39;Order&#39;
+</p>
+
+<p style="margin-left: 80px;">
+	name: &#39;orders&#39;
+</p>
+
+<p style="margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	Ext.regModel(&#39;Order&#39;, {
+</p>
+
+<p style="margin-left: 40px;">
+	fields: [
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;id&#39;, type: &#39;int&#39;},
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;name&#39;, type: &#39;string&#39;}
+</p>
+
+<p style="margin-left: 40px;">
+	]
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	//用代理把数据和模型绑在一起
+</p>
+
+<p>
+	var memoryProxy = Ext.create(&#39;Ext.data.proxy.Memory&#39;, {
+</p>
+
+<p style="margin-left: 40px;">
+	model: &#39;user&#39;,
+</p>
+
+<p style="margin-left: 40px;">
+	data: userData,
+</p>
+
+<p style="margin-left: 40px;">
+	reader: {
+</p>
+
+<p style="margin-left: 80px;">
+	type: &#39;json&#39;,
+</p>
+
+<p style="margin-left: 80px;">
+	root: &#39;user&#39;, &nbsp;//必须的参数 读取的根是谁 要读的是userData里的user
+</p>
+
+<p style="margin-left: 80px;">
+	//record: &#39;&#39;, &nbsp;//定义有用的信息在root对象的哪个对象里 如果不定义 就是root对象
+</p>
+
+<p style="margin-left: 80px;">
+	implicitIncludes: true &nbsp;//进行级联读取 默认就是true
+</p>
+
+<p style="margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	memoryProxy.read(new Ext.data.Operation(), function(result) {
+</p>
+
+<p style="margin-left: 40px;">
+	var <span style="font-size: 13px;">records&nbsp;</span>= result.resultSet.records;
+</p>
+
+<p style="margin-left: 40px;">
+	alert(result.resultSet.total);
+</p>
+
+<p style="margin-left: 40px;">
+	Ext.Array.each(records, function(record) {
+</p>
+
+<p style="margin-left: 80px;">
+	alert(record.get(&#39;name&#39;));
+</p>
+
+<p style="margin-left: 80px;">
+	var orders = record.orders(); &nbsp;//得到的是order的store 也就是model的集合
+</p>
+
+<p style="margin-left: 80px;">
+	orders.each(function(order) {
+</p>
+
+<p style="margin-left: 120px;">
+	alert(order.get(&#39;name&#39;));
+</p>
+
+<p style="margin-left: 80px;">
+	});
+</p>
+
+<p style="margin-left: 40px;">
+	});
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、reader.Xml</strong>
+</h5>
+
+<p>
+	xml文档如下
+</p>
+
+<p>
+	&lt;users&gt;
+</p>
+
+<p style="margin-left: 40px;">
+	&lt;user&gt;
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;id&gt;1&lt;/id&gt;
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;name&gt;yuotu&lt;/name&gt;
+</p>
+
+<p style="margin-left: 80px;">
+	&lt;age&gt;19&lt;/age&gt;
+</p>
+
+<p style="margin-left: 40px;">
+	&lt;/user&gt;
+</p>
+
+<p>
+	&lt;/users&gt;
+</p>
+
+<p>
+	然后
+</p>
+
+<p style="font-size: 13px;">
+	Ext.regModel(&#39;User&#39;, {
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	fields: [
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{nsme: &#39;id&#39;, type: &#39;int&#39;},
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;name&#39;, type: &#39;string&#39;}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	],
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	proxy: {
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	type: &#39;ajax&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	url: &#39;users.xml&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	reader: {
+</p>
+
+<p style="font-size: 13px; margin-left: 120px;">
+	type: &#39;xml&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 120px;">
+	record: &#39;user&#39; &nbsp;//哪个是有效信息
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	var user = Ext.ModelManager.getModel(&#39;User&#39;);
+</p>
+
+<p>
+	user.load(1, {
+</p>
+
+<p style="margin-left: 40px;">
+	success: function(model) {
+</p>
+
+<p style="margin-left: 80px;">
+	alert(model.get(&#39;name&#39;));
+</p>
+
+<p style="margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、reader.Array</strong>
+</h5>
+
+<p>
+	请求的结果将是一个二维数组
+</p>
+
+<p>
+	[['yutou'， 19]] &nbsp;它是按照顺序来解析的
+</p>
+
+<p>
+	然后
+</p>
+
+<p style="font-size: 13px;">
+	Ext.regModel(&#39;User&#39;, {
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	fields: [
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;id&#39;, type: &#39;int&#39;},
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;name&#39;, type: &#39;string&#39;}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	],
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	proxy: {
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	type: &#39;ajax&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	url: &#39;...&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	reader: {
+</p>
+
+<p style="font-size: 13px; margin-left: 120px;">
+	type: &#39;array&#39;
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	var user = Ext.ModelManager.getModel(&#39;User&#39;);
+</p>
+
+<p>
+	user.load(1, {
+</p>
+
+<p style="margin-left: 40px;">
+	success: function(model) {
+</p>
+
+<p style="margin-left: 80px;">
+	alert(model.get(&#39;name&#39;));
+</p>
+
+<p style="margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、writer.Json/Xml</strong>
+</h5>
+
+<p>
+	将数据对象产生成JSON发送到服务器
+</p>
+
+<p style="font-size: 13px;">
+	Ext.regModel(&#39;User&#39;, {
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	fields: [
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;id&#39;, type: &#39;int&#39;},
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	{name: &#39;name&#39;, type: &#39;string&#39;}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	],
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	proxy: {
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	type: &#39;ajax&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	url: &#39;...&#39;,
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	writer: {
+</p>
+
+<p style="font-size: 13px; margin-left: 120px;">
+	type: &#39;json&#39; &nbsp;//或者Xml
+</p>
+
+<p style="font-size: 13px; margin-left: 80px;">
+	}
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	}
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	Ext.ModelMgr.create({
+</p>
+
+<p style="margin-left: 40px;">
+	id: 1,
+</p>
+
+<p style="margin-left: 40px;">
+	name: &#39;yutou&#39;
+</p>
+
+<p>
+	}, &#39;User&#39;).save(); &nbsp;//发送到服务器
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

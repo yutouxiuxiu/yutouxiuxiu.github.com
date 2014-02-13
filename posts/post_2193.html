@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>linux基本</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					linux基本
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、最基本</strong>
+</h5>
+
+<p>
+	<strong>1.日期时间</strong>
+</p>
+
+<p>
+	查看日期
+</p>
+
+<blockquote>
+	<p>
+		# date
+	</p>
+</blockquote>
+
+<p>
+	修改日期
+</p>
+
+<blockquote>
+	<p>
+		#date -s 月/日/年&nbsp;<br />
+		#date -s 时:分:秒
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="color:#FF0000;">注意！！！</span></strong><span style="line-height: 1.6em;">在系统启动时，Linux操作系统将时间从CMOS中读到系统时间变量中，以后修改时间通过修改系统时间实现。为了保持系统时间与CMOS时间的一致性， Linux每隔一段时间会将系统时间写入CMOS。由于该同步是每隔一段时间（大约是11分钟）进行的，在我们执行date -s后，如果马上重起机器，修改时间就有可能没有被写入CMOS,这就是问题的原因。如果要确保修改生效可以执行如下命令。</span>
+</p>
+
+<blockquote>
+	<p>
+		# clock -w
+	</p>
+</blockquote>
+
+<p>
+	这个命令强制把系统时间写入CMOS。
+</p>
+
+<p>
+	<strong>2.手册</strong>
+</p>
+
+<blockquote>
+	<p>
+		man 命令
+	</p>
+</blockquote>
+
+<p>
+	向下/上搜索
+</p>
+
+<blockquote>
+	<p>
+		/要搜索的字符<br />
+		?要搜索的字符
+	</p>
+</blockquote>
+
+<p>
+	下/上一个结果
+</p>
+
+<blockquote>
+	<p>
+		n/N
+	</p>
+</blockquote>
+
+<p>
+	除了man还有一个info命令 能像手册一样查看
+</p>
+
+<blockquote>
+	<p>
+		info 命令
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.谁在联机？</strong>
+</p>
+
+<blockquote>
+	<p>
+		who
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.网络状况</strong>
+</p>
+
+<blockquote>
+	<p>
+		netstat -an
+	</p>
+</blockquote>
+
+<p>
+	<strong>5.关机 重启</strong>
+</p>
+
+<p>
+	# /sbin/shutdown [-t 秒] [-arkhncfF] 时间 [警告讯息]&nbsp;<br />
+	选项不参数：<br />
+	-t sec ： -t 后面加秒数，即『过几秒后关机』的意思<br />
+	-k &nbsp;： 不要真的关机，只是发送警告讯息出去！<br />
+	-r &nbsp;： 在将系统的服务停掉之后就重新启动(常用)<br />
+	-h &nbsp;： 将系统的服务停掉后，立即关机。 (常用)<br />
+	-n &nbsp;： 不经过 init 程序，直接以 shutdown 的功能来关机<br />
+	-f &nbsp;： 关机幵开机乀后，强制略过 fsck 的磁盘检查<br />
+	-F &nbsp;： 系统重新启劢乀后，强制迚行 fsck 的磁盘检查<br />
+	-c &nbsp;： 取消已经在进行的 shutdown 指令内容。
+</p>
+
+<blockquote>
+	<p>
+		[root@www ~]# shutdown -h now<br />
+		立刻关机，其中 now 相当亍时间为 0 的状态<br />
+		[root@www ~]# shutdown -h 20:25<br />
+		系统在今天的 20:25 分会关机，若在 21:25 才下达此挃令，则隑天才关机<br />
+		[root@www ~]# shutdown -h +10<br />
+		系统再过十分钟后自劢关机<br />
+		[root@www ~]# shutdown -r now<br />
+		系统立刻重新启劢<br />
+		[root@www ~]# shutdown -r +30 &#39;The system will reboot&#39;&nbsp;<br />
+		再过三十分钟系统会重新启劢，幵显示后面的讯息给所有在在线的使用者<br />
+		[root@www ~]# shutdown -k now &#39;This system will reboot&#39;&nbsp;<br />
+		仅发出警告信件的参数！系统幵丌会关机啦！吓唬人！
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、档案权限与目录配置</strong>
+</h5>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

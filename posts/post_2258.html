@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>php页面跳转</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					php页面跳转
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>1.header</strong>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	header()函数是PHP中进行页面跳转的一种十分简单的方法。header()函数的主要功能是将HTTP协议标头(header)输出到浏览器。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	header()函数的定义如下：
+</p>
+
+<blockquote style="background-image: none; background-color: rgb(245, 245, 245); border-width: 2px; border-color: rgb(239, 239, 239); margin-left: 25px; padding: 5px 10px; margin-top: 10px; margin-bottom: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;">
+	<p style="margin: 10px auto;">
+		void header (string string [,bool replace [,int http_response_code]])
+	</p>
+</blockquote>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	可选参数replace指明是替换前一条类似标头还是添加一条相同类型的标头，默认为替换。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	第二个可选参数http_response_code强制将HTTP相应代码设为指定值。 header函数中Location类型的标头是一种特殊的header调用，常用来实现页面跳转。注意：1.location和&ldquo;:&rdquo;号间不能有空格，否则不会跳转。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	2.在用header前不能有任何的输出。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px; background-color: rgb(245, 245, 245);">
+	3.header后的PHP代码还会被执行。例如，将浏览器重定向到冠威博客
+</p>
+
+<blockquote style="background-image: none; background-color: rgb(245, 245, 245); border-width: 2px; border-color: rgb(239, 239, 239); margin-left: 25px; padding: 5px 10px; margin-top: 10px; margin-bottom: 10px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;">
+	<p style="margin: 10px auto;">
+		&lt; ?php<br />
+		//重定向浏览器<br />
+		header(&quot;Location: http://www.guanwei.org&quot;);<br />
+		//确保重定向后，后续代码不会被执行<br />
+		exit;<br />
+		?&gt;
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

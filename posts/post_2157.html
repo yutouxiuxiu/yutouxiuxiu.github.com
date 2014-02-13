@@ -1,0 +1,649 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>extjs4 - 新特性</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					extjs4 - 新特性
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、js创建对象和类</strong>
+</h5>
+
+<p>
+	类的声明其实就是一个function
+</p>
+
+<p>
+	<strong>方式1</strong>
+</p>
+
+<blockquote>
+	<p>
+		function Person() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.name = &#39;yutou&#39;; &nbsp; &nbsp;//this 就相当于public
+	</p>
+
+	<p style="margin-left: 40px;">
+		var age = 20; &nbsp; &nbsp;//var 就相当于private
+	</p>
+
+	<p style="margin-left: 40px;">
+		this.getAge = function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		return age;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		var yutou = new Person();
+	</p>
+
+	<p>
+		alert(yutou.name);
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">alert(yutou.getAge());</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>方式2</strong>
+</p>
+
+<blockquote>
+	<p>
+		var yutou = {
+	</p>
+
+	<p style="margin-left: 40px;">
+		name: &#39;yutou&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		age: 20
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>二.extjs中创建对象</strong>
+</h5>
+
+<p>
+	例如创建window对象
+</p>
+
+<blockquote>
+	<p>
+		(function(){
+	</p>
+
+	<p style="margin-left: 40px;">
+		Ext.onReaady(function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		var win = new Ext.window.Window({
+	</p>
+
+	<p style="margin-left: 120px;">
+		width: 400,
+	</p>
+
+	<p style="margin-left: 120px;">
+		height: 300,
+	</p>
+
+	<p style="margin-left: 120px;">
+		title: &#39;yutou&#39;
+	</p>
+
+	<p style="margin-left: 80px;">
+		});
+	</p>
+
+	<p style="margin-left: 80px;">
+		Ext.get(&#39;mybutton&#39;).on(&#39;click&#39;, function() {
+	</p>
+
+	<p style="margin-left: 120px;">
+		win.show();
+	</p>
+
+	<p style="margin-left: 80px;">
+		});
+	</p>
+
+	<p style="margin-left: 40px;">
+		}<span style="line-height: 1.6em;">);</span>
+	</p>
+
+	<p>
+		})();
+	</p>
+</blockquote>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>三、用create创建对象（推荐）</strong>
+</h5>
+
+<p>
+	Ext.create 是 Ext.ClassManager.instantiate 的alias&nbsp;
+</p>
+
+<p>
+	<strong>alias&nbsp;</strong><strong style="font-size: 13px;">别名</strong>
+</p>
+
+<p>
+	为一个类中的函数起一个别名 然后就可以直接调用 不用用类来调用了
+</p>
+
+<pre class="prettyprint lang-js" style="padding: 2px; border: 1px solid rgb(136, 136, 136); color: rgb(0, 0, 0); line-height: normal;">
+<span class="com" style="color: rgb(136, 0, 0);">Ext.Function</span></pre>
+
+<div class="title" style="margin: 0px; padding: 0px 0px 3px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<a class="name expandable" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Ext.Function-method-alias" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold;">alias</a>(&nbsp;<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">object, methodName</span>&nbsp;) :&nbsp;<a class="docClass" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Function" rel="Function" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Function</a>
+</div>
+
+<div class="description" style="margin: 0px; padding: 0px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<div class="short" style="margin: 0px; padding: 0px; box-sizing: border-box;">
+		Create an alias to the provided method property with name methodName of object. ...
+	</div>
+
+	<div class="short" style="margin: 0px; padding: 0px; box-sizing: border-box;">
+		var 别名 = Ext.Function.alias(类对象, 类中的方法名)
+	</div>
+</div>
+
+<blockquote>
+	<p>
+		var obj = {
+	</p>
+
+	<p style="margin-left: 40px;">
+		say: function() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		alert(&#39;say了啊&#39;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		var say = Ext.Function.alias(obj, &#39;say&#39;); &nbsp; &nbsp;//把obj类中的say方法起别名叫say
+	</p>
+
+	<p>
+		say(); &nbsp; &nbsp;//就可以直接用别名来调用
+	</p>
+</blockquote>
+
+<p>
+	<strong>用create创建window对象</strong>
+</p>
+
+<pre class="prettyprint lang-js" style="padding: 2px; border: 1px solid rgb(136, 136, 136); color: rgb(0, 0, 0); line-height: normal;">
+<span class="com" style="color: rgb(136, 0, 0);">Ext</span></pre>
+
+<div class="title" style="margin: 0px; padding: 0px 0px 3px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<a class="name expandable" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Ext-method-create" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold;">create</a>(&nbsp;<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">[name], [args]</span>&nbsp;) :&nbsp;<a class="docClass" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Object" rel="Object" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Object</a>
+</div>
+
+<div class="description" style="margin: 0px; padding: 0px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<div class="long" style="margin: 0px; padding: 0px; box-sizing: border-box;">
+		<p style="margin: 0px 0px 1em; padding: 0px; box-sizing: border-box; color: rgb(72, 72, 72); max-width: 900px;">
+			Instantiate a class by either full name, alias or alternate name.
+		</p>
+
+		<p class="pa" style="margin: 0px; padding: 10px 0px 5px; font-size: 1.1em; font-weight: bold; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; line-height: 19.5px;">
+			Parameters
+		</p>
+
+		<ul style="margin: 0px 0px 1em 2em; padding-right: 0px; padding-left: 0px; box-sizing: border-box; color: rgb(72, 72, 72); max-width: 900px; font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+			<li style="margin: 0px; padding: 0px; list-style: disc outside; box-sizing: border-box;">
+				<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">name</span>&nbsp;:&nbsp;<a class="docClass" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/String" rel="String" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">String</a>&nbsp;(optional)
+
+				<p>
+					&nbsp;
+				</p>
+
+				<div class="sub-desc" style="margin: 0.5em 0px 1em; padding: 0px; box-sizing: border-box;">
+					<p style="margin: 0px; padding: 0px; box-sizing: border-box; max-width: 900px;">
+						The class name or alias. Can be specified as&nbsp;<code style="margin: 0px; padding: 0px; font-style: inherit; font-family: Menlo, 'Courier New', Courier, monospace; line-height: 13px; box-sizing: border-box;">xclass</code>&nbsp;property if only one object parameter is specified.
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+			</li>
+			<li style="margin: 0px; padding: 0px; list-style: disc outside; box-sizing: border-box;">
+				<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">args</span>&nbsp;:&nbsp;<a class="docClass" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Object" rel="Object" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Object</a>... (optional)
+				<p>
+					&nbsp;
+				</p>
+
+				<div class="sub-desc" style="margin: 0.5em 0px 1em; padding: 0px; box-sizing: border-box;">
+					<p style="margin: 0px; padding: 0px; box-sizing: border-box; max-width: 900px;">
+						Additional arguments after the name will be passed to the class&#39; constructor.
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<blockquote>
+	<p>
+		Ext.create(&#39;Ext.window.Window&#39;, {
+	</p>
+
+	<p style="margin-left: 40px;">
+		width: 400,
+	</p>
+
+	<p style="margin-left: 40px;">
+		height: 300,
+	</p>
+
+	<p style="margin-left: 40px;">
+		title: &#39;yutou&#39;
+	</p>
+
+	<p>
+		}).show();
+	</p>
+</blockquote>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>四、自定义类</strong>
+</h5>
+
+<pre class="prettyprint lang-js" style="font-size: 13px; padding: 2px; border: 1px solid rgb(136, 136, 136); color: rgb(0, 0, 0); line-height: normal;">
+<span class="com" style="color: rgb(136, 0, 0);">Ext</span></pre>
+
+<div class="title" style="margin: 0px; padding: 0px 0px 3px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<a class="name expandable" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Ext-method-define" id="ext-gen1637" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold;">define</a>(&nbsp;<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">className, data, createdFn</span>&nbsp;) :&nbsp;<a class="docClass" href="http://dev.yutouxiuxiu.com/docs/extjs4/docs/#!/api/Ext.Base" rel="Ext.Base" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Ext.Base</a>
+</div>
+
+<div class="description" style="margin: 0px; padding: 0px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<div class="long" style="margin: 0px; padding: 0px; box-sizing: border-box;">
+		<p style="margin: 0px 0px 1em; padding: 0px; box-sizing: border-box; color: rgb(72, 72, 72); max-width: 900px;">
+			Defines a class or override
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</div>
+
+<blockquote>
+	<p>
+		Ext.define(&#39;MyWindow&#39;, {
+	</p>
+
+	<p style="margin-left: 40px;">
+		extend: &#39;Ext.window.Window&#39;, &nbsp;//继承
+	</p>
+
+	<p style="margin-left: 40px;">
+		width: 400,
+	</p>
+
+	<p style="margin-left: 40px;">
+		height: 300,
+	</p>
+
+	<p style="margin-left: 40px;">
+		initComponent: function() { &nbsp;//构造方法
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.callPartent(arguments); &nbsp;//调用父类的构造方法
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		});
+	</p>
+
+	<p>
+		Ext.create(&#39;MyWindow&#39;, {}).show();
+	</p>
+</blockquote>
+
+<p>
+	<strong>类的延时加载</strong>
+</p>
+
+<p>
+	命名空间
+</p>
+
+<p>
+	Ext.Loader.setConfig({
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	});
+</p>
+
+<p>
+	<strong>类的扩展</strong>
+</p>
+
+<p>
+	使用config属性 就会在类中自动加上get和set方法
+</p>
+
+<blockquote>
+	<p>
+		Ext.define(&#39;MyWin&#39;, {
+	</p>
+
+	<p style="margin-left: 40px;">
+		extend: &#39;Ext.window.Window&#39;,
+	</p>
+
+	<p style="margin-left: 40px;">
+		config: {
+	</p>
+
+	<p style="margin-left: 80px;">
+		price: 500
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		});
+	</p>
+
+	<p>
+		var win = Ext.create(&#39;MyWin&#39;, {});
+	</p>
+
+	<p>
+		win.setPrice(100);
+	</p>
+
+	<p>
+		alert(win.getPrice());
+	</p>
+</blockquote>
+
+<p>
+	<strong>多继承</strong>
+</p>
+
+<p>
+	可以用来创建能移动的画布
+</p>
+
+<blockquote>
+	<p>
+		Ext.define(&#39;A&#39;, {});
+	</p>
+
+	<p>
+		Ext.define(&#39;B&#39;, {});
+	</p>
+
+	<p>
+		Ext.define(&#39;C&#39;, {
+	</p>
+
+	<p style="margin-left: 40px;">
+		mixins: {
+	</p>
+
+	<p style="margin-left: 80px;">
+		a: &#39;A&#39;,
+	</p>
+
+	<p style="margin-left: 80px;">
+		b: &#39;B&#39;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

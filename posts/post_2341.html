@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java多线程</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java多线程
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是线程</strong>
+</h5>
+
+<p>
+	进程 - 正在进行中的程序
+</p>
+
+<p>
+	线程 - 每一个程序中 至少有一个线程 线程控制着进程的执行
+</p>
+
+<p>
+	从逻辑角度来看 多线程的意义在于一个应用程序中 有多个部分可以同时执行 但操作系统并没有将多个线程看做多个应用程序 来实现进程的调度和管理以及资源的分配
+</p>
+
+<p>
+	进程在执行过程中拥有独立的内存单元 而多个线程是共享内存的 从而极大提高了程序的运行速度
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	java虚拟机启动时会有一个进程 java.exe 该进程中有不止一个线程 比如说有主线程 有垃圾回收的线程...
+</p>
+
+<p>
+	cpu说了算 执行你一会儿 执行它一会儿 在不断切换 随机性 不一定执行谁 执行多长时间
+</p>
+
+<p>
+	但是双核的就不太一样 这里不做介绍
+</p>
+
+<h5>
+	<strong>一、创建线程</strong>
+</h5>
+
+<p>
+	线程是操作系统创建的 java提供了类 对这个进行了封装
+</p>
+
+<p>
+	<strong>1.继承Thread类</strong>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">Thread类：用于描述线程</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">继承</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">复写run方法</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">调用start方法（虚拟机会启动线程 调用run方法）</span>
+</p>
+
+<blockquote>
+	<p>
+		class Demo extends Thread {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		sop(&#39;domo&nbsp;run&#39;);
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		Demo d = new Demo(); &nbsp;//创建好一个线程
+	</p>
+
+	<p>
+		d.<strong><span style="color:#FF0000;">start()</span></strong>; &nbsp;//启动线程 不要直接run 虚拟机会去调run方法
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.实现runnable接口</strong>
+</p>
+
+<p>
+	Runnable接口：应该由那些打算通过某一线程执行其实例的类来实现
+</p>
+
+<p style="margin-left: 40px;">
+	实现Runnable接口
+</p>
+
+<p style="margin-left: 40px;">
+	复写run方法
+</p>
+
+<p style="margin-left: 40px;">
+	通过Thread创建线程对象
+</p>
+
+<p style="margin-left: 40px;">
+	将Runnable接口的子类对象作为实际参数传递给Thread类的构造函数（<strong><span style="color:#FF0000;">让线程执行指定对象的run方法</span></strong>）
+</p>
+
+<p style="margin-left: 40px;">
+	调用Thread的start方法 开启线程并调用Runnable接口子类的run方法
+</p>
+
+<blockquote>
+	<p>
+		class Ticket implements Runable {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public int ticket = 100;
+	</p>
+
+	<p style="margin-left: 40px;">
+		public run() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		while(true) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		if (ticket &gt; 0)
+	</p>
+
+	<p style="margin-left: 160px;">
+		syso(Thread.currentThread().getName() + &quot;: &quot; + ticket--);
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		Ticket ticket = new Ticket(); &nbsp;//它并不是一个线程
+	</p>
+
+	<p>
+		Thread t1 = new Thread(<span style="font-size: 13px;">ticket</span>); &nbsp;//用它来创建线程
+	</p>
+
+	<p>
+		Thread t2 = new Thread(<span style="font-size: 13px;">ticket</span>);
+	</p>
+
+	<p>
+		t1.start(); &nbsp;//开启线程
+	</p>
+
+	<p>
+		t2.start();
+	</p>
+</blockquote>
+
+<p>
+	<strong><span style="color:#EE82EE;">[面试题]</span>两种方式的区别</strong>
+</p>
+
+<p>
+	1.使用继承的方式时 就不能再继承别的了 这样不好 实现方式的好处在于 避免了单继承的局限性
+</p>
+
+<p>
+	在定义线程时候 建议使用实现方式
+</p>
+
+<p>
+	2.线程代码存放位置不同
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>线程本身有自己的名称</strong>
+</p>
+
+<p>
+	可以通过getName()获取 Thread-0 Thread-1
+</p>
+
+<p>
+	也可以通过setName()修改
+</p>
+
+<p>
+	或者在创建线程的时候 就可以传入名称
+</p>
+
+<blockquote>
+	<p>
+		Thread(String name)
+	</p>
+</blockquote>
+
+<p>
+	<strong>得到当前线程对象</strong>
+</p>
+
+<blockquote>
+	<p>
+		Thread.currentThread() &nbsp;//是一个静态的方法
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>所以要获取当前线程的名称的时候 请使用</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		Thread.currentThread().getName();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、线程的状态</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/zt.jpg" rel="" style="" target="" title=""><img alt="zt" class="alignnone size-full wp-image-2342" height="239" src="http://localhost:8080/wp-content/uploads/2014/01/zt.jpg" style="" title="" width="422" /></a>
+</p>
+
+<p>
+	一个Thread对象 只能start一次 会出现线程状态异常
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、线程安全问题</strong>
+</h5>
+
+<p>
+	有可能几万次才有一次会出现问题 这样的错误最可怕 在测试的时候 都测试不出来
+</p>
+
+<p>
+	<strong>1.问题的原因</strong>
+</p>
+
+<p>
+	当多条语句在操作同一个线程共享数据时 一个线程对多条语句只执行了一部分 还没有执行完 另一个线程参与进来执行 导致了共享数据的错误
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/cw.jpg" rel="" style="" target="" title=""><img alt="cw" class="alignnone size-full wp-image-2345" height="225" src="http://localhost:8080/wp-content/uploads/2014/01/cw.jpg" style="" title="" width="706" /></a>
+</p>
+
+<p>
+	会出现的前提
+</p>
+
+<p style="margin-left: 40px;">
+	必须要有两个/以上的线程
+</p>
+
+<p style="margin-left: 40px;">
+	多条语句操作同一个共享数据
+</p>
+
+<p>
+	<strong>2.解决办法</strong>
+</p>
+
+<p>
+	对多条操作共享数据的语句 只能让一个线程都执行完 再执行过程中 其他线程不可以参与执行
+</p>
+
+<p>
+	<strong>3.同步代码块</strong>
+</p>
+
+<blockquote>
+	<p>
+		synchronzied(对象) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		需要被同步的代码
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	例如
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Ticket implements Runable {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public int ticket = 100;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public run() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while(true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		synchronized(new Object()) { &nbsp;//在代码执行到这里的时候 先判断这个对象的一个标志位（<u><strong>锁旗标</strong></u>） 如果是开着的 就可以进到代码块中执行 进来之后 就把这个对象的标志位关上 别的线程就进不了这个同步代码块了
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		if (<strong><span style="color:#FF0000;">ticket </span></strong>&gt; 0) { //操作了共享数据
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		try {Thread.sleep(10);} catch (Exception e) {}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		syso(Thread.currentThread().getName() + &quot;: &quot; + <strong><span style="color:#FF0000;">ticket</span></strong>--); &nbsp;//也操作了共享数据
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		} &nbsp;//当一个线程执行完同步代码块的时候 就把那个对象的那个标志位打开 允许其他的线程进入
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	虽然解决了线程安全问题 但是会有点儿耗费系统资源
+</p>
+
+<p>
+	<strong>4.同步函数</strong>
+</p>
+
+<p>
+	同步代码块 是封装代码的 函数也是封装代码的
+</p>
+
+<p>
+	要是函数里所有的代码都要同步 就用同步函数
+</p>
+
+<blockquote>
+	<p>
+		public synchronized void ...() {
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	同步函数使用的锁是this
+</p>
+
+<p>
+	静态同步函数使用的所是该方法所在类的字节码文件对象 类名.class
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.单例中的懒汉式在多线程中存在安全隐患</strong>
+</p>
+
+<p>
+	<span style="color:#EE82EE;"><strong>[面试题]</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		class Single {
+	</p>
+
+	<p style="margin-left: 40px;">
+		private static Single s = null;
+	</p>
+
+	<p style="margin-left: 40px;">
+		private Single() {}
+	</p>
+
+	<p style="margin-left: 40px;">
+		public static Single getInstance() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (s == null) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		synchronized(Single.class) {
+	</p>
+
+	<p style="margin-left: 160px;">
+		if (s == null) {
+	</p>
+
+	<p style="margin-left: 200px;">
+		s = new Single();
+	</p>
+
+	<p style="margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		return s;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>6.同步中的死锁</strong>
+</p>
+
+<p>
+	同步中嵌套同步 而锁却不同
+</p>
+
+<p>
+	<strong><span style="color:#EE82EE;">[面试题]</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		class Test implements Runnable&nbsp;{
+	</p>
+
+	<p style="margin-left: 40px;">
+		private boolean flag;
+	</p>
+
+	<p style="margin-left: 40px;">
+		Test(boolean flag) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.flag = flag;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		if (flag) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		synchronized(MyLock.locka) { &nbsp;//③
+	</p>
+
+	<p style="margin-left: 160px;">
+		syso(&quot;if&nbsp;locka&quot;);
+	</p>
+
+	<p style="margin-left: 160px;">
+		synchronized(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">MyLock.lockb</span>) { &nbsp;//④
+	</p>
+
+	<p style="margin-left: 200px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(&quot;if lockb&quot;);</span>
+	</p>
+
+	<p style="margin-left: 160px;">
+		}
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		} else {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		synchronized(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">MyLock.lockb</span>) { //①
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(&quot;else lockb&quot;);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		synchronized(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">MyLock.locka</span>) { &nbsp;//②
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(&quot;else locka&quot;);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		}
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		class MyLock {
+	</p>
+
+	<p style="margin-left: 40px;">
+		static Object locka = new Object();
+	</p>
+
+	<p style="margin-left: 40px;">
+		static Object lockb&nbsp;= new Object();
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		class DeadLock {
+	</p>
+
+	<p style="margin-left: 40px;">
+		public static void main(String[] args) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		Thread t1 = new Thread(new Test(true));
+	</p>
+
+	<p style="margin-left: 80px;">
+		Thread t2 = new Thread(new Test(false));
+	</p>
+
+	<p style="margin-left: 80px;">
+		t1.start();
+	</p>
+
+	<p style="margin-left: 80px;">
+		t2.start();
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	执行结果
+</p>
+
+<blockquote>
+	<p>
+		else lockb //说明线程2先开始执行 执行到①处时 持有了锁lockb 当它执行到②时 它拿着的是lockb 它就没法进locka的同步代码块
+	</p>
+
+	<p>
+		if locka //然后切到线程1执行 执行到③处时 持有了锁locka 当它执行到④时 就没法进入lockb的同步代码块
+	</p>
+
+	<p>
+		//然后这两个线程就谁都没法动了 就死锁了
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

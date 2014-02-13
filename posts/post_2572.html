@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MyBatis 使用注解开发</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MyBatis 使用注解开发
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、基本</strong>
+</h5>
+
+<p>
+	<strong>1.查询</strong>
+</p>
+
+<p>
+	创建一个Dao接口 在接口中写查询的方法体 然后在方法上加上注解 这样 调用这些方法的时候 就会被MyBatis接管 进行数据库的操作
+</p>
+
+<blockquote>
+	<p>
+		public interface PersonDao {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 查询单个<br />
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person where person_id = #{personId}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({&nbsp;&nbsp; &nbsp;// Results注解只能做基本的字段映射<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public Person selectPersonById(int personId);<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 查询集合<br />
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person where name = #{name} and salary = #{salary}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public List&lt;Person&gt; selectPersonByParams(Map&lt;String, Object&gt; map);<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	在调用的时候有两个关键的步骤
+</p>
+
+<blockquote>
+	<p>
+		public class DaoTest {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;SqlSessionFactory sqlSessionFactory;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Before<br />
+		&nbsp;&nbsp; &nbsp;public void setUp() throws Exception {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;InputStream in = Resources.getResourceAsStream(&quot;sqlMapConfig.xml&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 初始化sqlSessionFactory<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<strong><span style="color:#FF0000;">// 接口注册</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sqlSessionFactory.getConfiguration().addMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonById() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">// 获得personDao</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PersonDao personDao = session.getMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = personDao.selectPersonById(1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.插入</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 插入<br />
+		&nbsp;&nbsp; &nbsp;@Insert(&quot;insert into person(name, birthday, address, salary)&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;values(#{name}, #{birthday}, #{address}, #{salary})&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@SelectKey(keyProperty=&quot;id&quot;, before=false, resultType=Integer.class, statement={&quot;select last_insert_id()&quot;}) &nbsp;// <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">keyProperty &nbsp;- &nbsp;</span>实体类中主键的属性名<br />
+		&nbsp;&nbsp; &nbsp;public void insert(Person person);
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void insert() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PersonDao personDao = session.getMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = new Person();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setName(&quot;刘大脑袋&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setAddress(&quot;象牙山&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setBirthday(new Date());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setSalary(1000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;personDao.insert(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 增删改必须要提交事务 才能生效<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.更新</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 更新<br />
+		&nbsp;&nbsp; &nbsp;@Update(&quot;update person set&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;name = #{name},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;birthday = #{birthday},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;address = #{address},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;salary = #{salary}&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot; where person_id = ${id}&quot;) &nbsp;// <strong><span style="color:#FF0000;">注意where前的空格</span></strong><br />
+		&nbsp;&nbsp; &nbsp;public void update(Person person);
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.删除</strong>
+</p>
+
+<p>
+	就用Delete注解 就很简单了 没什么好说的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、联合查询</strong>
+</h5>
+
+<p>
+	联合查询需要定义ResultMap 在注解里没有办法定义 需要借助配置文件 从配置文件中读取到ResultMap拿过来
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person p, orders o where p.person_id = o.person_id and p.person_id = #{personId}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@ResultMap(&quot;com.yutouxiuxiu.Person.PersonOrderRM&quot;) &nbsp;// 联合查询需要定义ResultMap 还是得从配置文件中读取ResultMap<br />
+		&nbsp;&nbsp; &nbsp;public Person selectOrdersByPersonId(int personId);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、动态SQL</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 使用一个java类来提供动态的SQL type - 类, method - 方法<br />
+		&nbsp;&nbsp; &nbsp;@SelectProvider(type=SQLHelper.class,method=&quot;getSQL&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public List&lt;Person&gt; selectPersonByCondition(Map&lt;String, Object&gt; map);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		public class SQLHelper {<br />
+		&nbsp;&nbsp; &nbsp;public String getSQL(Map&lt;String, Object&gt; map) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;String name = (String) map.get(&quot;name&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Date birthday = (Date) map.get(&quot;birthday&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Integer salary = (Integer) map.get(&quot;salary&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.BEGIN();&nbsp;&nbsp; &nbsp;// 开始拼接<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.SELECT(&quot;*&quot;);&nbsp;&nbsp; &nbsp;// 拼接查询的字段<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.FROM(&quot;person&quot;);&nbsp;&nbsp; &nbsp;// 拼接表名<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (name != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;name like &#39;%&quot; + name + &quot;%&#39;&quot;);&nbsp;&nbsp; &nbsp;// 在SqlBuilder中 不能使用${}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (birthday != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;birthday &lt; #{birthday}&quot;);&nbsp;&nbsp; &nbsp;// 在SqlBuilder中 可以使用#{}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (salary != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;birthday &lt; #{salary}&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return SqlBuilder.SQL();<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

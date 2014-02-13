@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>daemon</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					daemon
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、什么是daemon</strong>
+</h5>
+
+<p>
+	简单的说，系统为了某些功能必须要提供一些服务 (不论是系统本身还是网络方面)，这个服务就称为 service 。 但是service 的提供总是需要程序的运作吧！否则如何执行呢？所以达成这个 service 的程序我们就称呼他为 daemon 啰！ 举例来说，达成循环型例行性工作排程服务 (service) 的程序为 crond 这个 daemon 啦！这样说比较容易理览了吧！
+</p>
+
+<p>
+	你不必去区分什举是 daemon 不 service ！事实上，你可以将这两者规为相同！因为达成某个服务是需要一支 daemon 在背景中运作， 没有这支 daemon 就不会有 service ！所以不需要分的太清楚啦！
+</p>
+
+<p>
+	通常在服务的名称<strong>之后会加上一个d</strong> ，例如例行性命令的建立的at,与cron这两个服务，他的程式档名会被取为atd与crond，这个d代表的就是daemon的意思
+</p>
+
+<p>
+	<strong>2.分类（依照启动与管理方式来区分）</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">可独立启动的&nbsp;</span><u style="line-height: 1.6em;">stand alone</u>
+</p>
+
+<p style="margin-left: 80px;">
+	因为是一直存在记忆体内持续的提供服务，因此对于发生用户端的要求时，stand alone的daemon<strong>回应速度较快</strong>。常见的stand alone daemon有WWW的daemon (httpd)、FTP的daemon(vsftpd)等等。
+</p>
+
+<p style="margin-left: 40px;">
+	透过一支&nbsp;<u>super daemon</u> 来统一管理的服务
+</p>
+
+<p style="margin-left: 80px;">
+	当没有用户端的要求时，各项服务都是未启动的情况，等到有来自用户端的要求时， super daemon才唤醒相对应的服务。当用户端的要求结束后，被唤醒的这个服务也会关闭并释放系统资源。<span style="font-size: 13px;">例如telnet这个玩意儿就是啦！</span>
+</p>
+
+<p style="margin-left: 80px;">
+	(1)由于super daemon负责唤醒各项服务，因此super daemon可以具有安全控管的机制，就是类似网路防火墙的功 ​​能啦！
+</p>
+
+<p style="margin-left: 80px;">
+	(2)由于服务在用户端的连线结束后就关闭，因此不会一直占用系统资源。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、服务和端口对应</strong>
+</h5>
+
+<p>
+	系统上面有没有什么设定可以让服务与端口对应在一起呢？那就是/etc/services 啦！
+</p>
+
+<blockquote>
+	<pre style="font-size: 13px;">
+[root@www ~]# cat /etc/services</pre>
+
+	<pre>
+....(前面省略)....
+ftp 21/tcp
+ftp 21/udp fsp fspd
+ssh 22/tcp # SSH Remote Login Protocol
+ssh 22/udp # SSH Remote Login Protocol
+....(中间省略)....
+http 80/tcp www www-http # WorldWideWeb HTTP
+http 80/udp www www-http # HyperText Transfer Protocol
+....(底下省略).... 
+#这个档案的内容是以底下的方式来编排的：
+# &lt;daemon name&gt; &lt;port/封包协定&gt; &lt;该服务的说明&gt;</pre>
+</blockquote>
+
+<p>
+	除非你要架设一个地下网站，否则的话，使用/etc/services原先的设定就好啦！
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	事实上，在Linux系统中，要『<strong>开或关某个port</strong> 』，就是需要『<strong>启动或关闭某个服务</strong>』啦！因此，你可以找出某个port对应的服务，程式对应的服务，进而启动或关闭他，那么那个经由该服务而启动的port ，自然就会关掉了！
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、相关的目录</strong>
+</h5>
+
+<p>
+	/etc/init.d/* ：<strong>启动脚本</strong>放置处<br />
+	系统上几乎所有的服务启动脚本都放置在这里！事实上这是公认的目录，我们的CentOS实际上放置在/etc/rc.d/init.d/啦！不过还是有设定连结档到/etc/init.d/的！既然这是公认的目录，因此建议您记忆这个目录即可！
+</p>
+
+<p>
+	/etc/sysconfig/* ：各服务的<strong>初始化环境设定档</strong><br />
+	几乎所有的服务都会将初始化的一些选项设定写入到这个目录下，举例来说，登录档的syslog这支daemon的初始化设定就写入在/etc/sysconfig/syslog这里呢！而网路的设定则写在/etc/sysconfig/network这个档案中。所以，这个目录内的档案也是挺重要的；
+</p>
+
+<p>
+	/etc/xinetd.conf, /etc/xinetd.d/* ：super daemon设定档<br />
+	super daemon的主要设定档(其实是预设值)为/etc/xinetd.conf ，不过我们上面就谈到了， super daemon只是一个统一管理的机制，他所管理的其他daemon的设定则写在/etc/xinetd.d/*里头喔！
+</p>
+
+<p>
+	/etc/* ：各服务各自的<strong>设定档</strong><br />
+	第六章就讲过了，大家的设定档都是放置在/etc/底下的喔！
+</p>
+
+<p>
+	/var/lib/* ：各服务产生的<strong>资料库</strong><br />
+	一些会产生资料的服务都会将他的资料写入到/var/lib/目录中。举例来说，资料库管理系统MySQL的资料库预设就是写入/var/lib/mysql/这个目录下啦！
+</p>
+
+<p>
+	/var/run/* ：各服务的程序之PID记录处<br />
+	我们在第十七章谈到可以使用讯号(signal)来管理程序，既然daemon是程序，所以当然也可以利用kill或killall来管理啦！不过为了担心管理时影响到其他的程序，因此daemon通常会将自己的PID记录一份到/var/run/当中！例如登录档的PID就记录在/var/run/syslogd.pid这个档案中。如此一来， /etc/init.d/syslog就能够简单的管理自己的程序啰。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、daemon的启动</strong>
+</h5>
+
+<p>
+	<strong>1.stand alone的启动</strong>
+</p>
+
+<p>
+	几乎系统上面所有服务的启动脚本都在/etc/init.d/底下，这里面的脚本会去侦测环境、搜寻设定档、载入distribution提供的函数功能、判断环境是否可以运作此daemon等等，等到一切都侦测完毕且确定可以运作后，再以<a href="http://linux.vbird.org/linux_basic/0340bashshell-scripts.php#case">shell script的case....esac</a>语法来启动、关闭、观察此daemon喔！我们可以简单的以/etc/init.d/syslog这个登录档启动脚本来进行说明：
+</p>
+
+<table class="term" style="width: 580px; background-color: rgb(0, 0, 0); border: 3px groove rgb(255, 204, 204); margin: 10px 0px; color: rgb(0, 0, 0); font-family: 新細明體, 'Times New Roman', serif; font-size: 14.857142448425293px; line-height: normal;">
+	<tbody>
+		<tr>
+			<td class="term" style="font-family: 細明體, Fixedsys, serif; font-size: 10pt; color: rgb(255, 255, 255);">
+				<pre>
+<font>[root@www ~]# </font><span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;"><font>/etc/init.d/syslog</font></span>
+用法: /etc/init.d/syslog {start|stop|status|restart|condrestart}
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);"><font># 什么参数都不加的时候，系统会告诉你可以用的参数有哪些，如上所示。</font></span>
+
+<span class="term_hd" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(187, 187, 187);">范例一：观察syslog这个daemon目前的状态</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">/etc/init.d/syslog status</span>
+syslogd (pid 4264) 正在执行...
+klogd (pid 4267) 正在执行...
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);"># 代表syslog 管理两个daemon ，这两个daemon 正在运作中啦！</span>
+
+<span class="term_hd" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(187, 187, 187);">范例二：重新让syslog读取一次设定档</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">/etc/init.d/syslog restart</span>
+正在关闭核心记录器: [ 确定 ]
+正在关闭系统记录器: [ 确定 ]
+正在启动系统记录器: [ 确定 ]
+正在启动核心记录器: [ 确定 ]
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">/etc/init.d/syslog status</span>
+syslogd (pid 4793) 正在执行...
+klogd (pid 4796) 正在执行...
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);"># 因为重新启动过，所以PID 与第一次观察的值就不一样了！这样了解乎？</span>
+</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	由于系统的环境都已经帮你制作妥当，所以利用/etc/init.d/* 来启动、关闭与观察，就非常的简单！话虽如此， CentOS 还是有提供另外一支可以启动stand alone 服务的脚本喔，那就是​​service 这个程式。其实service 仅是一支script 啦，他可以分析你下达的service 后面的参数，然后根据你的参数再到/etc/init.d/ 去取得正确的服务来start 或stop 哩！他的语法是这样的啦：
+</p>
+
+<table class="term" style="width: 580px; background-color: rgb(0, 0, 0); border: 3px groove rgb(255, 204, 204); margin: 10px 0px; color: rgb(0, 0, 0); font-family: 新細明體, 'Times New Roman', serif; font-size: 14.857142448425293px; line-height: normal;">
+	<tbody>
+		<tr>
+			<td class="term" style="font-family: 細明體, Fixedsys, serif; font-size: 10pt; color: rgb(255, 255, 255);">
+				<pre>
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">service [service name] (start|stop|restart|...)</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">service --status-all </span>
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);">选项与参数：
+service name：亦即是需要启动的服务名称，需与/etc/init.d/ 对应；
+start|... ：亦即是该服务要进行的工作。
+--status-all：将系统所有的stand alone 的服务状态通通列出来</span>
+
+<span class="term_hd" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(187, 187, 187);">范例三：重新启动crond这支daemon ：</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">service crond restart</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">/etc/init.d/crond restart </span>
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);">#这两种方法随便你用哪一种来处理都可以！不过鸟哥比较喜欢使用/etc/init.d/*</span>
+
+<span class="term_hd" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(187, 187, 187);">范例四：显示出目前系统上面所有服务的运作状态</span> 
+[root@www ~]# <span class="term_command" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: yellow;">service --status-all</span>
+acpid (pid 4536) 正在执行...
+anacron 已停止
+atd (pid 4694) 正在执行...
+<span class="term_say" style="font-size: 10pt; font-family: 細明體, Fixedsys, serif; color: rgb(255, 102, 102);">....(底下省略)....</span>
+</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	这样就将一堆服务的运作状态列出，你也可以根据这个输出的结果来查询你的某些服务是否正确运作了啊！^_^！其实，在上面的范例当中，启动方式以service 这个程式，或者直接去到/etc/init.d/ 底下启动，都一样啦！自行去解析/sbin/service 就知道为啥了！^_^
+</p>
+
+<blockquote>
+	<p>
+		#!/bin/sh
+	</p>
+
+	<p>
+		. /etc/init.d/functions
+	</p>
+
+	<p>
+		VERSION=&quot;$(basename $0) ver. 0.91&quot;<br />
+		USAGE=&quot;Usage: $(basename $0) &lt; option &gt; | --status-all | \<br />
+		[ service_name [ command | --full-restart ] ]&quot;<br />
+		SERVICE=<br />
+		SERVICEDIR=&quot;/etc/init.d&quot;<br />
+		OPTIONS=
+	</p>
+
+	<p>
+		if [ $# -eq 0 ]; then<br />
+		&nbsp; &nbsp;echo &quot;${USAGE}&quot; &gt;&amp;2<br />
+		&nbsp; &nbsp;exit 1<br />
+		fi
+	</p>
+
+	<p>
+		cd /<br />
+		while [ $# -gt 0 ]; do<br />
+		&nbsp; case &quot;${1}&quot; in<br />
+		&nbsp; &nbsp; --help | -h | --h* )<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;echo &quot;${USAGE}&quot; &gt;&amp;2<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;exit 0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;;;<br />
+		&nbsp; &nbsp; --version | -V )<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;echo &quot;${VERSION}&quot; &gt;&amp;2<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;exit 0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;;;<br />
+		&nbsp; &nbsp; *)<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cd ${SERVICEDIR}<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for SERVICE in * ; do<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &quot;${SERVICE}&quot; in<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; functions | halt | killall | single| linuxconf| kudzu)<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *)<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if ! is_ignored_file &quot;${SERVICE}&quot; \<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&amp;&amp; [ -x "${SERVICEDIR}/${SERVICE}" ]; then<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; env -i PATH=&quot;$PATH&quot; TERM=&quot;$TERM&quot; &quot;${SERVICEDIR}/${SERVICE}&quot; status<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fi<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; esac<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; done<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exit 0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;elif [ $# -eq 2 -a "${2}" = "--full-restart" ]; then<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SERVICE=&quot;${1}&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if [ -x "${SERVICEDIR}/${SERVICE}" ]; then<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; env -i PATH=&quot;$PATH&quot; TERM=&quot;$TERM&quot; &quot;${SERVICEDIR}/${SERVICE}&quot; stop<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; env -i PATH=&quot;$PATH&quot; TERM=&quot;$TERM&quot; &quot;${SERVICEDIR}/${SERVICE}&quot; start<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exit $?<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fi<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;elif [ -z "${SERVICE}" ]; then<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;SERVICE=&quot;${1}&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;else<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;OPTIONS=&quot;${OPTIONS} ${1}&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;fi<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;shift<br />
+		&nbsp; &nbsp; &nbsp; &nbsp;;;<br />
+		&nbsp; &nbsp;esac<br />
+		done
+	</p>
+
+	<p>
+		if [ -f "${SERVICEDIR}/${SERVICE}" ]; then<br />
+		&nbsp; &nbsp;env -i PATH=&quot;$PATH&quot; TERM=&quot;$TERM&quot; &quot;${SERVICEDIR}/${SERVICE}&quot; ${OPTIONS}<br />
+		else<br />
+		&nbsp; &nbsp;echo $&quot;${SERVICE}: unrecognized service&quot; &gt;&amp;2<br />
+		&nbsp; &nbsp;exit 1<br />
+		fi
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -28,101 +28,36 @@
 	<div class="a-post">
 		<div class="post-title">
 			<h2>
-				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2098.html">
-					老公去哪儿
+				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2594.html">
+					WebService 通过注释更改WSDL
 				</a>
 			</h2>
 			<span class="post-time">
-				2013-11-29 21:07
+				2014-02-12 19:30
 			</span>
 		</div>
 		<div class="post-content">
 			<p>
-	芋头：修修 你会唱小星星么？<br />
-	修修：不会呀...<br />
-	芋头：那我教你哦？<br />
-	修修：好啊！<br />
-	芋头：Twinkle twinkle little star<br />
-	&nbsp;&nbsp; &nbsp;How i wonder what you are<br />
-	修修：你有跑调哦！<br />
-	芋头&amp;修修：(一起笑)
-</p>
-
-<p>
-	芋头：我的家里有个人很酷<br />
-	&nbsp;&nbsp; &nbsp;三头六臂刀枪不入<br />
-	&nbsp;&nbsp; &nbsp;他的手掌也有一点粗<br />
-	&nbsp;&nbsp; &nbsp;牵着我去玩耍跑步
-</p>
-
-<p>
-	修修: 谢谢你光顾我的小植物<br />
-	&nbsp;&nbsp; &nbsp;你是我写过最美的情书<br />
-	&nbsp;&nbsp; &nbsp;钮扣住一个家的幸福<br />
-	&nbsp;&nbsp; &nbsp;爱着你呀风雨无阻
-</p>
-
-<p>
-	芋头：老公老公我们去哪里呀<br />
-	&nbsp;&nbsp; &nbsp;有你在就天不怕地不怕<br />
-	修修：芋头芋头我是你的大树<br />
-	&nbsp;&nbsp; &nbsp;一生陪你看日出
-</p>
-
-<p>
-	修修: &nbsp;这是第一次当你的老公<br />
-	&nbsp;&nbsp; &nbsp;我的心情有一点的复杂<br />
-	&nbsp;&nbsp; &nbsp;你拼命发芽我白了头发<br />
-	&nbsp;&nbsp; &nbsp;一起生下芋圆娃娃
-</p>
-
-<p>
-	芋头：老公老公我们吃什么呀<br />
-	&nbsp;&nbsp; &nbsp;有你在就天不怕地不怕<br />
-	修修：芋头芋头我是你的大厨<br />
-	&nbsp;&nbsp; &nbsp;一生给你吃满足
-</p>
-
-<p>
-	芋头: 我的老公是个神话<br />
-	&nbsp;&nbsp; &nbsp;搞定芋头绝代风华<br />
-	&nbsp;&nbsp; &nbsp;就算有天我们掉光牙<br />
-	&nbsp;&nbsp; &nbsp;我们还要一起去火辣辣
-</p>
-
-<p>
-	芋头：老公老公我们去哪里呀<br />
-	&nbsp;&nbsp; &nbsp;有你在就天不怕地不怕<br />
-	修修：芋头芋头我是你的大树<br />
-	&nbsp;&nbsp; &nbsp;一生陪你看日出<br />
-	芋头&amp;修修：啦啦啦啦啦啦啦
-</p>
-
-<p>
-	芋头：老公老公我们吃什么呀<br />
-	&nbsp;&nbsp; &nbsp;有你在就天不怕地不怕<br />
-	修修：芋头芋头我是你的大树<br />
-	&nbsp;&nbsp; &nbsp;一生陪你看日出
-</p>
-
-<p>
-	芋头：老公老公我们去哪里呀<br />
-	&nbsp;&nbsp; &nbsp;你就是我的天大和地大<br />
-	修修：芋头芋头时间的手一挥<br />
-	&nbsp;&nbsp; &nbsp;你是永远的珍贵
-</p>
-
-<p>
-	芋头&amp;修修：啦啦啦啦啦啦啦
-</p>
-
-<p>
-	芋头：一闪一闪亮晶晶<br />
-	&nbsp;&nbsp; &nbsp;漫天都是小星星<br />
-	&nbsp;&nbsp; &nbsp;Twinkle twinkle little star<br />
-	&nbsp;&nbsp; &nbsp;How i wonder<br />
-	修修：你又跑调咯！<br />
-	芋头&amp;修修：(一起笑)
+	/* 修改 提供的服务名称 命名空间（暴露了服务端的包结构 很有必要改） */<br />
+	@WebService(serviceName=&quot;GreetingService&quot;, targetNamespace=&quot;http://www.yutouxiuxiu.com&quot;)<br />
+	public class Hello {<br />
+	&nbsp;&nbsp; &nbsp;/* 修改 提供的方法名 */<br />
+	&nbsp;&nbsp; &nbsp;@WebMethod(operationName=&quot;sayHi&quot;)<br />
+	&nbsp;&nbsp; &nbsp;/* 修改 返回值名称 */<br />
+	&nbsp;&nbsp; &nbsp;@WebResult(name=&quot;greetingSentence&quot;)<br />
+	&nbsp;&nbsp; &nbsp;public String sayHello(<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* 修改 参数名称 */<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@WebParam(name=&quot;name&quot;)<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;String name,<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@WebParam(name=&quot;gender&quot;)<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;int gender) {<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return &quot;你好, &quot; + name + ((gender == 0) ? &quot;女士&quot; : &quot;先生&quot;);<br />
+	&nbsp;&nbsp; &nbsp;}<br />
+	&nbsp;&nbsp; &nbsp;<br />
+	&nbsp;&nbsp; &nbsp;public static void main(String[] args) {<br />
+	&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Endpoint.publish(&quot;http://192.168.1.194:6789/hello&quot;, new Hello());<br />
+	&nbsp;&nbsp; &nbsp;}<br />
+	}
 </p>
 
 		</div>
@@ -131,751 +66,101 @@
 	<div class="a-post">
 		<div class="post-title">
 			<h2>
-				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2091.html">
-					爸爸去哪儿
+				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2580.html">
+					移动电商 环境搭建
 				</a>
 			</h2>
 			<span class="post-time">
-				2013-11-29 19:04
-			</span>
-		</div>
-		<div class="post-content">
-			<p>
-	<a href="http://localhost:8080/wp-content/uploads/2013/11/baba.jpg" rel="" style="" target="" title=""><img alt="baba" class="alignnone size-full wp-image-2094" height="404" src="http://localhost:8080/wp-content/uploads/2013/11/baba.jpg" style="" title="" width="566" /></a>
-</p>
-
-<p>
-	Kimi：爸比 你会不会唱小星星么？<br />
-	林志颖：不会呀...<br />
-	Kimi：那我教你哦？<br />
-	林志颖：好啊！<br />
-	Kimi：Twinkle twinkle little star<br />
-	How i wonder what you are<br />
-	林志颖：你有跑调哦！<br />
-	林志颖&amp;Kimi：(一起笑)
-</p>
-
-<p>
-	张悦轩：我的家里有个人很酷<br />
-	郭子睿：三头六臂刀枪不入<br />
-	王诗龄：他的手掌也有一点粗<br />
-	轩&amp;睿&amp;龄：牵着我学会了走路
-</p>
-
-<p>
-	郭涛: 谢谢你光顾我的小怪物<br />
-	张亮: 你是我写过最美的情书<br />
-	王岳伦: 钮扣住一个家的幸福<br />
-	张&amp;郭&amp;王: 爱着你呀风雨无阻
-</p>
-
-<p>
-	郭子睿&amp;王诗龄&amp;张悦轩：老爸老爸我们去哪里呀<br />
-	有我在就天不怕地不怕<br />
-	郭涛&amp;王岳伦&amp;张亮：宝贝宝贝我是你的大树<br />
-	一生陪你看日出
-</p>
-
-<p>
-	郭涛: &nbsp;这是第一次当你的老爸<br />
-	张亮: &nbsp;我们的心情都有点复杂<br />
-	王岳伦 : &nbsp;你拼命发芽我白了头发<br />
-	张&amp;郭&amp;王： 一起写下一撇一捺
-</p>
-
-<p>
-	郭子睿&amp;王诗龄&amp;张悦轩：老爸老爸我们去哪里呀<br />
-	有我在就天不怕地不怕<br />
-	郭涛&amp;王岳伦&amp;张亮：宝贝宝贝我是你的大树<br />
-	一生陪你看日出
-</p>
-
-<p>
-	郭子睿: 我的老爸是个神话(郭涛：当然咯!)<br />
-	王诗龄: 搞定老妈绝代风华(王岳伦：哈哈!)<br />
-	张悦轩: 就算有天你掉光了牙(张亮：哎呦!)<br />
-	睿&amp;龄&amp;轩: 我也可以带你去火辣辣(郭&amp;王&amp;张：耶!)
-</p>
-
-<p>
-	郭子睿&amp;王诗龄&amp;张悦轩：老爸老爸我们去哪里呀<br />
-	有我在就天不怕地不怕<br />
-	郭涛&amp;王岳伦&amp;张亮：宝贝宝贝我是你的大树<br />
-	一生陪你看日出<br />
-	众： 啦啦啦啦啦啦啦
-</p>
-
-<p>
-	郭子睿&amp;王诗龄&amp;张悦轩：老爸老爸我们去哪里呀<br />
-	有我在就天不怕地不怕<br />
-	郭涛&amp;王岳伦&amp;张亮：宝贝宝贝我是你的大树<br />
-	一生陪你看日出
-</p>
-
-<p>
-	郭子睿&amp;王诗龄&amp;张悦轩：老爸老爸我们去哪里呀<br />
-	你就是我的天大和地大<br />
-	郭涛&amp;王岳伦&amp;张亮：宝贝宝贝时间的手一挥<br />
-	你是永远的珍贵
-</p>
-
-<p>
-	大合唱：啦啦啦啦......
-</p>
-
-<p>
-	林志颖：一闪一闪亮晶晶<br />
-	漫天都是小星星<br />
-	林志颖&amp;Kimi：Twinkle twinkle little star<br />
-	How i wonder<br />
-	林志颖：你又跑调咯！<br />
-	林志颖&amp;Kimi：(一起笑)
-</p>
-
-		</div>
-	</div>
-	
-	<div class="a-post">
-		<div class="post-title">
-			<h2>
-				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2088.html">
-					ThinkPHP - Model
-				</a>
-			</h2>
-			<span class="post-time">
-				2013-11-29 19:01
-			</span>
-		</div>
-		<div class="post-content">
-			<p>
-	TP下的Model符合和数据库交互 和 校验数据
-</p>
-
-<h5>
-	<strong>一、命名规则</strong>
-</h5>
-
-<blockquote>
-	<p>
-		表名Model extends Model {
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">}</span>
-	</p>
-</blockquote>
-
-<p>
-	表名使用大驼峰
-</p>
-
-<h5>
-	<strong><span style="line-height: 1.6em;">二、实例化</span></strong>
-</h5>
-
-<p>
-	假如说有个UserModel 想要实例化
-</p>
-
-<blockquote>
-	<p>
-		$userModel&nbsp;= D(&#39;User&#39;);
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<h5>
-	<strong>三、操作数据库</strong>
-</h5>
-
-<p>
-	<strong>1.增加数据 add</strong>
-</p>
-
-<p>
-	<strong>（1）CRM（数据关系映射）方式</strong>
-</p>
-
-<p style="margin-left: 40px;">
-	数组的键与表的字段一一对应
-</p>
-
-<p style="margin-left: 40px;">
-	数组与表的一行一一对应
-</p>
-
-<blockquote>
-	<p>
-		$xxxModel =&gt; D(&#39;Xxx&#39;);
-	</p>
-
-	<p>
-		$data = array (
-	</p>
-
-	<p style="margin-left: 40px;">
-		&#39;字段&#39; =&gt; &#39;值&#39;,
-	</p>
-
-	<p style="margin-left: 40px;">
-		...
-	</p>
-
-	<p>
-		);
-	</p>
-
-	<p>
-		var_dump($xxxModel-&gt;add($data)); &nbsp; &nbsp;//插入成功返回主键 插入失败返回false
-	</p>
-</blockquote>
-
-<p>
-	<strong>（2）AR（Active Recodes 活动对象）方式</strong>
-</p>
-
-<p style="margin-left: 40px;">
-	把对象的属性和表的字段对应
-</p>
-
-<p style="margin-left: 40px;">
-	操作对象的属性 就是在操作表中的数据
-</p>
-
-<p style="margin-left: 40px;">
-	保存对象 数据就保存了
-</p>
-
-<blockquote>
-	<p>
-		$userModel-&gt;D(&#39;User&#39;);
-	</p>
-
-	<p>
-		$userModel-&gt;username = &#39;yutou&#39;;
-	</p>
-
-	<p>
-		$userModel-&gt;password = &#39;123&#39;;
-	</p>
-
-	<p>
-		$userModel-&gt;add();<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;&nbsp; &nbsp;//插入成功返回主键 插入失败返回false</span>
-	</p>
-</blockquote>
-
-<p>
-	<strong>（3）原理</strong>
-</p>
-
-<blockquote>
-	<p>
-		/**<br />
-		&nbsp;* ThinkPHP Model模型类<br />
-		&nbsp;* 实现了ORM和ActiveRecords模式<br />
-		&nbsp;* @category &nbsp; Think<br />
-		&nbsp;* @package &nbsp;Think<br />
-		&nbsp;* @subpackage &nbsp;Core<br />
-		&nbsp;* @author &nbsp; &nbsp;liu21st &lt;liu21st@gmail.com&gt;<br />
-		&nbsp;*/<br />
-		class Model {
-	</p>
-
-	<p>
-		&nbsp; &nbsp; // 数据信息<br />
-		&nbsp; &nbsp; protected <strong><span style="color:#FF0000;">$data</span></strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; array();
-	</p>
-
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 新增数据<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param mixed $data 数据<br />
-		&nbsp; &nbsp; &nbsp;* @param array $options 表达式<br />
-		&nbsp; &nbsp; &nbsp;* @param boolean $replace 是否replace<br />
-		&nbsp; &nbsp; &nbsp;* @return mixed<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">add($data=&#39;&#39;</span></strong>,$options=array(),$replace=false) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">没有传递数据，获取当前数据对象的值</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;data)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;data;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 重置数据<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data &nbsp; &nbsp; = array();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp;= L(&#39;_DATA_TYPE_INVALID_&#39;);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp; $this-&gt;_parseOptions($options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 数据处理<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;<strong><span style="color:#FF0000;">_facade($data)</span></strong>;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ <strong><span style="color:#FF0000;">过滤非字段的数据</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $this-&gt;_before_insert($data,$options)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 写入数据到数据库<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $result = $this-&gt;db-&gt;insert($data,$options,$replace);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>if(false !== $result ) {</strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>$insertId &nbsp; = &nbsp; $this-&gt;getLastInsID();</strong></span><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($insertId) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 自增主键返回插入ID<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data[$this->getPk()] &nbsp;= $insertId;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_insert($data,$options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return $insertId;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_insert($data,$options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return $result;<br />
-		&nbsp; &nbsp; }
-	</p>
-
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 对保存到数据库的数据进行处理<br />
-		&nbsp; &nbsp; &nbsp;* @access protected<br />
-		&nbsp; &nbsp; &nbsp;* @param mixed $data 要操作的数据<br />
-		&nbsp; &nbsp; &nbsp;* @return boolean<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; &nbsp;protected function <strong><span style="color:#FF0000;">_facade</span></strong>($data) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 检查非数据字段<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;fields)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($data as $key=&gt;$val){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">if(!in_array($key,$this-&gt;fields,true)){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$key]);</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif(is_scalar($val)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 字段类型检查<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_parseType($data,$key);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 安全过滤<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;options['filter'])) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data = array_map($this-&gt;options['filter'],$data);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($this-&gt;options['filter']);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_before_write($data);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return $data;<br />
-		&nbsp; &nbsp; &nbsp;}
-	</p>
-
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 设置数据对象的值<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
-		&nbsp; &nbsp; &nbsp;* @param mixed $value 值<br />
-		&nbsp; &nbsp; &nbsp;* @return void<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function __set($name,$value) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 设置数据对象属性<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data[$name] &nbsp;= &nbsp; $value;<br />
-		&nbsp; &nbsp; }
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 获取数据对象的值<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
-		&nbsp; &nbsp; &nbsp;* @return mixed<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function __get($name) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return isset($this-&gt;data[$name])?$this->data[$name]:null;<br />
-		&nbsp; &nbsp; }
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 检测数据对象的值<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
-		&nbsp; &nbsp; &nbsp;* @return boolean<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function __isset($name) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return isset($this-&gt;data[$name]);<br />
-		&nbsp; &nbsp; }
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 销毁数据对象的值<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $name 名称<br />
-		&nbsp; &nbsp; &nbsp;* @return void<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function __unset($name) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; unset($this-&gt;data[$name]);<br />
-		&nbsp; &nbsp; }
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>2.修改数据 save</strong>
-</p>
-
-<p>
-	<strong>（1）CRM方式</strong>
-</p>
-
-<blockquote>
-	<p>
-		$data = array(...); &nbsp;//不包含主键
-	</p>
-
-	<p>
-		$options = array(&#39;where&#39;&nbsp;=&gt; &#39;&#39;);
-	</p>
-
-	<p>
-		$userModel-&gt;save($data, $options);
-	</p>
-</blockquote>
-
-<blockquote>
-	<p>
-		$data = array(...); &nbsp;//包含主键
-	</p>
-
-	<p>
-		<span style="font-size: 13px;">$userModel-&gt;save($data);</span>
-	</p>
-</blockquote>
-
-<p>
-	<strong><span style="font-size: 13px;">（2）AR方式</span></strong>
-</p>
-
-<blockquote>
-	<p>
-		$userModel-&gt;id = 1;
-	</p>
-
-	<p>
-		$userModel-&gt;username = &#39;&#39;;
-	</p>
-
-	<p>
-		$userModel-&gt;save();
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>（3）原理</strong>
-</p>
-
-<blockquote>
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 保存数据<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param mixed $data 数据<br />
-		&nbsp; &nbsp; &nbsp;* @param array $options 表达式<br />
-		&nbsp; &nbsp; &nbsp;* @return boolean<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function save($data=&#39;&#39;,$options=array()) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 没有传递数据，获取当前数据对象的值<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;data)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;data;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 重置数据<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data &nbsp; &nbsp; = &nbsp; array();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp;= &nbsp; L(&#39;_DATA_TYPE_INVALID_&#39;);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 数据处理<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;_facade($data);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp; $this-&gt;_parseOptions($options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $pk &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;getPk();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(!isset($options['where']) ) {&nbsp;&nbsp; &nbsp;// ~ 如果没传option的where条件 就到$data数组里找主键的值 如果都没有 就报错<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果存在主键数据 则自动作为更新条件<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($data[$pk])) {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ $data数组里 有没有以主键作为键名的单元<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $data[$pk]; &nbsp;&nbsp;&nbsp; &nbsp;// ~ where $pk=$data[$pk]<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; = &nbsp; $where;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$pk]);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果没有任何更新条件则不执行<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; L(&#39;_OPERATION_WRONG_&#39;);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(is_array($options['where']) &amp;&amp; isset($options['where'][$pk])){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $pkValue &nbsp; &nbsp;= &nbsp; $options['where'][$pk];<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; } &nbsp; &nbsp; &nbsp; &nbsp;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $this-&gt;_before_update($data,$options)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; } &nbsp; &nbsp; &nbsp; &nbsp;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $result &nbsp; &nbsp; = &nbsp; $this-&gt;db-&gt;update($data,$options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(false !== $result) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($pkValue)) $data[$pk] &nbsp; = &nbsp;$pkValue;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_update($data,$options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return $result;<br />
-		&nbsp; &nbsp; }
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>3.options</strong>
-</p>
-
-<p style="font-size: 13px;">
-	存放SQL查询条件的数组
-</p>
-
-<blockquote style="font-size: 13px;">
-	<p>
-		<span style="line-height: 1.6em;">$options = array (&#39;where&#39;</span><span style="line-height: 1.6em;">&nbsp;=&gt; &#39;email=&quot;yutou@xiuxiu.com&quot;&#39;,&nbsp;</span><span style="line-height: 1.6em;">&#39;order&#39;&nbsp;=&gt; &#39;id desc&#39;,&nbsp;</span><span style="line-height: 1.6em;">&#39;limit&#39; =&gt; &#39;2&#39;);</span>
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">/* 结果</span>
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">Array</span>
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">(</span>
-	</p>
-
-	<p style="margin-left: 40px;">
-		[where] =&gt;&nbsp;email=&quot;yutou@xiuxiu.com&quot;
-	</p>
-
-	<p style="margin-left: 40px;">
-		[order] =&gt;&nbsp;id desc
-	</p>
-
-	<p style="margin-left: 40px;">
-		[limit] =&gt; 2
-	</p>
-
-	<p style="margin-left: 40px;">
-		[table] =&gt; user
-	</p>
-
-	<p style="margin-left: 40px;">
-		[model] =&gt; User
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">)</span>
-	</p>
-
-	<p>
-		<span style="line-height: 1.6em;">*/</span>
-	</p>
-</blockquote>
-
-<p style="font-size: 13px;">
-	options原理
-</p>
-
-<blockquote style="font-size: 13px;">
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 查询数据集<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param array $options 表达式参数<br />
-		&nbsp; &nbsp; &nbsp;* @return mixed<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function select($options=array()) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp;<strong><span style="color: rgb(255, 0, 0);">&nbsp;if(is_string($options) || is_numeric($options))</span></strong>&nbsp;{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 根据主键查询<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $pk &nbsp; = &nbsp;$this-&gt;getPk();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong><span style="color: rgb(255, 0, 0);">if(strpos($options,&#39;,&#39;)) {</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;array(&#39;IN&#39;,$options);&nbsp;&nbsp; &nbsp;// ~ WHERE $pk IN(...,...,...)<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;$options;&nbsp;&nbsp; &nbsp;// ~ WHERE $pk=...<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;array();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; = &nbsp;$where;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<strong><span style="color: rgb(255, 0, 0);">elseif(false === $options)</span></strong>{ // 用于子查询 不查询只返回SQL<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;array();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;$this-&gt;_parseOptions($options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return &nbsp;&#39;( &#39;.$this-&gt;db-&gt;buildSelectSql($options).&#39; )&#39;;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp;= &nbsp;$this-&gt;_parseOptions($options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $resultSet &nbsp;= $this-&gt;db-&gt;select($options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $resultSet) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($resultSet)) { // 查询结果为空<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_select($resultSet,$options);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return $resultSet;<br />
-		&nbsp; &nbsp; }
-	</p>
-
-	<div>
-		&nbsp;
-	</div>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>3.查询 select</strong>
-</p>
-
-<p>
-	可以传options到select中
-</p>
-
-<blockquote>
-	<p>
-		$options = array(...);
-	</p>
-
-	<p>
-		$userModel-&gt;select($options);
-	</p>
-</blockquote>
-
-<p>
-	也可以使用连贯操作
-</p>
-
-<blockquote>
-	<p>
-		$userModel-&gt;where(&#39;id&lt;5&#39;)-&gt;order(&#39;id desc&#39;)-&gt;limit(3)-&gt;select(); &nbsp; &nbsp;
-	</p>
-</blockquote>
-
-<p>
-	连贯操作原理
-</p>
-
-<blockquote>
-	<p>
-		&nbsp; &nbsp; // 链操作方法列表<br />
-		&nbsp; &nbsp; protected <strong><span style="color:#FF0000;">$methods</span></strong> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; array(&#39;table&#39;,&#39;order&#39;,&#39;alias&#39;,&#39;having&#39;,&#39;group&#39;,&#39;lock&#39;,&#39;distinct&#39;,&#39;auto&#39;,&#39;filter&#39;,&#39;validate&#39;,&#39;result&#39;,&#39;bind&#39;,&#39;token&#39;);
-	</p>
-
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
-
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 利用__call方法实现一些特殊的Model方法<br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $method 方法名称<br />
-		&nbsp; &nbsp; &nbsp;* @param array $args 调用参数<br />
-		&nbsp; &nbsp; &nbsp;* @return mixed<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">__call($method,$args)</span></strong> {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(in_array(strtolower($method),<span style="color:#FF0000;"><strong>$this-&gt;methods</strong></span>,true)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 连贯操作的实现<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;options[strtolower($method)] = &nbsp; $args[0];</span></strong>&nbsp;&nbsp; &nbsp;// ~ 将操作的参数放到options数组中<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>return $this;</strong></span>&nbsp;&nbsp; &nbsp;// ~ 因为return $this 所以可以链式操作
-	</p>
-
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-		</div>
-	</div>
-	
-	<div class="a-post">
-		<div class="post-title">
-			<h2>
-				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2082.html">
-					ThinkPHP - Module
-				</a>
-			</h2>
-			<span class="post-time">
-				2013-11-28 20:05
+				2014-02-12 10:06
 			</span>
 		</div>
 		<div class="post-content">
 			<h5>
-	<strong style="line-height: 1.2em; font-size: 13px;">一、语法规范</strong>
+	<strong>一、项目概要</strong>
 </h5>
 
-<blockquote>
-	<p>
-		XxxAction extends Action {
-	</p>
-
-	<p>
-		}
-	</p>
-</blockquote>
-
 <p>
-	首字母大写
+	<strong>1.开发技术</strong>
 </p>
 
 <p>
-	在APP_DEBUG模式下 windows下开发 也强制区分大小写
+	jsp freemarker jquery css jstl struts-menu fckEditor
+</p>
+
+<p>
+	springmvc spring mybatis
+</p>
+
+<p>
+	cxf
+</p>
+
+<p>
+	图片服务器
+</p>
+
+<p>
+	maven svn hudson
+</p>
+
+<p>
+	oracle
+</p>
+
+<p>
+	<strong>2.开发环境</strong>
+</p>
+
+<p>
+	eclipse4.3（Maven项目 一般都用eclipse）
+</p>
+
+<p>
+	tomcat6.0
+</p>
+
+<p>
+	jdk1.6
+</p>
+
+<p>
+	oracle10g
+</p>
+
+<p>
+	maven3.0.5（好处：项目构建 依赖管理）
+</p>
+
+<p>
+	<strong>3.人员配置</strong>
+</p>
+
+<p>
+	产品经理 1
+</p>
+
+<p>
+	需求人员 3
+</p>
+
+<p>
+	项目经理 1 （不负责技术）
+</p>
+
+<p>
+	项目负责人 1 （懂技术 任务分配 技术把控）
+</p>
+
+<p>
+	测试 5
+</p>
+
+<p>
+	开发 7
+</p>
+
+<p>
+	项目周期 6月
 </p>
 
 <p>
@@ -883,566 +168,251 @@
 </p>
 
 <h5>
-	<strong>二、空操作</strong>
+	<strong>二、环境搭建</strong>
 </h5>
 
 <p>
-	当访问存在Module中不存在的方法时 则执行_empty方法（如果存在）
+	<strong>1.Oracle</strong>
 </p>
 
 <p>
-	<span style="color:#0000FF;">ThinkPHP/Lib/Core/Action.class.php</span>
+	（1）安装Oracle10<span style="line-height: 1.6em;">g</span>
 </p>
 
-<blockquote>
-	<p>
-		/**<br />
-		&nbsp;* ThinkPHP Action控制器基类 抽象类<br />
-		&nbsp;* @category &nbsp; Think<br />
-		&nbsp;* @package &nbsp;Think<br />
-		&nbsp;* @subpackage &nbsp;Core<br />
-		&nbsp;* @author &nbsp; liu21st &lt;liu21st@gmail.com&gt;<br />
-		&nbsp;*/<br />
-		abstract class Action {
-	</p>
+<p>
+	（2）新建表空间和用户
+</p>
 
-	<p>
-		&nbsp; &nbsp; 。。。。。。
-	</p>
+<p style="margin-left: 40px;">
+	启动Listener和Service
+</p>
 
-	<p>
-		&nbsp; &nbsp; /**<br />
-		&nbsp; &nbsp; &nbsp;* 魔术方法 <strong><span style="color:#FF0000;">有不存在的操作的时候执行</span></strong><br />
-		&nbsp; &nbsp; &nbsp;* @access public<br />
-		&nbsp; &nbsp; &nbsp;* @param string $method 方法名<br />
-		&nbsp; &nbsp; &nbsp;* @param array $args 参数<br />
-		&nbsp; &nbsp; &nbsp;* @return mixed<br />
-		&nbsp; &nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">__call</span></strong>($method,$args) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if( 0 === strcasecmp($method,ACTION_NAME.C(&#39;ACTION_SUFFIX&#39;))) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(method_exists($this,&#39;_empty&#39;)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">如果定义了_empty操作 则调用</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_empty($method,$args);
-	</p>
+<p style="margin-left: 40px;">
+	打开PLSQLDeveloper 以管理员登录
+</p>
 
-	<p>
-		。。。。。。
-	</p>
-</blockquote>
+<p style="margin-left: 40px;">
+	新建表空间（由多个DBF文件构成）
+</p>
+
+<p style="margin-left: 40px;">
+	新建用户（临时表空间为TEMP）
+</p>
+
+<p style="margin-left: 40px;">
+	授予权限
+</p>
 
 <p>
+	（3）创建表的导入数据
+</p>
+
+<p style="margin-left: 40px;">
+	重新以新用户的Normal登录（用Dba登录 会显示很多系统表 看起来很乱）
+</p>
+
+<p style="margin-left: 40px;">
+	@D:/ecps_guizhou2.sql
+</p>
+
+<p style="margin-left: 40px;">
+	@D:/data.sql
+</p>
+
+<p>
+	<strong>2.Maven</strong>
+</p>
+
+<p>
+	（1）安装3.0.5
+</p>
+
+<p>
+	（2）配置环境变量
+</p>
+
+<p style="margin-left: 40px;">
+	MAVEN_HOME
+</p>
+
+<p style="margin-left: 40px;">
+	PATH %MAVEN_HOME%\bin
+</p>
+
+<p>
+	（3）检查
+</p>
+
+<p style="margin-left: 40px;">
+	mvn -v
+</p>
+
+<p>
+	（4）拷贝仓库
+</p>
+
+<p style="margin-left: 40px;">
+	不要与本地的合并 会出问题&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	将conf/setting.xml中的本地仓库位置更改到新仓库的位置
+</p>
+
+<p>
+	<strong>3.Eclipse</strong>
+</p>
+
+<p>
+	（1）安装4.3
+</p>
+
+<p>
+	（2）修改Maven为3.0.5
+</p>
+
+<p>
+	（3）将用户范围的setting改为指向新本地仓库
+</p>
+
+<p>
+	<strong>4.创建项目</strong>
+</p>
+
+<p>
+	为何如下创建 请见Maven的文章
+</p>
+
+<p>
+	（1）创建ecps-core
+</p>
+
+<p style="margin-left: 40px;">
+	业务逻辑层和数据访问层java项目（Maven）
+</p>
+
+<p style="margin-left: 40px;">
+	前台和后台的公共部分 提供Dao和Service
+</p>
+
+<p style="margin-left: 40px;">
+	GroupId 项目名 ArtifactId 模块名
+</p>
+
+<p style="margin-left: 40px;">
+	version SNAPSHOP（开发中的）
+</p>
+
+<p>
+	（2）创建ecps-console
+</p>
+
+<p style="margin-left: 40px;">
+	后台web项目（Maven）
+</p>
+
+<p>
+	（3）创建ecps-portal
+</p>
+
+<p style="margin-left: 40px;">
+	前台web项目（Maven）
+</p>
+
+<p>
+	（4）创建ecps-parent
+</p>
+
+<p style="margin-left: 40px;">
+	java项目 用于管理所有的工程 便于一次构建
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">pom.xml中的packagin改为pom</span>
+</p>
+
+<p>
+	（5）进行依赖
+</p>
+
+<p style="margin-left: 40px;">
+	console和portal都依赖core
+</p>
+
+<p style="margin-left: 40px;">
+	在pom.xml文件中添加dependency引用坐标
+</p>
+
+<p>
+	（6）继承
+</p>
+
+<p style="margin-left: 40px;">
+	将工程都在Eclipse中都删掉 到资源管理器中 把三个工程移动到parent工程目录里
+</p>
+
+<p style="margin-left: 40px;">
+	然后重新import各个工程
+</p>
+
+<p style="margin-left: 40px;">
 	&nbsp;
 </p>
 
-<h5>
-	<strong>三、前置、后置操作</strong>
-</h5>
+<p style="margin-left: 40px;">
+	在console、portal、core的pom.xml中添加parent标签到parent工程 relativePath为&ldquo;../pom.xml&rdquo;
+</p>
 
-<p>
-	如果存在的话 调用方法之前会调用前置操作 调用方法之后会调用后置操作
+<p style="margin-left: 40px;">
+	然后这三个工程pom的groupId和version可以删掉了 就继承parent工程的pom了 dependency只需要在parent中定义 就都继承了
 </p>
 
 <p>
-	<span style="color:#0000FF;">ThinkPHP/Lib/Core/App.class.php</span>
+	（7）聚合
 </p>
 
-<blockquote>
-	<p>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //执行当前操作<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method = &nbsp; new ReflectionMethod($module, $action);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ ReflectionMethod 类报告了一个方法的有关信息。<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* ~<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;public __construct ( mixed $class , string $name )<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;class &nbsp;- &nbsp;Classname or object (instance of the class) that contains the method.<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;name &nbsp;- &nbsp;Name of the method.<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($method-&gt;isPublic()) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $class &nbsp;= &nbsp; new ReflectionClass($module);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">前置操作</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(&#39;_before_&#39;.$action)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $before = &nbsp; $class-&gt;getMethod(<span style="color:#FF0000;"><strong>&#39;_before_&#39;.$action</strong></span>);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 比如说要调用index方法 _before_index方法就会在这里执行<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($before-&gt;isPublic()) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$before-&gt;invoke($module);</span></strong><br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/* ~<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;public mixed invoke ( object $object [, mixed $parameter [, mixed $... ]] )<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Invokes a reflected method.<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;object &nbsp;- &nbsp;The object to invoke the method on. For static methods, pass null to this parameter.<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parameter &nbsp;- &nbsp;Zero or more parameters to be passed to the method. It accepts a variable number of parameters which are passed to the method.<br />
-		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*/<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // URL参数绑定检测<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(C(&#39;URL_PARAMS_BIND&#39;) &amp;&amp; $method-&gt;getNumberOfParameters()&gt;0){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; switch($_SERVER['REQUEST_METHOD']) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;POST&#39;:<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp; &nbsp;= &nbsp;array_merge($_GET,$_POST);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; case &#39;PUT&#39;:<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_str(file_get_contents(&#39;php://input&#39;), $vars);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; default:<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $vars &nbsp;= &nbsp;$_GET;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $params = &nbsp;$method-&gt;getParameters();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($params as $param){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $name = $param-&gt;getName();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($vars[$name])) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = &nbsp;$vars[$name];<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif($param-&gt;isDefaultValueAvailable()){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $args[] = $param-&gt;getDefaultValue();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw_exception(L(&#39;_PARAM_ERROR_&#39;).&#39;:&#39;.$name);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invokeArgs($module,$args);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ Invokes the reflected method and pass its arguments as array.<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $method-&gt;invoke($module);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // <span style="color:#FF0000;"><strong>后置操作</strong></span><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($class-&gt;hasMethod(<strong><span style="color:#FF0000;">&#39;_after_&#39;.$action</span></strong>)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $after = &nbsp; $class-&gt;getMethod(&#39;_after_&#39;.$action);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($after-&gt;isPublic()) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$after-&gt;invoke($module);</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 操作方法不是Public 抛出异常<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; throw new ReflectionException();<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<h5>
-	<strong>四、空模块</strong>
-</h5>
-
-<p>
-	如果要访问的模块不存在
+<p style="margin-left: 40px;">
+	在parent的pom中添加modules标签 聚合console、portal和core
 </p>
 
 <p>
-	先判断__hack_module()函数是否存在 则使用该函数返回的Action对象作为$module
+	（8）试一下编译
+</p>
+
+<p style="margin-left: 40px;">
+	右键parent工程的pom runas 编译 就实现了所有工程的统一的编译打包
 </p>
 
 <p>
-	<span style="color: rgb(0, 0, 255); font-size: 13px;">ThinkPHP/Lib/Core/App.class.php</span>
+	（9）定义依赖管理
 </p>
 
-<blockquote>
-	<p>
-		&nbsp; &nbsp; &nbsp; &nbsp; if(!$module) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(&#39;4e5e5d7364f443e28fbf0d3ae744a59a&#39; == MODULE_NAME) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; header(&quot;Content-type:image/png&quot;);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; exit(base64_decode(App::logo()));<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong><span style="color:#FF0000;"> if(function_exists(&#39;__hack_module&#39;))</span></strong> {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // hack 方式定义扩展模块 返回Action对象<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$module = __hack_module();</span></strong><br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!is_object($module)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 不再继续执行 直接返回<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 是否定义Empty模块<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$module = A($group.&#39;Empty&#39;);</span></strong>&nbsp;&nbsp; &nbsp;// ~ 如果定义了<strong><span style="color:#FF0000;">EmptyAction</span></strong>.class.php 就执行 空模块 可以定制错误页面和进行URL优化<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!$module){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _404(L(&#39;_MODULE_NOT_EXIST_&#39;).&#39;:&#39;.MODULE_NAME);&nbsp;&nbsp; &nbsp;// ~ 如果连EmptyAction也没有 就进行报错<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
+<p style="margin-left: 40px;">
+	在parent的pom中
 </p>
 
-<h5>
-	<strong>五、跨模块调用</strong>
-</h5>
-
-<p>
-	使用快捷函数A 如果已经实例化了 则获取已经实例化的对象 没有才创建
+<p style="margin-left: 40px;">
+	&lt;dependencyManagement&gt;
 </p>
 
-<blockquote>
-	<p>
-		$other = A(&#39;Other&#39;);
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
+<p style="margin-left: 80px;">
+	&lt;dependencies&gt;
 </p>
 
-<p>
-	<span style="color:#0000FF;">ThinkPHP/Common/common.php</span>
+<p style="margin-left: 120px;">
+	&lt;dependency&gt;...
 </p>
 
-<blockquote>
-	<p>
-		/**<br />
-		&nbsp;* A函数用于实例化Action 格式：[项目://][分组/]模块<br />
-		&nbsp;* @param string $name Action资源地址<br />
-		&nbsp;* @param string $layer 控制层名称<br />
-		&nbsp;* @param boolean $common 是否公共目录<br />
-		&nbsp;* @return Action|false<br />
-		&nbsp;*/<br />
-		function A($name,$layer=&#39;&#39;,$common=false) {<br />
-		&nbsp; &nbsp;<strong><span style="color:#FF0000;"> static $_action = array();&nbsp;&nbsp; &nbsp;// ~ 静态数组存储已经实例化的action 用注册模式实现action的单例</span></strong><br />
-		&nbsp; &nbsp; $layer &nbsp; &nbsp; &nbsp;= &nbsp; $layer?$layer:C(&#39;DEFAULT_C_LAYER&#39;);<br />
-		&nbsp; &nbsp; if(strpos($name,&#39;://&#39;)) {// 指定项目<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; list($app) &nbsp;= &nbsp; explode(&#39;://&#39;,$name);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $name &nbsp; = &nbsp;str_replace(&#39;://&#39;,&#39;/&#39;.$layer.&#39;/&#39;,$name);<br />
-		&nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $app &nbsp; &nbsp;= &nbsp; &#39;@&#39;;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $name &nbsp; = &nbsp;&#39;@/&#39;.$layer.&#39;/&#39;.$name;<br />
-		&nbsp; &nbsp; }<br />
-		&nbsp; &nbsp;<strong><span style="color:#FF0000;"> if(isset($_action[$name])) &nbsp;return $_action[$name];&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果已经注册了该action的实例就直接返回</span></strong><br />
-		&nbsp; &nbsp; $path &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; explode(&#39;/&#39;,$name);<br />
-		&nbsp; &nbsp; if($list = C(&#39;EXTEND_GROUP_LIST&#39;) &amp;&amp; isset($list[$app])){ // 扩展分组<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $list[$app];<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);<br />
-		&nbsp; &nbsp; }elseif(count($path)&gt;3 &amp;&amp; 1 == C(&#39;APP_GROUP_MODE&#39;)) { // 独立分组<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $path[0]== '@' ? dirname(BASE_LIB_PATH) : APP_PATH.'../'.$path[0].&#39;/&#39;.C(&#39;APP_GROUP_PATH&#39;).&#39;/&#39;;<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);<br />
-		&nbsp; &nbsp; }elseif($common) { // 加载公共类库目录<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; import(str_replace(&#39;@/&#39;,&#39;&#39;,$name).$layer,LIB_PATH);<br />
-		&nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; import($name.$layer);<br />
-		&nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; $class &nbsp; &nbsp; &nbsp;= &nbsp; basename($name.$layer);<br />
-		&nbsp; &nbsp; if(class_exists($class,false)) {<br />
-		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; $action &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; new $class();&nbsp;&nbsp; &nbsp;// ~ 如果action未被注册到静态数组 也就是没有实例化 则实例化并注册</span></strong><br />
-		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; $_action[$name] &nbsp; &nbsp; = &nbsp; $action;</span></strong><br />
-		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; return $action;</span></strong><br />
-		&nbsp; &nbsp; }else {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; }<br />
-		}
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
+<p style="margin-left: 80px;">
+	&lt;/
 </p>
 
-<h5>
-	<strong>六、远程调用</strong>
-</h5>
-
-<p>
-	直接调用某个Module中的Action方法
+<p style="margin-left: 40px;">
+	&lt;/
 </p>
 
-<blockquote>
-	<p>
-		R(&#39;Module/action&#39;);
-	</p>
-</blockquote>
-
-<p>
-	<span style="color:#0000FF;">ThinkPHP/Common/common.php</span>
-</p>
-
-<blockquote>
-	<p>
-		/**<br />
-		&nbsp;* 远程调用模块的操作方法 URL 参数格式 [项目://][分组/]模块/操作<br />
-		&nbsp;* @param string $url 调用地址<br />
-		&nbsp;* @param string|array $vars 调用参数 支持字符串和数组&nbsp;<br />
-		&nbsp;* @param string $layer 要调用的控制层名称<br />
-		&nbsp;* @return mixed<br />
-		&nbsp;*/<br />
-		function R($url,$vars=array(),$layer=&#39;&#39;) {<br />
-		&nbsp; &nbsp; $info &nbsp; = &nbsp; pathinfo($url);<br />
-		&nbsp; &nbsp; $action = &nbsp; $info['basename'];<br />
-		&nbsp; &nbsp; $module = &nbsp; $info['dirname'];<br />
-		&nbsp; &nbsp; $class &nbsp;= &nbsp; A($module,$layer);<br />
-		&nbsp; &nbsp; if($class){<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; if(is_string($vars)) {<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; parse_str($vars,$vars);<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return call_user_func_array(array(&amp;$class,$action.C(&#39;ACTION_SUFFIX&#39;)),$vars);<br />
-		&nbsp; &nbsp; }else{<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
-		&nbsp; &nbsp; }<br />
-		}
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<h5>
-	<strong>七、跨项目调用</strong>
-</h5>
-
-<blockquote>
-	<p>
-		项目目录名://Module/action
-	</p>
-</blockquote>
-
-<p>
-	<span style="color: rgb(0, 0, 255); font-size: 13px;">ThinkPHP/Common/common.php</span>
-</p>
-
-<blockquote>
-	<p>
-		&nbsp; &nbsp; &nbsp; &nbsp; $baseUrl &nbsp; &nbsp;= &nbsp; $path[0]== '@' ? dirname(BASE_LIB_PATH) : APP_PATH.'../'.$path[0].&#39;/&#39;.C(&#39;APP_GROUP_PATH&#39;).&#39;/&#39;;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 两个项目必须在同一级目录 才能远程调用<br />
-		&nbsp; &nbsp; &nbsp; &nbsp; import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);
-	</p>
-</blockquote>
-
-<p>
-	&nbsp;
-</p>
-
-<h5>
-	<strong>八、模块分组</strong>
-</h5>
-
-<p>
-	当一个应用有不同类别的模块的时候 就用到了模块分组
-</p>
-
-<p>
-	比如说有Home和Admin两组模块 希望通过 index.php/Home 或直接通过 index.php 访问 Home分组下的模块 通过 index.php/Admin 访问 Admin分组下的模块
-</p>
-
-<p>
-	<strong>1.配置分组</strong>
-</p>
-
-<p>
-	<span style="color:#0000FF;">应用路径/Conf/config.php</span>
-</p>
-
-<blockquote>
-	<p>
-		return array(
-	</p>
-
-	<p style="margin-left: 40px;">
-		&#39;APP_GROUP_LIST&#39;&nbsp;=&gt; &#39;Home,Admin&#39;; &nbsp; &nbsp;//分组列表 用逗号隔开
-	</p>
-
-	<p style="margin-left: 40px;">
-		&#39;DEFAULT_GROUP&#39; =&gt; &#39;Home&#39;; &nbsp;//默认分组 在URL上不指定分组时采用的分组
-	</p>
-
-	<p>
-		)
-	</p>
-</blockquote>
-
-<p>
-	<strong>2.在分组下编写Action</strong>
-</p>
-
-<p>
-	分别在指定的分组下编写Action
-</p>
-
-<p>
-	<span style="color:#0000FF;">应用路径/Lib/Action/Home</span>
-</p>
-
-<p>
-	<span style="color:#0000FF;"><span style="font-size: 13px;">应用路径/Lib/Action/Admin</span></span>
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>3.分组前后目录结构</strong>
-</p>
-
-<table border="0" cellpadding="0" cellspacing="1">
-	<tbody>
-		<tr>
-			<th>
-				项目目录
-			</th>
-			<th>
-				分组(以Home和Admin分组为例)
-			</th>
-			<th>
-				不分组
-			</th>
-		</tr>
-		<tr>
-			<td>
-				公共目录<br />
-				（Common）
-			</td>
-			<td>
-				<p>
-					Home分组：Common/Home/function.php
-				</p>
-
-				<p>
-					Admin分组：Common/Admin/function.php
-				</p>
-
-				<p>
-					公共文件：Common/common.php
-				</p>
-			</td>
-			<td>
-				Common/common.php
-			</td>
-		</tr>
-		<tr>
-			<td>
-				配置目录<br />
-				（Conf）
-			</td>
-			<td>
-				<p>
-					Home分组：Conf/Home/config.php
-				</p>
-
-				<p>
-					Admin分组：Conf/Admin/config.php
-				</p>
-
-				<p>
-					公共配置：Conf/config.php
-				</p>
-			</td>
-			<td>
-				Conf/config.php
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Action目录
-			</td>
-			<td>
-				<p>
-					Home分组：Lib/Action/Home/
-				</p>
-
-				<p>
-					Admin分组：Lib/Action/Admin/
-				</p>
-
-				<p>
-					公共Action：Lib/Action/
-				</p>
-			</td>
-			<td>
-				Lib/Action/
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Model&nbsp;目录
-			</td>
-			<td>
-				Lib/Model/
-			</td>
-			<td>
-				Lib/Model/
-			</td>
-		</tr>
-		<tr>
-			<td>
-				语言包目录（Lang&nbsp;以zh-cn为例）
-			</td>
-			<td>
-				<p>
-					Home分组：Lang/zh-cn/Home/lang.php
-				</p>
-
-				<p>
-					Admin分组：Lang/zh-cn/Admin/lang.php
-				</p>
-
-				<p>
-					公共语言包：Lang/zh-cn/common.php
-				</p>
-			</td>
-			<td>
-				Lang/zh-cn/common.php
-			</td>
-		</tr>
-		<tr>
-			<td>
-				模板目录（Tpl以theme主题为例）
-			</td>
-			<td>
-				<p>
-					Home分组：Tpl/Home/theme/
-				</p>
-
-				<p>
-					Admin分组：Tpl/Admin/theme/
-				</p>
-			</td>
-			<td>
-				Tpl/theme/
-			</td>
-		</tr>
-		<tr>
-			<td>
-				运行时目录（Runtime）
-			</td>
-			<td>
-				<p>
-					Home分组：Runtime/Home/
-				</p>
-
-				<p>
-					Admin分组：Runtime/Admin/
-				</p>
-			</td>
-			<td>
-				Runtime/
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>4.URL设置</strong>
-</p>
-
-<table border="0" cellpadding="0" cellspacing="1">
-	<tbody>
-		<tr>
-			<td>
-				TMPL_FILE_DEPR
-			</td>
-			<td>
-				分组模板下面模块和操作的分隔符，默认值为&ldquo;/&rdquo;
-			</td>
-		</tr>
-		<tr>
-			<td>
-				VAR_GROUP
-			</td>
-			<td>
-				分组的URL参数名，默认为g（普通模式URL才需要）
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-<p>
-	&nbsp;
+<p style="margin-left: 40px;">
+	仅仅提供依赖的声明 而不能被继承 只需要在子工程中定义groupId和artifactId不用定义version了 version在parent中统一管理
 </p>
 
 <p>
@@ -1467,100 +437,157 @@
 	<div class="a-post">
 		<div class="post-title">
 			<h2>
-				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2080.html">
-					ThinkPHP - URL模式
+				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2572.html">
+					MyBatis 使用注解开发
 				</a>
 			</h2>
 			<span class="post-time">
-				2013-11-28 19:29
+				2014-02-11 14:31
 			</span>
 		</div>
 		<div class="post-content">
 			<h5>
-	<strong>一、四种模式</strong>
+	<strong>一、基本</strong>
 </h5>
 
 <p>
-	<span style="color:#0000FF;">runtime.php</span>
+	<strong>1.查询</strong>
 </p>
 
 <p>
-	<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);">&nbsp; &nbsp; define(&#39;URL_COMMON&#39;, &nbsp; &nbsp; &nbsp;0); &nbsp; //普通模式</span><br style="margin: 0px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);" />
-	<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);">&nbsp; &nbsp; define(&#39;URL_PATHINFO&#39;, &nbsp; &nbsp;1); &nbsp; //PATHINFO模式</span><br style="margin: 0px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);" />
-	<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);">&nbsp; &nbsp; define(&#39;URL_REWRITE&#39;, &nbsp; &nbsp; 2); &nbsp; //REWRITE模式</span><br style="margin: 0px; padding: 0px; color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);" />
-	<span style="color: rgb(84, 84, 84); font-family: 'Microsoft YaHei', helvetica, Arial, Tahoma, sans-serif; font-size: 13px; line-height: 20px; background-color: rgb(246, 246, 246);">&nbsp; &nbsp; define(&#39;URL_COMPAT&#39;, &nbsp; &nbsp; &nbsp;3); &nbsp; // 兼容模式</span>
+	创建一个Dao接口 在接口中写查询的方法体 然后在方法上加上注解 这样 调用这些方法的时候 就会被MyBatis接管 进行数据库的操作
+</p>
+
+<blockquote>
+	<p>
+		public interface PersonDao {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 查询单个<br />
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person where person_id = #{personId}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({&nbsp;&nbsp; &nbsp;// Results注解只能做基本的字段映射<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public Person selectPersonById(int personId);<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;// 查询集合<br />
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person where name = #{name} and salary = #{salary}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public List&lt;Person&gt; selectPersonByParams(Map&lt;String, Object&gt; map);<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	在调用的时候有两个关键的步骤
+</p>
+
+<blockquote>
+	<p>
+		public class DaoTest {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;SqlSessionFactory sqlSessionFactory;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Before<br />
+		&nbsp;&nbsp; &nbsp;public void setUp() throws Exception {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;InputStream in = Resources.getResourceAsStream(&quot;sqlMapConfig.xml&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 初始化sqlSessionFactory<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<strong><span style="color:#FF0000;">// 接口注册</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sqlSessionFactory.getConfiguration().addMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonById() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">// 获得personDao</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PersonDao personDao = session.getMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = personDao.selectPersonById(1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.插入</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 插入<br />
+		&nbsp;&nbsp; &nbsp;@Insert(&quot;insert into person(name, birthday, address, salary)&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;values(#{name}, #{birthday}, #{address}, #{salary})&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@SelectKey(keyProperty=&quot;id&quot;, before=false, resultType=Integer.class, statement={&quot;select last_insert_id()&quot;}) &nbsp;// <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">keyProperty &nbsp;- &nbsp;</span>实体类中主键的属性名<br />
+		&nbsp;&nbsp; &nbsp;public void insert(Person person);
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void insert() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PersonDao personDao = session.getMapper(PersonDao.class);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = new Person();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setName(&quot;刘大脑袋&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setAddress(&quot;象牙山&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setBirthday(new Date());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setSalary(1000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;personDao.insert(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 增删改必须要提交事务 才能生效<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.更新</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 更新<br />
+		&nbsp;&nbsp; &nbsp;@Update(&quot;update person set&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;name = #{name},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;birthday = #{birthday},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;address = #{address},&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot;salary = #{salary}&quot; +<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&quot; where person_id = ${id}&quot;) &nbsp;// <strong><span style="color:#FF0000;">注意where前的空格</span></strong><br />
+		&nbsp;&nbsp; &nbsp;public void update(Person person);
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.删除</strong>
 </p>
 
 <p>
-	<strong>0.COMMON</strong>
-</p>
-
-<p>
-	任何服务器都支持
-</p>
-
-<p>
-	<span style="font-size: 13px;">index.php?m=ModuleName&amp;a=actionName</span>
-</p>
-
-<p>
-	像上面那样 通过参数指定访问的模块方法
-</p>
-
-<p>
-	<strong>更改参数名</strong>
-</p>
-
-<p>
-	VAR_MODULE
-</p>
-
-<p>
-	VAR_ACTION
-</p>
-
-<p>
-	&nbsp;
-</p>
-
-<p>
-	<strong>1.PATHINFO（默认）</strong>
-</p>
-
-<p>
-	Apache服务器支持的好 别的不好说
-</p>
-
-<p>
-	通过$_SERVER['PATH_INFO']获取
-</p>
-
-<p>
-	比如&ldquo;index.php?id=1&rdquo;的PATH_INFO是&ldquo;?id=1&rdquo;
-</p>
-
-<p>
-	&ldquo;index.php/Index/index&rdquo;的PATH_INFO就是&ldquo;<span style="font-size: 13px;">/Index/index</span>&rdquo;然后根据分隔符&ldquo;/&rdquo;进行拆分
-</p>
-
-<p>
-	<strong>更改默认模式</strong>
-</p>
-
-<p>
-	URL_MODEL
-</p>
-
-<p>
-	如果设置了0,1,3模式 只有服务器不支持PATHINFO时 才有区别 否则会解析URL看用哪种方式解析
-</p>
-
-<p>
-	<strong>更改分隔符</strong>
-</p>
-
-<p>
-	URL_PATHINFO_DEPR
+	就用Delete注解 就很简单了 没什么好说的
 </p>
 
 <p>
@@ -1568,16 +595,666 @@
 </p>
 
 <h5>
-	<strong>2.REWRITE伪静态</strong>
+	<strong>二、联合查询</strong>
 </h5>
 
 <p>
-	比如说访问thread-1234.html不一定访问的就是这个页面 它真正的是thread.php?tid=1234 这叫做URL重写
+	联合查询需要定义ResultMap 在注解里没有办法定义 需要借助配置文件 从配置文件中读取到ResultMap拿过来
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Select(&quot;select * from person p, orders o where p.person_id = o.person_id and p.person_id = #{personId}&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@ResultMap(&quot;com.yutouxiuxiu.Person.PersonOrderRM&quot;) &nbsp;// 联合查询需要定义ResultMap 还是得从配置文件中读取ResultMap<br />
+		&nbsp;&nbsp; &nbsp;public Person selectOrdersByPersonId(int personId);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、动态SQL</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;// 使用一个java类来提供动态的SQL type - 类, method - 方法<br />
+		&nbsp;&nbsp; &nbsp;@SelectProvider(type=SQLHelper.class,method=&quot;getSQL&quot;)<br />
+		&nbsp;&nbsp; &nbsp;@Results({<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;id&quot;, column=&quot;person_id&quot;, id=true),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;name&quot;, column=&quot;name&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;birthday&quot;, column=&quot;birthday&quot;),<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;@Result(property=&quot;address&quot;, column=&quot;address&quot;)<br />
+		&nbsp;&nbsp; &nbsp;})<br />
+		&nbsp;&nbsp; &nbsp;public List&lt;Person&gt; selectPersonByCondition(Map&lt;String, Object&gt; map);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		public class SQLHelper {<br />
+		&nbsp;&nbsp; &nbsp;public String getSQL(Map&lt;String, Object&gt; map) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;String name = (String) map.get(&quot;name&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Date birthday = (Date) map.get(&quot;birthday&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Integer salary = (Integer) map.get(&quot;salary&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.BEGIN();&nbsp;&nbsp; &nbsp;// 开始拼接<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.SELECT(&quot;*&quot;);&nbsp;&nbsp; &nbsp;// 拼接查询的字段<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.FROM(&quot;person&quot;);&nbsp;&nbsp; &nbsp;// 拼接表名<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (name != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;name like &#39;%&quot; + name + &quot;%&#39;&quot;);&nbsp;&nbsp; &nbsp;// 在SqlBuilder中 不能使用${}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (birthday != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;birthday &lt; #{birthday}&quot;);&nbsp;&nbsp; &nbsp;// 在SqlBuilder中 可以使用#{}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if (salary != null)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlBuilder.WHERE(&quot;birthday &lt; #{salary}&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return SqlBuilder.SQL();<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2564.html">
+					MyBatis 缓存
+				</a>
+			</h2>
+			<span class="post-time">
+				2014-02-11 11:48
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、一级缓存</strong>
+</h5>
+
+<p>
+	不需要做任何的配置 是session级别的缓存 在同一个session范围之内可以使用缓存
 </p>
 
 <p>
-	就可以隐藏真正的地址
+	<strong>1.一级缓存的原理</strong>
 </p>
+
+<p>
+	在一个session中 将查询的结果集缓存起来 以select的id为标识
+</p>
+
+<p>
+	再次查询的时候 会到缓存中查询结果是否存在 如果存在就不再发出SQL查询了 而是直接利用缓存中的数据
+</p>
+
+<p>
+	<strong>2.栗子</strong>
+</p>
+
+<p>
+	（1）同一session中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache1() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 不发出SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	运行结果：
+</p>
+
+<blockquote>
+	<p>
+		2014-02-11 11:27:07,261 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ooo Using Connection [com.mysql.jdbc.Connection@72f1d02e]<br />
+		2014-02-11 11:27:07,262 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ==&gt; &nbsp;Preparing: select * from person where id = ?&nbsp;<br />
+		2014-02-11 11:27:07,309 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ==&gt; Parameters: 1(Integer)
+	</p>
+</blockquote>
+
+<p>
+	（2）不同session中
+</p>
+
+<p>
+	如果是两个session 那就会发出两个SQL语句 因为一级缓存是session级别的
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache11() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 再次获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session1 = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person1 = session1.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session1.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	（3）<span style="color:#FF0000;"><strong>刷新缓存</strong></span>
+</p>
+
+<p>
+	在一个session中 如果第一次查询之后 又对数据进行了更改 就会将缓存做过期处理 第二次查询的时候 发现缓存是过期的 所以还要重新查询
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/62.jpg"><img alt="6" class="alignnone size-full wp-image-2566" height="326" src="http://localhost:8080/wp-content/uploads/2014/02/62.jpg" width="679" /></a>
+</p>
+
+<p>
+	以上代码会发出一个查询 一个更新 一个查询语句
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、二级缓存</strong>
+</h5>
+
+<p>
+	二级缓存是sessionFactory级别的 在同一个sqlSessionFactory可以跨session使用缓存
+</p>
+
+<p>
+	<strong>1.开启二级缓存总开关</strong>
+</p>
+
+<p>
+	在核心配置文件中
+</p>
+
+<blockquote>
+	<p>
+		&lt;configuration&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;settings&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 开启二级缓存 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.开启单个映射文件的二级缓存</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;mapper namespace=&quot;com.yutouxiuxiu.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 开启当前映射文件的二级缓存 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;cache /&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.实体类序列化</strong>
+</p>
+
+<p>
+	<span style="color:#FF0000;">实体类要实现Serializable</span>
+</p>
+
+<p>
+	因为实体类需要序列化到硬盘上 以便于缓存
+</p>
+
+<p>
+	<strong>4.栗子</strong>
+</p>
+
+<p>
+	在两个session中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache11() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 再次获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session1 = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person1 = session1.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session1.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	以上的栗子中只会发出一个SQL语句
+</p>
+
+<p>
+	<strong>5.对每条SQL语句进行缓存控制</strong>
+</p>
+
+<p>
+	默认useCache是为true的 如果设置为false 它就不会对这条SQL语句进行二级缓存
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonById&quot; <span style="color:#FF0000;"><strong>useCache=&quot;false&quot;</strong></span> parameterType=&quot;java.lang.Integer&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where person_id = #{id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>6.刷新缓存 不刷新缓存</strong>
+</p>
+
+<p>
+	如果在一个sessionFactory中 一次查询之后 又进行了数据的修改 再次查询 就会重新发出SQL语句
+</p>
+
+<p>
+	默认是刷新缓存的 也可以在修改的语句上进行设置 不让它自动刷新缓存
+</p>
+
+<blockquote>
+	<p>
+		&lt;<span style="color:#FF0000;"><strong>update</strong></span> id=&quot;update&quot; flushCache=&quot;false&quot; ...
+	</p>
+</blockquote>
+
+<p>
+	如果在<span style="color:#FF0000;"><strong>insert</strong></span>语句上加上flushCache=&quot;false&quot;会出现什么情况呢
+</p>
+
+<p style="margin-left: 40px;">
+	比如说查询一个集合 然后又插入了一条数据 又查询该集合 就不会刷新缓存 查不到新插入的数据
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">delete</span></strong>的情况 也类似
+</p>
+
+<p>
+	update是针对单个实体的 insert和delete是针对集合的
+</p>
+
+<p>
+	<strong>7.cache标签的属性</strong>
+</p>
+
+<p>
+	在Mapping文件中
+</p>
+
+<p>
+	（1）逐出策略 eviction
+</p>
+
+<p style="margin-left: 40px;">
+	LRU &nbsp;- &nbsp;最近最少使用 对象放到缓存里面了 这个对象很久（可以设置时间）都没有人用 就逐出缓存
+</p>
+
+<p style="margin-left: 40px;">
+	FIFO &nbsp;- &nbsp;先进先出 队列 按照对象进入缓存的顺序来移除（用的最多）
+</p>
+
+<p style="margin-left: 40px;">
+	SOFT &nbsp;- &nbsp;软引用 利用垃圾回收机制（不怎么用）
+</p>
+
+<p style="margin-left: 40px;">
+	WEAK &nbsp;- &nbsp;若引用<span style="font-size: 13px;">&nbsp;利用垃圾回收机制（不怎么用）</span>
+</p>
+
+<p>
+	（2）定时刷新&nbsp;flushInterval
+</p>
+
+<p style="margin-left: 40px;">
+	ms为单位 每多长时间刷新缓存 定时任务 一直在后台跑 对性能有影响
+</p>
+
+<p>
+	（3）缓存对象数量 size
+</p>
+
+<p style="margin-left: 40px;">
+	缓存中能存放多少对象
+</p>
+
+<p>
+	（4）缓存制度 readOnly
+</p>
+
+<p style="margin-left: 40px;">
+	如果为true 缓存不能人为修改 只能由MyBatis自己操作
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、二级缓存框架ehcache</strong>
+</h5>
+
+<p>
+	1.使用方式
+</p>
+
+<p>
+	（1）导入jar包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	（2）配置配置文件
+</p>
+
+<p style="font-size: 13px;">
+	<span style="color:#0000FF;">ehcache.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;../config/ehcache.xsd&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; &lt;diskStore path=&quot;java.io.tmpdir&quot;/&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; &lt;defaultCache<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maxElementsInMemory=&quot;10000&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; eternal=&quot;false&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; timeToIdleSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; timeToLiveSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maxElementsOnDisk=&quot;10000000&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; diskExpiryThreadIntervalSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; memoryStoreEvictionPolicy=&quot;LRU&quot;&gt;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &lt;persistence strategy=&quot;localTempSwap&quot;/&gt;<br />
+		&nbsp; &nbsp; &lt;/defaultCache&gt;<br />
+		&lt;/ehcache&gt;
+	</p>
+</blockquote>
+
+<p>
+	（3）指定MyBatis使用ehcache
+</p>
+
+<blockquote>
+	<p>
+		&lt;cache&nbsp;type=&quot;org.mybatis.caches.ehcache.EhcacheCache&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+	
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="http://blog.yutouxiuxiu.com/posts/post_2560.html">
+					MyBatis 延迟加载 懒加载
+				</a>
+			</h2>
+			<span class="post-time">
+				2014-02-11 11:18
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<span style="font-size: 13px;">主要体现在关联查询上</span>
+</p>
+
+<h5>
+	<strong>一、开启延时加载</strong>
+</h5>
+
+<p>
+	需要在核心配置文件中做两个必须的配置
+</p>
+
+<blockquote>
+	<p>
+		&lt;configuration&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;settings&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 延迟加载总开关 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;setting name=&quot;lazyLoadingEnable&quot; value=&quot;true&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 禁止积极主动的加载 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;setting name=&quot;aggressiveLazyLoading&quot; value=&quot;false&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/settings&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、一对多</strong>
+</h5>
+
+<p>
+	对于Person来说
+</p>
+
+<p>
+	一条SQL语句查询Person的基本信息
+</p>
+
+<p>
+	一条SQL语句查询Person的订单（懒加载的语句）
+</p>
+
+<p>
+	1.在PersonMapper中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Person&quot; id=&quot;selectOrderByPersonIdLazyRM&quot; extends=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!--&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; column &nbsp;- &nbsp;主SQL语句查询的结果集的某一字段作为参数传给子SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; select &nbsp;- &nbsp;子SQL语句 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;collection property=&quot;orderList&quot; column=&quot;person_id&quot; select=&quot;com.yutouxiuxiu.Orders.selectOrderByPersonId&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectOrderByPersonIdLazy&quot; parameterType=&quot;int&quot; resultMap=&quot;selectOrderByPersonIdLazyRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where person_id = #{personId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	2.在OrdersMapper中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;!-- 一对多的时候的延迟加载的子SQL语句 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectOrderByPersonId&quot; parameterType=&quot;int&quot; resultMap=&quot;BaseResultMap&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from orders o where o.person_id = #{personId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectOrderByPersonIdLazy() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectOrderByPersonIdLazy&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发出查询person信息的SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发出查询订单信息的SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person.getOrderList());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	执行结果：
+</p>
+
+<blockquote>
+	<p>
+		2014-02-11 11:17:30,550 [main] DEBUG [com.yutouxiuxiu.Person.selectOrderByPersonIdLazy] - ooo Using Connection [com.mysql.jdbc.Connection@4e94ac10]<br />
+		2014-02-11 11:17:30,551 [main] DEBUG [com.yutouxiuxiu.Person.selectOrderByPersonIdLazy] - ==&gt; &nbsp;Preparing: <strong><span style="color:#FF0000;">select * from person where person_id = ?</span></strong>&nbsp;<br />
+		2014-02-11 11:17:30,602 [main] DEBUG [com.yutouxiuxiu.Person.selectOrderByPersonIdLazy] - ==&gt; Parameters: 1(Integer)<br />
+		2014-02-11 11:17:30,702 [main] DEBUG [com.yutouxiuxiu.Orders.selectOrderByPersonId] - ooo Using Connection [com.mysql.jdbc.Connection@4e94ac10]<br />
+		2014-02-11 11:17:30,702 [main] DEBUG [com.yutouxiuxiu.Orders.selectOrderByPersonId] - ==&gt; &nbsp;Preparing: <strong><span style="color:#FF0000;">select * from orders o where o.person_id = ?</span>&nbsp;</strong><br />
+		2014-02-11 11:17:30,703 [main] DEBUG [com.yutouxiuxiu.Orders.selectOrderByPersonId] - ==&gt; Parameters: 1(Integer)<br />
+		Person [id=1, name=赵四, birthday=Mon Feb 10 00:00:00 CST 2014, address=象牙山, salary=1000, orderList=[Orders [orderId=1, orderSum=1000.0, orderTime=Sun Feb 09 16:28:26 CST 2014, personId=1, detialList=null, person=null], Orders [orderId=2, orderSum=200.0, orderTime=Sun Feb 09 09:09:00 CST 2014, personId=1, detialList=null, person=null]], roleList=null]<br />
+		[Orders [orderId=1, orderSum=1000.0, orderTime=Sun Feb 09 16:28:26 CST 2014, personId=1, detialList=null, person=null], Orders [orderId=2, orderSum=200.0, orderTime=Sun Feb 09 09:09:00 CST 2014, personId=1, detialList=null, person=null]]
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、多对一</strong>
+</h5>
+
+<p>
+	对于Orders来说
+</p>
+
+<p>
+	一条SQL语句查询Order是的基本信息
+</p>
+
+<p>
+	一条SQL语句查询Order的所属人（懒加载的语句）
+</p>
+
+<p>
+	1.Order的映射文件
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Orders&quot; id=&quot;selectPersonByOrderIdLazyRM&quot; extends=&quot;BaseResultMap&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;association property=&quot;person&quot; column=&quot;person_id&quot; select=&quot;com.yutouxiuxiu.Person.selectPersonByOrderId&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/association&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonByOrderIdLazy&quot; parameterType=&quot;int&quot; resultMap=&quot;selectPersonByOrderIdLazyRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from orders where order_id = #{orderId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	2.Person的映射文件
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &lt;select id=&quot;selectPersonByOrderId&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where person_id = #{personId}&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonByOrderIdLazy() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Orders orders = session.selectOne(&quot;com.yutouxiuxiu.Orders.selectPersonByOrderIdLazy&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发出查询person信息的SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发出查询订单信息的SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders.getPerson());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
 
 <p>
 	&nbsp;
@@ -1604,17 +1281,23 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
@@ -1654,6 +1337,12 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
 				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
@@ -1672,9 +1361,35 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
 				
 			</ul>
 		</li>

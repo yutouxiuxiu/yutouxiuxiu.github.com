@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Maven 手动添加从网上下载的 JAR 包到本地仓库</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Maven 手动添加从网上下载的 JAR 包到本地仓库
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<div style="color: rgb(0, 0, 0); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;">
+	Maven 确确实实是个好东西，用来管理项目显得很方便，但是如果是通过 Maven 来远程下载 JAR 包的话，我宿舍的带宽是4兆的，<br />
+	4个人共用，有时候用&nbsp;Maven 来远程下载 JAR 包会显得很慢，一般我发现下载速度不明显的时候，我就 Ctrl + C 来终止它的下载。<br />
+	然后改用手动来下载，因为用迅雷一类的工具来下载会快很多。我机子上 Maven 的本地仓库的很多 JAR 包我都是手动下载的。<br />
+	手动下载的话就会带来一个问题，就是，怎么样手动将下载下来的 JAR 包添加到 Maven 的本地仓库。关于这个，网上也有很多资料。<br />
+	我说下我的做法。<br />
+	首先，<br />
+	<strong>推荐几个好的 Maven 常用仓库网址：</strong><br />
+	<a href="http://mvnrepository.com/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://mvnrepository.com/</strong></a><br />
+	<a href="http://search.maven.org/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://search.maven.org/</strong></a><br />
+	<a href="http://repository.sonatype.org/content/groups/public/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://repository.sonatype.org/content/groups/public/</strong></a><br />
+	<a href="http://people.apache.org/repo/m2-snapshot-repository/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://people.apache.org/repo/m2-snapshot-repository/</strong></a><br />
+	<a href="http://people.apache.org/repo/m2-incubating-repository/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://people.apache.org/repo/m2-incubating-repository/</strong></a><br />
+	<br />
+	第一个是我最常用的，然后是第二个，然后是第三个，最后两个是 Apache 的私有仓库，我还没用过，不过感觉应该还可以吧...<br />
+	接下来，还是一贯的作风，使用截图通俗易懂的方式来解说：<br />
+	<br />
+	如果你看过我的上一篇：<font color="#223355">Spring邮件服务之Html：Maven + Spring SMTP Mail With Html</font>&nbsp;文章，里面需要用到一个<br />
+	spring-context-support-3.1.0.RELEASE.jar 的 JAR 包，我把它安装到本地仓库的时候把图截了下来，顺便写了这篇文章，<br />
+	供有需要的网友参考。<br />
+	首先，到&nbsp;<a href="http://mvnrepository.com/" style="color: rgb(29, 88, 209); text-decoration: none;"><strong>http://mvnrepository.com/</strong></a>&nbsp;这个网，在搜索栏中输入你要搜索的 JAR 包的关键字来搜索，下面直接贴图：<br />
+	<br />
+	<strong>@1图</strong><br />
+	<img alt="" border="0" longdesc="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" src="http://www.blogjava.net/images/blogjava_net/fancydeepin/essay/1.jpg" style="border: 0px;" /><br />
+	<br />
+	<strong>@2<strong>图</strong></strong><br />
+	<img alt="" border="0" height="438" longdesc="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" src="http://www.blogjava.net/images/blogjava_net/fancydeepin/essay/2.jpg" style="border: 0px;" width="814" /><br />
+	<br />
+	<strong>@3<strong>图</strong></strong><br />
+	<img alt="" border="0" longdesc="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" src="http://www.blogjava.net/images/blogjava_net/fancydeepin/essay/3.jpg" style="border: 0px;" /><br />
+	<br />
+	以 spring-context-support-3.1.0.RELEASE.jar 为例，在 @3图中已经给出这个 jar 包的 groupId，artifactId，version信息，<br />
+	手动安装的时候这些信息不要改，否则 Maven 项目移植的话，jar 包下载就会失败。顺便把这信息帖下面，方便对照：<br />
+	&nbsp;
+	<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 1038.796875px; word-break: break-all;">
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" /><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">dependency</span><span style="color: rgb(0, 0, 255);">&gt;</span><br />
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" />&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">groupId</span><span style="color: rgb(0, 0, 255);">&gt;</span>org.springframework<span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">groupId</span><span style="color: rgb(0, 0, 255);">&gt;</span><br />
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" />&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">artifactId</span><span style="color: rgb(0, 0, 255);">&gt;</span>spring-context-support<span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">artifactId</span><span style="color: rgb(0, 0, 255);">&gt;</span><br />
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" />&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">version</span><span style="color: rgb(0, 0, 255);">&gt;</span>3.1.0.RELEASE<span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">version</span><span style="color: rgb(0, 0, 255);">&gt;</span><br />
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" /><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">dependency</span><span style="color: rgb(0, 0, 255);">&gt;</span>
+	</div>
+	<br />
+	Maven 安装 JAR 包的命令是：<br />
+	&nbsp;
+	<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 1038.796875px; word-break: break-all;">
+		<img align="top" alt="" src="http://www.blogjava.net/Images/OutliningIndicators/None.gif" style="border: 0px;" />mvn&nbsp;install:install-file&nbsp;-Dfile=jar包的位置&nbsp;-DgroupId=上面的groupId&nbsp;-DartifactId=上面的artifactId&nbsp;-Dversion=上面的version&nbsp;-Dpackaging=jar
+	</div>
+	<br />
+	例如：<br />
+	我下载的这个 jar 包是放到了 D:\mvn 目录下(D:\mvn\spring-context-support-3.1.0.RELEASE.jar)<br />
+	那么我在 cmd 中敲入的命令就应该是：<br />
+	<br />
+	<strong>mvn&nbsp;install:install-file&nbsp;-Dfile=D:\mvn\spring-context-support-3.1.0.RELEASE.jar&nbsp;-DgroupId=org.springframework -DartifactId=spring-context-support&nbsp;-Dversion=3.1.0.RELEASE&nbsp;-Dpackaging=jar</strong><br />
+	<br />
+	回车，显示安装成功：<br />
+	<br />
+	<img alt="" border="0" height="419" longdesc="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" src="http://www.blogjava.net/images/blogjava_net/fancydeepin/essay/4.jpg" style="border: 0px;" width="641" /><br />
+	&nbsp;
+</div>
+
+<p>
+	<br style="color: rgb(0, 0, 0); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;" />
+	<br style="color: rgb(0, 0, 0); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;" />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-size: 10pt; line-height: 19px; font-family: Georgia;"><span style="color: rgb(0, 128, 0); font-size: 10pt;">&nbsp;&nbsp;&nbsp;[ 随笔均原创，转载请注明出处：<a href="http://www.blogjava.net/fancydeepin" style="color: rgb(29, 88, 209); text-decoration: none;" target="_blank">http://www.blogjava.net/fancydeepin</a>&nbsp;]</span></span><span style="color: rgb(0, 0, 0); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 19px;">&nbsp;</span>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MyBatis 多表联合查询</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MyBatis 多表联合查询
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、MyBatis逆向工程</strong>
+</h5>
+
+<p>
+	<strong>1.安装插件</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.配置逆向工程</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">sqlMapGenweator.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?xml&nbsp;version=&quot;1.0&quot;&nbsp;encoding=&quot;UTF-8&quot;&nbsp;?&gt;
+	</p>
+
+	<p>
+		&lt;!DOCTYPE&nbsp;generatorConfiguration&nbsp;PUBLIC&nbsp;&quot;-//mybatis.org//DTD&nbsp;MyBatis&nbsp;Generator&nbsp;Configuration&nbsp;1.0//EN&quot;&nbsp;&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&nbsp;&gt;
+	</p>
+
+	<p>
+		&lt;generatorConfiguration&gt;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;制定mysql的驱动包的路径&nbsp;千万别放中文路径下&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;classPathEntry&nbsp;location=&quot;D:\mysql-connector-java-5.0.8-bin.jar&quot;&nbsp;/&gt;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;配置数据源和生成的代码所存放的位置&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;context&nbsp;id=&quot;context1&quot;&gt;
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;commentGenerator&gt;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;去除自动生成的注释&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;property&nbsp;name=&quot;suppressAllComments&quot;&nbsp;value=&quot;true&quot;&nbsp;/&gt;
+	</p>
+
+	<p>
+		&lt;/commentGenerator&gt;
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;jdbcConnection&nbsp;driverClass=&quot;com.mysql.jdbc.Driver&quot;
+	</p>
+
+	<p>
+		connectionURL=&quot;jdbc:mysql://127.0.0.1:3306/mybatis&quot;&nbsp;userId=&quot;root&quot;
+	</p>
+
+	<p>
+		password=&quot;root&quot;&nbsp;/&gt;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;所生成的实体类的位置默认资源包src&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;javaModelGenerator&nbsp;targetPackage=&quot;com.yutouxiuxiu.model&quot;
+	</p>
+
+	<p>
+		targetProject=&quot;<u><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">工程名</span></u>&quot;&nbsp;/&gt;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;所生成的影射文件的位置,默认资源包src&nbsp;--&gt;
+	</p>
+
+	<p>
+		&lt;sqlMapGenerator&nbsp;targetPackage=&quot;<span style="font-size: 13px;">com.yutouxiuxiu.mapper</span>&quot;
+	</p>
+
+	<p>
+		targetProject=&quot;<u>工程名</u>&quot;&nbsp;/&gt;
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&lt;!--&nbsp;为哪些表生成代码&nbsp;tableName:表名&nbsp;schema:不用填写,其余属性是禁用例子查询的生成 默认生成的有很多没用的注释 有很多没用的栗子 加上下面那些东西&nbsp;屏蔽掉 --&gt;
+	</p>
+
+	<p>
+		&lt;table&nbsp;schema=&quot;&quot;&nbsp;tableName=&quot;orders&quot;&nbsp;
+	</p>
+
+	<p>
+		enableCountByExample=&quot;false&quot;
+	</p>
+
+	<p>
+		enableUpdateByExample=&quot;false&quot;&nbsp;enableDeleteByExample=&quot;false&quot;
+	</p>
+
+	<p>
+		enableSelectByExample=&quot;false&quot;&nbsp;selectByExampleQueryId=&quot;false&quot;<span style="line-height: 1.6em;">&gt;</span>
+	</p>
+
+	<p>
+		&lt;/table&gt;
+	</p>
+
+	<p>
+		。。。
+	</p>
+
+	<p>
+		&lt;/context&gt;
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">&lt;/generatorConfiguration&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.生成</strong>
+</p>
+
+<p>
+	在上面那个文件上右键 然后Generate MyBatis/iBatis ati...（一个蝙蝠的图标）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、一对多</strong>
+</h5>
+
+<p>
+	下面以 person、orders、order_detial表为例 进行
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/order.jpg"><img alt="order" class="alignnone size-full wp-image-2539" height="124" src="http://localhost:8080/wp-content/uploads/2014/02/order.jpg" width="446" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/detial.jpg"><img alt="detial" class="alignnone size-full wp-image-2540" height="147" src="http://localhost:8080/wp-content/uploads/2014/02/detial.jpg" width="527" /></a>
+</p>
+
+<p>
+	<strong>1.一对多</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;!-- 一对多 按照personId查Order --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- extends &nbsp;- &nbsp;继承基本ResultMap的基本映射 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Person&quot; id=&quot;PersonOrderRM&quot; <span style="color:#FF0000;">extends=&quot;personRM&quot;</span>&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- collection &nbsp;- &nbsp;一对多的关系<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; property &nbsp;- &nbsp;实体类中 多的一段的集合属性名<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; ofType &nbsp;- &nbsp;多的一段的属性类型 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<span style="color:#FF0000;">&lt;collection property=&quot;orderList&quot; ofType=&quot;com.yutouxiuxiu.model.Orders&quot;&gt;</span><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- collection内部要定义多的一段的映射字段 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;ORDER_ID&quot; property=&quot;orderId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_SUM&quot; property=&quot;orderSum&quot; jdbcType=&quot;REAL&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_TIME&quot; property=&quot;orderTime&quot; jdbcType=&quot;TIMESTAMP&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;PERSON_ID&quot; property=&quot;personId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectOrderByPersonId&quot; parameterType=&quot;int&quot; resultMap=&quot;PersonOrderRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person p, orders o where p.person_id = o.person_id and p.person_id = #{personId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectOrderByPersonId() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectOrderByPersonId&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Orders orders : person.getOrderList()) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.一对多中还有一对多</strong>
+</p>
+
+<p>
+	采用collection的嵌套
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Person&quot; id=&quot;PersonOrderDetialRM&quot; extends=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 人与订单 一对多 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;collection property=&quot;orderList&quot; ofType=&quot;com.yutouxiuxiu.model.Orders&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;ORDER_ID&quot; property=&quot;orderId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_SUM&quot; property=&quot;orderSum&quot; jdbcType=&quot;REAL&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_TIME&quot; property=&quot;orderTime&quot; jdbcType=&quot;TIMESTAMP&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;PERSON_ID&quot; property=&quot;personId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;!-- 订单与订单明细 一对多 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;collection property=&quot;detialList&quot; ofType=&quot;com.yutouxiuxiu.model.OrderDetial&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;DETIAL_ID&quot; property=&quot;detialId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_ID&quot; property=&quot;orderId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ITEM_NAME&quot; property=&quot;itemName&quot; jdbcType=&quot;VARCHAR&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;PRICE&quot; property=&quot;price&quot; jdbcType=&quot;REAL&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ITEM_COUNT&quot; property=&quot;itemCount&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectOrderAndDetialByPersonId&quot; parameterType=&quot;int&quot; resultMap=&quot;PersonOrderDetialRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person p, orders o, order_detial od&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;where p.person_id = o.person_id&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;and o.order_id = od.order_id<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;and p.person_id = #{personId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectOrderAndDetialByPersonId() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectOrderAndDetialByPersonId&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Orders orders : person.getOrderList()) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (OrderDetial detial : orders.getDetialList()) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(detial);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.多对多</strong>
+</p>
+
+<p>
+	多对多能拆解成两个一对多
+</p>
+
+<p>
+	例如人员和角色表 从人员一端来看 人员是一角色是多 从角色一端来看 角色是一人员是多
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/33.jpg"><img alt="3" class="alignnone size-full wp-image-2554" height="114" src="http://localhost:8080/wp-content/uploads/2014/02/33.jpg" width="509" /></a> <a href="http://localhost:8080/wp-content/uploads/2014/02/41.jpg"><img alt="4" class="alignnone size-full wp-image-2555" height="105" src="http://localhost:8080/wp-content/uploads/2014/02/41.jpg" width="347" /></a>
+</p>
+
+<p>
+	以下是从人员方向做的 从角色方向与其相仿
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Person&quot; id=&quot;PersonRoleRM&quot; extends=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;collection property=&quot;roleList&quot; ofType=&quot;com.yutouxiuxiu.model.Role&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;role_id&quot; property=&quot;roleId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;name&quot; property=&quot;name&quot; jdbcType=&quot;VARCHAR&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;desc&quot; property=&quot;desc&quot; jdbcType=&quot;VARCHAR&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectRoleByPersonId&quot; parameterType=&quot;int&quot; resultMap=&quot;PersonRoleRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SELECT p . * , r . *&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;FROM person p, role r, person_role pr<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;WHERE p.person_id = pr.person_id<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;AND pr.role_id = r.role_id<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;AND p.person_id = #{person_id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectRoleByPersonId() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectRoleByPersonId&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Role role : person.getRoleList()) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(role);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/13.jpg" rel="" style="font-size: 13px;" target="" title=""><img alt="1" class="alignnone size-full wp-image-2553" height="94" src="http://localhost:8080/wp-content/uploads/2014/02/13.jpg" style="opacity: 0.9;" title="" width="382" /></a>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">（注意！！！）生成完的Mapper文件 不要忘记添加到MyBatis的核心配置文件中</span></strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、多对一</strong>
+</h5>
+
+<p>
+	<strong>1.多对一</strong>
+</p>
+
+<p>
+	例如从订单 查找订单所属的用户
+</p>
+
+<p>
+	那就要在OrdersMapper.xml文件中加入如下的内容
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap id=&quot;OrderPersonRM&quot; type=&quot;com.yutouxiuxiu.model.Orders&quot; extends=&quot;BaseResultMap&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 多对一使用association标签<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; property &nbsp;- &nbsp;Orders中的Person的属性名<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; javaType &nbsp;- &nbsp;java中的一的一端的类型 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;association property=&quot;person&quot; javaType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;person_id&quot; property=&quot;id&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;name&quot; property=&quot;name&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;birthday&quot; property=&quot;birthday&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;address&quot; property=&quot;address&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;salary&quot; property=&quot;salary&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/association&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp; &nbsp; &lt;select id=&quot;selectPersonByOrderId&quot; parameterType=&quot;int&quot; resultMap=&quot;OrderPersonRM&quot;&gt;<br />
+		&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from orders o, person p where p.person_id = o.person_id and o.order_id = #{orderId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonByOrderId() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Orders orders = session.selectOne(&quot;com.yutouxiuxiu.Orders.selectPersonByOrderId&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.多对一 一对多结合</strong>
+</p>
+
+<p>
+	从订单 查找订单明细和订单所属人
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;resultMap id=&quot;OrderPersonDetialRM&quot; type=&quot;com.yutouxiuxiu.model.Orders&quot; extends=&quot;BaseResultMap&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- <span style="color:#FF0000;"><strong>association 必须放在collection上面 因为约束文件就是这样约束的</strong></span> --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;association property=&quot;person&quot; javaType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;person_id&quot; property=&quot;id&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;name&quot; property=&quot;name&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;birthday&quot; property=&quot;birthday&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;address&quot; property=&quot;address&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;salary&quot; property=&quot;salary&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/association&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;collection property=&quot;detialList&quot; ofType=&quot;com.yutouxiuxiu.model.OrderDetial&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;DETIAL_ID&quot; property=&quot;detialId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ORDER_ID&quot; property=&quot;orderId&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ITEM_NAME&quot; property=&quot;itemName&quot; jdbcType=&quot;VARCHAR&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;PRICE&quot; property=&quot;price&quot; jdbcType=&quot;REAL&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;result column=&quot;ITEM_COUNT&quot; property=&quot;itemCount&quot; jdbcType=&quot;INTEGER&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/collection&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonAndDetialByOrderId&quot; parameterType=&quot;int&quot; resultMap=&quot;OrderPersonDetialRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person p, orders o, order_detial od<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;where p.person_id = o.person_id<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;and od.order_id = o.order_id<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;and o.order_id = #{orderId}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonAndDetialByOrderId() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Orders orders = session.selectOne(&quot;com.yutouxiuxiu.Orders.selectPersonAndDetialByOrderId&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(orders);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.一对一</strong>
+</p>
+
+<p>
+	一对一就用association就可以了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>总结一下</strong>
+</h5>
+
+<p>
+	collection &nbsp;是从一的表对应多的表 需要在一的实体类中加入多的类的集合属性
+</p>
+
+<p style="margin-left: 40px;">
+	一对多 多对多
+</p>
+
+<p>
+	association &nbsp;是用多的表对应一的表 需要在前者的实体类中加入后者的类的属性
+</p>
+
+<p style="margin-left: 40px;">
+	多对一 一对一
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

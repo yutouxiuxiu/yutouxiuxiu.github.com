@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>extjs4 - 对原生js的扩展</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					extjs4 - 对原生js的扩展
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、array</strong>
+</h5>
+
+<p>
+	<strong>1.every 测试数组</strong>
+</p>
+
+<p>
+	<a class="name expandable" href="http://localhost:8080/docs/extjs4/docs/#!/api/Array-method-every" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold; font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">every</a><span style="color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">(&nbsp;</span><span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em; color: rgb(68, 68, 68); line-height: 19.5px;">callback, [thisObject]</span><span style="color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">&nbsp;) :&nbsp;</span><a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Boolean" rel="Boolean" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">Boolean</a>
+</p>
+
+<p>
+	用callback函数遍历一个数组 测试它的每个元素 测试通过返回true 不通过返回false
+</p>
+
+<p>
+	callback接收遍历到的数组元素 callback函数第一次返回false的时候 跳出
+</p>
+
+<p>
+	例如 检测数组中的元素是否都是正数
+</p>
+
+<blockquote>
+	<p>
+		var arr = [1, 2, 3, -1 ,-2];
+	</p>
+
+	<p>
+		arr.every(function(item) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		if (item &gt; 0) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		return true;
+	</p>
+
+	<p style="margin-left: 40px;">
+		} else {
+	</p>
+
+	<p style="margin-left: 80px;">
+		alert(item);
+	</p>
+
+	<p style="margin-left: 80px;">
+		return false;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		});
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.filter 过滤数组</strong>
+</p>
+
+<p>
+	<a class="name expandable" href="http://localhost:8080/docs/extjs4/docs/#!/api/Array-method-filter" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold; font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">filter</a><span style="color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">(&nbsp;</span><span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em; color: rgb(68, 68, 68); line-height: 19.5px;">callback, [thisObject]</span><span style="color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">&nbsp;) :&nbsp;</span><a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Array" rel="Array" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">Array</a>
+</p>
+
+<p>
+	用callback函数循环过滤数组 callback函数接收一个参数作为待过滤数组的元素 当callback返回true 数组元素留下 返回false 去掉该元素
+</p>
+
+<p>
+	<strong>3.join 用字符串连接数组元素成字符串</strong>
+</p>
+
+<div class="title" style="margin: 0px; padding: 0px 0px 3px; box-sizing: border-box; color: rgb(68, 68, 68); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px;">
+	<a class="name expandable" href="http://localhost:8080/docs/extjs4/docs/#!/api/Array-method-join" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box; font-weight: bold;">join</a>(&nbsp;<span class="pre" style="box-sizing: border-box; font-family: Menlo, 'Courier New', Courier, monospace; font-size: 0.9em;">separator</span>&nbsp;) :&nbsp;<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/String" rel="String" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">String</a>
+</div>
+
+<p>
+	<span style="color: rgb(72, 72, 72); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; line-height: 19.5px;">Joins all elements of an array into a string.</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、都有哪些扩展</strong>
+</h5>
+
+<h3 style="margin: 0px; padding: 1em 0px 0.4em; font-size: 1.2em; box-sizing: border-box; color: rgb(0, 0, 0); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; line-height: 19.5px; background-color: rgb(247, 247, 247);">
+	Native Classes
+</h3>
+
+<ul class="links" style="margin: 0px 0px 0px 1.5em; padding-right: 0px; padding-left: 0px; box-sizing: border-box; color: rgb(0, 0, 0); font-family: HelveticaNeue, helvetica, arial, clean, sans-serif; font-size: 13px; line-height: 19.5px; background-color: rgb(247, 247, 247);">
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Array" rel="Array" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Array</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Boolean" rel="Boolean" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Boolean</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Date" rel="Date" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Date</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Function" rel="Function" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Function</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Number" rel="Number" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Number</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/Object" rel="Object" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">Object</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/RegExp" rel="RegExp" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">RegExp</a>
+	</li>
+	<li style="margin: 0px; padding: 0px; list-style: none; box-sizing: border-box;">
+		<a class="docClass" href="http://localhost:8080/docs/extjs4/docs/#!/api/String" rel="String" style="color: rgb(8, 55, 114); text-decoration: none; box-sizing: border-box;">String</a>
+	</li>
+</ul>
+
+<h5>
+	<strong>三、如何进行扩展的</strong>
+</h5>
+
+<p>
+	使用
+</p>
+
+<blockquote>
+	<p>
+		类.prototype.方法名 = function() {};
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

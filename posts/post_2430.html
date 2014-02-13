@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>对 高内聚 低耦合 的理解</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					对 高内聚 低耦合 的理解
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">内聚：一个模块内各个元素彼此结合的紧密程度<br />
+	<br />
+	耦合：一个软件结构内不同模块之间互连程度的度量</strong><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">最近编码的时候，总是在犹豫是把某个方法封装在一个类里，还是单独的封装成一个类。这让我突然想起内聚耦合这两个名词。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">我们一直追求着，高内聚，低耦合。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<em style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">对于低耦合，我粗浅的理解是：</em><br />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">一个完整的系统，模块与模块之间，尽可能的使其独立存在。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">也就是说，让每个模块，尽可能的独立完成某个特定的子功能。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">模块与模块之间的接口，尽量的少而简单。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果某两个模块间的关系比较复杂的话，最好首先考虑进一步的模块划分。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">这样有利于修改和组合。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<em style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">对于高内聚，我粗浅的理解是：</em><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">在一个模块内，让每个元素之间都尽可能的紧密相连。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">也就是充分利用每一个元素的功能，各施所能，以最终实现某个功能。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果某个元素与该模块的关系比较疏松的话，可能该模块的结构还不够完善，或者是该元素是多余的。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">内聚和耦合，包含了横向和纵向的关系。功能内聚和数据耦合，是我们需要达成的目标。横向的内聚和耦合，通常体现在系统的各个模块、类之间的关系，而纵向的耦合，体现在系统的各个层次之间的关系。</span><span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">&nbsp;</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">对于我在编码中的困惑，我是这样想的，用面向对象的思想去考虑一个类的封装。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">一个方法，如何封装，拿到现实生活中来看，看这种能力（方法）是否是属于这类事物（类）的本能。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果是，就封装在这个类里。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果不是，则考虑封装在其它类里。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果这种能力，很多事物都具有，则一定要封装在这类事物的总类里。</span><br style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;" />
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">如果这种能力，很多事物都会经常用到，则可以封装成一个总类的静态方法。</span>
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

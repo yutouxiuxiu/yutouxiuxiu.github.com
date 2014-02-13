@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>如何解决依赖包servlet-api和容器自带servlet的jar包的冲突</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					如何解决依赖包servlet-api和容器自带servlet的jar包的冲突
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	当maven项目在tomcat上部署时 出现如下错误：
+</p>
+
+<pre class="lang-java prettyprint prettyprinted" style="margin-top: 0px; margin-bottom: 10px; padding: 5px; border: 0px; font-size: 14px; vertical-align: baseline; background-color: rgb(238, 238, 238); font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif; overflow: auto; width: auto; max-height: 600px; word-wrap: normal; color: rgb(0, 0, 0); line-height: 18px;">
+<code style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;"><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">SEVERE</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">:</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;"> </span><span class="typ" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent; color: rgb(43, 145, 175);">Exception</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;"> starting filter hibernateFilter
+java</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">lang</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="typ" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent; color: rgb(43, 145, 175);">ClassCastException</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">:</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;"> org</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">springframework</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">orm</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">hibernate3</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">support</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="typ" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent; color: rgb(43, 145, 175);">OpenSessionInViewFilter</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;"> cannot be cast to javax</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="pln" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">servlet</span><span class="pun" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent;">.</span><span class="typ" style="margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; background-color: transparent; color: rgb(43, 145, 175);">Filter</span></code></pre>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="word-wrap: normal; word-break: normal; line-height: 25px; color: rgb(70, 70, 70); font-size: 14px; font-family: Helvetica, Tahoma, Arial, sans-serif;">项目里要用到commons-logging。它有几个依赖，其中有一个是servlet-api-2.3.jar。现在我需要用到容器内的servlet-api的异步功能，编译的时候却总是自动引用默认的2.3版本。请问哪位有经验处理这样的冲突，可以屏蔽掉servlet-api-2.3.jar这个依赖包。</span>
+</p>
+
+<div style="color: rgb(70, 70, 70); font-family: simsun; font-size: 14px; line-height: 21px; background-color: rgb(224, 203, 137);">
+	&nbsp;
+</div>
+
+<div style="color: rgb(70, 70, 70); font-family: simsun; font-size: 14px; line-height: 21px; background-color: rgb(224, 203, 137);">
+	<span style="word-wrap: normal; word-break: normal; line-height: 25px; font-family: Helvetica, Tahoma, Arial, sans-serif; background-color: rgb(255, 255, 255);">如果你的工程是用maven管理的话，可以在commons-logging的依赖里把servlet-api-2.3去除掉，再加入你所需要的版本的servlet-api依赖。大概的例子如下：&nbsp;<wbr /></span>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<div style="font-family: Monaco, 'DejaVu sans Mono', 'Bitstream Vera sans Mono', Consolas, 'Courier new', monospace; font-size: 12px; background-color: transparent; width: 634px; overflow: auto; margin-left: 9px; padding: 1px; word-break: break-all; word-wrap: break-word;">
+		<div>
+			<div style="padding: 3px; margin: 0px; color: black; font-weight: bold;">
+				<span style="word-wrap: normal; word-break: normal; line-height: 25px; font-family: Helvetica, Tahoma, Arial, sans-serif; background-color: rgb(255, 255, 255);">Xml代码&nbsp;<wbr />&nbsp;<wbr /><a href="http://www.iteye.com/problems/60458" style="text-decoration: none; color: rgb(99, 64, 27);" title="收藏这段代码"><img alt="收藏代码" real_src="http://www.iteye.com/images/icon_star.png" src="http://www.iteye.com/images/icon_star.png" style="margin: 0px; padding: 0px; border: 0px; list-style: none;" title="如何解决依赖包servlet-api和容器自带servlet的jar包的冲突" /></a></span>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<ol start="1" style="margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-position: initial; list-style-image: initial; font-size: 1em; line-height: 1.4em; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;"><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">dependency</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">commons-logging</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">commons-logging</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">version</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">1.1.1</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">version</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">exclusions</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">exclusion</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">javax.servlet</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">servlet-api</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">exclusion</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">exclusions</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;"><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">dependency</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr /></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;"><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">dependency</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">org.mortbay.jetty</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">groupId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">servlet-api-2.5</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">artifactId</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">version</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">6.1.14</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">version</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;">&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr />&nbsp;<wbr /><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">scope</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">provided</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">scope</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+			<li style="margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-width: 0px 0px 0px 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); list-style: decimal; font-size: 1em; background-color: rgb(250, 250, 250); line-height: 18px;">
+				<span style="word-wrap: normal; word-break: normal; color: black;"><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">dependency</span><span style="word-wrap: normal; word-break: normal; color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="word-wrap: normal; word-break: normal;">&nbsp;<wbr />&nbsp;<wbr /></span></span>
+			</li>
+		</ol>
+	</div>
+
+	<p>
+		<br />
+		指定scope为provided可以避免在发布的时候把servlet-api包拷到lib目录下
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp;&lt;dependency&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;groupId&gt;javax.servlet&lt;/groupId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;artifactId&gt;servlet-api&lt;/artifactId&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;version&gt;2.5&lt;/version&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;scope&gt;provided&lt;/scope&gt; &lt;!-- 只在编译和测试环境下使用，不参与打包运行，默认值Runtime --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dependency&gt;
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

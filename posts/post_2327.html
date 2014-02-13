@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>rpm安装卸载方法</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					rpm安装卸载方法
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<div class="brief bgF8F8F8" style="background-color: rgb(248, 248, 248); width: 597px; padding: 12px 18px 0px; margin-top: 10px; border-top-color: rgb(216, 217, 217); border-right-color: rgb(216, 217, 217); border-left-color: rgb(216, 217, 217); border-top-width: 1px; border-right-width: 1px; border-left-width: 1px; border-style: solid solid none; font-family: 宋体; line-height: 18px;">
+	<div class="brieftext" style="background-color: rgb(255, 255, 255); border: 1px dashed rgb(115, 160, 207); line-height: 26px; padding: 8px 12px; background-position: initial initial; background-repeat: initial initial;">
+		<p class="f14 green" style="margin: 0px; padding: 0px; color: rgb(0, 102, 0); background-color: transparent; font-size: 14px;">
+			在 Linux 操作系统下，几乎所有的软件均通过RPM 进行安装、卸载及管理等操作。RPM 的全称为Redhat Package Manager ，是由Redhat 公司提出的，用于管理Linux 下软件包的软件。Linux 安装时......
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</div>
+
+<div class="content bgF8F8F8 f14" style="font-size: 14px; background-color: rgb(248, 248, 248); padding: 12px 18px 0px; border-right-color: rgb(216, 217, 217); border-bottom-color: rgb(216, 217, 217); border-left-color: rgb(216, 217, 217); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-style: none solid solid; line-height: 28px; margin-bottom: 10px; position: relative; min-height: 500px; font-family: 宋体;">
+	<div id="content">
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			&nbsp;
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			在 Linux 操作系统下，几乎所有的软件均通过RPM 进行安装、卸载及管理等操作。RPM 的全称为Redhat Package Manager ，是由Redhat 公司提出的，用于管理Linux 下软件包的软件。Linux 安装时，除了几个核心模块以外，其余几乎所有的模块均通过RPM 完成安装。RPM 有五种操作模式，分别为：安装、卸载、升级、查询和验证。
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 安装操作
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -i 需要安装的包文件名
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			举例如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -i example.rpm 安装 example.rpm 包；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -iv example.rpm 安装 example.rpm 包并在安装过程中显示正在安装的文件信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -ivh example.rpm 安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 查询操作
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -q &hellip;
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			附加查询命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			a 查询所有已经安装的包以下两个附加命令用于查询安装包的信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			i 显示安装包的信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			l 显示安装包中的所有文件被安装到哪些目录下；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			s 显示安装版中的所有文件状态及被安装到哪些目录下；以下两个附加命令用于指定需要查询的是安装包还是已安装后的文件；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			p 查询的是安装包的信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			f 查询的是已安装的某文件信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			举例如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -qa | grep tomcat4 查看 tomcat4 是否被安装；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -qip example.rpm 查看 example.rpm 安装包的信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -qif /bin/df 查看/bin/df 文件所在安装包的信息；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -qlf /bin/df 查看/bin/df 文件所在安装包中的各个文件分别被安装到哪个目录下；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 卸载操作
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -e 需要卸载的安装包
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			在卸载之前，通常需要使用rpm -q &hellip;命令查出需要卸载的安装包名称。
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			举例如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -e tomcat4 卸载 tomcat4 软件包
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 升级操作
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -U 需要升级的包
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			举例如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -Uvh example.rpm 升级 example.rpm 软件包
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 验证操作
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			命令：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -V 需要验证的包
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			举例如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			rpm -Vf /etc/tomcat4/tomcat4.conf
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			输出信息类似如下：
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			S.5....T c /etc/tomcat4/tomcat4.conf
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			其中，S 表示文件大小修改过，T 表示文件日期修改过。限于篇幅，更多的验证信息请您参考rpm 帮助文件：man rpm
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			RPM 的其他附加命令
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			--force 强制操作 如强制安装删除等；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			--requires 显示该包的依赖关系；
+		</p>
+
+		<p style="margin: 10px 0px; padding: 0px; background-color: transparent; text-indent: 28px;">
+			--nodeps 忽略依赖关系并继续操作；<br style="clear: both; width: 0px; height: 0px;" />
+			<br />
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

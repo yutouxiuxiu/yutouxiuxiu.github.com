@@ -1,0 +1,1074 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>基于XMPP协议的手机多方多端即时通讯方案</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					基于XMPP协议的手机多方多端即时通讯方案
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h1 align="center" style="margin: 0px 0px 0px 5px; padding-top: 5px; font-size: 1.8em; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	基于XMPP协议的手机多方多端即时通讯方案
+</h1>
+
+<p>
+	&nbsp;
+</p>
+
+<h2 align="center" style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	目&nbsp;&nbsp; 录
+</h2>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	基于XMPP协议的手机多方多端即时通讯方案................................................................. 1
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	目&nbsp;&nbsp; 录.................................................................................................................... 2
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	一、 开发背景.......................................................................................................... 3
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 国际背景................................................................................................. 3
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 国内背景................................................................................................. 3
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 为什么选择XMPP协议.............................................................................. 3
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	二、 Xmpp协议介绍................................................................................................ 5
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、 Xmpp协议概述............................................................................................. 5
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、 Xmpp协议内容............................................................................................. 5
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3、 Xmpp协议优点............................................................................................. 5
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	4、 Xmpp协议缺点............................................................................................. 6
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	5、 Xmpp提供电子名片协议............................................................................... 6
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	6、 XMPP系统特点............................................................................................. 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	三、 服务器端介绍................................................................................................... 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 什么是Openfire...................................................................................... 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 为什么使用Openfire............................................................................... 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Windows下搭建服务器............................................................................. 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	4、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Linux下搭建服务器................................................................................. 7
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	5、Mac下搭建服务器......................................................................................... 8
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	四、 客户端介绍...................................................................................................... 8
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 手机客户端.............................................................................................. 8
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、Pc客户端.................................................................................................... 10
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Web客户端............................................................................................. 12
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	五、 环境搭建........................................................................................................ 13
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 安装JDK................................................................................................ 13
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 安装OpenFire........................................................................................ 13
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 安装Mysql............................................................................................. 14
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	4、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 安装Apach Tomcat................................................................................. 14
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	5、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 配置环境............................................................................................... 14
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	6、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 安装项目............................................................................................... 14
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	7、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置服务器地址..................................................................................... 15
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	8、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 注册用户............................................................................................... 15
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	9、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 进行相对应的操作................................................................................. 16
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	六、项目演示.......................................................................................................... 16
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、服务器端设置.............................................................................................. 16
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、客户端设置................................................................................................. 19
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	七、多方、多端即时通讯........................................................................................ 21
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、QQ、FaceBook、Twitter、MSN Messenger、Yahoo Messenger、AIM、Gadu-Gadu、ICQ、Google Talk、Popo 21
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、PC、Pad、Phone、Web................................................................................ 21
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	八、解决方案.......................................................................................................... 21
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、一个应用程序，多类型账户可同时登陆。.................................................... 21
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、一个应用程序，一个账户可以和其他类型的账户好友聊天。........................ 23
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	九、全文概要图...................................................................................................... 24
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	一、开发背景
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、国际背景
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	随着Internet技术的高速发展，即时通信已经成为一种广泛使用的通信方式。1996年Mirabilis公司推出了世界上第一个即时通信系统ICQ,不到10年间，即时通信（Instant Messaging，简称IM)以发展成为了最流行的网络应用之一。特别是近几年的迅速发展，即时通信的功能日益丰富，它不再是个单纯的聊天工具，它已经发展成集交流、资讯、娱乐、音乐、电视、游戏、电子商务等为一体的综合化信息平台。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、国内背景
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	目前国内外及时通信软件IM（Instant Messenger ）形势风起云涌，可谓战况空前，IM作为继Email和Web之后最主要的互联网基础应用之一，为商家必争之地。国内的形势由于QQ的垄断性优势明显，表 面稍显平静，实则暗流涌动。目前来看，胖企鹅公司以压倒性优势占据了国内IM市场近八成份额，并且紧紧抓住低端市场，用户数量庞大，盈利丰厚。其他的IM 微软MSN(WLM)、网易POPO、新浪UC、TOM Skype、Google Gtalk等占有率较为惨烈，还有雅虎即时通、AIM、ICQ以及传闻中的Baidu IM和搜狐搜Q以及一些目前并不出名的如校内网的校内通，Lava-lava等等等等，凡在国内叫得上号的叫不上号的互联网企业，几乎没有不推IM的，甚 至连中国移动都力推飞信，希望分得一杯羹。然而这些即时通讯不能实现互联互通，限制了用户的扩展。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	3、为什么选择XMPP协议
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	虽然现在即时通信软件有很多，但是它们之间不能互联互通也阻碍了及时通信用户的继续扩展。因此，在现阶段的各种即使通信服务，没有统一的标准，无法实现互联互通的局面下，而XMPP(Extensible Message and presence Protocol)协议的出现，实现了整个及时通信服务协议的互通。有了这个协议之后，使用任何一个组织或者个人提供的即使通信服务，都能够无障碍的与其他的及时通信服务的用户进行交流。例如google 公司2005年推出的Google talk就是一款基于XMPP协议的即使通信软件。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	目前IM即时通信有四种协议：
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1.即时信息和空间协议(IMPP)
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2.空间和即时信息协议(PRIM)
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3.针对即时通讯和空间平衡扩充的进程开始协议SIP
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	4.XMPP协议：该协议的前身是Jabber，我们采取XMPP协议主来实现IM主要是考虑XMPP协议是以XML为基础的，它继承了在XML环境中灵活的发展性。这表明XMPP是可扩展的，所以XMPP信息不仅可以是简单的文本，而且可以携带复杂的数据和各种格式的文件，也就是说XMPP协议不仅可以用在人与人之间的交流，而且可以实现软件与软件或软件与人之间的交流，目前支持XMPP协议的即时通讯工具有Gtalk、FaceBook IM、Twitter、网易POPO等等通讯工具，具有非常好的发展情景。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	正如任何事物都有其自身的发展规律一样，技术和产品的进步也有其自身的规律。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	从萌芽到混乱最终标准化，这是互联网产品的基本规律。IM跟其实发展自Email，跟Email有着很多共同点。让我们来对比一下Email目前的情况，或许会有些启示。Email现在已经被广泛应用，谁都不能质疑其互联网第二应用的地位（第一应用是Web）。 Email之所以能广泛地被应用最关键的原因应该是Email有一套开放标准的协议规范（包括SMTP、POP、IMAP 等），任何人都可以基于这些协议规范开放自己的Email产品，不管是Email服务器也好，Email收发客户端也罢还是现在颇为流行的Web形式的 Email界面，它们都是基于同一套标准。在这套标准的框架下，各个Email相关厂商都各自占据产业链的相应位置，相互合作相互竞争，这才是一个百花齐 放的健康竞争环境，而且这种健康竞争最终受益者还是广大用户。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	XMPP(<a href="http://www.xmpp.org/" style="color: rgb(29, 88, 209); text-decoration: none;" target="_blank">www.xmpp.org</a>)由Jabber软件基金会开发，最早在Jabber上实现。Jabber项目由Jeremie Miller在1998年开始的一个免费、开源的项目，用于提供给MSN、Yahoo!的IM服务。由于XMPP是一种基于XML架构的开放式协议，在IM通讯中被广泛采用。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	XMPP的基础部分已经在2002-2004年得到了互联网工程任务组(IETF)的批准， 这意味着XMPP在将来就像我们认为理所当然的Internet协议TCP/IP、HTTP、FTP、SMTP、POP一样成为Internet标准；这 意味着以后我们就像使用Web、使用Email和使用FTP一样开放地使用IM。甚至若干年后人们会理所当然地认为163的邮箱可以给Hotmail发邮 件一样，QQ用户也可以添加Gtalk用户，人们会逐渐忘却当年军阀割据纷乱的历史。这是一种革命性的进步！不支持XMPP的IM将会像IBM的 Token-Ring一样孤芳自赏或者像DEC NET协议一样被人遗忘。遥想当年DEC NET和IBM Token-Ring也是多么意气风发羽扇纶巾啊！
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	在XMPP被批准之前，世界上已经存在了数十种支持XMPP的服务器端和客户端以及数百万用 户。嗅觉灵敏的Google作为开放源代码社区和开放标准的最大受益者，第一时间感受到了这种趋势，所以花重金将Gaim的作者挖去Google，于是就 有了基于XMPP的Gtalk。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	开放的标准协议会导致产品的竞争更为健康和良性，整个产业链更为完善。当然产品之间的竞争唯 一的趋势就是同质化，产品发展到后期比拼的只有服务。这一点在传统产业已经被完全验证，互联网产业也不能逃脱。至于到时用户是选Gtalk呢还是选 POPO呢，就像用户现在选Gmail还是163的邮箱一样，可以各有所好。不过IM在扩展功能以及增值服务上还有非常大的竞争余地。
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	二、Xmpp协议介绍
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、Xmpp协议概述
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	XMPP（Extensible Messaging and Presence Protocol，前称Jabber<a href="http://zh.wikipedia.org/wiki/Jabber#cite_note-0" style="color: rgb(29, 88, 209); text-decoration: none;">[1]</a>）是一种以XML为基础的开放式实时通信协议，是经由互联网工程工作小组（<a href="http://zh.wikipedia.org/wiki/IETF" style="color: rgb(29, 88, 209); text-decoration: none;">IETF</a>）通过的互联网标准。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	XMPP是一种基于XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发 送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程 序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	可扩展消息处理现场协议(eXtensible Messaging and Presence Protocol ,&nbsp;<b>XMPP</b>) 是一种基于可扩展标记语言(eXtensible Markup Language, XML)的近端串流式即时通信协议。它将现场和上下文敏感信息标记嵌入到XML 结构化数据中, 使得人与人之间、应用系统之间以及人与应用系统之间能即时相互通信。XMPP 协议已被批准为互联网即时通信协议标准。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、Xmpp协议内容
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	　XMPP中定义了三个角色，客户端，服务器，网关。通信能够在这三者的任意两个之间双向发生。服务器同时承担了客户端信息记录，连接管理和信息的路由功能。网关承担着与异构即时通信系统的互联互通，异构系统可以包括SMS（短信），MSN，ICQ等。基本的网络形式是单客户端通过<a href="http://baike.baidu.com/view/7729.htm" style="color: rgb(29, 88, 209); text-decoration: none;">TCP/IP</a>连接到单服务器，然后在之上传输XML。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	3、Xmpp协议优点
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>开放</b>&mdash;XMPP协议是自由、开放、公开的，并且易于了解。而且在客户端、服务器、组件、源码库等方面，都已经各自有多种实现。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>标准</b>&mdash;互联网工程工作小组（IETF）已经将Jabber的核心XML流协议以XMPP之名，正式列为认可的实时通信及Presence技术。而<b>XMPP</b>的技术规格已被定义在RFC 3920及RFC 3921。任何IM供应商在遵循XMPP协议下，都可与Google Talk实现连接。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>证实可用</b>&mdash;第一个Jabber(现在XMPP)技术是Jeremie Miller在1998年开发的，现在已经相当稳定；数以百计的开发者为XMPP技术而努力。今日的互联网上有数以万计的XMPP服务器运作著，并有数以百万计的人们使用XMPP实时传讯软件。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>分布式</b>&mdash;XMPP网络的架构和电子邮件十分相像；XMPP核心协议通信方式是先创建一个stream，XMPP以TCP传递XML数据流，没有中央主服务器。任何人都可以运行自己的XMPP服务器，使个人及组织能够掌控他们的实时传讯体验。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>安全</b>&mdash;任何XMPP协议的服务器可以独立于公众XMPP网络（例如在企业内部网络中），而使用SASL及TLS等技术的可靠安全性，已自带于核心XMPP技术规格中。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>可扩展</b>&mdash;XML命名空间的威力可使任何人在核心协议的基础上建造客制化的功能；为了维持通透性，常见的扩展由XMPP Standards Foundation。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>弹性佳</b>&mdash;XMPP除了可用在实时通信的应用程序，还能用在网络管理、内容供稿、协同工具、文件共享、游戏、远程系统监控等。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>多样性</b>&mdash;用XMPP协议来建造及布署实时应用程序及服务的公司及开放源代码计划分布在各种领域；用XMPP技术开发软件，资源及支持的来源是多样的，使得使你不会陷于被&ldquo;绑架&rdquo;的困境。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	4、Xmpp协议缺点
+</h3>
+
+<p align="left" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	数据负载太重：随着通常超过70％的XMPP协议的服务器的数据流量的存在和近60％的被重复转发，XMPP协议目前拥有一个大型架空中存在的数据提供给多个收件人。新的议定书正在研究，以减轻这一问题。
+</p>
+
+<p align="left" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	没有二进制数据：XMPP协议的方式被编码为一个单一的长的XML文件，因此无法提供修改二进制数据。因此， 文件传输协议一样使用外部的HTTP。如果不可避免，XMPP协议还提供了带编码的文件传输的所有数据使用的Base64。至于其他二进制数据加密会话（encrypted conversations）或图形图标（graphic icons）以嵌入式使用相同的方法。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	5、Xmpp提供电子名片协议
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	vCard是一种现存的、广泛使用的，用户个人信息存储的标准，有点像是电子名片。基础的功能是存储和获取用户的电子身份，该信息是用XML表示的，数据的存储取决于所有现存的Jabber服务器的实现。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	6、XMPP系统特点
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	客户机/服务器通信模式、分布式网络、简单的客户端、XML的数据格式。
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	三、服务器端介绍
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、什么是Openfire
+</h3>
+
+<p align="left" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	Openfire 采用Java开发，开源的实时协作（RTC）服务器基于XMPP（Jabber）协议。您可以使用它轻易的构建高效率的即时通信服务器.
+</p>
+
+<p align="left" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	Openfire安装和使用都非常简单，并利用Web进行管理。单台服务器可支持上万并发用户。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	　　由于是采用开放的XMPP协议，您可以使用各种支持XMPP协议的IM客户端软件登陆服务.
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、为什么使用Openfire
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	A、Openfire为Java开源项目
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	B、 采用开放的XMPP协议
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	C、 有多种针对不通系统的版本
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	D、使用Socket通讯
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	E、 单台服务器可支持上万并发用户,搭建分布式云服务器可轻松提供大量并发用户。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	F、 Socket长连接
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	G、服务器稳定
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	H、提供接口，可自己开发插件
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	3、Windows下搭建服务器
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	JDK1.6 + Openfire For Windows + Mysql5.5 + Tomcat6
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	4、Linux下搭建服务器
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	JDK1.6 + Openfire For Linux + Mysql5.5 + Tomcat6
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	5、Mac下搭建服务器
+</h3>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	四、客户端介绍
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、手机客户端
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A</b><b>、ForAndroidClient</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>手机登录界面</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="480" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_1.png" style="border: 0px;" width="339" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	&nbsp;
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	手机IM联系人列表
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="472" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_2.png" style="border: 0px;" width="374" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	手机用户与PC客户端用户聊天
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px; text-align: center;">
+	<img height="387" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_3.png" style="border: 0px;" width="640" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>手机用户与</b><b>Web</b><b>端用户聊天</b><b>&nbsp;</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="300" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_4.png" style="border: 0px;" width="640" /></b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>B、</b><b>ForMobileClient</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>C、&nbsp;&nbsp;</b><b>ForIphoneClient</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>D、&nbsp;&nbsp;</b><b>ForSymbian</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>E、</b><b>ForWp7</b>
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、Pc客户端
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A、</b><b>SparkForJava(OpenSource)</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>PC</b><b>端用户登录界面</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="413" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_5.png" style="border: 0px;" width="256" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>PC</b><b>端IM</b><b>联系人界面列表</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="480" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_6.png" style="border: 0px;" width="283" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	PC端用户与手机端用户聊天界面
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	&nbsp;
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="392" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_7.png" style="border: 0px;" width="640" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	PC端用户与Web端用户聊天
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="330" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_8.png" style="border: 0px;" width="640" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>B、</b><b>SparkForC# (OpenSource)</b>
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、Web客户端
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A、</b><b>RIA (Flex&nbsp;&nbsp; And&nbsp;&nbsp; Silverlight)</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>B、&nbsp;</b><b>Html5</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>C</b><b>、Web2.0</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>Web</b><b>端登录</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;<img height="333" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_9.png" style="border: 0px;" width="630" /></b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>Web</b><b>端与PC</b><b>聊天</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="301" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_10.png" style="border: 0px;" width="640" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	Web端与手机端聊天
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px; text-align: center;">
+	<img height="375" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_11.png" style="border: 0px;" width="640" />
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	五、环境搭建
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、安装JDK
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	下载官网的JDk，并且正常安装，待安装完成后设置环境变量。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、安装OpenFire
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	下载Openfire，并正常默认安装。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	3、安装Mysql
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	下载安装Mysql，指定Mysql的用户名和密码，以及数据库使用的编码。确定是否允许远程访问该数据库。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	4、安装Apach Tomcat
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	下载Apach基金会下的Tomcat服务器，并且解压安装。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	5、配置环境
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	登陆Openfire服务器控制台，设置相关的信息。如：端口，插件等。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	并将项目部署到Apach tomcat中。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	6、安装项目
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	1、&nbsp; ForAndroid
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	从Tomcat中下载android的项目XmppClientForAndroid.apk，并在手机中安装。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	2、&nbsp; ForPc
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	从Tomcat中下载Pc的项目 Spark.exe，并在手机中安装。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	3、&nbsp; ForWeb
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	打开Tomcat中的项目，直接运行登陆。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	点击运行后：
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	7、设置服务器地址
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	ForAndroid、ForPc、ForWeb 都提供了个服务器地址设置的地方。默认Openfire的端口为5222.(除，Silverlight 的端口必须为 4502-4532)
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	8、注册用户
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	可以在服务器端直接注册用户，也可以在客户端注册用户。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	9、进行相对应的操作
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	相对应的即时通讯方面的操作。
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	六、项目演示
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、服务器端设置
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A</b><b>、Openfire&nbsp;</b><b>控制台</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>服务器主界面：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="289" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_12.png" style="border: 0px;" width="392" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>控制台主界面：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="391" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_13.png" style="border: 0px;" width="640" /></b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>控制台内部管理：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="375" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_14.png" style="border: 0px;" width="640" /></b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>用户/</b><b>组管理：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="372" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_15.png" style="border: 0px;" width="640" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>会话管理：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="374" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_16.png" style="border: 0px;" width="640" /></b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>聊天管理：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="343" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_17.png" style="border: 0px;" width="640" /></b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A、</b><b>Mysql</b><b>数据库</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>数据库表结构：</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b><img height="480" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_18.png" style="border: 0px;" width="178" />&nbsp;</b>
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、客户端设置
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>A、</b><b>ForAndroid</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>B、</b><b>ForPc</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>C、</b><b>ForWeb</b>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	七、多方、多端即时通讯
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、QQ、FaceBook、Twitter、MSN Messenger、Yahoo Messenger、AIM、Gadu-Gadu、ICQ、Google Talk、Popo
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	研读不同的通信协议，将Internet中常用的IM集成在一起，使得用户在操作系统中不必安装太多的聊天软件。
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、PC、Pad、Phone、Web
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	用户可以通过PC、Pad、Phone、Web等任意一个client聊天。
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	八、解决方案
+</h2>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	1、一个应用程序，多类型账户可同时登陆。
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	类似于Live Mail，没个账户只能和本账户下的朋友聊天。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="324" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_19.png" style="border: 0px;" width="258" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	有些国外的软件(Palringo、Trillian)以实现该功能.
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="369" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_20.png" style="border: 0px;" width="231" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="378" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_21.png" style="border: 0px;" width="229" />
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	&nbsp;
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	&nbsp;
+</p>
+
+<p align="center" style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>&nbsp;</b>
+</p>
+
+<h3 style="font-size: 14px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(170, 170, 170); padding-left: 10px; margin-left: 10px; margin-right: 10px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	2、一个应用程序，一个账户可以和其他类型的账户好友聊天。
+</h3>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<b>XMPP IM&nbsp;</b><b>与非XMPP&nbsp;</b><b>的其他IM</b><b>互联互通方法：</b>&nbsp;如果对方不是XMPP 体系中的用户, 就要在企业IM服务器上架设协议转换网关。在XMPP 的IM服务器上架设IM协议转换网关, 要遵守RFC3922 协议, 这个协议规定了XMPP 与公共显示和即时消息( CPIM)的映射。这里描述一下一个用户与MSN 用户的交流。在与MSN 用户交流之前, 企业IM用户首先设置一个MSN 用户到XMPP&mdash;MSN 协议转换网关上( 告诉MSN 的用户与密码给网关) , 现在网关就可以用这个MSN账号与MSN 系统进行交流了。绑定了MSN 用户的企业IM用户登录企业IM服务器后, 协议转换网关把MSN 账号的好友的MSN 账号返回给用户, 并在里面做了映射, 映射到了本地XMPP 账号。现在用户可以跟与本地XMPP 用户一样, 与MSN 账号的用户进行交流了。
+</p>
+
+<h2 style="margin: 0px 0px 4px; font-size: 14px; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; line-height: 25px;">
+	九、全文概要图
+</h2>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	<img height="573" src="http://images.cnblogs.com/cnblogs_com/luxiaofeng54/271979/r_22.png" style="border: 0px;" width="1238" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 25px;">
+	本文章参考了许多网络的资料，忘了文章链接。在这先向他们道个歉。
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

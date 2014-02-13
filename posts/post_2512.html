@@ -1,0 +1,847 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MyBatis 基本操作</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MyBatis 基本操作
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是MyBatis</strong>
+</h5>
+
+<p>
+	前身叫iBatis 是apache的项目 iBatis用的也非常的多 <span style="font-size: 13px;">2010年google code接管了iBatis 改名为MyBatis（从3.0开始） 现在</span>用MyBatis用的贱贱的多起来
+</p>
+
+<p>
+	一般新技术出来的时候 一两年内没什么中文资料
+</p>
+
+<p>
+	MyBatis使开发者只需关注SQL本身 不用管驱动 连接 确保连接关闭这样繁杂的代码
+</p>
+
+<p>
+	Spring MVC + MyBatis 易学易用 很受欢迎
+</p>
+
+<p>
+	比hibernate封装的更薄
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、体验一下</strong>
+</h5>
+
+<p>
+	<strong>1.新建一个java项目 导入jar包</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/12.jpg"><img alt="1" class="alignnone size-full wp-image-2513" height="163" src="http://localhost:8080/wp-content/uploads/2014/02/12.jpg" width="240" /></a>
+</p>
+
+<p>
+	<strong>2.建立一个数据表</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/22.jpg"><img alt="2" class="alignnone size-full wp-image-2514" height="165" src="http://localhost:8080/wp-content/uploads/2014/02/22.jpg" width="497" /></a>
+</p>
+
+<p>
+	<strong>3.MyBatis核心配置文件</strong>
+</p>
+
+<p>
+	<span style="color:#0000FF;">config/sqlMapConfig.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+		&lt;!DOCTYPE configuration<br />
+		PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;<br />
+		&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;<br />
+		&lt;configuration&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 可以配置多个数据源环境 进行切换 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;environments default=&quot;development&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 开发环境 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;environment id=&quot;development&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 事务 如果单独使用MyBatis就用JDBC的 整合Spring 就用Spring的 这里就不用配了 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;transactionManager type=&quot;JDBC&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 数据源 使用数据库连接池 还可以是UNPOOLED --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;dataSource type=&quot;POOLED&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://127.0.0.1:3306/mybatis&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;username&quot; value=&quot;root&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;property name=&quot;password&quot; value=&quot;yutou930709&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/dataSource&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/environment&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 生产环境 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;environment id=&quot;product&quot;&gt;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/environment&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/environments&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 表的映射文件 是使用&quot;/&quot;进行分割的&nbsp;--&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;mappers&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;mapper resource=&quot;com/yutouxiuxiu/mapper/PersonMapper.xml&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/mappers&gt;<br />
+		&lt;/configuration&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.数据表映射文件</strong>
+</p>
+
+<p>
+	采用 <u>数据表名大驼峰加上Mapper.xml</u> 作为文件名
+</p>
+
+<p>
+	<span style="color:#0000FF;">config/com.yutouxiuxiu.mapper.PersonMapper.xml</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />
+		&lt;!DOCTYPE mapper<br />
+		PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;<br />
+		&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;<br />
+		&lt;!-- 每一个Mapper映射文件都映射了一张表<br />
+		&nbsp;&nbsp; &nbsp; &nbsp; 对这张表的所有操作语句都写在这个映射文件中 --&gt;<br />
+		&lt;!-- namespace用来标识唯一的一个表的映射文件 --&gt;<br />
+		&lt;mapper namespace=&quot;com.yutouxiuxiu.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- id &nbsp;- &nbsp;一个SQL语句的唯一标识&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; parameterType &nbsp;- &nbsp;参数的类型<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; resultType &nbsp;- &nbsp;返回类型 一般是一个实体&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; #{id} &nbsp;- &nbsp;接收参数的语法 采用的是预查询的策略 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonById&quot; parameterType=&quot;java.lang.Integer&quot; resultType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where id = #{id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;<br />
+		&lt;/mapper&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>5.测试代码</strong>
+</p>
+
+<p>
+	test/com.yutouxiuxiu.test.MyBatisTest
+</p>
+
+<blockquote>
+	<p>
+		package com.yutouxiuxiu.test;
+	</p>
+
+	<p>
+		import java.io.InputStream;
+	</p>
+
+	<p>
+		import org.apache.ibatis.io.Resources;<br />
+		import org.apache.ibatis.session.SqlSession;<br />
+		import org.apache.ibatis.session.SqlSessionFactory;<br />
+		import org.apache.ibatis.session.SqlSessionFactoryBuilder;<br />
+		import org.junit.Before;<br />
+		import org.junit.Test;
+	</p>
+
+	<p>
+		import com.yutouxiuxiu.model.Person;
+	</p>
+
+	<p>
+		public class MyBatisTest {<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;SqlSessionFactory sqlSessionFactory;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Before<br />
+		&nbsp;&nbsp; &nbsp;public void setUp() throws Exception {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;InputStream in = Resources.getResourceAsStream(&quot;sqlMapConfig.xml&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 初始化sqlSessionFactory<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonById() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 找到sql语句（命名空间和SQL的id唯一标识）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 传参数<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		}
+	</p>
+</blockquote>
+
+<p>
+	执行结果：
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/31.jpg"><img alt="3" class="alignnone size-full wp-image-2515" height="88" src="http://localhost:8080/wp-content/uploads/2014/02/31.jpg" width="611" /></a>
+</p>
+
+<p>
+	如果存在set方法 MyBatis会通过set方法给实体类对象赋值 如果不存在 会尝试直接修改成员变量
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、查询的细节问题</strong>
+</h5>
+
+<p>
+	<strong>1.ResultMap结果字段映射</strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">（注意！！！）自定义的实体类型 都应该使用ResultMap</span></strong>
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">查询的是系统类型（Integer、Map、Long...） 才用ResultType 比如count查询</span></strong>
+</p>
+
+<p>
+	如果字段是以下划线分割的 实体类中是以小驼峰写的属性 就无法做到自动赋值了
+</p>
+
+<blockquote>
+	<p>
+		&lt;mapper namespace=&quot;com.yutouxiuxiu.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 结果字段映射<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; type &nbsp;- &nbsp;结果的实体类类型类型<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; id &nbsp;- &nbsp;结果映射的唯一标识 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;resultMap type=&quot;com.yutouxiuxiu.model.Person&quot; id=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- column &nbsp;- &nbsp;字段<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; property &nbsp;- &nbsp;实体类的属性名&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; 主键使用id标签 其他的时候用result标签 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;id column=&quot;person_id&quot; property=&quot;id&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;name&quot; property=&quot;name&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;birthday&quot; property=&quot;birthday&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;address&quot; property=&quot;address&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;result column=&quot;salary&quot; property=&quot;salary&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/resultMap&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonById&quot; parameterType=&quot;java.lang.Integer&quot; <span style="color:#FF0000;">resultMap=&quot;personRM&quot;</span>&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where person_id = #{id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;<br />
+		&lt;/mapper&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.查询多条</strong>
+</p>
+
+<p>
+	查询多条数据 在映射文件中 没有什么不太一样的
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonAll&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	主要是在代码中 使用session的selectList方法
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonAll() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 找到sql语句（映射文件命名空间+&#39;.&#39;+SQL的id唯一标识）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 传参数<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Person&gt; personList = session.selectList(&quot;com.yutouxiuxiu.Person.selectPersonAll&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Person person : personList) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.多参数查询</strong>
+</p>
+
+<p>
+	（1）使用map来传递参数
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonBy2Param&quot; parameterType=&quot;java.util.Map&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where name=#{name} and salary=#{salary}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonBy2Param() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;map.put(&quot;name&quot;, &quot;王大拿&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;map.put(&quot;salary&quot;, 50000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Person&gt; personList = session.selectList(&quot;com.yutouxiuxiu.Person.selectPersonBy2Param&quot;, map);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Person person : personList) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	（2）使用实体类作为查询条件
+</p>
+
+<p>
+	定义一个com.yutouxiuxiu.condition.PersonCondition
+</p>
+
+<p>
+	里面包含name和salary属性 并且有相应的get set方法
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonByCondition&quot; parameterType=&quot;com.yutouxiuxiu.condition.PersonCondition&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where name=#{name} and salary=#{salary}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void selectPersonByCondition() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;PersonCondition condition = new PersonCondition();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;condition.setName(&quot;王大拿&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;condition.setSalary(50000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;List&lt;Person&gt; personList = session.selectList(&quot;com.yutouxiuxiu.Person.selectPersonByCondition&quot;, condition);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (Person person : personList) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;System.out.println(person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.模糊查询</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;!-- ${} &nbsp;- &nbsp;主要用于模糊查询 就直接采用拼接字符串的形式 而不是预查询 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonLike&quot; parameterType=&quot;java.util.Map&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where name like &#39;%${name}%&#39;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、添加</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;!-- parameterType &nbsp;- &nbsp;参数类型 就用和表对应的实体类就可以 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;insert id=&quot;insert&quot; parameterType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;insert into person(person_id, name, birthday, address, salary)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;values(#{id}, #{name}, #{birthday}, #{address}, #{salary})<br />
+		&nbsp;&nbsp; &nbsp;&lt;/insert&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void insert() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = new Person();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setName(&quot;刘大脑袋&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setAddress(&quot;象牙山&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setBirthday(new Date());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setSalary(1000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.insert(&quot;com.yutouxiuxiu.Person.insert&quot;, person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<strong><span style="color:#FF0000;">// 增删改必须要提交事务 才能生效（但是我没提交也能生效 不知道为什么？？？）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();</span></strong><br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>1.得到刚刚插入的主键</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;insert id=&quot;insert&quot; parameterType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- keyProperty &nbsp;- &nbsp;表主键在实体类中的映射&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; order &nbsp;- &nbsp;主键生成和SQL语句执行的顺序 mysql设置成AFTER oracle设置成BEFORE&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; resultType &nbsp;- &nbsp;实体类中主键类型<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; MySQL中的主键生成语句：select last_insert_id()&nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; Oracle中的主键生成语句：select 表名.nextval from dual --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;selectKey keyProperty=&quot;id&quot; order=&quot;AFTER&quot; resultType=&quot;java.lang.Integer&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select last_insert_id()<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/selectKey&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;insert into person(name, birthday, address, salary)<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;values(#{name}, #{birthday}, #{address}, #{salary})<br />
+		&nbsp;&nbsp; &nbsp;&lt;/insert&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void insert() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = new Person();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setName(&quot;刘大脑袋&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setAddress(&quot;象牙山&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setBirthday(new Date());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setSalary(1000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.insert(&quot;com.yutouxiuxiu.Person.insert&quot;, person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 到此处 MyBatis会将刚刚生成的主键自动注入到实体类的id属性中<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、修改</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;update id=&quot;update&quot; parameterType=&quot;com.yutouxiuxiu.model.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;update person set<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;name = #{name},<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;birthday = #{birthday},<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;address = #{address},<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;salary = #{salary}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;where person_id = ${id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/update&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void update() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = new Person();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setId(1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setName(&quot;谢广坤&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setAddress(&quot;象牙山&quot;);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setBirthday(new Date());<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person.setSalary(1000);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.selectList(&quot;com.yutouxiuxiu.Person.update&quot;, person);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 增删改必须要提交事务 才能生效（但是我没提交也能生效 不知道为什么）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	<strong>1.只修改某些字段</strong>
+</p>
+
+<p>
+	如果要只修改某些字段 按照上面的方法就不行了
+</p>
+
+<p>
+	采用动态SQL可以解决这个问题
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、删除</strong>
+</h5>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;delete id=&quot;delete&quot; parameterType=&quot;java.lang.Integer&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;delete form person where person_id = #{id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/delete&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void delete() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.delete(&quot;com.yutouxiuxiu.Person.delete&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 增删改必须要提交事务 才能生效（但是我没提交也能生效 不知道为什么）<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.commit();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} catch (Exception e) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;e.printStackTrace();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.rollback();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、一些简便的东西</strong>
+</h5>
+
+<p>
+	<strong>1.别名</strong>
+</p>
+
+<p>
+	（1）系统别名
+</p>
+
+<p style="margin-left: 40px;">
+	java.lang.Xxx -&gt;&nbsp;<span style="line-height: 1.6em;">xxx（不区分大小写）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">Integer -&gt; int</span>
+</p>
+
+<p style="margin-left: 40px;">
+	Character -&gt; char
+</p>
+
+<p>
+	（2）自定义别名
+</p>
+
+<p>
+	在核心配置文件中
+</p>
+
+<blockquote>
+	<p>
+		&lt;configuration&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 别名定义<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; type &nbsp;- &nbsp;定义的类型<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; alias &nbsp;- &nbsp;别名<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; <span style="color:#FF0000;">注意 namespace不能使用别名</span> --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;typeAliases&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;typeAlias type=&quot;com.yutouxiuxiu.model.Person&quot; alias=&quot;person&quot; /&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;/typeAliases&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.公用SQL片段</strong>
+</p>
+
+<p>
+	在映射文件中 定义SQL片段 用于一些公用的SQL片段
+</p>
+
+<blockquote>
+	<p>
+		&lt;sql id=&quot;columns&quot;&gt;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; person_id, name, birthday, address, salary
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	在SQL语句中引用SQL片段
+</p>
+
+<blockquote>
+	<p>
+		select &lt;include refid=&quot;columns&quot; /&gt; from person
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

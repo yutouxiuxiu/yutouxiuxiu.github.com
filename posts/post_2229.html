@@ -1,0 +1,1034 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>敏捷开发模式概述</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					敏捷开发模式概述
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	作者博客&nbsp;<a href="http://blog.csdn.net/cheny_com">http://blog.csdn.net/cheny_com</a>
+</h5>
+
+<h5>
+	<strong>零、Scrum概览</strong>
+</h5>
+
+<p>
+	Scrum是一种兼顾计划性与灵活性的敏捷开发过程，原词来自于橄榄<br />
+	球中的&ldquo;带球过人&rdquo;。在橄榄球比赛的每次冲刺前，都将有一个计划<br />
+	安排的过程，但冲刺开始后则由队员在原计划的基础上随机应变。<br />
+	不同于瀑布模型将开发过程划分为需求、设计、编码、测试等阶段，<br />
+	Scrum将整个开发过程分为多次<strong>迭代</strong>（Sprint，冲刺），一般为<br />
+	期2～4周。
+</p>
+
+<p>
+	在日常工作时，<strong>产品负责人</strong>会维护一个按优先级排序的<strong>&ldquo;产品待开发项&rdquo;</strong>（Product Backlog），即从客户价值理解和描述的产品功能条<br />
+	目。
+</p>
+
+<p>
+	在每次<strong>迭代的第一天</strong>，召开<strong>迭代计划会</strong>(Sprint Planning Meeting)。产品负责人会逐一挑选最高优先级的部分进行讲解。团队可就需求细<br />
+	节、完成标准等进行询问，并逐条估算，放入本次迭代的<strong>开发任务</strong>中，直至任务量饱和。一旦迭代开始，这些任务将不会发生大的变化。
+</p>
+
+<p>
+	在迭代期内，团队将决定任务分配、所需的技术等，逐一完成任务。<strong>每天</strong>团队会进行一个简短的站立会议即<strong>每日立会</strong> Daily Stand-up&nbsp;<br />
+	Meeting，沟通当前进度、下一步任务和当前存在的问题，以借助团队的力量解决。团队还维护一张<strong>&ldquo;燃烧图&rdquo;</strong>（Burn Down Chart），<br />
+	即所有任务的累积剩余时间随开发进程与日递减的图形，以观察和预测所有任务是否会按期完成。
+</p>
+
+<p>
+	在每个<strong>迭代的最后一天</strong>，团队会召集<strong>评审会</strong>(Review Meeting)，邀请产品负责人等参加，对已经完成的产品功能条目进行评审，后者做出<br />
+	判断并给出改进反馈。当天还会召开<strong>反思会</strong>(Retrospective Meeting)，对本次迭代中的成功与失败之处做出总结，并在以后迭代中进行改<br />
+	进。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/1.jpg" rel="" target="" title=""><img alt="1" class="alignnone size-full wp-image-2230" height="253" src="http://localhost:8080/wp-content/uploads/2013/12/1.jpg" style="opacity: 0.9;" title="" width="548" /></a>
+</p>
+
+<blockquote>
+	<p>
+		<strong>带球过人需要计划！</strong><br />
+		&nbsp; &nbsp; 在球场上：在比赛每段的开始，双方都要摆开阵势，并计划本段的进攻/防守路线和策略，<br />
+		教练和队长都可以参与计划。<br />
+		&nbsp; &nbsp; 在软件开发公司：在每个迭代的开始，团队领导者都应该做好本迭代的计划，尤其是需求条<br />
+		目的优先级排序、选择本迭代的工作、设定必须完成的内容等。
+	</p>
+
+	<p>
+		<strong>带球过人需要灵活应变！</strong><br />
+		&nbsp; &nbsp; 在球场上：当哨声响起，尽管队员们努力按照既定计划推进，然而场上瞬息万变，队员不可<br />
+		能实时按照教练或队长的指令亦步亦趋地行事，而是靠平时训练中形成的素养见机行事，达<br />
+		成目标。<br />
+		&nbsp; &nbsp; 在软件开发公司：在每个迭代开始后，团队领导不可能也不需要事必亲恭地者介入每件事<br />
+		情，而是应该由具体执行的人选择如何去做。团队领导要做好的是协调资源、解决困难、提<br />
+		供指导，以达成目标。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、敏捷开发中的工作产品</strong>
+</h5>
+
+<p>
+	<strong>1.产品待开发项 Product Backlog是从<span style="color:#FF0000;">客户价值角度</span>理解的产品功能列表。</strong>
+</p>
+
+<p>
+	☺ &nbsp;功能、缺陷、增强等都可以是待开发项。<br />
+	☺ &nbsp;一般以<span style="color:#FF0000;"><strong>条目化</strong></span>的方式描述。<br />
+	☺ &nbsp;客户和用户必须能够理解。<br />
+	☺ &nbsp;描述<span style="color:#FF0000;"><strong>怎样使用而非怎样制造</strong></span>。<br />
+	☺ &nbsp;整体上<span style="color:#FF0000;"><strong>从客户价值优先级排序</strong></span>。<br />
+	☺ &nbsp;总工作量一般需要0.5～10人天。<br />
+	☺ &nbsp;高优先级的条目应有较详尽的描述，低优先级的条目可只有一个名称。
+</p>
+
+<p>
+	<br />
+	<strong>2.冲刺待开发项 Sprint Backlog是从开发<span style="color:#FF0000;">技术角度</span>理解的迭代开发任务。</strong>
+</p>
+
+<p>
+	☺ &nbsp;在简单的纯软件环境中，可以直接把产品待开发项当作冲刺待开发项分配到迭代中。<br />
+	☺ &nbsp;在复杂的开发环境中，可以把一个产品待开发项<span style="color:#FF0000;"><strong>分解为</strong></span>Web/后台&hellip;&hellip;软件/硬件&hellip;&hellip;程序/美术&hellip;&hellip;等<span style="color:#FF0000;"><strong>开发任务</strong></span>。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.可工作软件 Working Software是<span style="color:#FF0000;">可交付</span>的软件产品。</strong>
+</p>
+
+<p>
+	☺ &nbsp;&ldquo;可交付&rdquo;在不同场景下差异很大，应视不同情况<strong><span style="color:#FF0000;">提前设定和选定交付标准</span></strong>。比如是否需要测试，是否需要性能优化，是否需要操作手册等等。<br />
+	☺ &nbsp;在正式产品中可能包括使用文档，甚至是纸质的。在新产品开发的初期，则可能只需要交付勉强可看到效果的产品。<br />
+	☺ &nbsp;产品负责人、用户代表等负责评审可工作软件。<br />
+	☺ &nbsp;若一个产品功能只是&ldquo;差不多完成了&rdquo;，会被视为不可交付。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、敏捷开发中的角色</strong>
+</h5>
+
+<p>
+	<strong>1.Product Owner（产品负责人）负责产品需求的提炼、<span style="color:#FF0000;">条目化、优先级排序</span>。</strong>
+</p>
+
+<p>
+	现实世界的产品负责人
+</p>
+
+<p>
+	 &nbsp;部门经理、产品经理、策划人员等都可能做产品负责人。
+</p>
+
+<p>
+	 &nbsp;产品负责人是产品的指路人，必须对产品有长远的规划和深入了解，因此不能简单地选择销售人员甚至客户作为产品负责人。
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">&nbsp; &nbsp; 大型产品如嵌入式产品和网络游戏，常</span><span style="line-height: 1.6em;">常使用有层级的产品负责人团队，来解</span><span style="line-height: 1.6em;">决广度与深度的矛盾，如产品总监-产品</span><span style="line-height: 1.6em;">经理 / 主策划-策划团队。</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="line-height: 1.6em;">2.</span><span style="line-height: 1.6em;">Scrum Master（Scrum&ldquo;大师&rdquo;）负责</span><span style="line-height: 1.6em;">维护Scrum方法的秩序，并协助解决非</span><span style="line-height: 1.6em;">技术问题。</span></strong>
+</p>
+
+<p>
+	现实世界的Scrum Master
+</p>
+
+<p>
+	 &nbsp;Scrum Master的工作方式是靠领导力而非权力工作，因此首先应服务于团队。
+</p>
+
+<p>
+	 &nbsp;一种人选是原来的项目经理转型，保留原有的管理和技术职能，但弱化指派任务、下达时间点指令等内容，而增强其组织协调能力。
+</p>
+
+<p>
+	 &nbsp;另一种人选是企业原有的过程改进人员，协助不太了解Scrum的项目经理按照Scrum的方法工作，可以每人负责多个项目，接近全职的Scrum Master。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.Team（团队）以&ldquo;自组织&rdquo;的相对扁平方式进行管理，负责完成开发工作。</strong>
+</p>
+
+<p>
+	现实世界的开发团队
+</p>
+
+<p>
+	 &nbsp;实际团队常常不是&ldquo;扁平的&rdquo;，而是仍有项目经理、小组长等职位。
+</p>
+
+<p>
+	 &nbsp;工作中他们以<strong><span style="color:#FF0000;">&ldquo;共同估算&rdquo;</span></strong>&ldquo;跨职能工作&rdquo;&ldquo;共同跟进&rdquo;等方式自组织工作，而不是完全依赖层层指令。
+</p>
+
+<p>
+	 &nbsp;项目经理、小组长的领导、指导、协同职能大于其指令职能。&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、Scrum过程</strong>
+</h5>
+
+<p>
+	<strong>1.创建和维护产品待开发项（Product Backlog）</strong>
+</p>
+
+<blockquote>
+	<p>
+		产品功能列表（Product Backlog）是一组条目化需求。
+	</p>
+
+	<p>
+		产品功能列表<strong><span style="color:#FF0000;">必须从客户价值角度描述，并按优先级排序</span></strong>。
+	</p>
+
+	<p>
+		典型的描述方法，就是极限编程中提到的<strong><span style="color:#FF0000;">用户故事</span></strong>（User Story）。
+	</p>
+</blockquote>
+
+<p>
+	<strong>如何编写产品功能列表</strong>
+</p>
+
+<p>
+	☺产品负责人创建和维护产品功能列表。<br />
+	☺需求必须进行条目化管理，才能进行分配、开发、跟踪，才能描述什么做完了什么没做完。<br />
+	☺&ldquo;客户价值角度&rdquo;就是<strong><span style="color:#FF0000;">描述用户如何使用，而不是描述技术层面如何实现</span></strong>。比如&ldquo;实现手写输入&rdquo;&ldquo;实现游戏排行榜&rdquo;，而不是&ldquo;编写数据库底层&rdquo;。用户故事的语法<strong><span style="color:#FF0000;">&ldquo;作为一个&hellip;&hellip;，可以&hellip;&hellip;，以（以便）&hellip;&hellip;&rdquo;</span></strong>很好地保证了这一点。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.<span style="font-size: 13px;">迭代计划会（Sprint Planning Meeting）</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		迭代计划会在每个迭代第一天召开，目的是选择和估算本次迭代的工作项。
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">产品负责人逐条讲解</span><span style="line-height: 1.6em;">最重要的产品功能。</span><span style="line-height: 1.6em;">开发团队<strong><span style="color:#FF0000;">共同估算故事所需</span></strong></span><span style="line-height: 1.6em;"><strong><span style="color:#FF0000;">工作量</span></strong>，直到本迭代工作量</span><span style="line-height: 1.6em;">达到饱和。&nbsp;</span>
+	</p>
+
+	<p>
+		产品负责人参与讨论并回答与需求相关的问题，但不干扰估算结果。
+	</p>
+</blockquote>
+
+<p>
+	<strong>产品负责人准备什么？讲解什么？</strong>
+</p>
+
+<p>
+	☺会前准备：条目化的需求（用户故事），<strong><span style="color:#FF0000;">优先级排序</span></strong>，最近1～2个迭代最希望看到的功能。会前准备至关重要，可帮助产品负责人理清头绪，不至于在迭代期内频繁提出变更、增加或删除故事。<br />
+	☺会上讲解：<span style="color:#FF0000;"><strong>较难以文字表述的内容</strong></span>，如游戏的文化背景，嵌入式设备的手感，OA系统背后的人事关系&hellip;&hellip;讲解过程中团队可以随时发问，产品负责人要予以解答。若产品负责人感觉答案没想清楚，可推迟故事的开发，或将故事分解为&ldquo;已想清楚的&rdquo;和&ldquo;未想清楚的&rdquo;，后者推迟到下一迭代或更晚。<br />
+	☺两者关系：准备活动类似电影剧本编写，它导致了这是不是一个好故事的基本问题；会上讲解类似导演说戏，它导致了这个故事我们能不能演好的问题。很多团队错误地认为已经有文档可读了，开会讲解太浪费时间，其实两者缺一不可。<br />
+	☺一般一个团队只有70%的工作可以进行正式工作，因此每个人月安排15人天左右即为饱和，新团队则可能低至10人天。
+</p>
+
+<p>
+	<strong>团队怎样估算？</strong>
+</p>
+
+<p>
+	☺共同估算：在估算前不应该指定谁将开发这个故事，而是以接收故事的小组为单位<strong><span style="color:#FF0000;">集体估算</span></strong>，每个人提出自己的看法，大家综合。这样才能以集体智慧完成任务。<br />
+	☺在估算全程，产品负责人不能离开，因为很多估算差异问题来自于&ldquo;做什么，做到什么地步&rdquo;，产品负责人需要予以解答，而不是让团队按自己的理解去做。<br />
+	☺共同估算的目的不是一个数字上的统一，而是用集体智慧和知识对&ldquo;做什么，怎么做&rdquo;达成共识。<br />
+	☺共同估算是共同跟进的基础，若不能共同估算，则后面的&ldquo;每日立会&rdquo;几乎不可能正常进行，因为大家只会关心自己曾经一起分析、思考、提问、设计乃至争论过的任务进展的怎样了，是不是和自己想象的一样。<br />
+	☺共同估算的最佳方法是&ldquo;扑克牌估算&rdquo;，这看似很像一个小游戏，但却是Delphi估算的一个快速方法，同时实现了匿名性与高效性。
+</p>
+
+<p>
+	<strong>共同估算？</strong>
+</p>
+
+<p>
+	①每人各自估算后独立出暗牌，听口令一起开牌。<br />
+	②数值最大者与最小者PK，其他人旁听也可参与。<br />
+	③讨论结束后重新出牌和开牌。&nbsp;<br />
+	④重复上述过程，直到结果比较接近。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">3.每日立会（Standup Meeting）</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		队员认领任务（或由组长协商分发），独立或与别人一起完成任务。
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">团队内部利用每日立会来沟</span>通进度。
+	</p>
+
+	<p>
+		开发团队利用燃烧图来展示整体进度。&nbsp;
+	</p>
+
+	<p>
+		如无特殊原因，迭代期内无变更。
+	</p>
+</blockquote>
+
+<p>
+	<strong>什么是每日&ldquo;立&rdquo;会？</strong>
+</p>
+
+<p>
+	☺由于每次会议只持续10～15分钟，人们习惯在工位附近的空地上站着开会，所以被叫做&ldquo;每日立会&rdquo;。<br />
+	☺每日立会上每个人汇报三个问题：<strong><span style="color:#FF0000;">我昨天做了什么，我今天要做什么，我遇到了什么困难</span></strong>。由于小组曾经共同估算任务，所以如果出现偏差，可以沟通出现的问题以相互帮助。<br />
+	☺燃烧图（Burn Down Chart）的横坐标是时间，纵坐标是本次迭代所有开发项的剩余时间，若时间到达终点而剩余时间也趋于零，则迭代顺利完成。<br />
+	☺<strong><span style="color:#FF0000;">如无特殊原因，迭代期内产品负责人不会增加、改变、删除工作项</span></strong>，但却会协助开发人员进行产品功能细化。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">4.评审会（Review Meeting）</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		小组向产品负责人<strong><span style="color:#FF0000;">展示</span></strong>迭代工作结果。
+	</p>
+
+	<p>
+		产品负责人给出<strong><span style="color:#FF0000;">评价和反馈</span></strong>。
+	</p>
+
+	<p>
+		以用户故事是否能成功交付来评价任务完成情况。
+	</p>
+</blockquote>
+
+<p>
+	<strong>怎样开展评审会？</strong>
+</p>
+
+<p>
+	☺敏捷开发采用时间盒（Time Boxing）的方法，即<strong><span style="color:#FF0000;">限定时间而不限定范围</span></strong>。所以<strong><span style="color:#FF0000;">迭代不会延期</span></strong>，因为在迭代终点将放弃未完成的故事。<br />
+	☺评审的标准是整个故事是<strong><span style="color:#FF0000;">否已经达到交付标准</span></strong>，而不是从其中分解出来的任务完成了多少，因此若<strong><span style="color:#FF0000;">一个故事&ldquo;差一点就完成了&rdquo;也算没有完成</span></strong>。<br />
+	☺常常发生很多故事都已经开始开发，但都差一点完成的现象。因此应按迭代内的优先级逐条开发和交付故事。一般总是优先开发MoSCoW方法中必须完成和应该完成的故事，再考虑可以完成的故事。<br />
+	☺一般在迭代计划会上设定每个故事的完成标准，如是否需要测试，是否需要考虑性能，是否需要说明文档等等。这些标准一般由项目组提前列好，每个故事只需要选中是否需要即可。<br />
+	☺尽管有正式的评审会，但很多团队习惯在<strong><span style="color:#FF0000;">单个故事完成时</span></strong>，就让产品负责人<strong><span style="color:#FF0000;">进行单个故事评审</span></strong>，以确保交付时不会有&ldquo;惊喜&rdquo;。<br />
+	☺评审会上发现的问题或改进将被累积到产品待开发项，也不会马上或在下一个迭代中开发，而是由优先级排序决定何时开发。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.<span style="font-size: 13px;">反思会（Retrospective Meeting）</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		在每个迭代后召开简短的反思会。
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">总结哪些事情做的好，哪些</span>事情做的不好。
+	</p>
+
+	<p>
+		制定改进计划。
+	</p>
+</blockquote>
+
+<p>
+	<strong>怎样开展反思会？</strong>
+</p>
+
+<p>
+	☺反思会是Scrum中最难以实施的活动之一。<br />
+	☺反思会上讨论三个问题：我们上个迭代有哪些事情做的好希望继续，那些事情做的不好希望改进，有何改进计划。<br />
+	☺经常出现一些问题多次被提到，但却始终没有解决。应该每次仅就1～3个关键问题做出可行的解决方案，在下一个迭代执行改进。&ldquo;可行&rdquo;的概念包括两个含义：第一是方法简单，影响面小，见效快；第二个是目标不要激进，而要现实可行，积少成多。<br />
+	☺如果必要可以执行领导回避制度，即具有管理职能的人不参加反思会，即使这些人是产品负责人，项目经理，乃至Scrum Master。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、用户故事</strong>
+</h5>
+
+<p>
+	<strong><span style="font-size: 13px;">1.什么是用户故事</span></strong>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		角色切记不要总是写&ldquo;作为一个用户&rdquo;，而是要<strong><span style="color: rgb(255, 0, 0);">把用户区别对待</span></strong>。这样才能更好地理解他们使用什么
+	</p>
+
+	<p style="font-size: 13px;">
+		功能，如何使用，为何使用。功能即<span style="color: rgb(255, 0, 0);"><strong>用户能亲自执行的操作</strong></span>。应区分用户操作和产品功能之间的关系，因为产品功能可能也提供了用户所需的价值，但却极可能不便于操作。&nbsp;
+	</p>
+
+	<p style="font-size: 13px;">
+		价值是完成操作后，客户所得到的好处。价值里边，常常要带有一点褒义词，或有一<span style="color: rgb(255, 0, 0);"><strong>些吸引人</strong></span>的内容，比如&ldquo;高效地&hellip;&hellip;&rdquo;&ldquo;&hellip;&hellip;可以节省话费&rdquo;等。
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	☺按&ldquo;作为一个&hellip;&hellip;，可以&hellip;&hellip;，以便&hellip;&hellip;&rdquo;样式和思路写成的用户需求，就是用户故事。<br />
+	☺这种样式是技法层面的东西，它保证了无需太多思考，用户故事中即可全面包含角色、功能、价值这三个要素。<br />
+	☺要想写好用户故事，要改变那种面向功能而非客户需求的纯技术观念。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.面向用户价值编写用户故事</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/2.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-2231" height="247" src="http://localhost:8080/wp-content/uploads/2013/12/2.jpg" style="" title="" width="405" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.用户建模</strong>
+</p>
+
+<p>
+	☺用户建模的目的，是<strong><span style="color:#FF0000;">理解哪些用户可能来使用产品</span></strong>或访问网站，他们<strong><span style="color:#FF0000;">为解决哪些问题而来</span></strong>，<strong><span style="color:#FF0000;">为达到哪些目的而来</span></strong>。<br />
+	☺良好的用户建模，可以保证不同用户都能方便地访问其功能，使用产品后也更容易获得其特定的价值。<br />
+	☺将大量功能无序地摆放到大量用户面前，不但不会增加价值，反而令用户无所适从。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/31.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-2232" height="248" src="http://localhost:8080/wp-content/uploads/2013/12/31.jpg" style="" title="" width="594" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.用户故事分类</strong>
+</p>
+
+<p>
+	☺用户故事一般被按尺度分为史诗故事和普通用户故事。若要更精细化地管理，则可能包含颗粒度和可见性等更多维度，并因此而产生出更多的分类。<br />
+	☺这些分类本身没有固定的方法，也没有优劣之分，但都必须服务于特定产品在需求管理上的某种目的。<br />
+	☺比如为了在不同尺度上观察整个产品的功能，又想让合适的人看到合适的故事，就可能产生下面的分类方法：
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/4.jpg"><img alt="4" class="alignnone size-full wp-image-2235" height="101" src="http://localhost:8080/wp-content/uploads/2013/12/4.jpg" width="412" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/5.jpg" rel="" style="" target="" title=""><img alt="5" class="alignnone size-full wp-image-2236" height="343" src="http://localhost:8080/wp-content/uploads/2013/12/5.jpg" style="" title="" width="645" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.业务数据与业务操作</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/6.jpg" rel="" style="" target="" title=""><img alt="6" class="alignnone size-full wp-image-2237" height="418" src="http://localhost:8080/wp-content/uploads/2013/12/6.jpg" style="" title="" width="738" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/11.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-2239" height="377" src="http://localhost:8080/wp-content/uploads/2013/12/11.jpg" style="" title="" width="649" /></a>
+</p>
+
+<p>
+	<strong>6.增强与重构</strong>
+</p>
+
+<blockquote>
+	<p>
+		增强和重构是常见的两种&ldquo;变更&rdquo;，前者主要面向<strong><span style="color:#FF0000;">业务功能</span></strong>，而后者则面向<strong><span style="color:#FF0000;">业务架构</span></strong>。
+	</p>
+
+	<p>
+		尽管多数重构无需向用户公开，但在描述重构时，仍要说出对业务的益处，才能防止无谓的重构。
+	</p>
+
+	<p>
+		不宜进行过大颗粒度的增强和重构，因为很难确认是否完成。一般将增强和重构拆分到可以指出是<strong><span style="color:#FF0000;">对哪个业务数据或业务操作的为止</span></strong>，并将其挂接到相应的用户故事下。
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/21.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-2240" height="213" src="http://localhost:8080/wp-content/uploads/2013/12/21.jpg" style="" title="" width="735" /></a>
+</p>
+
+<p>
+	<strong>7.用增强+重构表达产品功能的变更</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/32.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-2241" height="375" src="http://localhost:8080/wp-content/uploads/2013/12/32.jpg" style="" title="" width="630" /></a>
+</p>
+
+<p>
+	<strong>8.缺陷与技术债务</strong>
+</p>
+
+<blockquote>
+	<p>
+		缺陷和技术债务是常见的两种<strong><span style="color:#FF0000;">&ldquo;质量问题&rdquo;</span></strong>，前者为<strong><span style="color:#FF0000;">已经发生的</span></strong>，后者则是<strong><span style="color:#FF0000;">潜在的问题</span></strong>。<br />
+		缺陷和技术债务的&ldquo;重要程度&rdquo;是与其所发生的了具体的业务功能相关的，在重要的数据和操作中存在的缺陷和债务，其待修改的优先级也就越高。
+	</p>
+</blockquote>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/41.jpg" rel="" style="" target="" title=""><img alt="4" class="alignnone size-full wp-image-2242" height="199" src="http://localhost:8080/wp-content/uploads/2013/12/41.jpg" style="" title="" width="749" /></a>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/51.jpg" rel="" style="" target="" title=""><img alt="5" class="alignnone size-full wp-image-2243" height="293" src="http://localhost:8080/wp-content/uploads/2013/12/51.jpg" style="" title="" width="643" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、敏捷计划总流程</strong>
+</h5>
+
+<p>
+	敏捷计划并非只局限于迭代计划会，而是会贯穿整个产品研发的周期中。<br />
+	下面是围绕计划会前后发生的具体操作步骤，某些标注为&ldquo;会前&rdquo;的活动未必是会前仓促完成，往往是在之前更早的时间点上早有准备。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/a1.jpg" rel="" style="" target="" title=""><img alt="a" class="alignnone size-full wp-image-2245" height="357" src="http://localhost:8080/wp-content/uploads/2013/12/a1.jpg" style="" title="" width="741" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>1.可用时间计算</strong>
+</p>
+
+<p>
+	一个人月到底能完成多少工作量？&ldquo;当然是22天了！&rdquo;<br />
+	那么，计划会、评审会的时间算不算？中途处理突发任务的时间算不算？写文档的时间算不算？做设计的时间算不算？帮助徒弟算不算？<br />
+	中午打瞌睡的时间算不算？&hellip;&hellip;以及一个经常问到的问题：估算的时候要留余量吗？<br />
+	为了解决这些复杂的问题，前人已经找到了较为成熟的方法，步骤如下（参考页末图中数据）：
+</p>
+
+<p>
+	<br />
+	 &nbsp;先减去Scrum会议的时间，一般是计划会-1天，评审会-1天<br />
+	图中2.1计划会和2.29评审会各-1扣除。<br />
+	 &nbsp;再减去确定无疑的出差、培训、请假&hellip;&hellip;的时间，加上确定无疑的加班时间<br />
+	图中cheny在6/7两天有一共-1.5天假期，yock在13/20～24有-6天假期；都没有加班<br />
+	 &nbsp;剩下的时间，新团队&times;50%，老团队&times;70%，得到预计可用时间<br />
+	这样两个人最后剩下30.5天可用，如果&times;70%，结果是21.35天
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">估算故事时，不再留任何余量</span></strong>，按全时工作计算。所有需要在迭代交付时以PO指定的标准完成用户故事的事情都计算在内。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/b.png" rel="" style="" target="" title=""><img alt="b" class="alignnone size-full wp-image-2246" height="125" src="http://localhost:8080/wp-content/uploads/2013/12/b.png" style="" title="" width="724" /></a>
+</p>
+
+<p>
+	<strong>2.迭代计划</strong>
+</p>
+
+<p>
+	Product Backlog里边有干不完的活&hellip;&hellip;<br />
+	每个迭代（Sprint）挑出最重要的部分&hellip;&hellip;<br />
+	一个迭代连着一个迭代&hellip;&hellip;<br />
+	仅仅这样工作，尽管团队现在总是有活干，但是产品未来究竟会如何，却是看不清楚的。因此需要一个<strong><span style="color:#FF0000;">迭代计划来支撑对未来的预见</span></strong>。
+</p>
+
+<p>
+	为<strong><span style="color:#FF0000;">每个迭代起一个简短的标题</span></strong>外加设定一个<span style="color:#FF0000;"><strong>面向客户价值的目标</strong></span>是非常好的实践。<br />
+	如果标题和目标找不到合适的，表明大家其实并不知道自己在做什么，也就是众多的&ldquo;当前最重要的故事&rdquo;很难最终被汇聚为有意义的客户业务，进而提供客户价值。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.迭代意向表<span style="color:#FF0000;">（什么意思？）</span></strong>
+</p>
+
+<p>
+	在迭代计划会前，产品负责人一般会从众多故事中选择其中一些形成一个迭代意向表（Sprint Willing List），作为计划会讲解的备选故事。
+</p>
+
+<p>
+	 &nbsp;迭代的意向表，是迭代目标在用户故事中的具体体现。<br />
+	 &nbsp;因此意向表一般并非&ldquo;当前最重要的用户故事&rdquo;组成的乌合之众，而往往是一些相关性强，完成后具备相对完整的业务功能的一组故事，称为&ldquo;故事群&rdquo;（一般比传统的史诗故事规模更大）。<br />
+	 &nbsp;意向表的故事往往有一个预估值，以便产品经理能够大致估算出下个迭代能完成哪些故事；预估值来自于一般仅由少数业务骨干参与的预估会议。<br />
+	 &nbsp;意向表中的故事、估算都不是最终结果，在计划会上讲解故事-估算故事活动后，项将有可能被更新。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.故事讲解与估算</strong>
+</p>
+
+<p>
+	在迭代计划会上，产品负责人逐个讲解用户故事，团队逐个进行估算。<br />
+	 &nbsp;讲解顺序应<strong><span style="color:#FF0000;">先业务后技术，先总体后细节，先过去后未来</span></strong>，帮助团队系统地把握产品功能。<br />
+	 &nbsp;<strong><span style="color:#FF0000;">团队应简要记录需求详情</span></strong>，有些团队在问答环节甚至能当场形成基本的测试用例雏形。<br />
+	 &nbsp;在估算之前，不应该事先指定开发负责人，以便提升整个团队对估算的积极参与。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/c.png" rel="" style="" target="" title=""><img alt="c" class="alignnone size-full wp-image-2247" height="355" src="http://localhost:8080/wp-content/uploads/2013/12/c.png" style="" title="" width="577" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、敏捷日常跟进</strong>
+</h5>
+
+<p>
+	<strong>1.看板</strong>
+</p>
+
+<p>
+	故事板简单说就是把所有正在工作的内容，张贴到一个板状空间中。
+</p>
+
+<p>
+	看板（Kanban）一词来自日语，指的是制造业中的一种可视化方法，有相当复杂的思想和流程。由于两者看上去很类似，两个词汇经常混用。
+</p>
+
+<p>
+	关于故事板的一条简单规则，<strong><span style="color:#FF0000;">就是处于&ldquo;开发中&rdquo;的故事永远不要太多。也就是说要么做完一个故事，要么干脆不开工</span></strong>，这样在迭代结束前就不会面临很多故事都做了大半，但是都不能交付使用的情况。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/d.png" rel="" style="" target="" title=""><img alt="d" class="alignnone size-full wp-image-2249" height="284" src="http://localhost:8080/wp-content/uploads/2013/12/d.png" style="" title="" width="709" /></a>
+</p>
+
+<p>
+	<strong>2.燃尽图（Burndown Chart）</strong>
+</p>
+
+<p>
+	根据整个团队的剩余工作总量，每天进行更新，就可以得到燃尽图。
+</p>
+
+<p>
+	 &nbsp;燃尽图的左上角是迭代第一天开始时，整个团队的所有用户故事的工作量，如图中是19.5工作日。<strong><span style="color:#FF0000;">理想状况下，迭代结束时燃尽图抵达右下角，剩余时间为0的状态</span></strong>。<br />
+	 &nbsp;每天为某个故事花费一些时间后（底端的粉红色柱状图），这些故事的剩余工作量就会下降。不排除由于意外，造成&ldquo;剩余时间&ne;计划时间-花费时间&rdquo;的情况，这会造成燃尽图的起伏。<br />
+	 &nbsp;图中在1月13日左右开始，逐渐增加了一些新的用户故事（图中从中下部开始的粉红色细线），导致总体无法完成，但实际团队完成的工作量，大于原定的计划（绿线终点低于粉线终点）。<br />
+	 &nbsp;为了防止中间的变更导致原定必须完成的任务无法完成，常常使用MoSCoW（待续）方法进行迭代内的优先级管理。
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/e.png" rel="" style="" target="" title=""><img alt="e" class="alignnone size-full wp-image-2250" height="374" src="http://localhost:8080/wp-content/uploads/2013/12/e.png" style="" title="" width="586" /></a>
+</p>
+
+<p>
+	<strong>3.跟进图与渐进评审</strong>
+</p>
+
+<p>
+	跟进图是高级的燃尽图，可以在迭代中期进行渐进评审，防止最后一天评审时发现的问题来不及改正。
+</p>
+
+<p>
+	 &nbsp;习惯上，常常在<strong><span style="color:#FF0000;">迭代的最后一天安排评审会，而评审会的第二天进行发布，但这将造成一旦评审会发现问题，无法及时解决导致迭代延期或发布延期</span></strong>；尤其是在大型的团队，以及网络游戏、嵌入式开发等跨职能团队，故事在各平行团队看来处于&ldquo;似乎能跑&rdquo;的状态，但在策划和产品团队看来则是&ldquo;不能满足需求&rdquo;的状态，就更容易出现这种情况。<br />
+	 &nbsp;一般会为<strong><span style="color:#FF0000;">每个用户故事指定一个&ldquo;跟进人&rdquo;</span></strong>（网络游戏中是策划人员，而嵌入式开发中是产品经理和助理），<strong><span style="color:#FF0000;">负责随时解释、验收用户故事</span></strong>。<br />
+	 &nbsp;每当故事完成乃至只是取得一些进展时，都可以邀请跟进人前来做中期评审，如<span style="color:#FF0000;"><strong>果评审通过，则再进行下一个故事</strong></span>。<br />
+	 &nbsp;配合MoSCoW方法，可以按优先级逐个完成用户故事，确保<strong><span style="color:#FF0000;">最后的评审会更像一个&ldquo;展示会&rdquo;</span></strong>，而不会有实质性的关键任务评审不通过。<br />
+	 &nbsp;如果没有足够的人手随时跟进，可以考虑使用&ldquo;预评审会&rdquo;来代替，即在迭代到达70%附近时，先对已经完成的关键任务进行评审，确保它们中发现的问题得到及时解决，能在迭代结束时交付。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.跟进表</strong>
+</p>
+
+<p>
+	在大型团队中，跟进表与跟进图配合，可以揭示很多工作细节。
+</p>
+
+<p>
+	如果只使用简单的燃尽图，或者乃至上页中复杂的跟进图，有些信息仍然无法看到，而这些信息对某些大型团队可能是重要的。包括：
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">哪些故事完成了，哪些故事正在进行中，哪些故事还没有开始，大约何时可以开始</span></strong>&hellip;&hellip;<br />
+	<strong><span style="color:#FF0000;">谁在开发，谁在跟进</span></strong>（负责解释需求和验收结果）&hellip;&hellip;<br />
+	对于小型团队，这些问题一般直接面对面沟通即可，但对于大型团队，往往需要一个可视化的工具，这就是下面的跟进表（注意表中没有配置&ldquo;负责人&rdquo;，也就是跟进人）。
+</p>
+
+<p>
+	表中隐含的信息包括：15日全体加班一天，故事&ldquo;348显示意向表&rdquo;原本在13日已经完成，但在18日又投入了一天；故事380尚未开始（因此在最右侧呈现粉红色）；故事365、381开始了但是没有完成（因此在甘特图中右侧为红色，而在最右侧呈现红底色），其中365连续三天&ldquo;花费1天，剩余1天&rdquo;，至今已经很久没有进展了，很可能遇到相当大的难题；根据故事板中的原则，这时候cheny应尝试彻底完成365、381，而不是开始做380&hellip;&hellip;
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/12/f.png" rel="" style="" target="" title=""><img alt="f" class="alignnone size-full wp-image-2252" height="151" src="http://localhost:8080/wp-content/uploads/2013/12/f.png" style="" title="" width="798" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>七、松结对编程 139团队</strong>
+</h5>
+
+<p>
+	<strong>1.师徒制度</strong>
+</p>
+
+<p>
+	做法（有很多种，这是其中一种）<br />
+	☺每人都拥有自己的电脑进行编程<br />
+	☺师傅（小组长）只在必要的时候与徒弟（组员）结对，解决关键问题
+</p>
+
+<p>
+	小组长的责权利
+</p>
+
+<p>
+	 &nbsp;责<br />
+	 &nbsp;对小组的成败全面负责：进度/质量/成本&hellip;&hellip;<br />
+	 &nbsp;帮助组员提高水平：面对面沟通，反思与改进
+</p>
+
+<p>
+	 &nbsp;权<br />
+	 &nbsp;有权指派任务<br />
+	 &nbsp;有权干预设计/实现
+</p>
+
+<p>
+	 &nbsp;利<br />
+	 &nbsp;拥有更好的升迁机遇
+</p>
+
+<p>
+	<strong>2.日常工作</strong>
+</p>
+
+<p>
+	共同估算
+</p>
+
+<p>
+	☺小组内做到代码公有、弱分工、工作可部分替换<br />
+	☺在计划会上，一个松结对编程小组内部进行估算
+</p>
+
+<p>
+	日常工作方式（其中一种形式）<br />
+	 &nbsp;早：简短的技术会议<br />
+	 &nbsp;20分钟敲定当天的工作预期及实现方法<br />
+	 &nbsp;确定&ldquo;关键点&rdquo;即&ldquo;结对编程点&rdquo;<br />
+	&nbsp; &nbsp; 如在徒弟不懂泛型时，师傅可以安排&ldquo;调通单个函数后，我和你一起把它改造为泛型函数&rdquo;
+</p>
+
+<p>
+	 &nbsp;中：松结对编程<br />
+	 &nbsp;师傅答疑徒弟的问题<br />
+	&nbsp; &nbsp; 为了保证师傅本人的生产力，应遵循以下时间管理规则：师傅随时可以打断徒弟；徒弟只能预约师傅（待有空时才集中回答问题）<br />
+	 &nbsp;利用琐碎时间随时查看和评审徒弟的代码
+</p>
+
+<p>
+	 &nbsp;晚：集成<br />
+	 &nbsp;每天集成或至少确认一下当日的工作结果
+</p>
+
+<p>
+	<strong>3.代码审查最佳实践</strong>
+</p>
+
+<p>
+	核心价值观：责任心，能力，效率
+</p>
+
+<p>
+	☺师傅给徒弟看代码<br />
+	责任心 能力：随意搭配代码审查人往往是失败的，责任心 + 能力是代码审查有效性的基本保障
+</p>
+
+<p>
+	☺每天看代码<br />
+	效率：每天的代码量很有限，若能保持思路的连续性，代码审查的效率很高；同样Bug不过夜保证了日常编程的效率
+</p>
+
+<p>
+	☺每次5分钟<br />
+	效率：每个徒弟的代码，每天只看5分钟；若每天看代码，5分钟即可发现很多问题
+</p>
+
+<p>
+	☺每次解决1个关键问题<br />
+	效率：无论发现多少问题，均只解决1个最关键的问题，否则徒弟记不住，师傅也很累
+</p>
+
+<p>
+	☺以后&hellip;&hellip;<br />
+	能力 效率：以后再也不想看到这个问题！每次解决问题，师傅应该把问题的前因后果以及如何避免讲清楚，从而避免问题重复出现
+</p>
+
+<p>
+	☺以前&hellip;&hellip;<br />
+	效率：徒弟应抽空自行解决以前类似的问题，而不要占用师傅的时间；建议从第一天第一行代码开始评审，则不会有重要问题被长期遗漏
+</p>
+
+<p>
+	<span style="font-size: 13px;">☺</span>师兄带师弟<br />
+	效率：充分利用讲解关键问题的时间，召集所有别的徒弟一起听；若高级徒弟的代码质量已经大幅提高，可鼓励他帮助新来的徒弟若你的团队没有采用松结对编程，请尝试理解每个实践单独的价值观，并在代码审查存在问题时思考是否缺失了某些价值观。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

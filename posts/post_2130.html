@@ -1,0 +1,993 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - 模板技术</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - 模板技术
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、TP下的模板技术</strong>
+</h5>
+
+<p>
+	由Controller来调度模板 在TP下叫Module
+</p>
+
+<p>
+	请求Module -&gt; 调度Model取数据 -&gt; 返回数据到Module -&gt; 把数据展示到模板上
+</p>
+
+<p>
+	<strong>1.如何展示</strong>
+</p>
+
+<p>
+	<strong>（1）展示方法名对应模板</strong>
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;display();
+	</p>
+</blockquote>
+
+<p>
+	将会寻找 <span style="color:#0000FF;">应用/Tpl/Module名/action名.html</span> 作为模板
+</p>
+
+<p>
+	<strong>（2）也可以自己指定模板</strong>
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;display(&#39;模板名&#39;); &nbsp; &nbsp;// 注意 不含扩展名
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">将会寻找&nbsp;</span><span style="font-size: 13px; color: rgb(0, 0, 255);">应用/Tpl/Module名/模板名.html</span><span style="font-size: 13px;">&nbsp;作为模板</span>
+</p>
+
+<p>
+	<strong>（3）其他控制器下的模板</strong>
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;display(&#39;控制器名:模板名&#39;);
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">将会寻找&nbsp;</span><span style="font-size: 13px; color: rgb(0, 0, 255);">应用/Tpl/控制器名/模板名.html</span><span style="font-size: 13px;">&nbsp;作为模板</span>
+</p>
+
+<p>
+	<strong>（4）通过路径指定模板</strong>
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;display(&#39;./Tpl/&#39; . &#39;模板路径&#39; . &#39;.扩展名&#39;); &nbsp; &nbsp;//注意 必须以&quot;./Tpl/&quot;开头 而且需要扩展名
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.赋值</strong>
+</p>
+
+<p>
+	在控制器中
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;assign(&#39;变量名&#39;, &#39;变量值&#39;);
+	</p>
+</blockquote>
+
+<p>
+	在模板中
+</p>
+
+<blockquote>
+	<p>
+		{$变量名}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	下面是标签的介绍
+</p>
+
+<p>
+	标签的解析引擎是<span style="color:#0000FF;"> ThinkPHP/Lib/Driver/TagLib/TagLibCX.class.php</span>
+</p>
+
+<p>
+	<strong>一.循环</strong>
+</p>
+
+<p>
+	<strong>1.for</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;for start=&quot;开始值&quot; end=&quot;结束值&quot; comparison=&quot;&quot; step=&quot;步进值&quot; name=&quot;循环变量名&quot; &gt;<br />
+		&lt;/for&gt;
+	</p>
+</blockquote>
+
+<p>
+	开始值、结束值、步进值和循环变量都可以支持变量，开始值和结束值是必须，其他是可选。comparison 的默认值是lt;；name的默认值是i，步进值的默认值是1
+</p>
+
+<p>
+	<strong>数组的展示</strong>
+</p>
+
+<blockquote>
+	<p>
+		数组名.循环变量名
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.foreach</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;foreach name=&quot;list&quot; item=&quot;vo&quot;&gt;<br />
+		&nbsp; &nbsp; {$vo.id}<br />
+		&nbsp; &nbsp; {$vo.name}<br />
+		&lt;/foreach&gt;
+	</p>
+</blockquote>
+
+<p>
+	Foreach标签相对比volist标签简洁，没有volist标签那么多的功能。<strong><span style="color:#FF0000;">优势是可以对对象进行遍历输出，而volist标签通常是用于输出数组。</span></strong>
+</p>
+
+<p>
+	<strong>3.<span style="font-size: 13px;">volist</span></strong>
+</p>
+
+<p>
+	属性 name（必须）：要输出的数据模板变量<br />
+	id（必须）：循环变量<br />
+	offset（可选）：要输出数据的offset<br />
+	length（可选）：输出数据的长度<br />
+	key（可选）：循环的key变量，默认值为i<br />
+	mod（可选）：对key值取模，默认为2<br />
+	empty（可选）：如果数据为空显示的字符串
+</p>
+
+<blockquote>
+	<p>
+		<br />
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot;&gt;<br />
+		{$vo.id}<br />
+		{$vo.name}<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	支持输出部分数据，例如输出其中的第5～15条记录&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot; offset=&quot;5&quot; length=&#39;10&#39;&gt;<br />
+		{$vo.name}<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	输出偶数记录&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot; mod=&quot;2&quot; &gt;<br />
+		&lt;eq name=&quot;mod&quot; value=&quot;1&quot;&gt;{$vo.name}&lt;/eq&gt;<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	Mod属性还用于控制一定记录的换行，例如：
+</p>
+
+<blockquote>
+	<p>
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot; mod=&quot;5&quot; &gt;<br />
+		{$vo.name}<br />
+		&lt;eq name=&quot;mod&quot; value=&quot;4&quot;&gt;&lt;br/&gt;&lt;/eq&gt;<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	为空的时候输出提示：
+</p>
+
+<blockquote>
+	<p>
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot; empty=&quot;暂时没有数据&quot; &gt;<br />
+		{$vo.id}|{$vo.name}<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	empty属性不支持直接传入html语法，但可以支持变量输出，例如：
+</p>
+
+<blockquote>
+	<p>
+		$this-&gt;assign(&#39;empty&#39;,&#39;&lt;span class=&quot;empty&quot;&gt;没有数据&lt;/span&gt;&#39;);<br />
+		$this-&gt;assign(&#39;list&#39;,$list);
+	</p>
+</blockquote>
+
+<p>
+	然后在模板中使用：
+</p>
+
+<blockquote>
+	<p>
+		&lt;volist name=&quot;list&quot; id=&quot;vo&quot; empty=&quot;$empty&quot; &gt;<br />
+		{$vo.id}|{$vo.name}<br />
+		&lt;/volist&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>二.逻辑分支</strong>
+</p>
+
+<p>
+	<strong>1.if</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;if condition=&quot;$age elt 28&quot;&gt;年轻有为&lt;/if&gt;
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		&lt;if condition=&quot;<span style="font-size: 13px;">$age elt 3</span>&quot;&gt;
+	</p>
+
+	<p>
+		&lt;elseif condition=&quot;$age elt 3&quot; /&gt;小小孩儿
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;elseif condition=&quot;($age gt 3) and ($age lt 18)&quot; /&gt;小孩</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;else /&gt;大人</span>
+	</p>
+
+	<p>
+		&lt;/if&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.范围判断标签 </strong>
+</p>
+
+<p>
+	（1）in
+</p>
+
+<blockquote>
+	<p>
+		&lt;in name=&#39;变量名&#39; value=&#39;值1,值2...&#39;&gt;&lt;/in&gt;
+	</p>
+</blockquote>
+
+<p>
+	（2）notin
+</p>
+
+<p>
+	（3）between
+</p>
+
+<blockquote>
+	<p>
+		&lt;between name=&#39;变量名&#39; value=&#39;最小值,最大值&#39;&gt; &nbsp;是闭区间
+	</p>
+
+	<p>
+		&lt;between&gt;
+	</p>
+</blockquote>
+
+<p>
+	（3）notbetween
+</p>
+
+<p>
+	<strong>3.switch</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;switch name=&quot;变量&quot; &gt;<br />
+		&lt;case value=&quot;值1&quot; break=&quot;0或1&quot;&gt;输出内容1&lt;/case&gt;<br />
+		&lt;case value=&quot;值2&quot;&gt;输出内容2&lt;/case&gt;<br />
+		&lt;default /&gt;默认情况<br />
+		&lt;/switch&gt;
+	</p>
+</blockquote>
+
+<p>
+	对于case的value属性可以支持多个条件的判断，使用&rdquo;|&rdquo;进行分割
+</p>
+
+<blockquote>
+	<p>
+		&lt;case value=&quot;gif|png|jpg&quot;&gt;图像格式&lt;/case&gt;
+	</p>
+</blockquote>
+
+<p>
+	也可以对case的value属性使用变量
+</p>
+
+<blockquote>
+	<p>
+		&lt;case value=&quot;$adminId&quot;&gt;admin&lt;/case&gt;
+	</p>
+</blockquote>
+
+<p>
+	使用变量方式的情况下，不再支持多个条件的同时判断
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>三.变量调节器</strong>
+</p>
+
+<p>
+	就是在模板中使用函数 更改变量的值 比如格式化一些日期 把1,0显示成 男女 把它都变成小写 之类的
+</p>
+
+<p>
+	可以调用PHP的任何函数 还有自己写的函数
+</p>
+
+<blockquote>
+	<p>
+		{$name|strtolower}
+	</p>
+</blockquote>
+
+<p>
+	这就像是linux里的管道 把前边的值送给后边的函数进行处理再产生新值 还可以继续传给后边的函数去处理
+</p>
+
+<p>
+	以上是对于单个参数的 多参数的怎么弄
+</p>
+
+<blockquote>
+	<p>
+		{$varname|function1|function2=arg1,arg2,### }
+	</p>
+</blockquote>
+
+<p>
+	说明：&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	{ 和 $ 符号之间不能有空格 ，后面参数的空格就没有问题<br />
+	###表示模板变量本身的参数位置 &nbsp; <strong><span style="color:#FF0000;">如果不写### 它默认把&ldquo;|&rdquo;之前的当做第一个变量给传进去 然后后边依次传进去</span></strong><br />
+	支持多个函数，函数之间支持空格&nbsp;<br />
+	支持函数屏蔽功能，在配置文件中可以配置禁止使用的函数列表&nbsp;<br />
+	支持变量解析缓存功能，重复变量字串不多次解析
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>四.包含子模板</strong>
+</p>
+
+<p>
+	比如说有头部导航 版权信息等 大部分页面都一样
+</p>
+
+<p>
+	使用
+</p>
+
+<blockquote>
+	<p>
+		&lt;include file=&quot;./Tpl/....html&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	进行引入 要从&ldquo;./Tpl/&rdquo;开始
+</p>
+
+<p>
+	或者
+</p>
+
+<blockquote>
+	<p>
+		&lt;inlude file=&quot;模块名/模板名&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、模板布局</strong>
+</h5>
+
+<p>
+	因为每个页面都要包含一样的东西 这样一修改起来就会很麻烦
+</p>
+
+<p>
+	所以就有了模板布局&nbsp;
+</p>
+
+<p>
+	对所有的模板先进行一个布局
+</p>
+
+<p>
+	<span style="color:#0000FF;">应用/Tpl/layout.html</span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;include file=&quot;Public:header&quot; /&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		{__CONTENT__}
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">&lt;include file=&quot;Public:footer&quot; /&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<b>开启布局功能</b>
+</p>
+
+<blockquote>
+	<p>
+		LAYOUT_ON =&gt; true
+	</p>
+</blockquote>
+
+<p>
+	这样所有的模板都会应用这个布局文件了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>使用其他布局</strong>
+</p>
+
+<p>
+	如果一个模板它有自己独特的布局 和别人不一样 就使用这个标签放在模板文件的第一行
+</p>
+
+<blockquote>
+	<p>
+		&lt;layout name=&quot;布局名&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	它就会先去解析 Tpl/布局名.html
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>不使用布局</strong>
+</p>
+
+<p>
+	把这句话放在不要使用布局的模板文件顶部
+</p>
+
+<blockquote>
+	<p>
+		{__NOLAYOUT__}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、原样输出</strong>
+</h5>
+
+<p>
+	就是让TP对模板的某一部分 不进行解析 原样输出成HTML
+</p>
+
+<blockquote>
+	<p>
+		&lt;literal&gt;
+	</p>
+
+	<p>
+		{$name}
+	</p>
+
+	<p>
+		&lt;/literal&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>七、系统变量</strong>
+</h5>
+
+<table border="0" cellpadding="0" cellspacing="1">
+	<tbody>
+		<tr class="add" jquery17101281426086766797="1">
+			<th>
+				用法
+			</th>
+			<th>
+				含义
+			</th>
+			<th>
+				例子
+			</th>
+		</tr>
+		<tr class="even" jquery17101281426086766797="2">
+			<td>
+				$Think.server
+			</td>
+			<td>
+				获取$_SERVER
+			</td>
+			<td>
+				{$Think.server.php_self}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="3">
+			<td>
+				$Think.get
+			</td>
+			<td>
+				获取$_GET
+			</td>
+			<td>
+				{$Think.get.id}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="4">
+			<td>
+				$Think.post
+			</td>
+			<td>
+				获取$_POST
+			</td>
+			<td>
+				{$Think.post.name}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="5">
+			<td>
+				$Think.request
+			</td>
+			<td>
+				获取$_REQUEST
+			</td>
+			<td>
+				{$Think.request.user_id}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="6">
+			<td>
+				$Think.cookie
+			</td>
+			<td>
+				获取$_COOKIE
+			</td>
+			<td>
+				{$Think.cookie.username}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="7">
+			<td>
+				$Think.session
+			</td>
+			<td>
+				获取$_SESSION
+			</td>
+			<td>
+				{$Think.session.user_id}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="8">
+			<td>
+				$Think.config
+			</td>
+			<td>
+				获取系统配置参数
+			</td>
+			<td>
+				{$Think.config.app_status}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="9">
+			<td>
+				$Think.lang
+			</td>
+			<td>
+				获取系统语言变量
+			</td>
+			<td>
+				{$Think.lang.user_type}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="10">
+			<td>
+				$Think.const
+			</td>
+			<td>
+				获取系统常量
+			</td>
+			<td>
+				{$Think.const.app_name}或{$Think.APP_NAME}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="11">
+			<td>
+				$Think.env
+			</td>
+			<td>
+				获取环境变量
+			</td>
+			<td>
+				{$Think.env.HOSTNAME}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="12">
+			<td>
+				$Think.version
+			</td>
+			<td>
+				获取框架版本号
+			</td>
+			<td>
+				{$Think.version}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="13">
+			<td>
+				$Think.now
+			</td>
+			<td>
+				获取当前时间
+			</td>
+			<td>
+				{$Think.now}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="14">
+			<td>
+				$Think.template
+			</td>
+			<td>
+				获取当前模板
+			</td>
+			<td>
+				{$Think.template}
+			</td>
+		</tr>
+		<tr class="add" jquery17101281426086766797="15">
+			<td>
+				$Think.ldelim
+			</td>
+			<td>
+				获取模板左界定符
+			</td>
+			<td>
+				{$Think.ldelim}
+			</td>
+		</tr>
+		<tr class="even" jquery17101281426086766797="16">
+			<td>
+				$Think.rdelim
+			</td>
+			<td>
+				获取模板右界定符
+			</td>
+			<td>
+				{$Think.rdelim}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>八、常量替换</strong>
+</h5>
+
+<p>
+	比如表单提交的action属性
+</p>
+
+<blockquote>
+	<p>
+		&lt;form action=&quot;__URL__/add&quot; method=&quot;post&quot;...
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Behavior/ContentReplaceBehavior.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 模板内容替换<br />
+		&nbsp; &nbsp; &nbsp;* @access protected<br />
+		&nbsp; &nbsp; &nbsp;* @param string $content 模板内容<br />
+		&nbsp; &nbsp; &nbsp;* @return string<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; protected function templateContentReplace($content) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 系统默认的特殊变量替换<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $replace = &nbsp;array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__TMPL__&#39; &nbsp; &nbsp; &nbsp;=&gt; &nbsp;APP_TMPL_PATH, &nbsp;// 项目模板目录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__ROOT__&#39; &nbsp; &nbsp; &nbsp;=&gt; &nbsp;__ROOT__, &nbsp; &nbsp; &nbsp; // 当前网站地址<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__APP__&#39; &nbsp; &nbsp; &nbsp; =&gt; &nbsp;__APP__, &nbsp; &nbsp; &nbsp; &nbsp;// 当前项目地址<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__GROUP__&#39; &nbsp; &nbsp; =&gt; &nbsp;defined(&#39;GROUP_NAME&#39;)?__GROUP__:__APP__,<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__ACTION__&#39; &nbsp; &nbsp;=&gt; &nbsp;__ACTION__, &nbsp; &nbsp; // 当前操作地址<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__SELF__&#39; &nbsp; &nbsp; &nbsp;=&gt; &nbsp;__SELF__, &nbsp; &nbsp; &nbsp; // 当前页面地址<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__URL__&#39; &nbsp; &nbsp; &nbsp; =&gt; &nbsp;__URL__, &nbsp; &nbsp; &nbsp;// ~ 当前模块地址<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;../Public&#39; &nbsp; &nbsp; =&gt; &nbsp;APP_TMPL_PATH.&#39;Public&#39;,// 项目公共模板目录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;__PUBLIC__&#39; &nbsp; &nbsp;=&gt; &nbsp;__ROOT__.&#39;/Public&#39;,// 站点公共目录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; );<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 允许用户自定义模板的字符串替换<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_array(C(&#39;TMPL_PARSE_STRING&#39;)) )<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $replace = &nbsp;array_merge($replace,C(&#39;TMPL_PARSE_STRING&#39;));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $content = str_replace(array_keys($replace),array_values($replace),$content);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $content;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

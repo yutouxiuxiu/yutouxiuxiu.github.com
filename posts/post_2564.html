@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>MyBatis 缓存</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					MyBatis 缓存
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、一级缓存</strong>
+</h5>
+
+<p>
+	不需要做任何的配置 是session级别的缓存 在同一个session范围之内可以使用缓存
+</p>
+
+<p>
+	<strong>1.一级缓存的原理</strong>
+</p>
+
+<p>
+	在一个session中 将查询的结果集缓存起来 以select的id为标识
+</p>
+
+<p>
+	再次查询的时候 会到缓存中查询结果是否存在 如果存在就不再发出SQL查询了 而是直接利用缓存中的数据
+</p>
+
+<p>
+	<strong>2.栗子</strong>
+</p>
+
+<p>
+	（1）同一session中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache1() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 不发出SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	运行结果：
+</p>
+
+<blockquote>
+	<p>
+		2014-02-11 11:27:07,261 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ooo Using Connection [com.mysql.jdbc.Connection@72f1d02e]<br />
+		2014-02-11 11:27:07,262 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ==&gt; &nbsp;Preparing: select * from person where id = ?&nbsp;<br />
+		2014-02-11 11:27:07,309 [main] DEBUG [com.yutouxiuxiu.Person.selectPersonById] - ==&gt; Parameters: 1(Integer)
+	</p>
+</blockquote>
+
+<p>
+	（2）不同session中
+</p>
+
+<p>
+	如果是两个session 那就会发出两个SQL语句 因为一级缓存是session级别的
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache11() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 再次获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session1 = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person1 = session1.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session1.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	（3）<span style="color:#FF0000;"><strong>刷新缓存</strong></span>
+</p>
+
+<p>
+	在一个session中 如果第一次查询之后 又对数据进行了更改 就会将缓存做过期处理 第二次查询的时候 发现缓存是过期的 所以还要重新查询
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/62.jpg"><img alt="6" class="alignnone size-full wp-image-2566" height="326" src="http://localhost:8080/wp-content/uploads/2014/02/62.jpg" width="679" /></a>
+</p>
+
+<p>
+	以上代码会发出一个查询 一个更新 一个查询语句
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、二级缓存</strong>
+</h5>
+
+<p>
+	二级缓存是sessionFactory级别的 在同一个sqlSessionFactory可以跨session使用缓存
+</p>
+
+<p>
+	<strong>1.开启二级缓存总开关</strong>
+</p>
+
+<p>
+	在核心配置文件中
+</p>
+
+<blockquote>
+	<p>
+		&lt;configuration&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;settings&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;!-- 开启二级缓存 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.开启单个映射文件的二级缓存</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;mapper namespace=&quot;com.yutouxiuxiu.Person&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&lt;!-- 开启当前映射文件的二级缓存 --&gt;<br />
+		&nbsp;&nbsp; &nbsp;&lt;cache /&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.实体类序列化</strong>
+</p>
+
+<p>
+	<span style="color:#FF0000;">实体类要实现Serializable</span>
+</p>
+
+<p>
+	因为实体类需要序列化到硬盘上 以便于缓存
+</p>
+
+<p>
+	<strong>4.栗子</strong>
+</p>
+
+<p>
+	在两个session中
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;@Test<br />
+		&nbsp;&nbsp; &nbsp;public void cache11() {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person = session.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 再次获得session<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;SqlSession session1 = sqlSessionFactory.openSession();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;try {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// 发送SQL语句<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Person person1 = session1.selectOne(&quot;com.yutouxiuxiu.Person.selectPersonById&quot;, 1);<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;} finally {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;session1.close();<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<p>
+	以上的栗子中只会发出一个SQL语句
+</p>
+
+<p>
+	<strong>5.对每条SQL语句进行缓存控制</strong>
+</p>
+
+<p>
+	默认useCache是为true的 如果设置为false 它就不会对这条SQL语句进行二级缓存
+</p>
+
+<blockquote>
+	<p>
+		&nbsp;&nbsp; &nbsp;&lt;select id=&quot;selectPersonById&quot; <span style="color:#FF0000;"><strong>useCache=&quot;false&quot;</strong></span> parameterType=&quot;java.lang.Integer&quot; resultMap=&quot;personRM&quot;&gt;<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;select * from person where person_id = #{id}<br />
+		&nbsp;&nbsp; &nbsp;&lt;/select&gt;
+	</p>
+</blockquote>
+
+<p>
+	<strong>6.刷新缓存 不刷新缓存</strong>
+</p>
+
+<p>
+	如果在一个sessionFactory中 一次查询之后 又进行了数据的修改 再次查询 就会重新发出SQL语句
+</p>
+
+<p>
+	默认是刷新缓存的 也可以在修改的语句上进行设置 不让它自动刷新缓存
+</p>
+
+<blockquote>
+	<p>
+		&lt;<span style="color:#FF0000;"><strong>update</strong></span> id=&quot;update&quot; flushCache=&quot;false&quot; ...
+	</p>
+</blockquote>
+
+<p>
+	如果在<span style="color:#FF0000;"><strong>insert</strong></span>语句上加上flushCache=&quot;false&quot;会出现什么情况呢
+</p>
+
+<p style="margin-left: 40px;">
+	比如说查询一个集合 然后又插入了一条数据 又查询该集合 就不会刷新缓存 查不到新插入的数据
+</p>
+
+<p>
+	<strong><span style="color:#FF0000;">delete</span></strong>的情况 也类似
+</p>
+
+<p>
+	update是针对单个实体的 insert和delete是针对集合的
+</p>
+
+<p>
+	<strong>7.cache标签的属性</strong>
+</p>
+
+<p>
+	在Mapping文件中
+</p>
+
+<p>
+	（1）逐出策略 eviction
+</p>
+
+<p style="margin-left: 40px;">
+	LRU &nbsp;- &nbsp;最近最少使用 对象放到缓存里面了 这个对象很久（可以设置时间）都没有人用 就逐出缓存
+</p>
+
+<p style="margin-left: 40px;">
+	FIFO &nbsp;- &nbsp;先进先出 队列 按照对象进入缓存的顺序来移除（用的最多）
+</p>
+
+<p style="margin-left: 40px;">
+	SOFT &nbsp;- &nbsp;软引用 利用垃圾回收机制（不怎么用）
+</p>
+
+<p style="margin-left: 40px;">
+	WEAK &nbsp;- &nbsp;若引用<span style="font-size: 13px;">&nbsp;利用垃圾回收机制（不怎么用）</span>
+</p>
+
+<p>
+	（2）定时刷新&nbsp;flushInterval
+</p>
+
+<p style="margin-left: 40px;">
+	ms为单位 每多长时间刷新缓存 定时任务 一直在后台跑 对性能有影响
+</p>
+
+<p>
+	（3）缓存对象数量 size
+</p>
+
+<p style="margin-left: 40px;">
+	缓存中能存放多少对象
+</p>
+
+<p>
+	（4）缓存制度 readOnly
+</p>
+
+<p style="margin-left: 40px;">
+	如果为true 缓存不能人为修改 只能由MyBatis自己操作
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、二级缓存框架ehcache</strong>
+</h5>
+
+<p>
+	1.使用方式
+</p>
+
+<p>
+	（1）导入jar包
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	（2）配置配置文件
+</p>
+
+<p style="font-size: 13px;">
+	<span style="color:#0000FF;">ehcache.xml</span>
+</p>
+
+<blockquote>
+	<p style="font-size: 13px;">
+		&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;../config/ehcache.xsd&quot;&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; &lt;diskStore path=&quot;java.io.tmpdir&quot;/&gt;
+	</p>
+
+	<p style="font-size: 13px;">
+		&nbsp; &nbsp; &lt;defaultCache<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maxElementsInMemory=&quot;10000&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; eternal=&quot;false&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; timeToIdleSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; timeToLiveSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maxElementsOnDisk=&quot;10000000&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; diskExpiryThreadIntervalSeconds=&quot;120&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; memoryStoreEvictionPolicy=&quot;LRU&quot;&gt;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &lt;persistence strategy=&quot;localTempSwap&quot;/&gt;<br />
+		&nbsp; &nbsp; &lt;/defaultCache&gt;<br />
+		&lt;/ehcache&gt;
+	</p>
+</blockquote>
+
+<p>
+	（3）指定MyBatis使用ehcache
+</p>
+
+<blockquote>
+	<p>
+		&lt;cache&nbsp;type=&quot;org.mybatis.caches.ehcache.EhcacheCache&quot; /&gt;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

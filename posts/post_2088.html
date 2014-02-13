@@ -607,12 +607,650 @@
 </p>
 
 <p>
+	<strong>4.删除 delete</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 删除数据<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $options 表达式<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function delete($options=array()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($options) &amp;&amp; empty($this-&gt;options['where'])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果删除条件为空 则删除当前数据对象所对应的记录<br />
+		<strong><span style="color:#FF0000;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;data) &amp;&amp; isset($this-&gt;data[$this->getPk()]))<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return $this-&gt;delete($this-&gt;data[$this->getPk()]);</span></strong>&nbsp;&nbsp; &nbsp;// ~ 还有一个用法 先设置data里主键的值 再delete 也可以<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $pk &nbsp; = &nbsp;$this-&gt;getPk();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_numeric($options) &nbsp;|| is_string($options)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 根据主键删除记录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(strpos($options,&#39;,&#39;)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;array(&#39;IN&#39;, $options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$pk] &nbsp; &nbsp; = &nbsp;$options;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp;array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; = &nbsp;$where;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options = &nbsp;$this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_array($options['where']) &amp;&amp; isset($options['where'][$pk])){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $pkValue &nbsp; &nbsp;= &nbsp; $options['where'][$pk];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $result &nbsp;= &nbsp; &nbsp;$this-&gt;db-&gt;delete($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false !== $result) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data = array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(isset($pkValue)) $data[$pk] &nbsp; = &nbsp;$pkValue;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_delete($data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 返回删除记录个数<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $result;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	<strong>5.条件分析原理</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 分析表达式<br />
+		&nbsp; &nbsp; &nbsp;* @access protected<br />
+		&nbsp; &nbsp; &nbsp;* @param array $options 表达式参数<br />
+		&nbsp; &nbsp; &nbsp;* @return array<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; protected function _parseOptions($options=array()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_array($options))<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$options = &nbsp;array_merge($this-&gt;options,$options);&nbsp;&nbsp; &nbsp;// ~ 把$this-&gt;options,$options合并起来 如果有相同单元后边的覆盖前面的 也就是将连贯操作的选项和save,delete,select函数传递的选项 如有选项冲突 传的参数优先级高</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 查询过后清空sql表达式组装 避免影响下次查询<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;options &nbsp;= &nbsp; array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!isset($options['table'])){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 自动获取表名<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['table'] &nbsp; = &nbsp; $this-&gt;getTableName();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;fields;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 指定数据表 则重新获取字段列表 但不支持类型检测<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;getDbFields();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($options['alias'])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['table'] &nbsp;.= &nbsp; ' '.$options['alias'];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 记录操作的模型名称<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options['model'] &nbsp; &nbsp; &nbsp; = &nbsp; $this-&gt;name;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 字段类型验证<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(isset($options['where']) &amp;&amp; is_array($options['where']) &amp;&amp; !empty($fields) &amp;&amp; !isset($options['join'])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 对数组查询条件进行字段类型检查<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($options['where'] as $key=&gt;$val){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $key &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; trim($key);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(in_array($key,$fields,true)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(is_scalar($val)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_parseType($options['where'],$key);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif(!is_numeric($key) &amp;&amp; &#39;_&#39; != substr($key,0,1) &amp;&amp; false === strpos($key,&#39;.&#39;) &amp;&amp; false === strpos($key,&#39;(&#39;) &amp;&amp; false === strpos($key,&#39;|&#39;) &amp;&amp; false === strpos($key,&#39;&amp;&#39;)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($options['where'][$key]);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 表达式过滤<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_options_filter($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $options;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	<strong>6.只取一条 find</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 查询数据<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $options 表达式参数<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function find($options=array()) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_numeric($options) || is_string($options)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $where[$this->getPk()] &nbsp;= &nbsp; $options;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $options['where'] &nbsp; &nbsp; &nbsp; = &nbsp; $where;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">// 总是查找一条记录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options['limit'] &nbsp; = &nbsp; 1;</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 分析表达式<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $options &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; $this-&gt;_parseOptions($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $resultSet &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; $this-&gt;db-&gt;select($options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(false === $resultSet) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($resultSet)) {// 查询结果为空<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;data &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; $resultSet[0];&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 形成一维数组</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_after_find($this-&gt;data,$options);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;options['result'])) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return $this-&gt;returnResult($this-&gt;data,$this-&gt;options['result']);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $this-&gt;data;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
 	&nbsp;
+</p>
+
+<h5>
+	<strong>四、实例化过程</strong>
+</h5>
+
+<p>
+	它怎么知道表名 它怎么知道表中有什么字段
+</p>
+
+<p>
+	__construct()（得到模型名） -&gt; db()（连接数据库） -&gt; _checkTableInfo() -&gt; flush() -&gt; $db-&gt;getFields()（得到表中的字段）
+</p>
+
+<p>
+	<span style="color:#0000FF;">Model.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 架构函数<br />
+		&nbsp; &nbsp; &nbsp;* 取得DB类的实例对象 字段检查<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param string $name 模型名称&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果传入 被当做模型名 不传入 就用类名去掉Model作为模型名<br />
+		&nbsp; &nbsp; &nbsp;* @param string $tablePrefix 表前缀<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $connection 数据库连接信息<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function <strong><span style="color:#FF0000;">__construct($name=&#39;&#39;</span></strong>,$tablePrefix=&#39;&#39;,$connection=&#39;&#39;) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 模型初始化<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;_initialize();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 获取模型名称<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($name)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(strpos($name,&#39;.&#39;)) { // 支持 数据库名.模型名的 定义<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list($this-&gt;dbName,$this-&gt;name) = explode(&#39;.&#39;,$name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;name &nbsp; = &nbsp;$name;</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(empty($this-&gt;name)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#FF0000;"><strong>$this-&gt;name = &nbsp; $this-&gt;getModelName();</strong></span>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果没有设置模型名 则从类名中得到模型名<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 设置表前缀<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(is_null($tablePrefix)) {// 前缀为Null表示没有前缀<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;tablePrefix = &#39;&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(&#39;&#39; != $tablePrefix) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;tablePrefix = $tablePrefix;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;tablePrefix = $this-&gt;tablePrefix?$this-&gt;tablePrefix:C(&#39;DB_PREFIX&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 数据库初始化操作<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 获取数据库操作对象<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 当前模型有独立的数据库连接信息<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;db</span></strong>(0,empty($this-&gt;connection)?$connection:$this-&gt;connection);<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 得到当前的数据对象名称<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return string<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function getModelName() {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($this-&gt;name))<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;name = &nbsp; substr(get_class($this),0,-5);&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 去掉&quot;Model&quot;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $this-&gt;name;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 切换当前的数据库连接<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param integer $linkNum &nbsp;连接序号<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $config &nbsp;数据库连接信息<br />
+		&nbsp; &nbsp; &nbsp;* @param array $params &nbsp;模型参数<br />
+		&nbsp; &nbsp; &nbsp;* @return Model<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function db($linkNum=&#39;&#39;,$config=&#39;&#39;,$params=array()){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 字段检测<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;name) &amp;&amp; $this-&gt;autoCheckFields) &nbsp; &nbsp;<strong><span style="color:#FF0000;">$this-&gt;_checkTableInfo()</span></strong>;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $this;<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 自动检测数据表信息<br />
+		&nbsp; &nbsp; &nbsp;* @access protected<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; protected function _checkTableInfo() {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 如果不是Model类 自动记录数据表信息<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 只在第一次执行记录<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($this-&gt;fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 如果数据表字段没有定义则自动获取<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">if(C(&#39;DB_FIELDS_CACHE&#39;)) {</span></strong>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果设置了DB_FIELDS_CACHE为true 则不每次都获取表中字段 但是如果开启了DEBUG模式 debug的配置文件是最后加载的 这个文件中定义DB_FIELDS_CACHE为false了 但是还是有机会修改的 因为应用的Conf/debug.php比 ThinkPHP的debug.php后加载<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $db &nbsp; = &nbsp;$this-&gt;dbName?$this-&gt;dbName:C(&#39;DB_NAME&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = F(&#39;_fields/&#39;.strtolower($db.&#39;.&#39;.$this-&gt;name));<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if($fields) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $version &nbsp; &nbsp;= &nbsp; C(&#39;DB_FIELD_VERSION&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(empty($version) || $fields['_version']== $version) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;fields &nbsp; = &nbsp; $fields;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 每次都会读取数据表信息<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">$this-&gt;flush();</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 获取字段信息并缓存<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return void<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function flush() {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 缓存不存在则查询数据表信息<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;db-&gt;setModel($this-&gt;name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; <strong><span style="color:#FF0000;">$this-&gt;db-&gt;getFields($this-&gt;getTableName());</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 得到完整的数据表名<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return string<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function getTableName() {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($this-&gt;trueTableName)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $tableName &nbsp;= !empty($this-&gt;tablePrefix) ? $this-&gt;tablePrefix : &#39;&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!empty($this-&gt;tableName)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $tableName .= $this-&gt;tableName;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $tableName .= parse_name($this-&gt;name);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;trueTableName &nbsp; &nbsp;= &nbsp; strtolower($tableName);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return (!empty($this-&gt;dbName)?$this-&gt;dbName.&#39;.&#39;:&#39;&#39;).$this-&gt;trueTableName;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#0000FF;">ThinkPHP/Lib/Driver/Db/DbMysql.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 取得数据表的字段信息<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @return array<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function getFields($tableName) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $result = &nbsp; $this-&gt;query(&#39;SHOW COLUMNS FROM &#39;.$this-&gt;parseKey($tableName)); &nbsp;// ~ 和DESC一样<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $info &nbsp; = &nbsp; array();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if($result) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($result as $key =&gt; $val) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $info[$val['Field']] = array(<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;name&#39; &nbsp; &nbsp;=&gt; $val['Field'],<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;type&#39; &nbsp; &nbsp;=&gt; $val['Type'],<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;notnull&#39; =&gt; (bool) (strtoupper($val['Null']) === &#39;NO&#39;), // not null is empty, null is yes<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;default&#39; =&gt; $val['Default'],<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;primary&#39; =&gt; (strtolower($val['Key']) == &#39;pri&#39;),&nbsp;&nbsp; &nbsp;// ~ 主键<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#39;autoinc&#39; =&gt; (strtolower($val['Extra']) == &#39;auto_increment&#39;),<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; );<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $info;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>优化 - 不要每次操作Model都向数据库查询字段信息</strong>
+</p>
+
+<p>
+	1.如果 $this-&gt;fields 为空 则要获取
+</p>
+
+<p>
+	2.如果 DB_FIELDS_CACHE 为true 每次要到缓存文件中获取 否则每次要到数据库中查询
+</p>
+
+<p>
+	最好是手动写到fields属性中
+</p>
+
+<p>
+	<span style="color:#0000FF;">应用/Conf/debug.php</span>
+</p>
+
+<blockquote>
+	<p>
+		return array (
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">DB_FIELDS_CACHE</span>&#39; =&gt; true;
+	</p>
+
+	<p>
+		);
+	</p>
+</blockquote>
+
+<p>
+	这样 在 <span style="color:#0000FF;">应用/Runtime/Data/_fields</span> 中就会生成一个 <span style="color:#0000FF;">应用名.模块名.php</span> 的文件 存储着字段的信息
+</p>
+
+<blockquote>
+	<p>
+		&lt;?php
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">return array (0 =&gt; &#39;id</span><span style="line-height: 1.6em;">&#39;, 1 =&gt; &#39;username&#39;, 2 =&gt; &#39;password&#39;</span><span style="line-height: 1.6em;">); ?&gt;</span>
+	</p>
+</blockquote>
+
+<p>
+	这样 在_checkTableInfo()中 就能读取到这些信息
+</p>
+
+<p>
+	<span style="color:#0000FF;">Model.class.php</span>
+</p>
+
+<blockquote>
+	<p>
+		$fields = F(&#39;_fields/&#39;.strtolower($db.&#39;.&#39;.$this-&gt;name));&nbsp;&nbsp; &nbsp;// ~ 在缓存文件中读取列信息 比从数据库中查效率高点儿
+	</p>
+</blockquote>
+
+<p>
+	不过在进行上面这一切的之前 它还要判断模型中是否已经封装了字段信息
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($this-&gt;fields)) {&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// ~ 如果模块中已经有字段信息 就不用查找 所以我们可以在定义Model类的时候 就指定好$fields
+	</p>
+</blockquote>
+
+<p>
+	如果已经封装了 就不用去查了
+</p>
+
+<p>
+	我们可以在定义模块类的时候就指定
+</p>
+
+<blockquote>
+	<p>
+		class UserModel extends Model {
+	</p>
+
+	<p style="margin-left: 40px;">
+		protected $fields = array (
+	</p>
+
+	<p style="margin-left: 80px;">
+		&#39;id&#39;, &#39;username&#39;, &#39;password&#39;, &#39;_pk&#39; =&gt; &#39;id&#39;, &#39;autoinc&#39; =&gt; true &nbsp; &nbsp;//告诉它谁是主键 主键能不能自增长
+	</p>
+
+	<p style="margin-left: 40px;">
+		);
+	</p>
+
+	<p style="margin-left: 40px;">
+		。。。。。。
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、连贯操作</strong>
+</h5>
+
+<p>
+	<strong>1.table&nbsp;<span style="line-height: 1.6em;">指定表名</span></strong>
+</p>
+
+<p>
+	在某个Action中要连续操作好几张表 这几张表很小 操作也很少 没有必要 不知道为之建立Model
+</p>
+
+<p>
+	可以建立空模型 然后为其指定表
+</p>
+
+<blockquote>
+	<p>
+		$model = M(); &nbsp; &nbsp;//M 函数 用于实例化一个没有模型文件的Model
+	</p>
+
+	<p>
+		$model-&gt;table(&#39;表名&#39;)-&gt;后续操作...
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.having</strong>
+</p>
+
+<p>
+	having 对已经查询的结果作筛选 如果以前面查询的字段之外的字段作为条件 进行having 将查询不到结果
+</p>
+
+<p>
+	比如 SELECT goods_name FROM goods HAVING goods_price &gt; 100 将查不到任何结果 因为没有SELECT 它的goods_price 这样having无法对已经查到的数据进行筛选
 </p>
 
 <p>
 	&nbsp;
 </p>
+
+<p>
+	<strong>3.field&nbsp;<span style="line-height: 1.6em;">只获取指定的字段</span></strong>
+</p>
+
+<blockquote>
+	<p>
+		$model-&gt;field(&#39;username,password&#39;)-&gt;后续操作...
+	</p>
+</blockquote>
+
+<p>
+	<strong>原理</strong>
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 指定查询字段 支持字段排除<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $field<br />
+		&nbsp; &nbsp; &nbsp;* @param boolean $except 是否排除<br />
+		&nbsp; &nbsp; &nbsp;* @return Model<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; public function field($field,$except=false){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(true === $field) {// 获取全部字段<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields &nbsp; &nbsp; = &nbsp;$this-&gt;getDbFields();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $field &nbsp; &nbsp; &nbsp;= &nbsp;$fields?$fields:&#39;*&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif($except) {// 字段排除<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(is_string($field)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $field &nbsp;= &nbsp;explode(&#39;,&#39;,$field);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields &nbsp; &nbsp; = &nbsp;$this-&gt;getDbFields();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $field &nbsp; &nbsp; &nbsp;= &nbsp;$fields?array_diff($fields,$field):$field;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;options['field'] &nbsp; = &nbsp; $field;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $this;<br />
+		&nbsp; &nbsp; }
+	</p>
+</blockquote>
+
+<p>
+	<strong>但是这样不支持字段运算</strong>
+</p>
+
+<p>
+	比如 要查询 shop_price - goods_price 这样用这种方法是无法实现的 它会把 &#39;<span style="font-size: 13px;">shop_price - goods_price</span>&#39; 当做字段名对待
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.count 查询个数</strong>
+</p>
+
+<blockquote>
+	<p>
+		$goodsModel-&gt;count(&#39;*&#39;);
+	</p>
+</blockquote>
+
+<p>
+	将只返回一个数字 只能统计总数 平均值 合计 不能用作分组统计&nbsp;并且不能继续连贯操作
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(in_array(strtolower($method),array(&#39;count&#39;,&#39;sum&#39;,&#39;min&#39;,&#39;max&#39;,&#39;avg&#39;),true)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 统计查询的实现<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $field = &nbsp;isset($args[0])?$args[0]:&#39;*&#39;;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return $this-&gt;getField(strtoupper($method).&#39;(&#39;.$field.&#39;) AS tp_&#39;.$method);&nbsp;&nbsp; &nbsp;// ~ <strong><span style="color:#FF0000;">统计查询之后 将不能继续进行连贯操作！</span></strong>
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.原生SQL查询</strong>
+</p>
+
+<p>
+	对于复杂的多表查询 使用函数来实现很麻烦 低效 可以手工写SQL语句
+</p>
+
+<blockquote>
+	<p>
+		$model-&gt;query(&#39;查询sql&#39;);
+	</p>
+</blockquote>
+
+<blockquote>
+	<p>
+		$model-&gt;execute(&#39;增删改sql&#39;);
+	</p>
+</blockquote>
+
+<p>
+	<strong>6.根据某个字段查询</strong>
+</p>
+
+<blockquote>
+	<p>
+		$model-&gt;getBy字段名(&#39;字段值&#39;);
+	</p>
+</blockquote>
+
+<p>
+	将会查出字段名=字段值的记录
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>7.根据某个字段查询某个字段的值</strong>
+</p>
+
+<blockquote>
+	<p>
+		$model-&gt;getFieldByUsername(&#39;yutou&#39;, &#39;password&#39;); &nbsp; &nbsp;//查询username=yutou的password字段的值
+	</p>
+</blockquote>
 
 <p>
 	&nbsp;
@@ -650,17 +1288,23 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
@@ -700,6 +1344,12 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
 				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
@@ -718,9 +1368,35 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
 				
 			</ul>
 		</li>

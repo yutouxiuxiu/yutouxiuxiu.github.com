@@ -1,0 +1,1399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>WebService</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					WebService
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	现成的一些WebService：www.webxml.com.cn
+</p>
+
+<p>
+	<strong>几个名词</strong>
+</p>
+
+<p>
+	WSDL &nbsp;- &nbsp;WebService Description Language
+</p>
+
+<p style="margin-left: 40px;">
+	是一段xml 就是web服务的使用说明书 描述了web服务的一系列的信息
+</p>
+
+<p style="margin-left: 40px;">
+	这个服务在什么地址 有什么服务 如何调用
+</p>
+
+<p style="margin-left: 40px;">
+	是给服务的调用者来看的
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">SOAP &nbsp;- &nbsp;Simple Object Access Protocol</span>
+</p>
+
+<p style="margin-left: 40px;">
+	简单对象访问协议 就是用于远程调用时在网络上用HTTP协议传输的一段xml
+</p>
+
+<p style="margin-left: 40px;">
+	请求：
+</p>
+
+<p style="margin-left: 80px;">
+	请求方式 &nbsp;- &nbsp;采用的是POST方式 而不是GET
+</p>
+
+<p style="margin-left: 80px;">
+	Content-Type &nbsp;- &nbsp;SOAP1.1 是text/xml 1.2是application/soap+xml
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/11.jpg"><img alt="1" class="alignnone size-full wp-image-2507" height="265" src="http://localhost:8080/wp-content/uploads/2014/02/11.jpg" width="509" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	响应：
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/21.jpg"><img alt="2" class="alignnone size-full wp-image-2508" height="229" src="http://localhost:8080/wp-content/uploads/2014/02/21.jpg" width="506" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	wsimport的请求会先GET确认服务是否存在 再POST
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/14.jpg"><img alt="1" class="alignnone size-full wp-image-2590" height="272" src="http://localhost:8080/wp-content/uploads/2014/02/14.jpg" width="447" /></a>
+</p>
+
+<h5>
+	<strong>一、调用服务</strong>
+</h5>
+
+<p>
+	<strong>1.基于jdk的wsimport方式</strong>
+</p>
+
+<p>
+	以<span style="font-size: 13px;">www.webxml.com.cn获取手机号码归属地的服务为例</span>
+</p>
+
+<p>
+	（1）根据WSDL自动生成java代码
+</p>
+
+<p style="margin-left: 40px;">
+	使用jdk提供的wsimport来自动生成java代码
+</p>
+
+<p style="margin-left: 40px;">
+	命令行：
+</p>
+
+<blockquote>
+	<p>
+		wsimport -s . 网上wsdl的地址
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	但是有可能会出现 [Error] undefined element declaration &#39;s:schema&#39; 的问题
+</p>
+
+<p style="margin-left: 40px;">
+	多数服务都会出现这个问题 只需要将wsdl文件下载下来 将文件中的
+</p>
+
+<blockquote>
+	<p>
+		&lt;s:element ref=&quot;s:schema&quot; /&gt;
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	删掉即可
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p style="margin-left: 40px;">
+	<strong>（注意！！！）</strong> 如果是把这个WSDL文件下载到本地 使用wsimport生成的java代码 这个WSDL文件不能删掉 如果删掉就无法使用了 不过 只需要将和服务名称同名类中的文件地址 改成网络上的那个地址 就不会有这个现象了
+</p>
+
+<p>
+	（2）调用
+</p>
+
+<blockquote>
+	<p>
+		MobileCodeWS ws = new MobileCodeWS(); &nbsp;//在WSDL中找到服务名称 创建和服务名称相同的类&nbsp;<span style="line-height: 1.6em;">&lt;wsdl:service name=&quot;服务名称&quot;&gt; 因为自动生成的时候 生成了这个类</span>
+	</p>
+
+	<p>
+		<span style="font-size: 13px;">MobileCodeWSSoap soap =&nbsp;</span><span style="line-height: 1.6em;">ws.getMobileCodeWSSoap(); &nbsp;//在WSDL中找port名称 &lt;wsdl:port name=&quot;...Soap&quot;&gt;的就是 命名都是很一致的</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">String str = soap.getMobileCodeInfo(&#39;130........&#39;, null);</span>
+	</p>
+
+	<p>
+		<span style="line-height: 1.6em;">syso(str);</span>
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	如果返回的是ArrayOfString 就调用它的getString方法 就会得到String的List集合
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	关于wsimport
+</p>
+
+<p>
+	-s &nbsp;- &nbsp;指定源码的生成路径
+</p>
+
+<p>
+	-p &nbsp;- &nbsp;指定生成的包结构 例如 com.yutouxiuxiu.service
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.使用ajax请求WebService</strong>
+</p>
+
+<p>
+	其实WebService就是在POST请求中发送一个SOAP的xml
+</p>
+
+<p>
+	所以只要用ajax构造一个 就没问题了
+</p>
+
+<p>
+	想要构造 自己写那些东西比较费劲 在MyEclipse中有一个WebService浏览器（只支持访问SOAP1.1）
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/32.jpg" rel="" style="" target="" title=""><img alt="3" class="alignnone size-full wp-image-2546" height="237" src="http://localhost:8080/wp-content/uploads/2014/02/32.jpg" style="" title="" width="389" /></a>
+</p>
+
+<p>
+	图中少了一个&ldquo;:6789&rdquo; 不好意思 不爱重新截图了
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/4.jpg" rel="" style="" target="" title=""><img alt="4" class="alignnone size-full wp-image-2547" height="298" src="http://localhost:8080/wp-content/uploads/2014/02/4.jpg" style="" title="" width="766" /></a>
+</p>
+
+<p>
+	这样就能看到请求体和响应体了
+</p>
+
+<p>
+	<strong><span style="font-size: 13px; white-space: nowrap;">SOAP Request Envelope:</span></strong>
+</p>
+
+<blockquote>
+	<div>
+		&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:q0=&quot;http://ws.yutouxiuxiu.com/&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+	</div>
+
+	<div>
+		<div>
+			<div>
+				&nbsp;&lt;soapenv:Body&gt;
+			</div>
+
+			<div>
+				<div>
+					<div>
+						&nbsp;&lt;q0:sayHello&gt;
+					</div>
+
+					<div>
+						<div>
+							<div>
+								&nbsp; &lt;arg0&gt;芋头&lt;/arg0&gt;
+							</div>
+
+							<p>
+								&nbsp;
+							</p>
+						</div>
+
+						<div>
+							<div>
+								&nbsp; &lt;arg1&gt;0&lt;/arg1&gt;
+							</div>
+
+							<p>
+								&nbsp;
+							</p>
+						</div>
+
+						<div>
+							&nbsp; &lt;/q0:sayHello&gt;
+						</div>
+
+						<p>
+							&nbsp;
+						</p>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<div>
+					&nbsp; &lt;/soapenv:Body&gt;
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<div>
+			&nbsp; &lt;/soapenv:Envelope&gt;
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</blockquote>
+
+<p>
+	<strong>SOAP Response Envelope:</strong>
+</p>
+
+<div>
+	<blockquote>
+		<div>
+			&nbsp;&lt;S:Envelope xmlns:S=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+		</div>
+
+		<div>
+			<div>
+				<div>
+					&nbsp;&lt;S:Body&gt;
+				</div>
+
+				<div>
+					<div>
+						<div>
+							&nbsp;&lt;ns2:sayHelloResponse xmlns:ns2=&quot;http://ws.yutouxiuxiu.com/&quot;&gt;
+						</div>
+
+						<div>
+							<div>
+								<div>
+									&nbsp; &lt;return&gt;你好, 芋头女士&lt;/return&gt;
+								</div>
+
+								<p>
+									&nbsp;
+								</p>
+							</div>
+
+							<div>
+								&nbsp; &lt;/ns2:sayHelloResponse&gt;
+							</div>
+
+							<p>
+								&nbsp;
+							</p>
+						</div>
+
+						<p>
+							&nbsp;
+						</p>
+					</div>
+
+					<div>
+						&nbsp; &lt;/S:Body&gt;
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<div>
+				&nbsp; &lt;/S:Envelope&gt;
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+	</blockquote>
+</div>
+
+<p>
+	然后改一改就能用了
+</p>
+
+<p>
+	或者使用TCP/IP Monitor
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/72.jpg" rel="" style="" target="" title=""><img alt="7" class="alignnone size-full wp-image-2551" height="368" src="http://localhost:8080/wp-content/uploads/2014/02/72.jpg" style="" title="" width="336" /></a>
+</p>
+
+<p>
+	打开之后在空白处右键 property
+</p>
+
+<p>
+	创建一个类似代理的东西 让请求通过这个Monitor再发出去 让它能在中间截取到数据
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>注意 使用POST方式&nbsp;<span style="line-height: 1.6em;">更改Content-Type</span></strong></span>
+</p>
+
+<p>
+	<strong>3.使用URLConnection方式</strong>
+</p>
+
+<p>
+	当然还是构造请求体 没什么天大区别
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/51.jpg"><img alt="5" class="alignnone size-full wp-image-2548" height="280" src="http://localhost:8080/wp-content/uploads/2014/02/51.jpg" width="766" /></a> <a href="http://localhost:8080/wp-content/uploads/2014/02/61.jpg"><img alt="6" class="alignnone size-full wp-image-2549" height="316" src="http://localhost:8080/wp-content/uploads/2014/02/61.jpg" width="503" /></a>
+</p>
+
+<p>
+	<strong>4.使用客户端编程方式</strong>
+</p>
+
+<p>
+	因为wsimport生成的代码量比较大 可以自己来写
+</p>
+
+<p>
+	（1）使用wsimport自动生成接口
+</p>
+
+<p style="margin-left: 40px;">
+	只需要它自动生成的那个和服务名称相同的接口即可 别的都不要
+</p>
+
+<p style="margin-left: 40px;">
+	生成的接口单独拿过来会报错 把报错的行注释掉即可
+</p>
+
+<p>
+	（2）
+</p>
+
+<p style="margin-left: 40px;">
+	此处暂时略。。。 请参考视频
+</p>
+
+<p>
+	<br />
+	<strong style="line-height: 1.2em;">二、发布服务</strong>
+</p>
+
+<p>
+	<strong>1.基于纯jdk</strong>
+</p>
+
+<p>
+	在jdk1.6.0_21以后的版本中 JAX-WS（java api for xml - webservice）规范定义了如何发布一个WebService服务
+</p>
+
+<p>
+	（1）添加注解
+</p>
+
+<blockquote>
+	<p>
+		package com.yutouxiuxiu.ws;
+	</p>
+
+	<p>
+		import javax.jws.WebService;<br />
+		import javax.xml.ws.Endpoint;
+	</p>
+
+	<p>
+		@WebService<br />
+		public class Hello {<br />
+		&nbsp;&nbsp; &nbsp;public String sayHello(String name, int gender) {<br />
+		&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return &quot;你好, &quot; + name + ((gender == 0) ? &quot;女士&quot; : &quot;先生&quot;);<br />
+		&nbsp;&nbsp; &nbsp;}<br />
+		&nbsp;&nbsp; &nbsp;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	（2）发布服务
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp; &nbsp; public static void main(String[] args) {</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Endpoint.publish(&quot;http://192.168.1.194:6789/hello&quot;, new Hello()); &nbsp;//服务的发布者, 服务的提供者 就是加了注解的类</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;&nbsp; &nbsp;}</span>
+	</p>
+</blockquote>
+
+<p>
+	这样就发布了一个webservice服务
+</p>
+
+<p>
+	在服务的地址后面加上 &ldquo;?wsdl&rdquo; 就是当前服务的WSDL
+</p>
+
+<p>
+	查看wsdl 发现服务的名称就是 <u>类名加上Service</u>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	采用这种方式发布的服务 会单独开启一个线程运行 所以 在publish之后的语句 可以正常执行
+</p>
+
+<p>
+	<strong>2.什么样的方法可以被发布为WebService方法</strong>
+</p>
+
+<p>
+	不是静态的 不是final的
+</p>
+
+<p>
+	因为用到了代理模式 服务会生成一个方法的代理方法 如果是final 就不能写了
+</p>
+
+<p>
+	如果不想让某方法被发布 可以加上
+</p>
+
+<blockquote>
+	<p>
+		@WebService(exclude=true)
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、WSDL</strong>
+</h5>
+
+<p>
+	文件从下向上读
+</p>
+
+<p>
+	1.最下面
+</p>
+
+<blockquote>
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;service<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">HelloService</span>&quot;</span>&gt; &nbsp;<span style="color:#FF0000;">服务名称</span></span>
+	</div>
+
+	<div class="collapsible-content" style="margin-left: 1em; color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="collapsible" id="collapsible14">
+			<div class="expanded">
+				<div class="line">
+					<span class="webkit-html-tag">&lt;port<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">HelloPort</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">binding</span>=&quot;<span class="webkit-html-attribute-value">tns:HelloPortBinding</span>&quot;</span>&gt;</span>
+				</div>
+
+				<div class="collapsible-content" style="margin-left: 1em;">
+					<div class="line">
+						<span class="webkit-html-tag">&lt;soap:address<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">location</span>=&quot;<span class="webkit-html-attribute-value">http://192.168.1.194:6789/hello</span>&quot;</span>/&gt; &nbsp;<span style="color:#FF0000;">服务地址</span></span>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<div class="line">
+					<span class="webkit-html-tag">&lt;/port&gt;</span>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;/service&gt;</span>
+	</div>
+</blockquote>
+
+<p>
+	2.向上
+</p>
+
+<blockquote>
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;portType<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">Hello</span>&quot;</span>&gt;</span>
+	</div>
+
+	<div class="collapsible-content" style="margin-left: 1em; color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="collapsible" id="collapsible8">
+			<div class="expanded">
+				<div class="line">
+					<span class="webkit-html-tag">&lt;operation<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">sayHello</span>&quot;</span>&gt; &nbsp;<span style="color:#FF0000;">方法</span></span>
+				</div>
+
+				<div class="collapsible-content" style="margin-left: 1em;">
+					<div class="line">
+						<span class="webkit-html-tag">&lt;input<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">wsam:Action</span>=&quot;<span class="webkit-html-attribute-value">http://ws.yutouxiuxiu.com/Hello/sayHelloRequest</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">message</span>=&quot;<span class="webkit-html-attribute-value">tns:sayHello</span>&quot;</span>/&gt;</span>
+					</div>
+
+					<div class="line">
+						<span class="webkit-html-tag">&lt;output<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">wsam:Action</span>=&quot;<span class="webkit-html-attribute-value">http://ws.yutouxiuxiu.com/Hello/sayHelloResponse</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">message</span>=&quot;<span class="webkit-html-attribute-value">tns:sayHelloResponse</span>&quot;</span>/&gt;</span>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<div class="line">
+					<span class="webkit-html-tag">&lt;/operation&gt;</span>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;/portType&gt;</span>
+	</div>
+</blockquote>
+
+<p>
+	3.向上
+</p>
+
+<blockquote>
+	<div class="collapsible" id="collapsible5" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="expanded">
+			<div class="line">
+				<span class="webkit-html-tag">&lt;message<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">sayHello</span>&quot;</span>&gt;</span>
+			</div>
+
+			<div class="collapsible-content" style="margin-left: 1em;">
+				<div class="line">
+					<span class="webkit-html-tag">&lt;part<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">parameters</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">element</span>=&quot;<span class="webkit-html-attribute-value">tns:sayHello</span>&quot;</span>/&gt;</span>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<div class="line">
+				<span class="webkit-html-tag">&lt;/message&gt;</span>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div class="collapsible" id="collapsible6" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="expanded">
+			<div class="line">
+				<span class="webkit-html-tag">&lt;message<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">sayHelloResponse</span>&quot;</span>&gt;</span>
+			</div>
+
+			<div class="collapsible-content" style="margin-left: 1em;">
+				<div class="line">
+					<span class="webkit-html-tag">&lt;part<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">parameters</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">element</span>=&quot;<span class="webkit-html-attribute-value">tns:sayHelloResponse</span>&quot;</span>/&gt;</span>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<div class="line">
+				<span class="webkit-html-tag">&lt;/message&gt;</span>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</blockquote>
+
+<p>
+	4.再向上
+</p>
+
+<blockquote>
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;types&gt;</span>
+	</div>
+
+	<div class="collapsible-content" style="margin-left: 1em; color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="collapsible" id="collapsible4">
+			<div class="expanded">
+				<div class="line">
+					<span class="webkit-html-tag">&lt;xsd:schema&gt;</span>
+				</div>
+
+				<div class="collapsible-content" style="margin-left: 1em;">
+					<div class="line">
+						<span class="webkit-html-tag">&lt;xsd:import<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">namespace</span>=&quot;<span class="webkit-html-attribute-value">http://ws.yutouxiuxiu.com/</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">schemaLocation</span>=&quot;<span class="webkit-html-attribute-value">http://192.168.1.194:6789/hello?xsd=1</span>&quot;</span>/&gt; &nbsp;<span style="color:#FF0000;">打开这个地址</span></span>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<div class="line">
+					<span class="webkit-html-tag">&lt;/xsd:schema&gt;</span>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div class="line" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<span class="webkit-html-tag">&lt;/types&gt;</span>
+	</div>
+</blockquote>
+
+<p>
+	5.打开import进来的文件
+</p>
+
+<blockquote>
+	<div class="collapsible" id="collapsible2" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="expanded">
+			<div class="line">
+				<span class="webkit-html-tag">&lt;xs:complexType<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">sayHello</span>&quot;</span>&gt;</span>
+			</div>
+
+			<div class="collapsible-content" style="margin-left: 1em;">
+				<div class="collapsible" id="collapsible3">
+					<div class="expanded">
+						<div class="line">
+							<span class="webkit-html-tag">&lt;xs:sequence&gt;</span>
+						</div>
+
+						<div class="collapsible-content" style="margin-left: 1em;">
+							<div class="line">
+								<span class="webkit-html-tag">&lt;xs:element<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">arg0</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">type</span>=&quot;<span class="webkit-html-attribute-value">xs:string</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">minOccurs</span>=&quot;<span class="webkit-html-attribute-value">0</span>&quot;</span>/&gt; &nbsp;<span style="color:#FF0000;">参数1</span></span>
+							</div>
+
+							<div class="line">
+								<span class="webkit-html-tag">&lt;xs:element<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">arg1</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">type</span>=&quot;<span class="webkit-html-attribute-value">xs:int</span>&quot;</span>/&gt; &nbsp;<span style="color:#FF0000;">参数2</span></span>
+							</div>
+
+							<p>
+								&nbsp;
+							</p>
+
+							<p>
+								&nbsp;
+							</p>
+
+							<p>
+								&nbsp;
+							</p>
+						</div>
+
+						<div class="line">
+							<span class="webkit-html-tag">&lt;/xs:sequence&gt;</span>
+						</div>
+
+						<p>
+							&nbsp;
+						</p>
+
+						<p>
+							&nbsp;
+						</p>
+
+						<p>
+							&nbsp;
+						</p>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<div class="line">
+				<span class="webkit-html-tag">&lt;/xs:complexType&gt;</span>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+
+	<div class="collapsible" id="collapsible4" style="color: rgb(0, 0, 0); font-family: monospace; font-size: 13px; line-height: normal;">
+		<div class="expanded">
+			<div class="line">
+				<span class="webkit-html-tag">&lt;xs:complexType<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">sayHelloResponse</span>&quot;</span>&gt;</span>
+			</div>
+
+			<div class="collapsible-content" style="margin-left: 1em;">
+				<div class="collapsible" id="collapsible5">
+					<div class="expanded">
+						<div class="line">
+							<span class="webkit-html-tag">&lt;xs:sequence&gt;</span>
+						</div>
+
+						<div class="collapsible-content" style="margin-left: 1em;">
+							<div class="line">
+								<span class="webkit-html-tag">&lt;xs:element<span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">name</span>=&quot;<span class="webkit-html-attribute-value">return</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">type</span>=&quot;<span class="webkit-html-attribute-value">xs:string</span>&quot;</span><span class="webkit-html-attribute">&nbsp;<span class="webkit-html-attribute-name">minOccurs</span>=&quot;<span class="webkit-html-attribute-value">0</span>&quot;</span>/&gt; &nbsp;<span style="color:#FF0000;">返回值</span></span>
+							</div>
+
+							<p>
+								&nbsp;
+							</p>
+
+							<p>
+								&nbsp;
+							</p>
+
+							<p>
+								&nbsp;
+							</p>
+						</div>
+
+						<div class="line">
+							<span class="webkit-html-tag">&lt;/xs:sequence&gt;</span>
+						</div>
+
+						<p>
+							&nbsp;
+						</p>
+
+						<p>
+							&nbsp;
+						</p>
+
+						<p>
+							&nbsp;
+						</p>
+					</div>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+
+					<p>
+						&nbsp;
+					</p>
+				</div>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+
+				<p>
+					&nbsp;
+				</p>
+			</div>
+
+			<div class="line">
+				<span class="webkit-html-tag">&lt;/xs:complexType&gt;</span>
+			</div>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、SOAP1.1和1.2区别</strong>
+</h5>
+
+<p>
+	jdk不支持1.2版本的
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/121.jpg"><img alt="12" class="alignnone size-full wp-image-2542" height="234" src="http://localhost:8080/wp-content/uploads/2014/02/121.jpg" width="434" /></a>
+</p>
+
+<p>
+	作为服务端 应该使用1.2版本的SOAP 这样 不同版本的客户端都能够使用
+</p>
+
+<p>
+	而作为客户端 应该使用1.1版本的 这样 能请求不同版本的服务端
+</p>
+
+<p>
+	<strong>1.生成的WSDL不一样</strong>
+</p>
+
+<p>
+	1.1 &nbsp;- &nbsp;soap:address
+</p>
+
+<p>
+	1.2 &nbsp;- &nbsp;soap12:<span style="font-size: 13px;">address</span>
+</p>
+
+<p>
+	<strong>2.生成的服务名称不一样</strong>
+</p>
+
+<p>
+	1.1 &nbsp;- &nbsp;类名Service
+</p>
+
+<p>
+	1.2 &nbsp;- &nbsp;类名
+</p>
+
+<p>
+	<strong>3.请求头</strong>
+</p>
+
+<p>
+	（1）Content-Type
+</p>
+
+<p>
+	1.1 &nbsp;- &nbsp;text/xml
+</p>
+
+<p>
+	1.2 &nbsp;- &nbsp;application/soap+xml
+</p>
+
+<p>
+	（2）SOAPAction
+</p>
+
+<p>
+	1.1 &nbsp;- &nbsp;有
+</p>
+
+<p>
+	1.2 &nbsp;- &nbsp;无
+</p>
+
+<p>
+	<strong>4.命名空间不一样</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

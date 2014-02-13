@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>PCB设计的基本规则</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					PCB设计的基本规则
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	印制电路板(PCB)在电子产品中，起到支撑电路元件和器件的作用，它同时还提供电路元件和器件之间的电气连接。其实，PCB的设计，远非排列、固定元器件，连通元器件引脚这样简单，PCB设计的好坏对产品的抗干扰能力影响很大，甚至对今后产品的性能起决定性的作用。随着电于技术的飞速发展，元器件和产品的外型尺寸都越来越小，工作频率越来越高，使得PCB上元器件的密度大幅提高，增加了PCB设计、加工的难度。因此，PCB设计始终是电子产品开发设计中最重要的内容之一。
+</p>
+
+<p>
+	<br />
+	一、布局与布线是ＰＣＢ设计中的两个最重要内容
+</p>
+
+<p>
+	所谓布局就是把电路图上所有的元器件都合理地安排到有限面积的PCB上。最关键的问题是：开关、按钮、旋钮等操作件，以及结构件（以下简称&ldquo;特殊元件&rdquo;）等，必须被安排在指定的位置上；其他元器件的位置安排，必须同时兼顾到布线的布通率和电气性能的最优化，以及今后的生产工艺和造价等多方面因素。这种&ldquo;兼顾&rdquo;往往是对设计师的水平和经验的挑战。
+</p>
+
+<p>
+	布线就是在布局之后，通过设计铜铂的走线图，按照原理图连通所有的走线。显然，布局的合理程度直接影响布线的成功率，往往在布线过程中还需要对布局作适当的调整。布线设计可以采用双层走线和单层走线，对于极其复杂的设计也可以考虑采用多层布线方案，但为了降低产品的造价，一般应尽量采用单层布线方案。对于个别无法布通的走线，可以采用标准间距短跳线或长跳线（软线）连通。
+</p>
+
+<p>
+	二、ＰＣＢ设计的一般原则
+</p>
+
+<p>
+	1.ＰＣＢ尺寸大小和形状的确定
+</p>
+
+<p>
+	首先根据产品的机械结构确定。当空间位置较富余时，应尽量选择小面积的ＰＣＢ。因为面积太大时，印制线条长，阻抗增加，抗噪声能力下降，成本也增加，但还要充分考虑到元器件的散热和邻近走线易受干扰等因素。
+</p>
+
+<p>
+	2.布局
+</p>
+
+<p>
+	特殊元件的布局原则
+</p>
+
+<p>
+	①尽可能缩短高频元器件之间的连线，设法减少它们的分布参数和相互间的电磁干扰。易受干扰的元器件不能相互挨得太近，输入和输出元件应尽量远离。
+</p>
+
+<p>
+	②某些元器件或导线之间可能有较高的电位差，应加大它们之间的距离，以免放电引出意外短路。带高电压的元器件应尽量布置在调试时手不易触及的地方。
+</p>
+
+<p>
+	③重量超过１５ｇ的元器件、应当用支架加以固定，然后焊接。那些又大又重、发热量多的元器件，不宜装在印制板上，而应装在整机的机箱底板上，且应考虑散热问题。热敏元件应远离发热元件。
+</p>
+
+<p>
+	④对于电位器、可调电感线圈、可变电容器、微动开关等可调元件的布局应考虑整机的结构要求。若是机内调节，应放在印制板上方便于调节的地方；若是机外调节，其位置要与调节旋钮在机箱面板上的位置相适应。
+</p>
+
+<p>
+	⑤应留出PCB定位孔及固定支架所占用的位置。
+</p>
+
+<p>
+	普通元器件的布局原则
+</p>
+
+<p>
+	①按照电路的流程安排各个电路单元的位置，使布局便于信号流通，并使信号尽可能保持一致的流向。
+</p>
+
+<p>
+	②以每个功能电路的核心元件为中心，围绕它来进行布局。元器件应均匀、整齐、紧凑地排列在ＰＣＢ上．尽量减少和缩短各元器件之间的引线和连接。
+</p>
+
+<p>
+	③在高频下工作的电路，要考虑元器件之间的分布参数。一般电路应尽可能使元器件平行排列。这样，不但美观．而且装焊容易．易于批量生产。
+</p>
+
+<p>
+	④位于电路板边缘的元器件，离电路板边缘一般不小于２ｍｍ。电路板的最佳形状为矩形。长宽比为３：２成４：３。电路板面尺寸大于２００ｘ１５０ｍｍ时．应考虑电路板所受的机械强度。
+</p>
+
+<p>
+	3．布线
+</p>
+
+<p>
+	①相同信号的电路模块输入端与输出端的导线应尽量避免相邻平行。最好加线间地线，以免发生反馈藕合。
+</p>
+
+<p>
+	②印制铜铂导线的最小宽度主要由导线与绝缘基扳间的粘附强度和流过它们的电流值决定。当铜箔厚度为 ０．０５ｍｍ，导线宽度为１．５ｍｍ时，通过２Ａ的电流，温升不会高于３℃，可满足一般的设计要求，其他情况下的铜铂宽度选择可依次类推。对于集成电路，尤其是数字电路，通常选０．０２－０．３ｍｍ导线宽度就可以了。当然，只要允许，还是尽可能用宽线．尤其是电源线和地线。导线的最小间距主要由最坏情况下的线间绝缘电阻和击穿电压决定。对于集成电路，尤其是数字电路，只要工艺允许，可使间距小至０．５ｍｍ。
+</p>
+
+<p>
+	③由于直角或锐角在高频电路中会影响电气性能，因此印制铜铂导线的拐弯处一般取圆弧形。此外，尽量避免使用大面积铜箔，否则．长时间受热时，易发生铜箔膨胀和脱落现象。必须用大面积铜箔时，最好用栅格状．这样有利于排除铜箔与基板间粘合剂受热产生的挥发性气体。
+</p>
+
+<p>
+	4．焊盘
+</p>
+
+<p>
+	焊盘用来焊接元器件的引脚，对于无固定支架的元器件，焊盘也起到支撑、固定元器件的承重作用。焊盘中心孔要比元器件引线直径稍大一些，但焊盘太大时易形成虚焊。一般情况下，焊盘外径Ｄ不小于(ｄ＋１．２)ｍｍ，其中ｄ为焊盘中心孔径。对高密度的数字电路，焊盘最小直径可取(ｄ＋１．０)ｍｍ。在位置许可的情况下，焊盘面积宜大不宜小；位置拥挤时，也可采用异型（椭圆或长方形）焊盘，以增加焊盘的实际有效面积。
+</p>
+
+<p>
+	三、ＰＣＢ及电路抗干扰措施
+</p>
+
+<p>
+	抗干扰设计与具体电路有着密切的关系，是一个很复杂的技术问题。这里仅就ＰＣＢ抗干扰设计中的几项最基本的措施做一些简要说明。更详细的方法请参阅专业书籍。
+</p>
+
+<p>
+	１．电源线设计
+</p>
+
+<p>
+	根据印制线路板电流的大小，尽量加粗电源线宽度，减少环路电阻。尤其要注意使电源线、地线中的供电方向，与数据、信号的传递方向相反，即：从末级向前级推进的供电方式，这样有助于增强抗噪声能力。
+</p>
+
+<p>
+	２．地线设计
+</p>
+
+<p>
+	地线既是特殊的电源线，也是信号线。除了遵循电源线设计的一般原则外，还要做到：
+</p>
+
+<p>
+	①不同的信号对地线的结构有不同的要求。数字地与模拟地分开，若线路板上既有逻辑电路又有线性电路，应使它们尽量分开；低频电路的地应尽量采用单点并联接地，实际布线有困难时可部分串联后再并联接地；高频电路宜采用多点串联接地，地线应短而粗，高频元件周围尽量用栅格状大面积地箔。
+</p>
+
+<p>
+	②接地线应尽量加粗。若接地线太细，接地电位将随电流的变化和信号频率的变化而变化，使噪声加大，严重时将引起自激。因此应尽量加粗接地线，使它能通过三倍于印制板上的允许电流。如有可能，接地线宽度应在２－３ｍｍ以上。
+</p>
+
+<p>
+	③数字电路系统的接地线构成闭环路，能提高抗噪声能力。
+</p>
+
+<p>
+	３．退藕电容配置 ＰＣＢ设计的常规做法之一是在印制板的各个关键部位配置适当的退藕电容，以提高电源回路的抗干扰能力。退藕电容的一般配置原则是：
+</p>
+
+<p>
+	①电源输入端跨接１０－１００ｕｆ的电解电容器。如有可能，接１００ｕＦ以上的更好。
+</p>
+
+<p>
+	②原则上每个集成电路芯片都应布置一个０．０１ｐＦ的瓷片电容，如遇印制板空隙不够，可每４－８个芯片布置一个１－１０ｐＦ的钽电容。
+</p>
+
+<p>
+	③对于抗噪能力弱、关断时电源变化大的器件，如 ＲＡＭ、ＲＯＭ存储器件，应在芯片的电源线和地线引脚之间直接接入退藕电容。
+</p>
+
+<p>
+	④电容引线不能太长，尤其是高频旁路电容不能有引线。此外，还应注意以下两点：
+</p>
+
+<p>
+	a）在印制板中有接触器、继电器、按钮等元件时，操作它们时均会产生较大火花放电，必须采用ＲＣ电路来吸收放电电流。一般Ｒ取１－２Ｋ，Ｃ取２．２－４７ＵＦ。
+</p>
+
+<p>
+	b）ＣＭＯＳ的输入阻抗很高，且易受感应干扰，因此在使用时对不用使用的端子要接地或接正电源。
+</p>
+
+<p>
+	四、ＰＣＢ设计的一般步骤
+</p>
+
+<p>
+	确定ＰＣＢ尺寸、形状；确定特殊元件的位置；确定普通元器件位置；尝试布线；修改布局；布设短线；布设长线；优化电源线；工艺设计；标注与文字。
+</p>
+
+<p>
+	可以借助PROTEL等ＰＣＢ辅助设计软件，辅助完成布线设计。<br />
+	PCB设计经验<br />
+	对于电子产品来说，印制线路板设计是其从电原理图变成一个具体产品必经的一道设计工序，其设计的合理性与产品生产及产品质量紧密相关，而对于许多刚从事电子设计的人员来说，在这方面经验较少，虽然已学会了印制线路板设计软件，但设计出的印制线路板常有这样那样的问题，而许多电子刊物上少有这方面文章介绍，笔者曾多年从事印制线路板设计的工作，在此将印制线路板设计的点滴经验与大家分享，希望能起到抛砖引玉的作用。&nbsp;<br />
+	板的布局：&nbsp;<br />
+	印制线路板上的元器件放置的通常顺序：&nbsp;<br />
+	放置与结构有紧密配合的固定位置的元器件，如电源插座、指示灯、开关、连接件之类，这些器件放置好后用软件的LOCK 功能将其锁定，使之以后不会被误移动；&nbsp;<br />
+	放置线路上的特殊元件和大的元器件，如发热元件、变压器、IC 等；
+</p>
+
+<p>
+	放置小器件。&nbsp;<br />
+	元器件离板边缘的距离：可能的话所有的元器件均放置在离板的边缘3mm以内或至少大于板厚，这是由于在大批量生产的流水线插件和进行波峰焊时，要提供给导轨槽使用，同时也为了防止由于外形加工引起边缘部分的缺损，如果印制线路板上元器件过多，不得已要超出3mm范围时，可以在板的边缘加上3mm的辅边，辅边开V 形槽，在生产时用手掰断即可。&nbsp;<br />
+	高低压之间的隔离：在许多印制线路板上同时有高压电路和低压电路，高压电路部分的元器件与低压部分要分隔开放置，隔离距离与要承受的耐压有关，通常情况下在2000kV时板上要距离2mm，在此之上以比例算还要加大，例如若要承受3000V的耐压测试，则高低压线路之间的距离应在3.5mm以上，许多情况下为避免爬电，还在印制线路板上的高低压之间开槽。&nbsp;<br />
+	印制线路板的走线：
+</p>
+
+<p>
+	印制导线的布设应尽可能的短，在高频回路中更应如此；印制导线的拐弯应成圆角，而直角或尖角在高频电路和布线密度高的情况下会影响电气性能；当两面板布线时，两面的导线宜相互垂直、斜交、或弯曲走线，避免相互平行，以减小寄生耦合；作为电路的输入及输出用的印制导线应尽量避免相邻平行，以免发生回授，在这些导线之间最好加接地线。
+</p>
+
+<p>
+	印制导线的宽度：导线宽度应以能满足电气性能要求而又便于生产为宜，它的最小值以承受的电流大小而定，但最小不宜小于0.2mm，在高密度、高精度的印制线路中，导线宽度和间距一般可取0.3mm；导线宽度在大电流情况下还要考虑其温升，单面板实验表明，当铜箔厚度为50&mu;m、导线宽度1～1.5mm、通过电流2A时，温升很小，因此，一般选用1～1.5mm宽度导线就可能满足设计要求而不致引起温升；印制导线的公共地线应尽可能地粗，可能的话，使用大于2～3mm的线条，这点在带有微处理器的电路中尤为重要，因为当地线过细时，由于流过的电流的变化，地电位变动，微处理器定时信号的电平不稳，会使噪声容限劣化；在DIP封装的IC脚间走线，可应用10－10与12－12原则，即当两脚间通过2根线时，焊盘直径可设为50mil、线宽与线距都为10mil，当两脚间只通过1根线时，焊盘直径可设为64mil、线宽与线距都为12mil。
+</p>
+
+<p>
+	印制导线的间距：相邻导线间距必须能满足电气安全要求，而且为了便于操作和生产，间距也应尽量宽些。最小间距至少要能适合承受的电压。这个电压一般包括工作电压、附加波动电压以及其它原因引起的峰值电压。如果有关技术条件允许导线之间存在某种程度的金属残粒，则其间距就会减小。因此设计者在考虑电压时应把这种因素考虑进去。在布线密度较低时，信号线的间距可适当地加大，对高、低电平悬殊的信号线应尽可能地短且加大间距。
+</p>
+
+<p>
+	印制导线的屏蔽与接地：印制导线的公共地线，应尽量布置在印制线路板的边缘部分。在印制线路板上应尽可能多地保留铜箔做地线，这样得到的屏蔽效果，比一长条地线要好，传输线特性和屏蔽作用将得到改善，另外起到了减小分布电容的作用。印制导线的公共地线最好形成环路或网状，这是因为当在同一块板上有许多集成电路，特别是有耗电多的元件时，由于图形上的限制产生了接地电位差，从而引起噪声容限的降低，当做成回路时，接地电位差减小。另外，接地和电源的图形尽可能要与数据的流动方向平行，这是抑制噪声能力增强的秘诀；多层印制线路板可采取其中若干层作屏蔽层，电源层、地线层均可视为屏蔽层，一般地线层和电源层设计在多层印制线路板的内层，信号线设计在内层和外层。&nbsp;<br />
+	焊盘：&nbsp;<br />
+	焊盘的直径和内孔尺寸：焊盘的内孔尺寸必须从元件引线直径和公差尺寸以及搪锡层厚度、孔径公差、孔金属化电镀层厚度等方面考虑，焊盘的内孔一般不小于0.6mm，因为小于0.6mm的孔开模冲孔时不易加工，通常情况下以金属引脚直径值加上0.2mm作为焊盘内孔直径，如电阻的金属引脚直径为0.5mm时，其焊盘内孔直径对应为0.7mm，焊盘直径取决于内孔直径，如下表：&nbsp;<br />
+	　
+</p>
+
+<p>
+	孔直径<br />
+	0.4<br />
+	0.5<br />
+	0.6<br />
+	0.8<br />
+	1.0<br />
+	1.2<br />
+	1.6<br />
+	2.0
+</p>
+
+<p>
+	焊盘直径<br />
+	1.5<br />
+	1.5<br />
+	2<br />
+	2.5<br />
+	3.0<br />
+	3.5<br />
+	4
+</p>
+
+<p>
+	<br />
+	1．当焊盘直径为1.5mm时，为了增加焊盘抗剥强度，可采用长不小于1.5mm，宽为1.5mm和长圆形焊盘，此种焊盘在集成电路引脚焊盘中最常见。&nbsp;<br />
+	2．对于超出上表范围的焊盘直径可用下列公式选取：
+</p>
+
+<p>
+	直径小于0.4mm的孔：D／d＝0.5～3
+</p>
+
+<p>
+	直径大于2mm的孔：D／d＝1.5～2
+</p>
+
+<p>
+	式中：（D－焊盘直径，d－内孔直径）
+</p>
+
+<p>
+	有关焊盘的其它注意点：&nbsp;<br />
+	焊盘内孔边缘到印制板边的距离要大于1mm ，这样可以避免加工时导致焊盘缺损。
+</p>
+
+<p>
+	焊盘的开口：有些器件是在经过波峰焊后补焊的，但由于经过波峰焊后焊盘内孔被锡封住，使器件无法插下去，解决办法是在印制板加工时对该焊盘开一小口，这样波峰焊时内孔就不会被封住，而且也不会影响正常的焊接。
+</p>
+
+<p>
+	焊盘补泪滴：当与焊盘连接的走线较细时，要将焊盘与走线之间的连接设计成水滴状，这样的好处是焊盘不容易起皮，而是走线与焊盘不易断开。
+</p>
+
+<p>
+	相邻的焊盘要避免成锐角或大面积的铜箔，成锐角会造成波峰焊困难，而且有桥接的危险，大面积铜箔因散热过快会导致不易焊接。&nbsp;<br />
+	大面积敷铜：印制线路板上的大面积敷铜常用于两种作用，一种是散热，一种用于屏蔽来减小干扰，初学者设计印制线路板时常犯的一个错误是大面积敷铜上没有开窗口，而由于印制线路板板材的基板与铜箔间的粘合剂在浸焊或长时间受热时，会产生挥发性气体无法排除，热量不易散发，以致产生铜箔膨胀，脱落现象。因此在使用大面积敷铜时，应将其开窗口设计成网状。
+</p>
+
+<p>
+	跨接线的使用：在单面的印制线路板设计中，有些线路无法连接时，常会用到跨接线，在初学者中，跨接线常是随意的，有长有短，这会给生产上带来不便。放置跨接线时，其种类越少越好，通常情况下只设6mm，8mm，10mm三种，超出此范围的会给生产上带来不便。
+</p>
+
+<p>
+	板材与板厚：印制线路板一般用覆箔层压板制成，常用的是覆铜箔层压板。板材选用时要从电气性能、可*性、加工工艺要求、经济指标等方面考虑，常用的覆铜箔层压板有覆铜箔酚醛纸质层压板、覆铜箔环氧纸质层压板、覆铜箔环氧玻璃布层压板、覆铜箔环氧酚醛玻璃布层压板、覆铜箔聚四氟乙烯玻璃布层压板和多层印制线路板用环氧玻璃布等。由于环氧树脂与铜箔有极好的粘合力，因此铜箔的附着强度和工作温度较高，可以在260℃的熔锡中浸焊而无起泡。环氧树脂浸渍的玻璃布层压板受潮湿的影响较小。超高频印制线路最优良的材料是覆铜箔聚四氟乙烯玻璃布层压板。在有阻燃要求的电子设备上，还要使用阻燃性覆铜箔层压板，其原理是由绝缘纸或玻璃布浸渍了不燃或难燃性的树脂，使制得的覆铜箔酚醛纸质层压板、覆铜箔环氧纸质层压板、覆铜箔环氧玻璃布层压板、覆铜箔环氧酚醛玻璃布层压板，除了具有同类覆铜箔层压板的相拟性能外，还有阻燃性。&nbsp;<br />
+	印制线路板的厚度应根据印制板的功能及所装元件的重量、印制板插座规格、印制板的外形尺寸和所承受的机械负荷来决定。多层印制板总厚度及各层间厚度的分配应根据电气和结构性能的需要以及覆箔板的标准规格来选取。常见的印制线路板厚度有0.5mm、1mm、1.5mm、2mm等。
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

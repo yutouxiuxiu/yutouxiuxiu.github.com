@@ -1,0 +1,1753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>HTTP状态码</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					HTTP状态码
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	HTTP状态码，我都是现查现用。 我以前记得几个常用的状态码，比如200，302，304，404， 503。 一般来说我也只需要了解这些常用的状态码就可以了。&nbsp; 如果是做AJAX，REST,网络爬虫，机器人等程序。还是需要了解其他状态码。&nbsp; 本文我花了一个多月的时间把所有的状态码都总结了下，内容太多，看的时候麻烦耐心点了。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	HTTP状态码的学习资料到处都有，但是都是理论上讲解。&nbsp; 本文介绍HTTP协议中的HTTP状态码（HTTP Status Code）， 会对大部分的状态码都进行了详细的实例讲解。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	要了解状态码，应该在实例中去理解状态码的意义，否则看了也会忘记的。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	用Fiddler工具可以查看HTTP Request和Response, 还可以方便地查看Response中的状态码， 如果不熟悉这个工具，可以先参考【<a href="http://www.cnblogs.com/TankXiao/archive/2012/02/06/2337728.html" style="color: rgb(120, 175, 211);" target="_blank">Fiddler教程】</a>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	为了重现HTTP 状态码，本文会使用Fiddler Composer来创建&ldquo;特殊的HTTP Request&rdquo;.&nbsp; 可以参考【<a class="postTitle2" href="http://www.cnblogs.com/TankXiao/archive/2012/12/25/2829709.html" id="cb_post_title_url" style="border-bottom-style: dotted; border-bottom-width: 0px; border-bottom-color: rgb(239, 239, 239); padding-bottom: 10px; color: rgb(120, 175, 211); text-decoration: none;">Fiddler Composer创建和发送HTTP Request</a>】
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	阅读目录
+</p>
+
+<ol style="padding-left: 50px; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#WhatsStatusCode" style="color: rgb(120, 175, 211);">什么是HTTP状态码</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#category" style="color: rgb(120, 175, 211);">状态码分类</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#commonCode" style="color: rgb(120, 175, 211);">常见的状态码</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code1xx" style="color: rgb(120, 175, 211);">1XX 消息</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code2xx" style="color: rgb(120, 175, 211);">2XX 成功</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code3xx" style="color: rgb(120, 175, 211);">3XX 重定向</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code4xx" style="color: rgb(120, 175, 211);">4XX 客户端错误</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code5xx" style="color: rgb(120, 175, 211);">5XX 服务器错误</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code204" style="color: rgb(120, 175, 211);">204 No Content(没有内容)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code206" style="color: rgb(120, 175, 211);">206&nbsp; Partial Content(部分内容)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code301" style="color: rgb(120, 175, 211);">301 Moved Permanently（永久移除)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code400" style="color: rgb(120, 175, 211);">400 Bad Request（坏请求)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code403" style="color: rgb(120, 175, 211);">403 Forbidden(禁止)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code405" style="color: rgb(120, 175, 211);">405 Method Not Allowed(不允许使用的方法)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code411" style="color: rgb(120, 175, 211);">411 Length Required（要求长度指示）</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code413" style="color: rgb(120, 175, 211);">413 Request Entity Too Large（请求实体太大）</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code414" style="color: rgb(120, 175, 211);">414 Request URI Too Long(请求URI太长)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code500" style="color: rgb(120, 175, 211);">500 Internal Server Error(内部服务器错误)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code501" style="color: rgb(120, 175, 211);">501 Not Implemented(未实现)</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code502" style="color: rgb(120, 175, 211);">502 Bad Gateway（网关故障）</a>
+	</li>
+	<li style="list-style-type: decimal; margin-left: 10px;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code505" style="color: rgb(120, 175, 211);">505 HTTP Version Not Supported(不支持的HTTP版本)</a>
+	</li>
+</ol>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	什么是HTTP状态码<a name="WhatsStatusCode"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	HTTP状态码的作用是：Web服务器用来告诉客户端，发生了什么事。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	状态码位于HTTP Response 的第一行中，会返回一个&rdquo;三位数字的状态码&ldquo;和一个&ldquo;状态消息&rdquo;。 &rdquo;三位数字的状态码&ldquo;便于程序进行处理， &ldquo;状态消息&rdquo;更便于人理解。&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	如下图，&nbsp; 当客户端请求一个不存在的URL的时候， Web服务器会返回 &ldquo;HTTP/1.1 404 Not Found&rdquo; 告诉浏览器客户端。 服务器无法找到所请求的URL。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://pic002.cnblogs.com/images/2012/263119/2012121416231094.png" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	状态码分类<a name="category"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	HTTP状态码被分为五大类， 目前我们使用的HTTP协议版本是1.1， 支持以下的状态码。随着协议的发展，HTTP规范中会定义更多的状态码。&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	小技巧：&nbsp; 假如你看到一个状态码518， 你并不知道具体518是什么意思。 这时候你只要知道518是属于（5XX，服务器错误就可以了）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				&nbsp;
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				已定义范围
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				分类
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				1XX
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				100-101
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				信息提示
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				2XX
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				200-206
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				成功
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				3XX
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				300-305
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				重定向
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				4XX
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				400-415
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				客户端错误
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				5XX
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				500-505
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器错误
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	常见的状态码<a name="commonCode"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	一般人只需要了解以下常见的状态码就够了， 如果你想了解更多， 请继续往下看。
+</p>
+
+<table align="left" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px;">
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				200 OK 服务器成功处理了请求（这个是我们见到最多的）
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				301/302 Moved Permanently（重定向）请求的URL已移走。Response中应该包含一个Location URL, 说明资源现在所处的位置
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				304 Not Modified（未修改）客户的缓存资源是最新的， 要客户端使用缓存
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				404 Not Found 未找到资源
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				501 Internal Server Error服务器遇到一个错误，使其无法对请求提供服务
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	1XX 信息性状态码<a name="code1xx"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	这些状态码是HTTP 1.1引入的。 对于这些状态码的价值还存在争论 （<span style="background-color: rgb(255, 255, 153);">我个人从来没见过这些状态码， 也没有理解这些状态码。</span>）
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="40px">
+				状态码
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="200px">
+				&nbsp;状态消息
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				&nbsp;含义
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				&nbsp;实例
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				100
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Continue(继续)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				收到了请求的起始部分，客户端应该继续请求
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				101
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Switching Protocols（切换协议）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器正根据客户端的指示将协议切换成Update Header列出的协议
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	2XX 成功状态码<a name="code2xx"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	客户端发起请求时， 这些请求通常都是成功的。服务器有一组用来表示成功的状态码，分别对应于不同类型的请求。
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="40px">
+				状态码
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="200px">
+				状态消息
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				含义
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				实例
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				200
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				OK
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器成功处理了请求（这个是我们见到最多的）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;<a href="http://www.cnblogs.com/TankXiao/archive/2012/02/13/2342672.html#code200" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议详解-200</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				201
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Created（已创建）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				对于那些要服务器创建对象的请求来说，资源已创建完毕。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				202
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Accepted（已接受）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				请求已接受， 但服务器尚未处理
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				203
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Non-Authoritative Information（非权威信息）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器已将事务成功处理，只是实体Header包含的信息不是来自原始服务器，而是来自资源的副本。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				204
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				No Content(没有内容)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Response中包含一些Header和一个状态行， 但不包括实体的主题内容（没有response body）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code204" style="color: rgb(120, 175, 211);">状态码204</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				205
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Reset Content(重置内容)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;另一个主要用于浏览器的代码。意思是浏览器应该重置当前页面上所有的HTML表单。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				206
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Partial Content（部分内容）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;部分请求成功
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code206" style="color: rgb(120, 175, 211);">状态码206</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	3XX 重定向状态码<a name="code3xx"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	重定向状态码用来告诉浏览器客户端，它们访问的资源已被移动， Web服务器发送一个重定向状态码和一个可选的Location Header, 告诉客户端新的资源地址在哪。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	浏览器客户端会自动用Location中提供的地址，重新发送新的Request。 这个过程对用户来说是透明的。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	301和302 非常相似，&nbsp; 一个是永久转移，一个是临时转移。 &nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<span style="background-color: rgb(255, 255, 153);">（SEO中，搜索引擎如果碰到301， 比如网页A用301重定向到网页B，搜索引擎可以肯定网页A永久性改变地址，就会把网页B当做唯一有效目标）</span>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	302，303，307 是一样。&nbsp; 这是因为302是HTTP 1.0定义的， HTTP1.1中使用303,307. 同时又保留了302.&nbsp; （但在现实中，我们还是用302，我是没见过303和307）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	所以这一节， 我们只需要掌握302， 304 就可以了。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="40px">
+				状态码
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="200px">
+				状态消息
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				含义
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				实例
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				300
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Multiple Choices（多项选择）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;客户端请求了实际指向多个资源的URL。这个代码是和一个选项列表一起返回的，然后用户就可以选择他希望的选项了
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				301
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Moved Permanently（永久移除)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				请求的URL已移走。Response中应该包含一个Location URL, 说明资源现在所处的位置
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code301" style="color: rgb(120, 175, 211);">状态码301</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				302
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Found（已找到）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				与状态码301类似。但这里的移除是临时的。 客户端会使用Location中给出的URL，重新发送新的HTTP request
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2012/02/13/2342672.html#Found302" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议详解-302</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				303
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;See Other（参见其他）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				类似302
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				304
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Not Modified（未修改）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				客户的缓存资源是最新的， 要客户端使用缓存
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2012/11/28/2793365.html#lastModify" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议之缓存-304</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				305
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;Use Proxy（使用代理）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				必须通过代理访问资源， 代理的地址在Response 的Location中
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				306
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;未使用
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;这个状态码当前没使用
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				307
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Temporary Redirect（临时重定向
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				类似302
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	4XX客户端错误状态码<a name="code4xx"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	有时客户端会发送一些服务器无法处理的东西，比如格式错误的Request, 或者最常见的是， 请求一个不存在的URL。
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="40px">
+				状态码
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="200px">
+				状态消息
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				含义
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				实例
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				400
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Bad Request（坏请求）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				告诉客户端，它发送了一个错误的请求。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code400" style="color: rgb(120, 175, 211);">状态码400</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				401
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Unauthorized（未授权）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				需要客户端对自己认证
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2012/09/26/2695955.html#guocheng" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议之基本认证-401</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				402
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Payment Required（要求付款）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				这个状态还没被使用， 保留给将来用
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				403
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Forbidden（禁止）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				请求被服务器拒绝了
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code403" style="color: rgb(120, 175, 211);">状态码403</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				404
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Not Found（未找到）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				未找到资源
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2012/02/13/2342672.html#code404" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议详解-404</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				405
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Method Not Allowed（不允许使用的方法）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				不支持该Request的方法。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code405" style="color: rgb(120, 175, 211);">状态码405</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				406
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Not Acceptable（无法接受）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				407
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Proxy Authentication Required(要求进行代理认证)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				与状态码401类似， 用于需要进行认证的代理服务器
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2012/12/12/2794160.html#proxyAuth" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议之代理-407</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				408
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Request Timeout（请求超时）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;如果客户端完成请求时花费的时间太长， 服务器可以回送这个状态码并关闭连接
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				409
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Conflict（冲突）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				发出的请求在资源上造成了一些冲突
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				410
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Gone（消失了）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器曾经有这个资源，现在没有了， 与状态码404类似
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				411
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Length Required（要求长度指示）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器要求在Request中包含Content-Length。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code411" style="color: rgb(120, 175, 211);">状态码411</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				412
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Precondition Failed（先决条件失败）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				413
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Request Entity Too Large（请求实体太大）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				客户端发送的实体主体部分比服务器能够或者希望处理的要大
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code413" style="color: rgb(120, 175, 211);">状态码413</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				414
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Request URI Too Long（请求URI太长）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				客户端发送的请求所携带的URL超过了服务器能够或者希望处理的长度
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code414" style="color: rgb(120, 175, 211);">状态码414</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				415
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Unsupported Media Type（不支持的媒体类型）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器无法理解或不支持客户端所发送的实体的内容类型
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				416
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Requested Range Not Satisfiable（所请求的范围未得到满足）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				417
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Expectation Failed（无法满足期望）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 style="color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	&nbsp;
+</h1>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	5XX服务器错误状态码<a name="code5xx"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	有时候客户端发送了一条有效Request, Web服务器自身却出错了。 可能是Web服务器运行出错了， 或者网站都挂了。&nbsp; 5XX就是用来描述服务器错误的。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<table align="left" cellpadding="2" cellspacing="1" id="tank_table" style="background-color: rgb(192, 192, 192); border-collapse: collapse; font-size: 14px; border: 1px solid silver; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; line-height: 21px; width: 900px;">
+	<thead>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="40px">
+				状态码
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);" width="200px">
+				状态消息
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				含义
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(216, 216, 216); color: rgb(16, 92, 182);">
+				实例
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				500
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Internal Server Error(内部服务器错误)
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器遇到一个错误，使其无法为请求提供服务
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code500" style="color: rgb(120, 175, 211);">状态码500</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				501
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Not Implemented（未实现）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				客户端发起的请求超出服务器的能力范围(比如，使用了服务器不支持的请求方法)时，使用此状态码。
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code501" style="color: rgb(120, 175, 211);">状态码501</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				502
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Bad Gateway（网关故障）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				代理使用的服务器遇到了上游的无效响应
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code502" style="color: rgb(120, 175, 211);">状态码502</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				503
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Service Unavailable（未提供此服务）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器目前无法为请求提供服务，但过一段时间就可以恢复服务
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				504
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				Gateway Timeout（网关超时）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				与状态吗408类似， 但是响应来自网关或代理，此网关或代理在等待另一台服务器的响应时出现了超时
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				505
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				HTTP Version Not Supported（不支持的HTTP版本）
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				服务器收到的请求使用了它不支持的HTTP协议版本。 有些服务器不支持HTTP早期的HTTP协议版本，也不支持太高的协议版本
+			</td>
+			<td style="font-size: 12px; border: 1px solid silver; border-collapse: separate; padding: 3px; background-color: rgb(255, 255, 255);">
+				<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html#code505" style="color: rgb(120, 175, 211);">状态码505</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	204 No Content(没有内容)<a name="code204"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	返回的Response中只有一些Header和一个状态行， 没有实体的主题内容（没有response body）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	204状态码的作用在于： 1. 在不获取资源的情况下了解资源的情况（比如判断其类型）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	2. 通过查看Response中的状态码， 看看某个对象是否存在
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	3. 通过查看Header, 测试资源是否被修改了。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例：先打开Fiddler, 然后启动浏览器访问ditu.google.cn,&nbsp; 你会捕获到很多204
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/04225053-532d11c568574bb399315974d5790a18.PNG" style="border: 0px;" />&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	206 Partial Content(部分内容)<a name="code206"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	206状态码代表服务器已经成功处理了部分GET请求（只有发送GET 方法的request, web服务器才可能返回206），
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	应用场景：
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	1. FlashGet, 迅雷或者HTTP下载工具都是使用206状态码来实现断点续传
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	2. 将以个大文档分解为多个下载段同时下载 比如，在线看视频
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例：　一些流媒体技术比如在线视频，可以边看边下载。　就是使用206来实现的。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	打开Fiddler， 然后用浏览器打开&ldquo;搜狐视频中的绿箭侠&rdquo;&nbsp;<a href="http://tv.sohu.com/20121011/n354681393.shtml" style="color: rgb(120, 175, 211);" target="_blank">http://tv.sohu.com/20121011/n354681393.shtml</a>&nbsp;&nbsp;&nbsp; 然后你在Fiddler中就能看到一堆的206
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	1. 浏览器发送一个Get 方法的request.&nbsp; header中包含 Range: bytes=5303296-5336063. (意思就是请求得到5303296-5336063这个范围的数据)。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	2. Web服务器返回一个206 的Response. header中包含Content-Range: bytes 5303296-5336063/12129376(表明这次返回的内容范围)
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://pic002.cnblogs.com/images/2012/263119/2012121611285394.png" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	301 Moved Permanently（永久移除)<a name="code301"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	请求的URL已移走。Response中应该包含一个Location URL, 说明资源现在所处的位置
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	例如：&nbsp; 1.&nbsp; 浏览器客户端访问&nbsp;<a>http://map.google.cn</a>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	2. Web服务器返回Response 301，Location=http://titu.google.cn&nbsp; （告诉客户端我们的资源位于这里， ）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	3. 浏览器客户端会自动再发送一个Request 去访问http://titu.google.cn
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03201816-6db40fd0da20457c9506e01ada8c8f05.PNG" style="border: 0px;" />&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	400 Bad Request（坏请求)<a name="code400"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	发送的Request中的数据有错误(比如：表单有错误，Cookie有错误)，&nbsp; 这个我们也经常见到。&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例： 还没想到， 想到了再贴个实例上来。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	403 Forbidden(禁止)<a name="code403"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	Web客户端发送的请求被Web服务器拒绝了， 如果服务器想说明为什么拒绝请求，可以包含实体的主体部分来对原因进行描述。但这个状态码通常是服务器不想说明拒绝原因。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	访问下面的URL， 会被服务器拒绝. 并且返回403状态码
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<a href="http://t2.baidu.com/it/u=1791561788,200960144&amp;fm=0&amp;gp=0.jpg" style="color: rgb(120, 175, 211);" target="_blank">http://t2.baidu.com/it/u=1791561788,200960144&amp;fm=0&amp;gp=0.jpg</a>
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	404 Page not Found (请求的资源不存在)
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	这个大家都懂的， 值得一提的是：　腾讯把404页面做成了&ldquo;寻找被拐儿童&rdquo;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201304/14121821-7c587ff3e92644b7be5a87579e5c37bc.png" style="border: 0px; width: 1017px;" />&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	405 Method Not Allowed(不允许使用的方法)<a name="code405"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	405是指Web服务器不支持Request中的方法。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	我个人认为状态码405Method Not Allowed和501 Not Implemented 是一样的意思。都是不支持Request的方法。 （目前我还不知道这两个的区别）
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例:&nbsp; 发送一个是trace方法的Request 给www.google.com
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03222934-a9a9a891a4664f77ac70eba66e5cb879.PNG" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03222951-eb4a108431044bcaa596c23fe6eec82a.PNG" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	411 Length Required（要求长度指示）<a name="code411"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	服务器要求在Request中包含Content-Length。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	当浏览器使用Post方法，发送数据给Web服务器时， 必须要有Content-Length。这样Web服务器才知道你要发送多少数据，否则Web服务器会返回411状态码
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例： 发送一个Post方法的Request 给www.google.com.&nbsp;&nbsp; Request中没有Content-Length
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03225016-b2f01dda49c545bc805b4654057f934f.PNG" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03225026-419624b4d401451ca1a7309de6668f26.PNG" style="border: 0px;" />&nbsp;
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	413 Request Entity Too Large（请求实体太大）<a name="code413"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	作用：客户端发送的实体主体部分比服务器能够或者希望处理的要大。&nbsp; 一般情况下我们看不到这个状态码。 因为浏览器不会发送太大的数据给网站，但是机器人可能会。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例: 用post方法发送一个大文件(100MB以上)给www.google.com
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03231604-bc5dd1ece83f45f8993f21d132a93424.PNG" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03231619-7c1f0f1b595f4719b33f7de8d4d02cda.PNG" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	414 Request URI Too Long(请求URI太长)<a name="code414"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	就是说Request URI太长， 一般浏览器本身对URI的长度就会有限制，所以不会发送URI很长的Request. 我们平常是根本看不到414错误的。 但是机器人可以发送很长URI。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	例如：我们用Fiddler Composer发送一个很长的URI给Google, 比如 &quot;<a href="http://www.google.com/?q" style="color: rgb(120, 175, 211);">www.google.com?q</a>=asdfasdasf..&quot;&nbsp; q=后面的参数很长。 就可以看到414了
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201212/25230448-2254e70e6fce4ee79bf30547d72d728a.PNG" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201212/25230559-eb419ff70320495da542f69717c2c951.PNG" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	500 Internal Server Error(内部服务器错误)<a name="code500"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	这个太常见了， 我们开发网站的时候，当我们的程序出错了时，就会返回500错误。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例：ASP.NET 程序出错
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/04234543-4b9159fc6099430c92b1ee0b2aecbbd7.PNG" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;<img alt="" src="http://images.cnitblog.com/blog/263119/201301/04234556-e3a122f3051d4743940a3ea36ae0d7af.PNG" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	501 Not Implemented(未实现)<a name="code501"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	客户端发起的请求超出服务器的能力范围(比如，使用了服务器不支持的请求方法)时，使用此状态码）。&nbsp; 一般的Web服务器只支持GET和POST方法。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	实例： 使用Fiddler Composer 给www.qq.com,&nbsp; 发送一个OPTIONS 方法的Request.&nbsp;&nbsp; 服务器就能返回501了。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://pic002.cnblogs.com/images/2012/263119/2012122418172928.png" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://pic002.cnblogs.com/images/2012/263119/2012122418174411.png" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	502 Bad Gateway（网关故障）<a name="code502"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	代理使用的服务器遇到了上游的无效响应。&nbsp;&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	Fiddler本身就是代理服务器。&nbsp; 当我们访问www.facebook.com，这网站被我们天朝屏蔽了。 所以我们可以得到502
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03200534-adede527f8f242e8b80fc0574d0f3a3e.PNG" style="border: 0px;" />
+</p>
+
+<h1 id="tank_h1" style="background-color: rgb(165, 165, 165); color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif;">
+	505 HTTP Version Not Supported(不支持的HTTP版本)<a name="code505"></a>
+</h1>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	表示Web服务器不支持此HTTP协议的版本。&nbsp;&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	众所周知我们现在使用的HTTP协议版本是HTTP/1.1， 如果我们发送一个HTTP/2.0 的request 给博客园， 博客园肯定不能支持HTTP/2.0，所以会返回505&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	想要发送这样的request, 可以使用Fiddler工具中的Composer来发送自定义的request, 如下图。
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://images.cnitblog.com/blog/263119/201301/03202101-73a92373995e4307abf2b9e06bb01b9e.png" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<img alt="" src="http://pic002.cnblogs.com/images/2012/263119/2012121418075283.png" style="border: 0px;" />
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+</p>
+
+<p style="margin: 10px auto; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	<span style="background-color: rgb(255, 255, 153);">[本文参考了： HTTP：The Definitive Guide]</span>
+</p>
+
+<div id="tank_http_all" style="word-wrap: break-word; color: rgb(0, 0, 0); font-family: 'black Verdana', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px;">
+	&nbsp;
+	<p id="tank_ref_title" style="color: rgb(255, 0, 0); font-size: 24px; margin: 10px auto;">
+		附： HTTP协议 系列教程， (连载中, 敬请期待）
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2012/02/13/2342672.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (一) HTTP协议详解</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2012/09/26/2695955.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (二) 基本认证</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2012/11/13/2749055.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (三) 压缩</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2012/11/28/2793365.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (四) 缓存</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2012/12/12/2794160.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (五) 代理</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/01/08/2818542.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (六) 状态码详解</a>
+	</p>
+
+	<p style="margin: 10px auto;">
+		<a href="http://www.cnblogs.com/TankXiao/archive/2013/04/15/2848906.html" style="color: rgb(120, 175, 211);" target="_blank">HTTP协议 (七) Cookie</a>
+	</p>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

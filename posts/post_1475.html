@@ -123,6 +123,70 @@
 </p>
 
 <h5>
+	<strong>零点五、Maven在实际开发中的应用</strong>
+</h5>
+
+<p>
+	好处 优点 优势 为什么用Maven
+</p>
+
+<p>
+	<strong>1.项目构建</strong>
+</p>
+
+<p>
+	由于公司里开发人员和测试人员是协同工作的 测试人员不能到开发人员的电脑上去做测试 也不能让测试人员安装eclipse将代码checkout到本地
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/14.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-2585" height="246" src="http://localhost:8080/wp-content/uploads/2013/10/14.jpg" style="" title="" width="493" /></a>
+</p>
+
+<p>
+	用来Maven之后 是这样的 开发人员将代码提交到svn服务器上
+</p>
+
+<p>
+	公司还有一台和线上环境一样的服务器 用于测试
+</p>
+
+<p>
+	测试人员连接测试服务器 将代码从svn服务器上checkout到测试服务器上 用maven进行编译单元测试打包成war包
+</p>
+
+<p>
+	然后将war包拷贝到应用服务器（通常不用tomcat 而用weblogic等商用服务器）
+</p>
+
+<p>
+	但是上面的步骤比较复杂 可以用hudson来一步完成 hudson集成了svn、maven、linux
+</p>
+
+<p>
+	<strong>2.依赖管理</strong>
+</p>
+
+<p>
+	比如说 商城 有后台有前台 是两个工程 但是无论是后台还是前台 都有一些相同的Service和Dao 不能说写两个一样的
+</p>
+
+<p>
+	需要第三个工程 来提供公用的Dao和Service
+</p>
+
+<p>
+	还需要一个父工程来管理每个模块 通过一次构建这个父模块 一次构建整个项目
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2013/10/210.jpg" rel="" style="" target="" title=""><img alt="2" class="alignnone size-full wp-image-2587" height="248" src="http://localhost:8080/wp-content/uploads/2013/10/210.jpg" style="" title="" width="376" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
 	<strong>一、安装Maven</strong>
 </h5>
 
@@ -806,17 +870,23 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">Web基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
 				
@@ -856,6 +926,12 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
 				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
@@ -874,9 +950,35 @@
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
 				
-					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP基础</a></li>
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
 				
 					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
 				
 			</ul>
 		</li>

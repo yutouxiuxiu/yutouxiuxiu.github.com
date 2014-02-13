@@ -1,0 +1,813 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>UML类图</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					UML类图
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是类图</strong>
+</h5>
+
+<p>
+	类图允许我们去标记静态内容以及类之间的关系
+</p>
+
+<p>
+	<span style="font-size: 13px;">只要是用UML 就肯定会用到类图</span>
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">1.何时使用</span></strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">任何时候都可以使用</span>
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">2.不要用类图描述所有的细节</span></strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">图形是指导性的东西 有的时候 方法的参数什么的 都不一定要写</span>
+</p>
+
+<p>
+	就是用各种手段让大家理解 是沟通的一种手段
+</p>
+
+<p>
+	<strong>3.保证类图简单</strong>
+</p>
+
+<p>
+	<strong>4.对概念建模（领域模型）</strong>
+</p>
+
+<p>
+	java开发三件宝（<span style="font-size: 13px;">有了这三样 就成了高手）</span>：
+</p>
+
+<p style="margin-left: 40px;">
+	框架（最不重要的 只要愿意学 就能会）、模式（不仅仅只是设计模式 分析也有模式 就是对经验的总结 对问题的解决方案）、领域模型（对业务分析得到的概念 最困难的就是建立领域模型了）
+</p>
+
+<p>
+	一个很好的领域模型 会让开发变得简单 扩展性强
+</p>
+
+<p>
+	不是纯粹通过学习就能会 要理解 要有经验 要看书
+</p>
+
+<p>
+	<strong>（1）领域模型包括</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	概念 关联 属性 （不考虑行为 没有方法）
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/kk.jpg" rel="" style="" target="" title=""><img alt="kk" class="alignnone size-full wp-image-2447" height="171" src="http://localhost:8080/wp-content/uploads/2014/01/kk.jpg" style="" title="" width="511" /></a>
+</p>
+
+<p>
+	<strong>（2）领域模型的作用</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	理解需求
+</p>
+
+<p style="margin-left: 40px;">
+	理解关键概念和词汇 &nbsp;- &nbsp;比如说要理解账户 单独理解账户不行 要理解它和别人有什么关系 才能正确地理解它
+</p>
+
+<p style="margin-left: 40px;">
+	逐步进入到设计阶段 为进入设计阶段得到一些启示
+</p>
+
+<p style="margin-left: 40px;">
+	现实世界与软件实现之间的过渡
+</p>
+
+<p>
+	<strong>（3）如何创建领域模型</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	寻找概念类 &nbsp;- &nbsp;通过名词短语、分析模式
+</p>
+
+<p style="margin-left: 40px;">
+	绘制类图
+</p>
+
+<p style="margin-left: 40px;">
+	添加关联和属性
+</p>
+
+<p style="margin-left: 80px;">
+	普通数据类型int String...表示为属性
+</p>
+
+<p style="margin-left: 80px;">
+	不要把复杂的领域概念建模为属性 而是建立关联
+</p>
+
+<h5>
+	<strong><span style="font-size: 13px;">一、类图的元素</span></strong>
+</h5>
+
+<p>
+	<strong>1.类</strong>
+</p>
+
+<p>
+	类名称
+</p>
+
+<p>
+	属性（类型 可见性） &nbsp;- &nbsp;attribute
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">方法（参数 返回值） &nbsp;- &nbsp;operation</span>
+</p>
+
+<table border="1" cellpadding="0" cellspacing="0" style="font-size: 13px; width: 300px;">
+	<tbody>
+		<tr>
+			<td style="text-align: center;">
+				类名
+			</td>
+		</tr>
+		<tr>
+			<td style="height: 1px">
+				可见性 属性名 : 类型
+			</td>
+		</tr>
+		<tr>
+			<td>
+				可见性 方法名(参数名 : 类型, ...) : 返回类型
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>分析类图</strong>
+</p>
+
+<p>
+	<strong>实体类：</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 实体类是用于对必须存储的信息和相关行为建模的类。实体对象（实体类的实例）用于保存和更新一些现象的有关信息，例如：事件、人员或者一些现实生活中的对象。实体类通常都是永久性的，它们所具有的属性和关系是长期需要的，有时甚至在系统的整个生存期都需要。
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 实体类的找寻相对简单点，这里就不再做具体的叙述了。
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/stl.jpg"><img alt="stl" class="alignnone size-full wp-image-2443" height="53" src="http://localhost:8080/wp-content/uploads/2014/01/stl.jpg" width="71" /></a>
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	实体类 可以这样表示（用东西托着 表示比较稳定）
+</p>
+
+<p style="font-size: 13px; margin-left: 40px;">
+	也就是把stereotype设置为 &nbsp;&lt;&lt;entity&gt;&gt;
+</p>
+
+<p>
+	<strong>边界类：</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 边界类是系统内部与系统外部的业务主角之间进行交互建模的类。边界类依赖于系统外部的环境，比如业务主角的操作习惯、外部的条件的限制等。它或者是系统为业务主角操作提供的一个GUI，或者系统与其他的系统之间进行一个交互的接口，所以当外部的GUI变化时，或者是通信协议有变化时，只需要修改边界类就可以了，不用再去修改控制类和实体类。业务主角通过它来与控制对象交互，实现用例的任务。
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp;边界类调用用例内的控制类对象，进行相关的操作。
+</p>
+
+<p>
+	一个系统可能会有多种边界类：
+</p>
+
+<ul>
+	<li>
+		用户界面类&nbsp;- 帮助与系统用户进行通信的类
+	</li>
+	<li>
+		系统接口类&nbsp;- 帮助与其他系统进行通信的类
+	</li>
+	<li>
+		设备接口类&nbsp;- 为用来监测外部事件的设备（如传感器）提供接口的类
+	</li>
+</ul>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/bjl.jpg"><img alt="bjl" class="alignnone size-full wp-image-2445" height="50" src="http://localhost:8080/wp-content/uploads/2014/01/bjl.jpg" width="57" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	边界类可以这样表示（表示在边界的内部）
+</p>
+
+<p style="margin-left: 40px;">
+	stereotype 为 boundary
+</p>
+
+<p>
+	<strong>控制类：</strong>
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 控制类用于对一个或几个用例所特有的控制行为进行建模，它描述的用例的业务逻辑的实现，控制类的设计与用例实现有着很大的关系。在有些情况下，一个用例可能对应多个控制类对象，或在一个控制类对象中对应着对个用例。它们之间没有固定的对应关系，而是根据具体情况进行分析判断，控制类有效将业务逻辑独立于实体数据和边界控制，专注于处理业务逻辑，控制类会将特有的操作和实体类分离，者有利于实体类的统一化和提高复用性。
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 当业务主角通过边界类来执行用例的时候，产生一个控制类对象，在用例被执行完后，控制类对象会被销毁。
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/kzl.jpg"><img alt="kzl" class="alignnone size-full wp-image-2446" height="52" src="http://localhost:8080/wp-content/uploads/2014/01/kzl.jpg" width="64" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	控制类可以这样表示（表示它很活跃）
+</p>
+
+<p style="margin-left: 40px;">
+	stereotype 为 control
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;控制类的特点：
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 独立于环境
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 和用例的实现关联
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 使用关联实体类，操作实体类对象
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp;&nbsp; 专注于业务逻辑的实现
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;&nbsp;&nbsp; 当然如果用例的逻辑较为简单，可以直接利用边界类来操作实体类，而不必再使用控制类。或者用例的逻辑较为固定，业务逻辑固定不会改变。也可以直接在边界类实现该逻辑。
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.接口</strong>
+</p>
+
+<p>
+	图标表示法
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;〇
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;接口名
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp; &nbsp; &nbsp; ===========
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp; &nbsp; &nbsp;&nbsp;方法名()
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	装饰表示法
+</p>
+
+<table border="1" cellpadding="0" cellspacing="0" style="width: 200px;">
+	<tbody>
+		<tr>
+			<td style="text-align: right;">
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;接口名 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;〇
+			</td>
+		</tr>
+		<tr height="1px">
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				方法名()
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	​或者label表示法
+</p>
+
+<table border="1" cellpadding="0" cellspacing="0" style="font-size: 13px; width: 200px;">
+	<tbody>
+		<tr>
+			<td style="text-align: center;">
+				&lt;&lt;interface&gt;&gt;<br />
+				接口名
+			</td>
+		</tr>
+		<tr height="1px">
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				方法名()
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.包</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	用来组织各种内容 表示层次结构 也可以表示模块
+</p>
+
+<p>
+	<strong>4.关系</strong>
+</p>
+
+<p>
+	（1）依赖 &nbsp;- &nbsp;一个事物的变化 影响到另外一个事物
+</p>
+
+<p style="margin-left: 40px;">
+	一个对象中 使用到了另一个对象 就产生了依赖 依赖可能在参数、返回值、异常、属性、方法体内 就是这个类里用了什么 就依赖了什么
+</p>
+
+<p style="margin-left: 40px;">
+	如果没有它的话 就不能运行
+</p>
+
+<p style="margin-left: 40px;">
+	依赖关系这么多 不过不一定都要画出来 要看你要表达什么
+</p>
+
+<p style="margin-left: 40px;">
+	依赖也可以用到子系统和子系统之间的依赖
+</p>
+
+<p style="margin-left: 40px;">
+	（虚线箭头）
+</p>
+
+<p style="margin-left: 80px;">
+	面向对象 喜欢低耦合 高内聚 如果和不稳定的部分依赖太多 某种程度上说明系统设计的并不好 我们要降低和不稳定系统（jdk、list、beanutils这些东西都很稳定 没必要去降低这些依赖）之间的依赖
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">设计的系统中 各个模块是不稳定的&nbsp;一个完整的系统，模块与模块之间，尽可能的使其独立存在。</span><span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 26px;">也就是说，让每个模块，尽可能的独立完成某个特定的子功能。</span><span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; line-height: 26px;">模块与模块之间的接口，尽量的少而简单。</span><span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; line-height: 26px;">如果某两个模块间的关系比较复杂的话，最好首先考虑进一步的模块划分。</span><span style="color: rgb(77, 77, 77); font-family: Tahoma, Geneva, Arial, Helvetica, sans-serif; line-height: 26px;">这样有利于修改和组合。</span>
+</p>
+
+<p style="margin-left: 80px;">
+	比方说Strust1的Action类要依赖Struts1API和ServletAPI 而Struts2的Action类并不需要 这样就降低了依赖
+</p>
+
+<p>
+	（2）关联 &nbsp;- &nbsp;对象之间 在某一段时间里 存在一定的联系
+</p>
+
+<p style="margin-left: 40px;">
+	比如说用户和文章&nbsp;用户可以独立创建 文章也可以独立创建 但是某个用户对象和文章是一对多关系
+</p>
+
+<p style="margin-left: 40px;">
+	（实现箭头加数字）
+</p>
+
+<p style="margin-left: 40px;">
+	关联名 &nbsp;- &nbsp;描述之间的关系
+</p>
+
+<p style="margin-left: 40px;">
+	导航 &nbsp;- &nbsp;可不可以从一个对象关联到另一个对象 比如student.class.name 从student导航到了class 就是导航性（<strong>有单向关联：单向箭头，也有双向关联：没有箭头</strong>）
+</p>
+
+<p style="margin-left: 80px;">
+	比如 Student中的&nbsp;private int classesId 比如 Classes中的 private Set students;&nbsp;或者是hibernate的hbm定义
+</p>
+
+<p style="margin-left: 40px;">
+	角色 &nbsp;- &nbsp;一个类在另一个类的中扮演了什么样的角色
+</p>
+
+<p style="margin-left: 80px;">
+	比如 Article中的creator指向User 就把creator写在指向的那一端 就说明User在Article中扮演了creator的角色
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="color:#FF0000;"><strong><span style="line-height: 1.6em;">放在扮演者这一端 方便看出它在系统里都扮演了哪些角色</span></strong></span>
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="line-height: 1.6em;">如果已经这样体现 就不用在属性列表中体现了</span>
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/41.jpg"><img alt="4" class="alignnone size-full wp-image-2436" height="124" src="http://localhost:8080/wp-content/uploads/2014/01/41.jpg" width="622" /></a>
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;+&quot; &nbsp;- &nbsp;public
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;-&quot; &nbsp;- &nbsp;private
+</p>
+
+<p style="margin-left: 80px;">
+	&quot;#&quot; &nbsp;- &nbsp;protected
+</p>
+
+<p style="margin-left: 40px;">
+	多重性 &nbsp;- &nbsp;一对多 多对一 多对多 这种 一个对象可以和几个对象发生关系 就是多重性
+</p>
+
+<p style="margin-left: 80px;">
+	<span style="color:#FF0000;"><strong>如何确定两个对象间的多重性关系（重要！！！）</strong></span>
+</p>
+
+<p style="margin-left: 80px;">
+	要从两个方向来考虑 每次考虑都从对方来看
+</p>
+
+<p style="margin-left: 80px;">
+	比如说要确定班级和学生的多重性关系
+</p>
+
+<p style="margin-left: 120px;">
+	1.一个学生只能属于一个班级 从学生的角度看班级 班级是对方 班级是一
+</p>
+
+<p style="margin-left: 120px;">
+	2.一个班级可以有多个学生 从班级的角度看学生 学生是对方 学生是多
+</p>
+
+<p style="margin-left: 120px;">
+	所以学生对班级 是多对一
+</p>
+
+<p style="margin-left: 80px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/32.jpg"><img alt="3" class="alignnone size-full wp-image-2435" height="125" src="http://localhost:8080/wp-content/uploads/2014/01/32.jpg" width="618" /></a>
+</p>
+
+<p style="margin-left: 80px;">
+	数量
+</p>
+
+<p style="margin-left: 120px;">
+	0 &nbsp;- &nbsp;没有
+</p>
+
+<p style="margin-left: 120px;">
+	1 &nbsp;- &nbsp;有且仅有一个
+</p>
+
+<p style="margin-left: 120px;">
+	0..1 &nbsp;- &nbsp;可以没有 或者有一个
+</p>
+
+<p style="margin-left: 120px;">
+	* &nbsp;- &nbsp;有多个
+</p>
+
+<p style="margin-left: 120px;">
+	0..* &nbsp;- &nbsp;没有 或者有多个
+</p>
+
+<p style="margin-left: 120px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/51.jpg"><img alt="5" class="alignnone size-full wp-image-2437" height="123" src="http://localhost:8080/wp-content/uploads/2014/01/51.jpg" width="622" /></a>
+</p>
+
+<p style="margin-left: 120px;">
+	比如说 文章必须有且仅有一个创建者 创建者可以没有 或者有多个文章
+</p>
+
+<p style="margin-left: 120px;">
+	所以在hibernate的Article的hbm中：
+</p>
+
+<p style="margin-left: 120px;">
+	&lt;many-to-one name=&quot;creator&quot; not-null=&quot;true&quot;&gt; &nbsp;多对一 非空约束（有且仅有一个creator）
+</p>
+
+<p style="margin-left: 80px;">
+	自身关联
+</p>
+
+<p style="margin-left: 120px;">
+	比如说属性结构 Node对象中 需要导航到父亲节点和它的子节点
+</p>
+
+<p style="margin-left: 120px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/71.jpg"><img alt="7" class="alignnone size-full wp-image-2438" height="87" src="http://localhost:8080/wp-content/uploads/2014/01/71.jpg" width="159" /></a>
+</p>
+
+<blockquote>
+	<p style="margin-left: 120px;">
+		class Node {
+	</p>
+
+	<p style="margin-left: 160px;">
+		private int id;
+	</p>
+
+	<p style="margin-left: 160px;">
+		private Node parent;
+	</p>
+
+	<p style="margin-left: 160px;">
+		private Set&lt;Node&gt; children;
+	</p>
+
+	<p style="margin-left: 120px;">
+		}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	聚合 &nbsp;- &nbsp;关联双方是一个整体和部分之间的关系（飞机场和飞机）
+</p>
+
+<p style="margin-left: 80px;">
+	（实线加空心菱形 菱形在整体一侧）
+</p>
+
+<p style="margin-left: 80px;">
+	如果删掉了一个 另一个还存在
+</p>
+
+<p style="margin-left: 40px;">
+	组合 &nbsp;- &nbsp;是强聚合 整体和部分的生命周期是一致的（飞机场和飞机跑道）
+</p>
+
+<p style="margin-left: 80px;">
+	（实线加实心菱形 菱形在整体一侧）
+</p>
+
+<p style="margin-left: 80px;">
+	如果删掉了一个 另一个也删掉
+</p>
+
+<p>
+	（3）泛化 &nbsp;- &nbsp;就是继承（is a kind of）
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">（实线加空心箭头 指向父类）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/81.jpg" rel="" style="" target="" title=""><img alt="8" class="alignnone size-full wp-image-2440" height="185" src="http://localhost:8080/wp-content/uploads/2014/01/81.jpg" style="" title="" width="411" /></a>
+</p>
+
+<p>
+	（4）实现
+</p>
+
+<p style="margin-left: 40px;">
+	（如果接口是以图标（圆形）表示法表示 直线连接表示实现）
+</p>
+
+<p style="margin-left: 40px;">
+	（如果是用label表示法 就是虚线加空心箭头 指向被实现者）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

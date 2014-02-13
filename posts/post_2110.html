@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - Model自动验证、自动完成、字段映射</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - Model自动验证、自动完成、字段映射
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、create方法</strong>
+</h5>
+
+<p>
+	能根据$_POST的数据自动填充到$this-&gt;data中 并且完成自动验证等操作
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; /**<br />
+		&nbsp; &nbsp; &nbsp;* 创建数据对象 但不保存到数据库<br />
+		&nbsp; &nbsp; &nbsp;* @access public<br />
+		&nbsp; &nbsp; &nbsp;* @param mixed $data 创建数据<br />
+		&nbsp; &nbsp; &nbsp;* @param string $type 状态<br />
+		&nbsp; &nbsp; &nbsp;* @return mixed<br />
+		&nbsp; &nbsp; &nbsp;*/<br />
+		&nbsp; &nbsp; &nbsp;public function create($data=&#39;&#39;,$type=&#39;&#39;) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 如果没有传值默认取POST数据<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; = &nbsp; $_POST;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif(is_object($data)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data &nbsp; = &nbsp; get_object_vars($data);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 验证数据<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(empty($data) || !is_array($data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error = L(&#39;_DATA_TYPE_INVALID_&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 检查字段映射<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $data = $this-&gt;parseFieldsMap($data,0);
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 状态<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $type = $type?$type:(!empty($data[$this->getPk()])?self::MODEL_UPDATE:self::MODEL_INSERT);
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 检测提交字段的合法性<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(isset($this-&gt;options['field'])) { // $this-&gt;field(&#39;field1,field2...&#39;)-&gt;create()<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; $this-&gt;options['field'];<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($this-&gt;options['field']);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif($type == self::MODEL_INSERT &amp;&amp; isset($this-&gt;insertFields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; $this-&gt;insertFields;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }elseif($type == self::MODEL_UPDATE &amp;&amp; isset($this-&gt;updateFields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; $this-&gt;updateFields;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(isset($fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(is_string($fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; explode(&#39;,&#39;,$fields);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // 判断令牌验证字段<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(C(&#39;TOKEN_ON&#39;)) &nbsp; $fields[] = C(&#39;TOKEN_NAME&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($data as $key=&gt;$val){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!in_array($key,$fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$key]);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 数据自动验证<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!$this-&gt;autoValidation($data,$type)) return false;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 表单令牌验证<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!$this-&gt;autoCheckToken($data)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;error = L(&#39;_TOKEN_ERROR_&#39;);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return false;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 验证完成生成数据对象<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if($this-&gt;autoCheckFields) { // 开启字段检测 则过滤非法字段数据<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $fields = &nbsp; $this-&gt;getDbFields();<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; foreach ($data as $key=&gt;$val){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(!in_array($key,$fields)) {<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset($data[$key]);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }elseif(MAGIC_QUOTES_GPC &amp;&amp; is_string($val)){<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $data[$key] = &nbsp; stripslashes($val);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; }
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // 创建完成对数据进行自动处理<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;autoOperation($data,$type);<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 赋值当前数据对象<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $this-&gt;data = &nbsp; $data;<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; // 返回创建的数据以供其他调用<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; return $data;<br />
+		&nbsp; &nbsp; &nbsp;}
+	</p>
+</blockquote>
+
+<h5>
+	<strong>二、自动验证</strong>
+</h5>
+
+<p>
+	使用Model类的$_validate属性定义验证规则 如果验证失败 create函数会返回false
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp; &nbsp; &nbsp; &nbsp; // 数据自动验证</span>
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp; &nbsp; &nbsp; &nbsp; if(!$this-&gt;autoValidation($data,$type)) return false;</span>
+	</p>
+</blockquote>
+
+<p>
+	只需要在Model类里面定义$_validate属性，是由多个验证因子组成的二维数组。<br />
+	验证因子格式：
+</p>
+
+<blockquote>
+	<p>
+		array(验证字段,验证规则,错误提示,[验证条件,附加规则,验证时间])
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<table border="0" cellpadding="0" cellspacing="1">
+	<tbody>
+		<tr>
+			<td>
+				验证字段
+			</td>
+			<td>
+				必须
+			</td>
+			<td>
+				需要验证的表单字段名称，这个字段不一定是数据库字段，也可以是表单的一些辅助字段，例如确认密码和验证码等等。有个别验证规则和字段无关的情况下，验证字段是可以随意设置的，例如expire有效期规则是和表单字段无关的。如果定义了字段映射的话，这里的验证字段名称应该是实际的数据表字段而不是表单字段。
+			</td>
+		</tr>
+		<tr>
+			<td>
+				验证规则
+			</td>
+			<td>
+				必须
+			</td>
+			<td>
+				要进行验证的规则，需要结合附加规则，如果在使用正则验证的附加规则情况下，系统还内置了一些常用正则验证的规则，可以直接作为验证规则使用，包括：require&nbsp;字段必须、email&nbsp;邮箱、url&nbsp;URL地址、currency&nbsp;货币、number&nbsp;数字。
+			</td>
+		</tr>
+		<tr>
+			<td>
+				提示信息
+			</td>
+			<td>
+				必须
+			</td>
+			<td>
+				用于验证失败后的提示信息定义
+			</td>
+		</tr>
+		<tr>
+			<td>
+				验证条件
+			</td>
+			<td>
+				可选
+			</td>
+			<td>
+				<p>
+					包含下面几种情况：
+				</p>
+
+				<p>
+					Model::EXISTS_VALIDATE&nbsp;或者0&nbsp;存在字段就验证&nbsp;（默认）
+				</p>
+
+				<p>
+					Model::MUST_VALIDATE&nbsp;或者1&nbsp;必须验证
+				</p>
+
+				<p>
+					Model::VALUE_VALIDATE或者2&nbsp;值不为空的时候验证
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				附加规则
+			</td>
+			<td>
+				可选
+			</td>
+			<td>
+				<p>
+					配合验证规则使用，包括下面一些规则：
+				</p>
+
+				<p>
+					regex&nbsp;正则验证，定义的验证规则是一个正则表达式（默认）
+				</p>
+
+				<p>
+					function函数验证，定义的验证规则是一个函数名
+				</p>
+
+				<p>
+					callback方法验证，定义的验证规则是当前模型类的一个方法
+				</p>
+
+				<p>
+					confirm验证表单中的两个字段是否相同，定义的验证规则是一个字段名
+				</p>
+
+				<p>
+					equal&nbsp;验证是否等于某个值，该值由前面的验证规则定义
+				</p>
+
+				<p>
+					in验证是否在某个范围内，定义的验证规则必须是一个数组
+				</p>
+
+				<p>
+					length验证长度，定义的验证规则可以是一个数字（表示固定长度）或者数字范围（例如3,12&nbsp;表示长度从3到12的范围）
+				</p>
+
+				<p>
+					between验证范围，定义的验证规则表示范围，可以使用字符串或者数组，例如1,31或者array(1,31)
+				</p>
+
+				<p>
+					expire验证是否在有效期，定义的验证规则表示时间范围，可以到时间，例如可以使用&nbsp;2012-1-15,2013-1-15&nbsp;表示当前提交有效期在2012-1-15到2013-1-15之间，也可以使用时间戳定义
+				</p>
+
+				<p>
+					ip_allow&nbsp;验证IP是否允许，定义的验证规则表示允许的IP地址列表，用逗号分隔，例如&nbsp;201.12.2.5,201.12.2.6
+				</p>
+
+				<p>
+					ip_deny&nbsp;验证IP是否禁止，定义的验证规则表示禁止的ip地址列表，用逗号分隔，例如201.12.2.5,201.12.2.6
+				</p>
+
+				<p>
+					unique&nbsp;验证是否唯一，系统会根据字段目前的值查询数据库来判断是否存在相同的值。
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				验证时
+			</td>
+			<td>
+				可选
+			</td>
+			<td>
+				<p>
+					Model::&nbsp;MODEL_INSERT&nbsp;或者1新增数据时候验证
+				</p>
+
+				<p>
+					Model::&nbsp;MODEL_UPDATE&nbsp;或者2编辑数据时候验证
+				</p>
+
+				<p>
+					Model::&nbsp;MODEL_BOTH&nbsp;或者3&nbsp;全部情况下验证（默认）
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>栗子</strong>
+</p>
+
+<ol class="linenums" style="padding-right: 0px; padding-left: 0px; margin: 0px 0px 0px 40px; list-style-position: outside; list-style-image: initial; color: rgb(43, 165, 216); font-family: Consolas, 微软雅黑; font-size: 14px; line-height: 30px;">
+	<li class="L0" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="kwd" style="padding: 0px; margin: 0px; color: rgb(0, 0, 136);">protected</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;$_validate&nbsp;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">=</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span>
+	</li>
+	<li class="L1" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;verify&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;require&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;验证码必须！&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="com" style="padding: 0px; margin: 0px; color: rgb(136, 0, 0);">//默认情况下用正则进行验证</span>
+	</li>
+	<li class="L2" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;name&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;帐号名称已经存在！&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">0</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;unique&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">1</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="com" style="padding: 0px; margin: 0px; color: rgb(136, 0, 0);">//&nbsp;在新增的时候验证name字段是否唯一</span>
+	</li>
+	<li class="L3" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;value&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">1</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">2</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">3</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;值的范围不正确！&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">2</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;in&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="com" style="padding: 0px; margin: 0px; color: rgb(136, 0, 0);">//&nbsp;当值不为空的时候判断是否在一个范围内</span>
+	</li>
+	<li class="L4" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;repassword&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;password&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;确认密码不正确&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">0</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;confirm&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="com" style="padding: 0px; margin: 0px; color: rgb(136, 0, 0);">//&nbsp;验证确认密码是否和密码一致</span>
+	</li>
+	<li class="L5" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;array</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">(</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;password&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;checkPwd&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;密码格式不正确&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="lit" style="padding: 0px; margin: 0px; color: rgb(0, 102, 102);">0</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">,</span><span class="str" style="padding: 0px; margin: 0px; color: rgb(0, 136, 0);">&#39;function&#39;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">),</span><span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="com" style="padding: 0px; margin: 0px; color: rgb(136, 0, 0);">//&nbsp;自定义函数验证密码格式</span>
+	</li>
+	<li class="L6" style="padding: 0px 5px; margin: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); line-height: 23px; background-color: rgb(250, 250, 250);">
+		<span class="pln" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0);">&nbsp;</span><span class="pun" style="padding: 0px; margin: 0px; color: rgb(102, 102, 0);">);</span>
+	</li>
+</ol>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	可以通过$model-&gt;getError来得到验证的错误信息
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、自动填充</strong>
+</h5>
+
+<p>
+	在$this-&gt;data属性中自动增加一些数据
+</p>
+
+<p>
+	比如说注册的时候自动添加注册时间
+</p>
+
+<p>
+	<strong>1.何时会自动填充</strong>
+</p>
+
+<p>
+	在$this-&gt;_auto不为空的时候 就会进行自动填充
+</p>
+
+<p>
+	<strong>2.如何填充</strong>
+</p>
+
+<p>
+	<span style="font-size: 13px;">$this-&gt;_auto属性是一个二维数组 每个单元是一个填充规则</span>
+</p>
+
+<blockquote>
+	<p>
+		array(填充字段,填充内容,[填充条件,附加规则])
+	</p>
+</blockquote>
+
+<table border="0" cellpadding="0" cellspacing="1" style="padding: 0px; margin: 10px 0px; background-color: rgb(102, 102, 102); background-position: initial initial; background-repeat: initial initial;">
+	<tbody style="padding: 0px; margin: 0px;">
+		<tr class="add" style="padding: 0px; margin: 0px;">
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				填充字段
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				必须
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;" width="550">
+				就是需要进行处理的表单字段，这个字段不一定是数据库字段，也可以是表单的一些辅助字段，例如确认密码和验证码等等。
+			</td>
+		</tr>
+		<tr class="even" style="padding: 0px; margin: 0px;">
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				填充规则
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				必须
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				配合附加规则完成
+			</td>
+		</tr>
+		<tr class="add" style="padding: 0px; margin: 0px;">
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				填充时间
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				可选
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(239, 239, 239); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				包括：<br />
+				Model::&nbsp;MODEL_INSERT或者1&nbsp;新增数据的时候处理（默认）<br />
+				Model::&nbsp;MODEL_UPDATE或者2更新数据的时候处理<br />
+				Model::&nbsp;MODEL_BOTH或者3所有情况都进行处理
+			</td>
+		</tr>
+		<tr class="even" style="padding: 0px; margin: 0px;">
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				附加规则
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				可选
+			</td>
+			<td style="padding: 0px 10px; margin: 0px; background-color: rgb(255, 255, 255); cursor: pointer; background-position: initial initial; background-repeat: initial initial;">
+				包括：<br />
+				function&nbsp;：使用函数，表示填充的内容是一个函数名&nbsp;<br />
+				callback&nbsp;：回调方法&nbsp;，表示填充的内容是一个当前模型的方法<br />
+				field&nbsp;：用其它字段填充，表示填充的内容是一个其他字段的值<br />
+				ignore ：为空则忽略，3.1.2版本开始支持，如果该字段的值恒等于空字符串则忽略该字段的值<br />
+				string&nbsp;：字符串（默认方式）
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="book-remark" style="padding: 0px; margin: 0px; width: 25px; position: absolute; left: -25px; top: 0px; bottom: 0px; cursor: pointer;">
+	<span class="num" style="padding: 0px; margin: 0px; background-image: url(http://doc.thinkphp.cn/Plugin/remark/images/remark-active.png); width: 25px; height: 25px; position: absolute; top: 0px; opacity: 1; display: block; line-height: 18px; text-align: center; font-size: 10px;">4</span>
+</div>
+
+<div class="book-content" id="490" style="padding: 6px; margin: 5px 12px 5px 37px; line-height: 30px; position: relative; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(255, 255, 255); border-top-width: 1px; border-top-style: solid; border-top-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-family: 微软雅黑; font-size: 14px;">
+	<p>
+		<b style="padding: 0px; margin: 0px;">示例</b>：
+	</p>
+
+	<blockquote>
+		<p>
+			protected&nbsp;$_auto&nbsp;=&nbsp;array&nbsp;( 、
+		</p>
+
+		<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;array(&#39;status&#39;,&#39;1&#39;),&nbsp;&nbsp;//&nbsp;新增的时候把status字段设置为1
+		</p>
+
+		<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;array(&#39;password&#39;,&#39;md5&#39;,1,&#39;function&#39;)&nbsp;,&nbsp;//&nbsp;对password字段在新增的时候使md5函数处理
+		</p>
+
+		<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;array(&#39;name&#39;,&#39;getName&#39;,1,&#39;callback&#39;),&nbsp;//&nbsp;对name字段在新增的时候回调getName方法
+		</p>
+
+		<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;array(&#39;create_time&#39;,&#39;time&#39;,2,&#39;function&#39;),&nbsp;//&nbsp;对create_time字段在更新的时候写入当前时间戳
+		</p>
+
+		<p>
+			&nbsp;);
+		</p>
+	</blockquote>
+</div>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、字段映射</strong>
+</h5>
+
+<p>
+	黑客会通过表单的name属性猜测数据库表的字段名 因为往往很多设计者 都把表单的name和字段名一样 这样就增加了被攻击的风险
+</p>
+
+<p>
+	如何让表单的name和字段名不一样 让黑客猜不到
+</p>
+
+<p>
+	Model的$_map属性中建立 表单为键 字段为值的映射关系集合
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	进行了字段映射之后 自动验证和自动填充 是按照表单中name来进行的 还是按照映射之后的字段来进行的？
+</p>
+
+<p>
+	先进行映射 再进行验证
+</p>
+
+<p>
+	因为验证中的唯一性验证需要查数据库 没有映射 无法进行这样的验证
+</p>
+
+<blockquote>
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">检查字段映射 &nbsp; 先</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; $data = $this-&gt;parseFieldsMap($data,0); &nbsp;&nbsp;
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; 。。。。。。
+	</p>
+
+	<p>
+		&nbsp; &nbsp; &nbsp; &nbsp; // <strong><span style="color:#FF0000;">数据自动验证 &nbsp;后</span></strong><br />
+		&nbsp; &nbsp; &nbsp; &nbsp; if(!$this-&gt;autoValidation($data,$type)) return false;
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

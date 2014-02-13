@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>linux下apache php mysql的安装</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					linux下apache php mysql的安装
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	我是用的是CentOS6.3
+</p>
+
+<h5>
+	<strong>一、确保linux能联网</strong>
+</h5>
+
+<p>
+	<strong>1.查看网卡</strong>
+</p>
+
+<blockquote>
+	<p>
+		ifconfig eth0
+	</p>
+</blockquote>
+
+<p>
+	看看是否有该设备
+</p>
+
+<p>
+	<strong>2.开机自动联网</strong>
+</p>
+
+<blockquote>
+	<p accuse="aContent" id="best-content-661109360">
+		vi /etc/sysconfig/network-scripts/ifcfg-eth0
+	</p>
+</blockquote>
+
+<p accuse="aContent">
+	让
+</p>
+
+<blockquote>
+	<p accuse="aContent">
+		<span style="font-size: 13px;">ONBOOT=yes</span>
+	</p>
+
+	<p accuse="aContent">
+		BOOTPROTO=dhcp
+	</p>
+</blockquote>
+
+<p accuse="aContent">
+	保存退出 重启网络服务
+</p>
+
+<blockquote>
+	<p accuse="aContent">
+		service network restart
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.检测是否已经联网</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;"># ifconfig eth0</span>
+	</p>
+
+	<p>
+		eth0 &nbsp; &nbsp; &nbsp;Link encap:Ethernet &nbsp;HWaddr 00:23:8B:**:**:**<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong><span style="color:#FF0000;">inet addr:192.168.0.105</span></strong> &nbsp;Bcast:192.168.0.255 &nbsp;Mask:255.255.255.0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; inet6 addr: fe80::223:8bff:feaa:4a1d/64 Scope:Link<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UP BROADCAST RUNNING MULTICAST &nbsp;MTU:1500 &nbsp;Metric:1<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RX packets:3366 errors:0 dropped:0 overruns:0 frame:0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; TX packets:771 errors:0 dropped:0 overruns:0 carrier:0<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; collisions:0 txqueuelen:1000<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RX bytes:346646 (338.5 KiB) &nbsp;TX bytes:174794 (170.6 KiB)<br />
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Interrupt:20 Memory:df1c0000-df1e0000
+	</p>
+</blockquote>
+
+<p>
+	说明已经连上了
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、安装apache</strong>
+</h5>
+
+<blockquote>
+	<p>
+		yum install httpd
+	</p>
+</blockquote>
+
+<p>
+	等待安装完毕
+</p>
+
+<p>
+	启动
+</p>
+
+<blockquote>
+	<p>
+		/etc/init.d/httpd start
+	</p>
+</blockquote>
+
+<p>
+	观察状态
+</p>
+
+<blockquote>
+	<p>
+		/etc/init.d/httpd status
+	</p>
+</blockquote>
+
+<p>
+	更改配置文件
+</p>
+
+<p>
+	<span style="color:#0000FF;">/etc/httpd/conf/httpd.conf</span>
+</p>
+
+<p>
+	文件结构
+</p>
+
+<p>
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/etc/httpd/conf/httpd.conf :最主要的配置文件；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/etc/httpd/conf.d/*.conf :这个是&nbsp;</span>CentOS<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">&nbsp;的特色，如果你不想修改原始配置文件 httpd.conf 的话，其他配置的在此独立配置，启动 apache 时，这个文件就会被读入到主要配置文件；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/usr/lib/httpd/modules :apache 支持很多的模块，您想要使用的模块默认都放置在此目录；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/var/www/html :这里是&nbsp;</span>CentOS<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">&nbsp;默认的&ldquo;首页&rdquo;目录；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/var/www/error :默认的系统错误信息，主机设置错误或浏览器端要求的数据错误，在浏览器上出现的错误提示就以这里的信息为主；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/var/www/icons :提供 apache 的一些小图标；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/var/www/cgi-bin :默认一些可执行的 CGI 程序放置的目录；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/var/log/httpd :日志文件目录，这里的文件很容易变的很大，需要提供足够的空间；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/usr/sbin/apachectl :这是 Apache 的主要执行文件，这个执行文件其实是 shell script ,它可以主动检测系统上的一些设置值，好让您启动 Apache 时更简单；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/usr/sbin/httpd :这是主要的 apache 的二进制文件；</span><br style="margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;" />
+	<br />
+	<br />
+	<span style="color: rgb(0, 0, 0); font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; line-height: 19.5px;">/usr/bin/htpasswd :当您想登陆某些网页时，需要输入账号与密码。那么Apache本身就提供一个最基本的密码保护方式，该密码的产生就是通过这个命令实现的。</span>
+</p>
+
+<p>
+	然后发现在其它电脑无法访问 是防火墙的问题
+</p>
+
+<p>
+	<span style="color:#0000FF;">/etc/sysconfig/iptables</span>
+</p>
+
+<p>
+	添加一条
+</p>
+
+<blockquote>
+	<p>
+		-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport&nbsp;80&nbsp;-j ACCEPT
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、安装mysql</strong>
+</h5>
+
+<blockquote>
+	<p>
+		yum mysql mysql-server
+	</p>
+</blockquote>
+
+<p>
+	启动
+</p>
+
+<blockquote>
+	<p>
+		# /etc/init.d/mysqld start
+	</p>
+</blockquote>
+
+<p>
+	更改root密码
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">#&nbsp;</span>mysqladmin -u root password 新的密码
+	</p>
+
+	<p>
+		<span style="font-size: 13px;"># /etc/init.d/mysqld start</span>
+	</p>
+</blockquote>
+
+<p>
+	客户端登陆
+</p>
+
+<blockquote>
+	<p>
+		# mysql -u root -p
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>UML</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					UML
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong style="line-height: 1.2em; font-size: 13px;">一、什么是UML</strong>
+</h5>
+
+<p>
+	统一建模语言 Unified Modeling Language
+</p>
+
+<p>
+	<strong>1.为什么用UML</strong>
+</p>
+
+<p>
+	一个长方形 有人说它是一块儿地 有人说它是一张桌子的桌面 那它到底是什么呢
+</p>
+
+<p>
+	有鼻子 有眼睛 大耳朵 可能是人 也可能是大象
+</p>
+
+<p>
+	自然语言描述事务不准确 会引起歧义
+</p>
+
+<p>
+	<span style="font-size: 13px;">《</span><a href="http://baike.baidu.com/view/1461.htm" style="font-size: 13px;" target="_blank">圣经</a><span style="font-size: 13px;">&middot;</span><a href="http://baike.baidu.com/view/22593.htm" style="font-size: 13px;" target="_blank">旧约</a><span style="font-size: 13px;">&middot;</span><a href="http://baike.baidu.com/view/71659.htm" style="font-size: 13px;" target="_blank">创世记</a><span style="font-size: 13px;">》第11章宣称，当时</span><a href="http://baike.baidu.com/view/14713.htm" style="font-size: 13px;" target="_blank">人类</a><span style="font-size: 13px;">联合起来兴建希望能通往</span><a href="http://baike.baidu.com/view/18685.htm" style="font-size: 13px;" target="_blank">天堂</a><span style="font-size: 13px;">的高塔；为了阻止人类的计划，</span><a href="http://baike.baidu.com/view/3238.htm" style="font-size: 13px;" target="_blank">上帝</a><span style="font-size: 13px;">让人类说不同的语言，使人类相互之间不能沟通，计划因此失败，人类自此各散东西。此故事试图为世上出现不同语言和种族提供解释。</span>
+</p>
+
+<p>
+	由此看来需要一种不容易引起歧义、严谨的统一的模型化的语言来进行沟通 即UML
+</p>
+
+<p>
+	用一种语言 用相同的方式进行交流
+</p>
+
+<p>
+	做计划、做需求、不用中文不用英文 用UML
+</p>
+
+<p>
+	<span style="color:#FF0000;">就是一种文档化的可视化语言 用图形来写文档</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.我们用UML的三方面</strong>
+</p>
+
+<p>
+	草图 &nbsp;- &nbsp;思路 因为软件设计是逐步精化的过程 可以用草图来进行讨论 不是最终确定的 不可能在一开始就有完善的方案
+</p>
+
+<p>
+	蓝图 &nbsp;- &nbsp;准确的描述 比较完善的方案 基于蓝图来开发 <span style="color:#FF0000;">应该比较简略的使用 防止需求不断的变化&nbsp;而不是写的特别细 特别细还不如写代码</span>
+</p>
+
+<p>
+	代码设计图 &nbsp;- &nbsp;在编码前绘制（UML里的一些东西 可以映射到具体的编程语言中）
+</p>
+
+<p style="margin-left: 40px;">
+	模型驱动开发 &nbsp;- &nbsp;在图里设计好了 通过工具来直接生成代码（一般都不这么用）
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>4.OOAD与UML</strong></span>
+</p>
+
+<p>
+	UML仅仅是一个工具 它只是帮助我们做ooa/d（面向对象分析/设计）
+</p>
+
+<p>
+	ooa/d的过程：定义用例（怎么用它 情景的描述）-&gt;定义领域模型（OOA 与具体实现技术无关 抽取出的概念 静态的 都有什么）-&gt;定义交互图（OOD 对象之间如何交互能实现它 动态的 相互之间怎么协作）-&gt;定义设计类图（实现 定义软件的类包括属性方法）
+</p>
+
+<p>
+	UML只是具有指导的意义 只是描述它的大的方面而已 只是来指导开发的
+</p>
+
+<p>
+	也有可能是开发了之后 才画 它为了方便之后的维护
+</p>
+
+<p>
+	所以说 <span style="color:#FF0000;">UML只是一种工具而已 不能为了使用它而使用它</span>
+</p>
+
+<h5>
+	&nbsp;
+</h5>
+
+<h5>
+	<strong>二、UML概述</strong>
+</h5>
+
+<p>
+	UML包括：事物、关系、图、扩展机制
+</p>
+
+<p>
+	事物：
+</p>
+
+<p style="margin-left: 40px;">
+	结构 &nbsp;- &nbsp;类、接口（功能性的描述）、构件（软件的一个模块 一个java文件 一个jar包...）、节点（部署结构 一个数据库 一个服务器...）
+</p>
+
+<p style="margin-left: 40px;">
+	行为 &nbsp;- &nbsp;交互（比如说类方法的调用关系）、状态变化
+</p>
+
+<p style="margin-left: 40px;">
+	分组 &nbsp;- &nbsp;包（用来组织其他事物的）<span style="line-height: 1.6em;">、子系统</span>
+</p>
+
+<p style="margin-left: 40px;">
+	注释 &nbsp;- &nbsp;注释
+</p>
+
+<p>
+	关系：
+</p>
+
+<p style="margin-left: 40px;">
+	依赖
+</p>
+
+<p style="margin-left: 40px;">
+	关联（比如说一个部门包括多个人 建立一对多的关联关系）
+</p>
+
+<p style="margin-left: 40px;">
+	泛化（就是继承 是一种什么东西 猪是对动物的泛化）
+</p>
+
+<p style="margin-left: 40px;">
+	实现（就是实现接口定义的规范）
+</p>
+
+<p>
+	图：
+</p>
+
+<p style="margin-left: 40px;">
+	下一部分详细介绍
+</p>
+
+<p>
+	扩展机制：
+</p>
+
+<p style="margin-left: 40px;">
+	Stereotype（某种概念的扩展类型 比如说Action Service Dao Bean 等不同的类 可以用这个来描述 在项目组中可以自己定义版型）
+</p>
+
+<p style="margin-left: 40px;">
+	Tagged Value（自己来定义的一些值 比如说版本）
+</p>
+
+<p style="margin-left: 40px;">
+	Constraint（约束）
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、UML图形</strong>
+</h5>
+
+<p>
+	每种图都是一种角度 <span style="color:#FF0000;">从系统不同的角度来观察一个事物</span>
+</p>
+
+<p>
+	比如说从需求的角度分析系统 使用用例图来描述
+</p>
+
+<p>
+	<strong>静态：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	类图
+</p>
+
+<p>
+	<strong>动态：</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	顺序图（协作图）
+</p>
+
+<p style="margin-left: 40px;">
+	用例图
+</p>
+
+<p style="margin-left: 40px;">
+	活动图
+</p>
+
+<p style="margin-left: 40px;">
+	状态图
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	还有三视图 因为要描述这个世界（软件就是世界） 世界是三维的 要从三个角度（用例图、类图、顺序图/活动图）进行描述
+</p>
+
+<h5>
+	<strong>三、UML工具</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	1.Rose
+</p>
+
+<p style="font-size: 13px;">
+	特别好用（画图度快） 特别强大 漂亮 但收费
+</p>
+
+<p style="font-size: 13px;">
+	2.StarUML
+</p>
+
+<p style="font-size: 13px;">
+	轻巧 免费 开源 一般好用 不漂亮
+</p>
+
+<p style="font-size: 13px;">
+	3.EA
+</p>
+
+<p style="font-size: 13px;">
+	轻巧 收费 非常漂亮 功能强大 不好用（画图速度慢）
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+<h5 style="font-size: 13px;">
+	<strong>四、正向工程、逆向工程、MDA</strong>
+</h5>
+
+<p style="font-size: 13px;">
+	1.正向工程 &nbsp;- &nbsp;从UML生成代码
+</p>
+
+<p style="font-size: 13px;">
+	2.逆向工程 &nbsp;- &nbsp;从代码生成UML
+</p>
+
+<p style="font-size: 13px;">
+	这只是一种辅助手段而已
+</p>
+
+<p style="font-size: 13px;">
+	画图的目的不是为了生成代码 只是为了有指导意义
+</p>
+
+<p style="font-size: 13px;">
+	3.MDA
+</p>
+
+<p style="font-size: 13px;">
+	模型驱动架构 据说是未来软件开发的方向
+</p>
+
+<p style="font-size: 13px;">
+	画一些图形描述逻辑 然后一生成 整个软件就出来了
+</p>
+
+<p style="font-size: 13px;">
+	目前只是概念上的 还没实现
+</p>
+
+<p style="font-size: 13px;">
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

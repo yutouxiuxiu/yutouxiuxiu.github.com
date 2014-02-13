@@ -1,0 +1,1446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>Spring MVC</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					Spring MVC
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、Spring MVC</strong>
+</h5>
+
+<p>
+	<strong>1.Spring MVC都做了什么</strong>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.Spring MVC的核心组件</strong>
+</p>
+
+<p>
+	（1）DespatcherServlet（系统提供）
+</p>
+
+<p style="margin-left: 40px;">
+	请求都要通过这个进行转发 转发到具体的Controller 就像Struts的filter
+</p>
+
+<p>
+	（2）Controller
+</p>
+
+<p style="margin-left: 40px;">
+	控制器
+</p>
+
+<p>
+	（3）HandlerMapping<span style="font-size: 13px;">（系统提供）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	映射处理器 当一个请求过来的时候从<span style="font-size: 13px;">DespatcherServlet转发到Controller 这个转发的策略 就是HandlerMapping</span>
+</p>
+
+<p>
+	（4<span style="line-height: 1.6em;">）ModelAndView</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">Model是获取到的数据 View是页面 这个模块将数据和页面结合起来 将数据和页面封装起来</span>
+</p>
+
+<p>
+	<span style="line-height: 1.6em;">（5）ViewResolver</span><span style="font-size: 13px;">（系统提供）</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="line-height: 1.6em;">视图解析器 把ModelAndView解析成具体的jsp页面 给展示出来</span>
+</p>
+
+<p>
+	（6）Interceptors
+</p>
+
+<p style="margin-left: 40px;">
+	拦截器
+</p>
+
+<p>
+	<strong>3.Spring MVC的工作流程</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/1.jpg"><img alt="1" class="alignnone size-full wp-image-2487" height="524" src="http://localhost:8080/wp-content/uploads/2014/02/1.jpg" width="450" /></a>
+</p>
+
+<h5>
+	<strong>二.Spring MVC初体验</strong>
+</h5>
+
+<p>
+	99%都是使用注解的方式来做的 如下 先使用配置文件的方式进行演示
+</p>
+
+<p>
+	<strong>1.建立工程 导入jar包</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/jar.jpg"><img alt="jar" class="alignnone size-full wp-image-2490" height="245" src="http://localhost:8080/wp-content/uploads/2014/02/jar.jpg" width="305" /></a>
+</p>
+
+<p>
+	<strong>2.配置DespatcherServlet</strong>
+</p>
+
+<p>
+	是Servlet 就在web.xml中进行配置
+</p>
+
+<blockquote>
+	<p>
+		&lt;servlet&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;servlet-name&gt;springmvc&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+
+	<p>
+		&lt;servlet-mapping&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;servlet-name&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;url-pattern&gt;*.do&lt;/ &nbsp;//注意 不要使用&ldquo;/*&rdquo;按照springmvc的方式来写
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>3.创建Controller</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/c.jpg"><img alt="c" class="alignnone size-full wp-image-2492" height="245" src="http://localhost:8080/wp-content/uploads/2014/02/c.jpg" width="563" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#FF0000;">ModelAndView会根据在springmvc-servlet.xml中的配置找到对应的视图页面</span>
+</p>
+
+<p style="margin-left: 40px;">
+	WEB-INF中建立一个jsp文件夹
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="color:#0000CD;">WEB-INF/jsp/index.jsp</span>
+</p>
+
+<blockquote>
+	<p>
+		hello springmvc
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.配置HandlerMapping</strong>
+</p>
+
+<p>
+	默认位置在WEB-INF下
+</p>
+
+<p>
+	默认文件名springmvc-servlet.xml
+</p>
+
+<p>
+	这个文件其实就是一个spring文件
+</p>
+
+<p>
+	别忘了 加入spring文件的头信息
+</p>
+
+<blockquote>
+	<p>
+		&lt;beans&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!--Controller--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;bean id=&quot;testController&quot; name=&quot;<span style="color:#FF0000;">/</span>hello<span style="color:#FF0000;">.do</span>&quot;&nbsp;class=&quot;com.yutouxiuxiu.controller.TestController&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!--HandlerMapping
+	</p>
+
+	<p style="margin-left: 80px;">
+		默认的配置是采用Controller的bean的name来进行访问 name的配置当然要根据DispatcherServlet中的拦截策略进行配置了 .do
+	</p>
+
+	<p style="margin-left: 40px;">
+		--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!--ViewResolver视图解析器配置--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;bean class=&quot;org.springframework.web.servlet.view.InternalViewResolver&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;!--Controller中return的<span style="line-height: 1.6em;">ModelAndView的参数 通过加上下面的前缀和后缀（完全是进行拼接字符串）找到对应的视图页面 进行显示</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="line-height: 1.6em;">前缀 是从根目录算起-</span><span style="line-height: 1.6em;">-</span><span style="line-height: 1.6em;">&gt;</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp/&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、三种HandlerMapping映射处理器</strong>
+</h5>
+
+<p>
+	<strong>1.BeanNameHandlerMapping</strong>（不配置默认是这个）
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean class=&quot;org.springframework.web.servlet.handler.<span style="font-size: 13px;">BeanNameHandlerMapping</span>&quot;&gt;&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.简单URL</strong>
+</p>
+
+<p>
+	手动配置映射关系
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-size: 13px;">&lt;bean class=&quot;org.springframework.web.servlet.handler.</span>SimpleUrlHandlerMapping&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;mappings&quot;&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;props&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;prop key=&quot;/hi.do&quot;&gt;<u>Controller的bean的id</u>&lt;/
+	</p>
+
+	<p style="margin-left: 120px;">
+		......
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>（注意！！！）</strong></span>
+</p>
+
+<p style="margin-left: 40px;">
+	如果同时定义BeanNameHandlerMapping和简单URL<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;</span>在Controller的bean中进行配置的name依然可以访问
+</p>
+
+<p style="margin-left: 40px;">
+	映射处理器之间独立 互不影响
+</p>
+
+<p style="margin-left: 40px;">
+	但是如果只定义<span style="font-size: 13px;">简单URL bean中的name就不起作用了</span>
+</p>
+
+<p style="margin-left: 40px;">
+	<span style="font-size: 13px;">如果什么都没定义 才默认有BeanNameHandlerMapping</span>
+</p>
+
+<p>
+	<strong>3.ControllerClassNameHandlerMapping</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;bean class=&quot;org.springframework.web.servlet.handler.</span><span style="font-size: 13px;">ControllerClassNameHandlerMapping</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&quot;&gt;</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; line-height: 1.6em;">&lt;/</span>
+	</p>
+</blockquote>
+
+<p>
+	然后访问 <u>controller的类名.do</u>&nbsp;进行访问 就可以访问到
+</p>
+
+<p>
+	<span style="color:#FF0000;">注意！！！访问时 类名使用首字母小写访问</span>
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<h5>
+	<strong>四、几种Controller</strong>
+</h5>
+
+<p>
+	<strong>1.ParameterizableViewController参数控制器</strong>
+</p>
+
+<p>
+	有的jsp页面很简单 直接访问就可以了 不用再拿Controller转发 就使用这种方式
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">parameterizableViewController</span>&quot; class=&quot;org.springframe.web.servlet.mvc.<span style="font-size: 13px;">ParameterizableViewController</span>&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;viewName&quot; value=&quot;想要跳转到的jsp 都会被视图解析器加上前缀和后缀&quot;&gt;&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	想要访问这个Controller当然有三种方式了
+</p>
+
+<p>
+	可以在简单URL映射处理器中配置一个 （需要指定id属性）
+</p>
+
+<p>
+	或者使用bean的name
+</p>
+
+<p>
+	...
+</p>
+
+<p>
+	<span style="color:#FF0000;">这样一个ParameterizableViewController就对应一个jsp页面 要对应多个jsp页面 就配置多个ParameterizableViewController的bean即可</span>
+</p>
+
+<p>
+	<strong>2.<strike>AbstractCommandController</strike>命令控制器（过时）</strong>
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/3.jpg"><img alt="3" class="alignnone size-full wp-image-2494" height="250" src="http://localhost:8080/wp-content/uploads/2014/02/3.jpg" width="493" /></a>
+</p>
+
+<p>
+	方法参数中的Object obj用来接收前台传来的数据
+</p>
+
+<p>
+	它接收一个实体类（Model） 不知道是什么类型 需要进行配置
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;commController&quot; class=&quot;com.yutouxiuxiu.controller.CommController&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;!--指定接收数据的数据类型--&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;commandClass&quot; value=&quot;com.yutouxiuxiu.model.Person&quot;&gt;&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	比如说实体类Person中有id、name、age等属性 访问如下的地址
+</p>
+
+<blockquote>
+	<p>
+		comm.do?id=1&amp;name=liuneng&amp;age=22
+	</p>
+</blockquote>
+
+<p>
+	访问一个带有对应参数的地址的时候 obj参数就会按照配置中指定的实体类的set方法去匹配url参数 通过反射的方式 注入到obj里面
+</p>
+
+<p>
+	<span style="color:#FF0000;">这个url参数的参数名首字母可以大写也可以小写</span>
+</p>
+
+<p>
+	<strong>3.SimpleFormController表单控制器</strong>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/5.jpg"><img alt="5" class="alignnone size-full wp-image-2495" height="244" src="http://localhost:8080/wp-content/uploads/2014/02/5.jpg" width="522" /></a>
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	<span style="color:#0000CD;">form.jsp</span>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;form action=&quot;/form.do&quot; method=&quot;post&quot;&gt;<span style="color:#FF0000;"><strong>只支持POST方式 为什么 见下面</strong></span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;input type=&quot;text&quot; name=&quot;id&quot; /&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;input type=&quot;text&quot; name=&quot;age&quot; /&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&lt;input type=&quot;submit&quot; value=&quot;提交&quot; /&gt;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;/
+	</p>
+</blockquote>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;bean id=&quot;formController&quot; name=&quot;/form.do&quot; class=&quot;com.yutouxiuxiu.controller.FormController&quot;&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;!--指定接收数据的数据类型--&gt;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;property name=&quot;commandClass&quot; value=&quot;com.yutouxiuxiu.model.Person&quot;&gt;&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;property name=&quot;formView&quot; value=&quot;表单的页面 form&quot;&gt;&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		&lt;property name=&quot;successView&quot; value=&quot;成功时返回的页面 success&quot;&gt;&lt;/
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>（注意！！！）</strong></span>
+</p>
+
+<p>
+	直接访问form.do（是通过GET方式）就会访问到表单的页面form.jsp
+</p>
+
+<p>
+	当提交表单的时候 虽然也是访问form.do（但是是通过POST访问的） 就会做提交表单的动作 走doSubmitAction方法中的逻辑
+</p>
+
+<p>
+	所以说 表单页面的method如果指定成GET就会跳回到表单页面 无法提交
+</p>
+
+<p>
+	<strong>默认的校验</strong>
+</p>
+
+<p>
+	它默认还做了一个数据类型的校验 如果将int类型的id表单填入字母之类的 就会跳回到表单页面
+</p>
+
+<p>
+	如果是Date类型的 它是怎么验证的呢？需要指定一下格式
+</p>
+
+<p>
+	绑定事件类型的属性编辑器
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/6.jpg"><img alt="6" class="alignnone size-full wp-image-2497" height="282" src="http://localhost:8080/wp-content/uploads/2014/02/6.jpg" width="845" /></a>
+</p>
+
+<p>
+	那个boolean的参数是用来指定是否可以为空的
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>五、注解方式进行配置</strong>
+</h5>
+
+<p>
+	当然 使用注解的方式进行配置的时候也需要在web.xml中定义这个DispatcherServlet
+</p>
+
+<p>
+	如果需要&nbsp;ViewResolver和Interceptors也是在配置文件中配置的
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>而Controller和Mapping就在注解中配置了</strong></span>
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>不过还是需要在配置文件中配置一下注释驱动和扫描器</strong></span>
+</p>
+
+<blockquote>
+	<p>
+		&lt;!--注解驱动--&gt;
+	</p>
+
+	<p>
+		&lt;mvc:annotation-driven/&gt;
+	</p>
+
+	<p>
+		&lt;!--扫描器 扫描Controller--&gt;
+	</p>
+
+	<p>
+		&lt;context:component-scan base-package=&quot;com.yutouxiuxiu.controller&quot;/&gt;
+	</p>
+</blockquote>
+
+<p>
+	这样Controller就不用继承和实现了
+</p>
+
+<blockquote>
+	<p>
+		import org.springframework.stereotype.Controller;
+	</p>
+
+	<p>
+		<span style="color:#FF0000;">@Controller &nbsp;//用来标注该类是控制层 通过扫描器可以扫描的到 纳入到Spring IOC容器管理</span>
+	</p>
+
+	<p>
+		<span style="color:#FF0000;">@RequestMapping(&quot;/test&quot;)<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;&nbsp;//配置访问的路径</span></span>
+	</p>
+
+	<p>
+		public class TestController {
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="color:#FF0000;">@RequestMapping(&quot;/hi.do&quot;) &nbsp;//配置访问的路径 访问的时候 前面加上类上面的RequestMapping注释所指定的位置</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&nbsp;public <span style="color:#FF0000;">String</span> hello()&nbsp;{ &nbsp;//返回值 代表ModelAndView中的viewName 就相当于配置文件方式return new ModelAndView中的参数
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="line-height: 1.6em;">syso(&quot;hi springmvc annotation&quot;);</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		return &quot;index&quot;;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		@Req...
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">public&nbsp;</span>String<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">&nbsp;param1(HttpServletRequest request)&nbsp;{ &nbsp;//可以这样接收url参数</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(request.getParameter(&quot;name&quot;));</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">return &quot;index&quot;;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@Req...</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;param2(String name)&nbsp;{ &nbsp;//这样直接<strong><span style="color:#FF0000;">接收参数</span></strong> 更加方便直观 参数名要和url中的参数名对应
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(name);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">return &quot;index&quot;;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@Req...</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;param3(String[]&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">hobbies</span>)&nbsp;{ &nbsp;//如果是接收的参数是多个值 比如说是从<strong><span style="color:#FF0000;">checkbox</span></strong>来的 <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">hobbies=yutou&amp;hobbies=qinqin</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		for(String hobby : hobbies) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(hobby);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">return &quot;index&quot;;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		@Req...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;obj(Person person)&nbsp;{ &nbsp;//如果接收的参数要构造成一个实体 就直接指定一个实体即可 它会自动注入进来
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(person);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">return &quot;index&quot;;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		@Req...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;obj2(Person person, String name, int age)&nbsp;{ &nbsp;//用实体类接收了 还可以用参数名直接接收
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(person);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">syso(name);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		return &quot;index&quot;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		@Req...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;obj3(Person person, User user)&nbsp;{ &nbsp;//如果Person和User里都有id和name属性 都不互相影响 都能接收的到
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(person);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">user</span>);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		return &quot;index&quot;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		@RequestMapping(&quot;/form.do&quot;)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public&nbsp;String&nbsp;form()&nbsp;{ //<span style="color:#FF0000;">转发</span>的话 就这么写就可以了
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		return &quot;form&quot;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">@InitBinder</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">public void initBinder(ServletRequestDateBinder binder) { &nbsp;//如果类型是日期类型的话 需要注册时间属性编辑器</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		binder.registerCustomEditor(Date.class, new SimpleDateEditor(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;), true));
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	就可以通过 /test/hi.do 进行访问
+</p>
+
+<p>
+	<strong>2.封装数据到页面中</strong>
+</p>
+
+<p>
+	可以把页面和数据封装在一起 交由视图解析器进行解析
+</p>
+
+<p>
+	这就类似于smarty 把页面和assign的数据封装到一个对象里 然后交由模板解析器解析
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@RequestMapping(&quot;/test.do&quot;)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public ModelAndView test() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Person person = new Person();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		person.setId(1);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		person.setName(&quot;yutou&quot;);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		<span style="color:#FF0000;">map.put(&quot;p&quot;, person); &nbsp;//相当于request.setAttribute(&quot;p&quot;, person); map里的数据 就是结果集里的数据</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		return new ModelAndView(&quot;index&quot;, <span style="color:#FF0000;">map</span>);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	然后就可以在index.jsp的页面中使用EL表达式进行值的获取
+</p>
+
+<blockquote>
+	<p>
+		${p.id}
+	</p>
+
+	<p>
+		${p.name}
+	</p>
+</blockquote>
+
+<p>
+	上面的写法比较麻烦 可以按照下面的方式来简化书写
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@RequestMapping(&quot;/test.do&quot;)</span>
+	</p>
+
+	<p>
+		public String test(Map&lt;String, Object&gt; map) { &nbsp;//在参数列表里面定义map
+	</p>
+
+	<p style="margin-left: 40px;">
+		map.put(...);
+	</p>
+
+	<p style="margin-left: 40px;">
+		return &quot;index&quot;;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong>通常使用这种方式！！！</strong></span>
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@RequestMapping(&quot;/test.do&quot;)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public String test(Model model) {&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		mode.addAttribute(p, &quot;person&quot;); &nbsp;//更加像smarty中的assign了
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		return &quot;index&quot;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.指定请求方式</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@RequestMapping(value=&quot;/test.do&quot;, method=RequestMethod.GET)</span>
+	</p>
+</blockquote>
+
+<p>
+	如果指定了请求方式 使用其他的请求方式就不能访问到了 会报405错误 提高了安全性
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.ajax返回</strong>
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@RequestMapping(&quot;/ajax.do&quot;)</span>
+	</p>
+
+	<p>
+		public void ajax(PrintWriter out) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		out.write(&quot;{name: &#39;yutou&#39;}&quot;);
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>5.重定向</strong>
+</p>
+
+<p>
+	地址栏会发生变化
+</p>
+
+<p>
+	（1）Controller内部重定向
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">@RequestMapping(&quot;/</span><span style="font-size: 13px;">redirect</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">.do&quot;)</span>
+	</p>
+
+	<p>
+		public String redirect() {
+	</p>
+
+	<p style="margin-left: 40px;">
+		return &quot;redirect:hi.do&quot;; &nbsp;//&quot;redirect:&quot;加上其他方法的<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">RequestMapping</span>路径
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	（2）重定向到其他Controller的方法
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		@RequestMapping(&quot;/redirect.do&quot;)
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		public String redirect() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		return&nbsp;&quot;redirect:/Controller的<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">RequestMapping</span>路径/hi.do&quot;; &nbsp;//<strong><span style="color:#FF0000;">（注意！！！）最前面必须要加上&quot;/&quot;</span></strong>表示退回根目录中 要是不加 就还是在当前的Controller的<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">RequestMapping基础上加上redirect路径</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>六、文件上传</strong>
+</h5>
+
+<p>
+	<strong>配置</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;bean id=&quot;<span style="color:#FF0000;">必须是<span style="font-size: 13px;">multipartResolver</span></span>&quot; class=&quot;org.springframework.web.multipart.commons.CommonMultipartResolver&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;property name=&quot;maxUploadSize&quot; value=&quot;以Byte为单位&quot;&gt;&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>表单</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;form enctype=&quot;multipart/form-data&quot;&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	<strong>Controller接收</strong>
+</p>
+
+<blockquote>
+	<p>
+		@RequestMapping(&quot;upload.do&quot;)
+	</p>
+
+	<p>
+		public String upload(Person person, HttpServletRequest request) {
+	</p>
+
+	<p style="margin-left: 40px;">
+		//1.转换request为复杂类型的
+	</p>
+
+	<p style="margin-left: 40px;">
+		MultipartHttpServletRequest mRequest = (<span style="font-size: 13px;">MultipartHttpServletRequest</span>)&nbsp;<span style="font-size: 13px;">request;</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">//2.拿到文件</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">CommonMultipartFile cFile = (CommonMultipartFile) request.getFile(&quot;file&quot;); &nbsp;//根据表单项的name获取</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		//3.获得文件的字节数组
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">byte[] fByte =&nbsp;cFile.getBytes();</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">//4.获取根目录</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="font-size: 13px;">String realPath = request.getSession().getServletContext().getRealPath(&quot;&quot;);</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		//5.输出到文件
+	</p>
+
+	<p style="margin-left: 40px;">
+		OutputStream out = FileOutputStream(new File(realPath + &quot;/upload/&quot; + <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">cFile.getOriginalFilename()</span>));
+	</p>
+
+	<p style="margin-left: 40px;">
+		out.write(fByte);
+	</p>
+
+	<p style="margin-left: 40px;">
+		out.flush();
+	</p>
+
+	<p style="margin-left: 40px;">
+		out.close();
+	</p>
+
+	<p style="margin-left: 40px;">
+		return null;
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>七、Interceptors拦截器</strong>
+</h5>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/7.jpg"><img alt="7" class="alignnone size-full wp-image-2502" height="200" src="http://localhost:8080/wp-content/uploads/2014/02/7.jpg" width="442" /></a>
+</p>
+
+<p>
+	<strong style="font-size: 13px;">1.三种拦截器</strong>
+</p>
+
+<p>
+	前置、后置、最终
+</p>
+
+<p>
+	<a href="http://localhost:8080/wp-content/uploads/2014/02/8.jpg"><img alt="8" class="alignnone size-full wp-image-2503" height="360" src="http://localhost:8080/wp-content/uploads/2014/02/8.jpg" width="590" /></a>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	（1）preHandle前置拦截
+</p>
+
+<p>
+	<span style="font-size: 13px;">Object参数是拦截的Controller类</span>
+</p>
+
+<p>
+	在Controller执行之前执行
+</p>
+
+<p>
+	如果返回true 执行Controller 如果返回false 不执行
+</p>
+
+<p>
+	最常用在权限拦截
+</p>
+
+<p>
+	（2）postHandler后置拦截
+</p>
+
+<p>
+	ModelAndView参数
+</p>
+
+<p>
+	在Controller执行完毕 视图解析器执行之前执行
+</p>
+
+<p>
+	目的是对ModelAndView进行统一的修改 比如
+</p>
+
+<blockquote>
+	<p>
+		Map&lt;String, Object&gt; map = modelAndView.getModel();
+	</p>
+
+	<p>
+		map.put(&quot;test&quot;, &quot;append something&quot;);
+	</p>
+</blockquote>
+
+<p>
+	（3）afterCmpletion最终拦截
+</p>
+
+<p>
+	Exception参数
+</p>
+
+<p>
+	在解析器解析完成之后执行
+</p>
+
+<p>
+	目的是将出现的异常进行记录
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.配置拦截器</strong>
+</p>
+
+<blockquote>
+	<p>
+		&lt;mvc:interceptors&gt;
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;mvn:interceptor&gt;
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;mvc:mapping path=&quot;/**&quot;/&gt;
+	</p>
+
+	<p style="margin-left: 120px;">
+		&lt;bean class=&quot;com.yutouxiuxiu.interceptors.MyInterceptor&quot;&gt;&lt;/
+	</p>
+
+	<p style="margin-left: 80px;">
+		&lt;/
+	</p>
+
+	<p style="margin-left: 40px;">
+		&lt;/
+	</p>
+
+	<p>
+		&lt;/
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

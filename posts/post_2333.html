@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>解决openfire中文乱码问题</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					解决openfire中文乱码问题
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<div>
+	<div>
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			openfire是一个非常不错的IM服务器，而且是纯Java实现，具有多个平台的版本，他的数据存储可以采用多种数据库，如MySQL，Oracle等。
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			在实际使用时大家遇到最多的就是采用MySQL数据库后的中文乱码问题，这个问题十分有趣，而且从现象上可以看出openfire内部的一些机制。
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			实际问题是这样的：首先启动openfire服务器，然后利用客户端或直接登录到后台新建一个帐户，为该帐户指定一些中文的属性，如姓名等。如果不重启服务器，你永远不会觉得有什么不对的地方，因为所有的中文显示都是正常的。接下来重启一下openfire，再用建立的帐号登录客户端或进入后台管理端查看，会发现所有的中文全都变成了问号。登录到数据库中进行查看，发现所有的中文字符也均为问号，这说明了两个问题：
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			openfire具有应用层缓存&nbsp;<br style="margin: 0px; padding: 0px;" />
+			<br />
+			数据库编码存在问题&nbsp;<br style="margin: 0px; padding: 0px;" />
+			<br />
+			解决办法其实也很简单，首先要保证你为openfire创建的数据库编码是utf8的，建表语句如下：
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			create database openfire default character set utf8 default collate utf8_general_ci
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			当你原来就创建好数据库时，你可以用：
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			&nbsp;alter database openfire default character set utf8 default collate utf8_general_ci;
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			其次，在初始化openfire数据库，即第一次配置openfire服务器时，在连接数据库那里的连接串要加入字符编码格式，必须在连接里增加UTF8的编码要求，连接字符串设置如下：
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			jdbc:mysql://127.0.0.1:3306/openfire?useUnicode=true&amp;characterEncoding=utf8
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			如果已经安装完成，这个配置也是可以改动的，直接到openfire的安装目录下，找到conf/openfire.xml这样一个文件，打开找到如下的XML节，修改其中的serverURL即可
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			&lt;database&gt;<br style="margin: 0px; padding: 0px;" />
+			<br />
+			&lt;defaultProvider&gt;<br style="margin: 0px; padding: 0px;" />
+			<br />
+			&lt;driver&gt;com.mysql.jdbc.Driver&lt;/driver&gt;<br style="margin: 0px; padding: 0px;" />
+			<br />
+			&lt;serverURL&gt;jdbc:mysql://127.0.0.1:3306/openfire?useUnicode=true&amp;amp;characterEncoding=utf8&lt;/serverURL&gt;
+		</p>
+
+		<p style="margin: 10px auto; padding: 0px; color: rgb(102, 102, 102); font-family: 微软雅黑, verdana, 'ms song', 宋体, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; background-color: rgb(221, 221, 221);">
+			注意：由于&amp;具有特殊含义，因此原&amp;符号必须被转义为&amp;amp;
+		</p>
+
+		<p>
+			&nbsp;
+		</p>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

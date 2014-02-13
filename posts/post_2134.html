@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>ThinkPHP - 缓存</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					ThinkPHP - 缓存
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>一、TP的缓存</strong>
+</h5>
+
+<p>
+	它是提供了一个缓存的接口 具体是用什么缓存技术 是往硬盘上缓存 还是往内存里缓存 要看使用的是什么缓存技术
+</p>
+
+<p>
+	ThinkPHP提供了方便的缓存方式，包括数据缓存、静态缓存和查询缓存等，支持包括文件方式、APC、Db、Memcache、Shmop、Sqlite、Redis、Eaccelerator和Xcache在内的动态数据缓存类型，以及可定制的静态缓存规则，并提供了快捷方法进行存取操作。
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、初步了解</strong>
+</h5>
+
+<p>
+	<strong>1.开启缓存</strong>
+</p>
+
+<p>
+	在DEBUG模式下 默认关闭缓存 如何开启
+</p>
+
+<p>
+	<span style="color:#0000FF;">Conf/debug.php</span>
+</p>
+
+<blockquote>
+	<p>
+		<span style="line-height: 1.6em;">return array (</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;DB_FIELSD_CACHE&#39; =&gt; false,
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;HTML_CACHE_ON&#39; =&gt; true,
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;DATA_CACHE_SUBDIR&#39; =&gt; true, &nbsp;//多级目录存放缓存数据 如果一个目录下的文件超过1000时 就比较影响读取性能
+	</p>
+
+	<p style="margin-left: 40px;">
+		&#39;DATA_PATH_LEVEL&#39; =&gt; 2 &nbsp;//支持多少级目录缓存 1层16个目录 &nbsp;2层16*16=256个目录&nbsp;
+	</p>
+
+	<p>
+		);
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.进行缓存</strong>
+</p>
+
+<blockquote>
+	<p>
+		if (!S(&#39;list&#39;)) { &nbsp;//看看有每有这个缓存存在
+	</p>
+
+	<p style="margin-left: 40px;">
+		$list = 查询数据库...
+	</p>
+
+	<p style="margin-left: 40px;">
+		S(&#39;list&#39;, $list); &nbsp;//把数据缓存到&#39;list&#39; 它会把&#39;list&#39;的md5值作为缓存文件的文件名放在 Runtime/Tmp下
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	但是缓存到list的文件中 是全局有效的 如果其他地方再缓存到list中 就覆盖了
+</p>
+
+<p>
+	所以可以用&ldquo;模块名_方法名_变量名&rdquo;作为缓存文件名
+</p>
+
+<p>
+	<strong>快捷缓存</strong>
+</p>
+
+<p>
+	ThinkPHP把所有的缓存机制统一成一个S方法来进行操作，所以在使用不同的缓存方式的时候并不需要关注具体的缓存细节。例如： <code class="prettyprint linenums lang-php prettyprinted"> </code>
+</p>
+
+<blockquote>
+	<p>
+		//&nbsp;使用data标识缓存$Data数据
+	</p>
+
+	<p>
+		S(&#39;data&#39;,$Data);
+	</p>
+
+	<p>
+		//&nbsp;缓存$Data数据3600秒
+	</p>
+
+	<p>
+		S(&#39;data&#39;,$Data,3600);
+	</p>
+
+	<p>
+		//&nbsp;获取缓存数据
+	</p>
+
+	<p>
+		$Data&nbsp;=&nbsp;S(&#39;data&#39;);
+	</p>
+
+	<p>
+		//&nbsp;删除缓存数据
+	</p>
+
+	<p>
+		S(&#39;data&#39;,NULL);
+	</p>
+</blockquote>
+
+<p>
+	<span style="font-size: 13px;">如果是3.1版本以上，建议用新增的cache方法替代S方法</span>
+</p>
+
+<p>
+	1 缓存初始化&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		cache(array(&#39;type&#39;=&gt;&#39;xcache&#39;,&#39;expire&#39;=&gt;60));
+	</p>
+</blockquote>
+
+<p>
+	2 缓存设置&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		cache(&#39;a&#39;,$value);
+	</p>
+</blockquote>
+
+<p>
+	3 缓存读取&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		$value = cache(&#39;a&#39;);
+	</p>
+</blockquote>
+
+<p>
+	4 缓存删除&nbsp;
+</p>
+
+<blockquote>
+	<p>
+		cache(&#39;a&#39;,null);
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

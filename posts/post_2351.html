@@ -1,0 +1,1406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>java 多线程 线程间通信</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					java 多线程 线程间通信
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<h5>
+	<strong>零、什么是线程间通信</strong>
+</h5>
+
+<p>
+	线程间通信 其实就是多个线程在操作同一个资源 但是操作的动作不同 也就是说执行的不是一个run函数
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>一、线程间通信的示例</strong>
+</h5>
+
+<blockquote>
+	<p>
+		class Resource {
+	</p>
+
+	<p style="margin-left: 40px;">
+		string name;
+	</p>
+
+	<p style="margin-left: 40px;">
+		string sex;
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		class Input implements Runnable {
+	</p>
+
+	<p style="margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="margin-left: 40px;">
+		Input(Resource r) {
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="margin-left: 80px;">
+		int x = 0;
+	</p>
+
+	<p style="margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="margin-left: 120px;">
+		//synchronized(r) {
+	</p>
+
+	<p style="margin-left: 160px;">
+		if (x%2 == 0) {
+	</p>
+
+	<p style="margin-left: 200px;">
+		r.name = &#39;yutou&#39;;
+	</p>
+
+	<p style="margin-left: 200px;">
+		r.sex = &#39;girl&#39;;
+	</p>
+
+	<p style="margin-left: 160px;">
+		} else {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 200px;">
+		r.name = &#39;修修&#39;;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 200px;">
+		r.sex = &#39;男&#39;;
+	</p>
+
+	<p style="margin-left: 160px;">
+		}&nbsp;
+	</p>
+
+	<p style="margin-left: 120px;">
+		x++;
+	</p>
+
+	<p style="margin-left: 120px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">//}</span>
+	</p>
+
+	<p style="margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		class Output implements Runnable {
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		Output(Resource r) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-size: 13px; margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		&nbsp;
+	</p>
+
+	<p style="margin-left: 40px;">
+		public void run(r) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 120px;">
+		//synchronized() {
+	</p>
+
+	<p style="font-size: 13px; margin-left: 160px;">
+		syso(r.name + &quot; &quot; +&nbsp;<span style="line-height: 1.6em;">r.sex);</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 120px;">
+		<span style="line-height: 1.6em;">//}</span>
+	</p>
+
+	<p style="font-size: 13px; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+
+	<p>
+		...
+	</p>
+
+	<p>
+		Resource r = new Resource();
+	</p>
+
+	<p>
+		Input in = new Input();
+	</p>
+
+	<p>
+		Output out = new Output();
+	</p>
+
+	<p>
+		Thread t1 = new Thread(in);
+	</p>
+
+	<p>
+		Thread t2 = new Thread(out);
+	</p>
+
+	<p>
+		t1.start();
+	</p>
+
+	<p>
+		t2.start();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<span style="color:#FF0000;"><strong>这样会出现奇奇怪怪的问题</strong></span> 就是
+</p>
+
+<blockquote>
+	<p>
+		yutou 男
+	</p>
+
+	<p>
+		修修 girl
+	</p>
+</blockquote>
+
+<p>
+	因为 可能刚把name改成修修的时候 sex还是原来的girl呢 output就得到了执行权 然后进行了输出 就出现了上面的问题
+</p>
+
+<p>
+	<strong>解决办法</strong>
+</p>
+
+<p>
+	加同步锁 把上面代码中被注释掉的synchronized恢复即可
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>二、等待唤醒机制</strong>
+</h5>
+
+<p>
+	两个线程操作共享数据 一个做完了 等待 另一个再做 唤醒第一个 然后等待
+</p>
+
+<p>
+	等待的线程 都在内存中的线程池里 唤醒的时候 唤醒的是第一个
+</p>
+
+<p>
+	如果想全部唤醒 就用notifyAll
+</p>
+
+<p>
+	注意 wait notify notifyAll 都是Object的方法 并且当前线程必须拥有此对象监视器 换句话说 就是必须在同步代码块中才能行
+</p>
+
+<p>
+	<span style="color:#FF0000;">因为这些方法在操作同步中线程时 都必须要标识他们所操作线程持有的锁</span>
+</p>
+
+<p>
+	<span style="color:#FF0000;">只有同一个锁上的被等待的线程 可以被同一个锁上的notify唤醒</span>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	等待和唤醒必须是同一把锁
+</p>
+
+<p>
+	这就是为什么这三个方法上是定义在Object类上的了 因为锁是任意的
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Resource {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		string name;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		string sex;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		boolean flag = false;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Input implements Runnable {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Input(Resource r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		int x = 0;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		synchronized(r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		if (r.flag) try { r.wait(); } catch (Exception e) {}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		if (x%2 == 0) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		r.name = &#39;yutou&#39;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		r.sex = &#39;girl&#39;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		} else {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		r.name = &#39;修修&#39;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 200px;">
+		r.sex = &#39;男&#39;;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		}&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		x++;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		r.flag = true;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		r.notify();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Output implements Runnable {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Output(Resource r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run(r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		synchronized() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		if (!r.flag) <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">try { r.wait(); } catch (Exception e</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">) {}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		syso(r.name + &quot; &quot; +&nbsp;<span style="line-height: 1.6em;">r.sex);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		<span style="line-height: 1.6em;">r.flag = false;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		<span style="line-height: 1.6em;">r.notify();</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Resource r = new Resource();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Input in = new Input();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Output out = new Output();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Thread t1 = new Thread(in);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Thread t2 = new Thread(out);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		t1.start();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		t2.start();
+	</p>
+</blockquote>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	上面的代码再优化一下 就是
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Resource {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private String name;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private String sex;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private boolean flag = false;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public synchronized void&nbsp;set (String name, String sex) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		if (flag)&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">try { <span style="color:#FF0000;"><strong>this</strong></span>.wait(); } catch (Exception e</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">) {} &nbsp;//同步函数的锁是this</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.name = name;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.sex = sex;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">flag = true;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;"><strong><span style="color:#FF0000;">this</span></strong>.notify();</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public synchronized void out() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		if (!flag)&nbsp;<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">{&nbsp;<span style="color: rgb(255, 0, 0);"><strong>this</strong></span>.wait(); } catch (Exception e</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">) {}</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(name + &quot; &quot; + sex);
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		flag = false;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.notify();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Output implements Runnable {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Output(Resource r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run(r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		r.out();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic;">
+		class Input implements Runnable {
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		Input(Resource r) {
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-size: 13px; font-family: Georgia, Times, 'Times New Roman', serif; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		int x = 0;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		if (x%2 == 0) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		r.set( &#39;yutou&#39;,<span style="line-height: 1.6em;">&nbsp;&#39;girl&#39;);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		} else {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 160px;">
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">r.set( &#39;修修&#39;,</span><span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; line-height: 1.6em;">&nbsp;&#39;男&#39;);</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		}&nbsp;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		x++;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Resource r = new Resource();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		new Thread(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">new Input()</span>).start();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		new Thread(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">new Output()</span>).start();
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>三、生产者消费者</strong>
+</h5>
+
+<p>
+	一个线程生产一个 另一个线程消费一个
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Resource {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private String name;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private int count = 1;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private boolean flag = false;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public synchronized void&nbsp;pro(String name) { &nbsp;//生产
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		if (flag)&nbsp;try {&nbsp;<span style="color: rgb(255, 0, 0);"><strong>this</strong></span>.wait(); } catch (Exception e) {} &nbsp;//同步函数的锁是this
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.name = <span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">name + count++;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(Thread.currentThread().getName() + &quot; &nbsp;生产 &nbsp;&quot; + this.name); &nbsp;//生产的商品带一个编号
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		flag = true;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		<strong><span style="color: rgb(255, 0, 0);">this</span></strong>.notify();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public synchronized void cus() { &nbsp;//消费
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		if (!flag)&nbsp;{&nbsp;<span style="color: rgb(255, 0, 0);"><strong>this</strong></span>.wait(); } catch (Exception e) {}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		syso(<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">Thread.currentThread().getName() + &quot; &nbsp;消费 &nbsp;&quot; + name</span>); &nbsp;//消费了哪个商品
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		flag = false;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.notify();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Cus implements Runnable { &nbsp;//消费者
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Output(Resource r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run(r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		r.cus();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		class Pro implements Runnable { &nbsp;//生产者
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		private Resource r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		Input(Resource r) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.r = r;
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public void run() {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		while (true) {
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 120px;">
+		r.pro(&quot;商品&quot;)<span style="line-height: 1.6em;">;</span>
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		}
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		...
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		Resource r = new Resource();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		new Thread(new Cus()).start();
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+		new Thread(new Pro()).start();
+	</p>
+</blockquote>
+
+<p>
+	但是在真实的开发中 都是很多个生产者 很多个消费者
+</p>
+
+<p>
+	目前我对多线程还没多少了解 也不知道什么实际开发中的栗子来说明这个
+</p>
+
+<p>
+	如果还用上面的那个程序 然后多开几个线程的话 就会出现 生产了多个 只消费了一个 生产了一个 被消费了多次的现象
+</p>
+
+<p>
+	这显然不是我们想要的
+</p>
+
+<p>
+	<strong>while循环</strong>
+</p>
+
+<p>
+	我们先来看看问题出在哪里
+</p>
+
+<blockquote>
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+		public synchronized void&nbsp;pro(String name) { &nbsp;//①
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		if (flag)&nbsp;try {&nbsp;<span style="color: rgb(255, 0, 0);"><strong>this</strong></span>.wait(); } catch (Exception e) {} &nbsp;//②
+	</p>
+
+	<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+		this.name =&nbsp;name + count++;
+	</p>
+</blockquote>
+
+<p>
+	当t1 t2两个生产者线程都wait以后 此时消费者唤醒了其中一个线程 这个被唤醒的线程 直接从它等待的地方②醒来 继续向下执行 尽管这时flag已经是true（已经有了一个生产了未被消费的商品）它没有经过①的判断就向下执行了
+</p>
+
+<p>
+	我们需要的是 每次唤醒之后 还要判断一下flag的状态
+</p>
+
+<p>
+	把if 改成while就可以解决这个问题 它醒来之后 还是去判断flag 如果已经有了未被消费的商品 就接着等待
+</p>
+
+<p>
+	<strong>notifyAll</strong>
+</p>
+
+<p>
+	但是把生产者消费者的if判断都改成while以后 会迎来新的问题 就是可能在某一刻 四个线程全部等待了 程序就死那了
+</p>
+
+<p>
+	因为唤醒的是本方的线程 本方的线程唤醒后还不满足条件 就继续等待 对方的线程也是如此 就都等待了
+</p>
+
+<p>
+	那就让唤醒的时候 全部唤醒 就不会出现这个问题了
+</p>
+
+<blockquote>
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">this.notifyAll();</span>
+	</p>
+</blockquote>
+
+<p>
+	全醒了之后也没关系 因为都要进行判断的
+</p>
+
+<p style="font-size: 13px;">
+	<strong>整理一下 就是这样的</strong>
+</p>
+
+<blockquote style="font-size: 13px;">
+	<p>
+		class Resource {
+	</p>
+
+	<p style="margin-left: 40px;">
+		private String name;
+	</p>
+
+	<p style="margin-left: 40px;">
+		private int count = 1;
+	</p>
+
+	<p style="margin-left: 40px;">
+		private boolean flag = false;
+	</p>
+
+	<p style="margin-left: 40px;">
+		public synchronized void&nbsp;pro(String name) { &nbsp;//生产
+	</p>
+
+	<p style="margin-left: 80px;">
+		<strong><span style="color: rgb(255, 0, 0);">while&nbsp;</span></strong>(flag)&nbsp;try {&nbsp;this.wait(); } catch (Exception e) {} &nbsp;//同步函数的锁是this
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.name =&nbsp;name + count++;
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(Thread.currentThread().getName() + &quot; &nbsp;生产 &nbsp;&quot; + this.name); &nbsp;//生产的商品带一个编号
+	</p>
+
+	<p style="margin-left: 80px;">
+		flag = true;
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.<strong><span style="color: rgb(255, 0, 0);">notifyAll</span></strong>();
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p style="margin-left: 40px;">
+		public synchronized void cus() { &nbsp;//消费
+	</p>
+
+	<p style="margin-left: 80px;">
+		<span style="color: rgb(255, 0, 0);"><strong>while&nbsp;</strong></span>(!flag)&nbsp;{&nbsp;this.wait(); } catch (Exception e) {}
+	</p>
+
+	<p style="margin-left: 80px;">
+		syso(Thread.currentThread().getName() + &quot; &nbsp;消费 &nbsp;&quot; + name); &nbsp;//消费了哪个商品
+	</p>
+
+	<p style="margin-left: 80px;">
+		flag = false;
+	</p>
+
+	<p style="margin-left: 80px;">
+		this.<strong><span style="color: rgb(255, 0, 0);">notifyAll</span></strong>();
+	</p>
+
+	<p style="margin-left: 40px;">
+		}
+	</p>
+
+	<p>
+		}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong><span style="font-size: 13px;">concurrent.locks</span></strong>
+</p>
+
+<p>
+	虽然这样行了 但是还不够高效
+</p>
+
+<p>
+	既然本方的线程不满足条件 还唤醒他 那不是占资源了 其实只需要唤醒对方就可以
+</p>
+
+<p>
+	JDK1.5+里提供了更便捷的解决方案（在1.5之前 都在使用while和notifyAll）
+</p>
+
+<p>
+	java.util.concurrent.locks.Lock接口
+</p>
+
+<p style="margin-left: 40px;">
+	Lock提供了比使用synchronized方法/语句可获得的更广泛的锁的操作 它替代了synchronized使用
+</p>
+
+<p style="margin-left: 40px;">
+	lock()
+</p>
+
+<p style="margin-left: 40px;">
+	unlock()
+</p>
+
+<p>
+	java.util.concurrent.locks.Condition接口
+</p>
+
+<p style="margin-left: 40px;">
+	Condition替代了Object监视器方法的使用
+</p>
+
+<p style="margin-left: 40px;">
+	await() &nbsp;- &nbsp;让当前线程处于等待状态
+</p>
+
+<p style="margin-left: 40px;">
+	signal() &nbsp;- &nbsp;唤醒一个等待的线程
+</p>
+
+<p style="margin-left: 40px;">
+	signal() &nbsp;- &nbsp;唤醒所有的等待线程
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	class Resource {
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	private String name;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	private int count = 1;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	private boolean flag = false;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	<strong><span style="color:#FF0000;">private Lock lock = new ReentrantLock();</span></strong> &nbsp;// 是Lock接口的实现类
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	public synchronized void&nbsp;pro(String name) { &nbsp;//生产
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	<strong><span style="color: rgb(255, 0, 0);">while&nbsp;</span></strong>(flag)&nbsp;try {&nbsp;this.wait(); } catch (Exception e) {} &nbsp;//同步函数的锁是this
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	this.name =&nbsp;name + count++;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	syso(Thread.currentThread().getName() + &quot; &nbsp;生产 &nbsp;&quot; + this.name); &nbsp;//生产的商品带一个编号
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	flag = true;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	this.<strong><span style="color: rgb(255, 0, 0);">notifyAll</span></strong>();
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	public synchronized void cus() { &nbsp;//消费
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	<span style="color: rgb(255, 0, 0);"><strong>while&nbsp;</strong></span>(!flag)&nbsp;{&nbsp;this.wait(); } catch (Exception e) {}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	syso(Thread.currentThread().getName() + &quot; &nbsp;消费 &nbsp;&quot; + name); &nbsp;//消费了哪个商品
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	flag = false;
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 80px;">
+	this.<strong><span style="color: rgb(255, 0, 0);">notifyAll</span></strong>();
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic; margin-left: 40px;">
+	}
+</p>
+
+<p style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">
+	}
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../stylesheets/common.css" />
+<link rel="stylesheet" href="../stylesheets/style.css" />
+
+<title>smarty</title>
+</head>
+<body>
+<div class="screen">
+	﻿<div class="header">
+	<div class="online_state">
+		
+	</div>
+	<div class="logo">
+		<a href="/"><img id="header_logo" src="http://blog.yutouxiuxiu.com//images/logo.png" /></a>
+	</div>
+	<div class="description">
+		芋家修修的技术博客 java,php,android,mysql,oracle,linux,mcu...
+	</div>
+</div>
+
+	<div class="center">
+		<div class="main">
+		<div id="" class="post-home">
+	<div class="a-post">
+		<div class="post-title">
+			<h2>
+				<a rel="bookmark" href="">
+					smarty
+				</a>
+			</h2>
+			<span class="post-time">
+				{ post:time }
+			</span>
+		</div>
+		<div class="post-content">
+			<p>
+	<strong>1.smarty的工作流程</strong>
+</p>
+
+<p>
+	（1）把需要显示的变量 利用assign方法 塞到对象内部的属性里
+</p>
+
+<p>
+	（2）判断模板和编译后的php文件修改时间 filetime()
+</p>
+
+<p>
+	（3）如果模板比编译后的文件新 编译模板 把{$标签} 替换成相应的php echo代码 保存成php文件
+</p>
+
+<p>
+	（4）引入编译后的php
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>2.smarty使用步骤</strong>
+</p>
+
+<p>
+	（1）引入并实例化Smarty类
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty = new Smarty();
+</p>
+
+<p>
+	（2）配置
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;template_dir = ... &nbsp;//模板目录 不存在会自动创建
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;compile_dir = ... &nbsp;//编译目录
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;left_delimiter = ... &nbsp;//左定界符
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;right_delimiter = ... &nbsp;//右定界符
+</p>
+
+<p>
+	（3）赋值
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;saaign(模板中变量名称, 值);
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;assign(数组); &nbsp;//相当于把数组一个一个按照上一行进行
+</p>
+
+<p style="margin-left: 40px;">
+	<a href="http://localhost:8080/wp-content/uploads/2014/01/12.jpg" rel="" style="" target="" title=""><img alt="1" class="alignnone size-full wp-image-2455" height="169" src="http://localhost:8080/wp-content/uploads/2014/01/12.jpg" style="" title="" width="416" /></a>
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;append(模板中变量名称, 值); &nbsp;//会把变量变成数组 然后往数组中追加元素
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;assignByRef(模板中变量名称, 变量); &nbsp;//引用赋值 在php5之后 意义不大 php5写时赋值
+</p>
+
+<p style="margin-left: 80px;">
+	<strong>写时赋值</strong>
+</p>
+
+<p style="margin-left: 80px;">
+	$a = 3;
+</p>
+
+<p style="margin-left: 80px;">
+	$b = $a;
+</p>
+
+<p style="margin-left: 80px;">
+	内存里 $a $b 公用一份内存空间
+</p>
+
+<p style="margin-left: 80px;">
+	当修改$b时 $a $b 会各用各的空间
+</p>
+
+<p>
+	（4）isplay显示
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty-&gt;display();
+</p>
+
+<p style="margin-left: 40px;">
+	&nbsp;
+</p>
+
+<p>
+	<strong>3.smarty之辩</strong>
+</p>
+
+<p>
+	（1）编译模板 增大开销
+</p>
+
+<p>
+	（2）变量都要赋值一份
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>模板访问变量</strong>
+</h5>
+
+<p>
+	<strong>1.变量的来源</strong>
+</p>
+
+<p>
+	（1）assign分配进来的
+</p>
+
+<p>
+	（2）smarty的系统保留变量
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.get.参数名
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.post
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.cookies
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.server
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.env
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.session
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.request
+</p>
+
+<p style="margin-left: 40px;">
+	$smarty.const.常量名 &nbsp;//输出define定义的常量
+</p>
+
+<p>
+	（3）从配置文件读取到的配置变量
+</p>
+
+<p style="margin-left: 40px;">
+	比如网站底部的信息 就不想写到数据库里了 读取慢
+</p>
+
+<p style="margin-left: 40px;">
+	就可以写到配置文件中 模板能读取此配置文件
+</p>
+
+<blockquote>
+	<p style="margin-left: 40px;">
+		文件名.conf
+	</p>
+
+	<p style="margin-left: 40px;">
+		参数名=参数值 &nbsp;//如果是数值太大 会无法输出 可以加单引号
+	</p>
+
+	<p style="margin-left: 40px;">
+		参数名=参数值
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	把配置文件放在$smarty-&gt;config_dir所指定的目录中
+</p>
+
+<p style="margin-left: 40px;">
+	然后在模板文件的开头
+</p>
+
+<blockquote>
+	<p style="margin-left: 40px;">
+		{config_load file=&#39;文件名.conf&#39;}
+	</p>
+</blockquote>
+
+<p style="margin-left: 40px;">
+	如何引用配置文件值
+</p>
+
+<blockquote>
+	<p style="margin-left: 40px;">
+		{$smarty.config.配置参数名}
+	</p>
+
+	<p style="margin-left: 40px;">
+		{#配置参数名#}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.数组</strong>
+</p>
+
+<p>
+	（1）关联数组
+</p>
+
+<p style="margin-left: 40px;">
+	变量名.元素名
+</p>
+
+<p>
+	（2）索引数组
+</p>
+
+<p style="margin-left: 40px;">
+	变量名[索引值]
+</p>
+
+<p style="margin-left: 40px;">
+	变量名.索引值
+</p>
+
+<p>
+	<strong>3.对象</strong>
+</p>
+
+<p style="margin-left: 40px;">
+	变量名-&gt;属性名
+</p>
+
+<p style="margin-left: 40px;">
+	变量名-&gt;方法名()
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<strong>4.解决{}冲突问题</strong>
+</p>
+
+<p>
+	当html中有css时 css中的{}也有可能被当做变量进行解
+</p>
+
+<p>
+	（1）更改左右定界符
+</p>
+
+<p>
+	（2）使用{literal}{/literal}标签指示照常输出不解析
+</p>
+
+<p style="margin-left: 40px;">
+	literal 是字面值 原意 的意思
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h5>
+	<strong>运算、分支、循环</strong>
+</h5>
+
+<p>
+	<strong>1.if else if else</strong>
+</p>
+
+<blockquote>
+	<p>
+		{if $price &gt; 10000}
+	</p>
+
+	<p>
+		{else if $price &gt; 5000}
+	</p>
+
+	<p>
+		{else}
+	</p>
+
+	<p>
+		{/if}
+	</p>
+</blockquote>
+
+<p>
+	<strong>2.for（用的较少）</strong>
+</p>
+
+<blockquote>
+	<p>
+		{for $i=$start&nbsp;to $end step 2} &nbsp;//注意 for循环只能从小到大循环 不能从大到小 起止值可以是直接值 也可以是变量 step默认为1
+	</p>
+
+	<p style="margin-left: 40px;">
+		{$i<span style="line-height: 1.6em;">}</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">循环总次数：{$i@total}</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">第{$i@iteration}次循环</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">{if $i@first}第一次</span>
+	</p>
+
+	<p style="margin-left: 40px;">
+		<span style="line-height: 1.6em;">{if $i@last}最后一次</span>
+	</p>
+
+	<p>
+		{/for}
+	</p>
+
+	<p>
+		<span style="font-family: Georgia, Times, 'Times New Roman', serif; font-size: 13px; font-style: italic;">上循环总次数：{$i@total}</span>
+	</p>
+</blockquote>
+
+<p>
+	<span style="color:#FF0000;"><strong><font face="Georgia, Times, Times New Roman, serif">（注意！！！）对于隔行变色和首行尾行的特殊效果 应该使用js来实现</font></strong></span>
+</p>
+
+<p>
+	<strong>3.foreach（必会）</strong>
+</p>
+
+<p>
+	最适合用在二维数组 各种列表
+</p>
+
+<p>
+	（1）Smarty2语法
+</p>
+
+<blockquote>
+	<p>
+		{foreach from=$数组 key=&quot;key&quot; item=&quot;单数变量名&quot;}
+	</p>
+
+	<p style="margin-left: 40px;">
+		{if 单数变量名@first}
+	</p>
+
+	<p style="margin-left: 40px;">
+		...
+	</p>
+
+	<p>
+		{/foreach}
+	</p>
+</blockquote>
+
+<p>
+	（2）Smarty3语法
+</p>
+
+<blockquote>
+	<p>
+		{foreach $数组 $单数变量名}
+	</p>
+
+	<p>
+		{foreach $数组 $key=&gt;$单数变量名}
+	</p>
+</blockquote>
+
+<p>
+	<strong>4.section</strong>
+</p>
+
+<p>
+	foreach可以做到任何section做到的功能 而且更加简单和清晰
+</p>
+
+<p>
+	<strong>5.while</strong>
+</p>
+
+<blockquote>
+	<p>
+		{while $i &lt; 5}
+	</p>
+
+	<p style="margin-left: 40px;">
+		{$i++}
+	</p>
+
+	<p>
+		{/while}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	注释
+</p>
+
+<blockquote>
+	<p>
+		{* &nbsp;*}
+	</p>
+</blockquote>
+
+<p>
+	&nbsp;
+</p>
+
+		</div>
+	</div>
+</div>
+
+		</div>
+		<div class="sidebar">
+		<div id="csidebar">
+	<ul>
+		<li class="widget widget_recent_entries">
+			<h3>分类目录</h3>
+			<ul>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_1.html" style="margin-left: 0px;">未分类</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_2.html" style="margin-left: 0px;">HTML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_3.html" style="margin-left: 10px;">JavaScript</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_17.html" style="margin-left: 10px;">css</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_4.html" style="margin-left: 0px;">Java</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_13.html" style="margin-left: 10px;">集合</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_51.html" style="margin-left: 10px;">多线程</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_54.html" style="margin-left: 10px;">面向对象</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_5.html" style="margin-left: 0px;">JavaWeb</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_6.html" style="margin-left: 10px;">XML</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_20.html" style="margin-left: 10px;">JSP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_23.html" style="margin-left: 10px;">Servlet</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_49.html" style="margin-left: 10px;">XMPP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_7.html" style="margin-left: 0px;">分类总结</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_8.html" style="margin-left: 0px;">千奇百怪问题库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_9.html" style="margin-left: 0px;">小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_18.html" style="margin-left: 10px;">HTML小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_24.html" style="margin-left: 10px;">Servlet小案例</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_10.html" style="margin-left: 0px;">数据库</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_19.html" style="margin-left: 10px;">JDBC</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_28.html" style="margin-left: 20px;">测试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_21.html" style="margin-left: 10px;">MySQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_22.html" style="margin-left: 10px;">Oracle</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_25.html" style="margin-left: 10px;">SQL</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_11.html" style="margin-left: 0px;">框架</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_26.html" style="margin-left: 10px;">Struts2</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_29.html" style="margin-left: 10px;">Hibernate</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_30.html" style="margin-left: 10px;">Spring</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_31.html" style="margin-left: 10px;">jBPM</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_34.html" style="margin-left: 10px;">Zend framework</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_35.html" style="margin-left: 10px;">Extjs</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_39.html" style="margin-left: 10px;">ThinkPHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_53.html" style="margin-left: 10px;">jquery</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_55.html" style="margin-left: 10px;">smarty</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_58.html" style="margin-left: 10px;">MyBatis</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_12.html" style="margin-left: 0px;">软件使用</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_27.html" style="margin-left: 10px;">WordPress</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_14.html" style="margin-left: 0px;">面试</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_15.html" style="margin-left: 0px;">项目开发经验</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_16.html" style="margin-left: 0px;">项目进度</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_32.html" style="margin-left: 0px;">缓存技术</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_33.html" style="margin-left: 10px;">Memcached</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_36.html" style="margin-left: 0px;">项目管理工具</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_37.html" style="margin-left: 0px;">Linux</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_52.html" style="margin-left: 10px;">vim</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_38.html" style="margin-left: 0px;">PHP</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_40.html" style="margin-left: 0px;">喜欢的歌</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_41.html" style="margin-left: 0px;">美工</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_42.html" style="margin-left: 10px;">AI</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_43.html" style="margin-left: 10px;">PS</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_44.html" style="margin-left: 0px;">项目管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_45.html" style="margin-left: 0px;">服务器管理</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_46.html" style="margin-left: 10px;">Apache</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_47.html" style="margin-left: 10px;">mysql</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_48.html" style="margin-left: 0px;">敏捷开发</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_50.html" style="margin-left: 0px;">PCB</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_56.html" style="margin-left: 0px;">优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_57.html" style="margin-left: 10px;">前端优化</a></li>
+				
+					<li><a href="http://blog.yutouxiuxiu.com/terms/term_59.html" style="margin-left: 0px;">中间件</a></li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
+
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">© 2013 芋头修修家 版权所有</div>
+</div>
+
+</div>
+</body>
+</html>
